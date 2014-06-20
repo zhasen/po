@@ -1,0 +1,78 @@
+<% layout('layout') %>
+<br>
+<script type="text/javascript" src="/public/components/jquery/jquery.min.js"></script>
+<script  type="text/javascript"  src="/web/js/validation/jqBootstrapValidation.js"></script>
+<script>
+    $().ready(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+</script>
+<div class="container">
+
+    <form class="form-signin" action="user-reg-submit" method="post">
+        <h2 class="form-signin-heading">用户注册
+            <font style="font-size: 16px;font-weight: normal;padding-left: 10px;color: red"><%=errMessage%></font>
+        </h2>
+
+        <input type="text" value="<%=loginName%>" name="loginName"
+               required
+               data-validation-required-message="用户名不能为空"
+               minlength="10"
+               data-validation-minlength-message="用户名长度必须大于5"
+               pattern="[a-zA-Z][a-zA-Z0-9_-]{4}[a-zA-Z0-9_-]*"
+               data-validation-pattern-message="用户名必须是以字母开头，由字母数字和_-.组成"
+               class="input-block-level" placeholder="输入用户名">
+        <input type="password" name="password"
+               required
+               data-validation-required-message="密码不能为空"
+               minlength="6"
+               data-validation-minlength-message="密码长度必须大于6"
+               class="input-block-level" placeholder="输入密码">
+        <input type="password" name="passwordAgain"
+               required
+               data-validation-required-message="密码不能为空"
+               class="input-block-level" placeholder="再次输入密码">
+        <input value="<%=email%>" name="email"
+               required
+               data-validation-required-message="邮箱不能为空"
+               type="email"
+               data-validation-email-message="邮箱格式有误"
+               class="input-block-level" placeholder="输入邮箱">
+
+        <button class="btn btn-large btn-primary" type="submit">提交</button>
+    </form>
+
+</div>
+
+<style type="text/css">
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+    }
+
+    .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    }
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+        margin-bottom: 10px;
+    }
+    .form-signin input[type="text"],
+    .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+    }
+
+</style>
+

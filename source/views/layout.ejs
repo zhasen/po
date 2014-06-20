@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title><%=appTitle%></title>
+<link rel="stylesheet" href="<%=asset.mainCss%>">
+<script>
+    window.appConfig = window.appConfig || {};
+    window.appConfig.mode = '<%=asset.mode%>';
+    window.page = <%-JSON.stringify(page)%>;
+
+</script>
+<script src="<%=asset.mainJs%>" data-main="<%=asset.configJs%>"></script>
+
+<style>
+hr {
+    margin: 10px 0;
+    border: 0;
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #ffffff;
+}
+.player{
+    cursor: hand;
+    color: #db8400;
+}
+
+.player:hover{
+    cursor: hand;
+    color: #d58512;
+}
+
+.stretch-height{
+    /*background: #EFF3F7;*/
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    /*background-color: rgb(53, 56, 61);*/
+}
+.frame-table{
+    display: table;
+    height: 100%;
+    width:100%;
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*bottom:0;*/
+}
+.tile-padding{
+    display: table-row;
+    width: 100%;
+    height: 40px;
+}
+.tile-body{
+    display: table-row;
+    width: 100%;
+    height: 100%;
+}
+</style>
+</head>
+<body>
+<header>
+    <div class="main-header navbar navbar-inverse1 navbar-fixed-top"><div class="navbar-inner"><div class="container">
+
+                <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+                <a class="btn btn-navbar" data-toggle="collapse" data-target="head-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="/">
+                    <div class="" style="font-weight: bold;">
+                        <!--<img class="logo" src="../public/tomatodo/img/tomato2_32.png">-->
+                        <%=appName%>
+                        <!--<i class="icon-home"></i>-->
+                    </div>
+                </a>
+
+                <!--
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa-stack">
+                                            <i class="fa fa-square-o fa-stack-2x show-border show-away"></i>
+                                            <i class="fa fa-user fa-stack-1x"></i>
+                                        </span></a>
+
+                -->
+
+                <div class="nav-collapse head-collapse">
+                    <ul class="nav">
+                        <li class="">
+                            <a href="tq-index" data-bypass><i class="fa fa-book"></i> 题库</a>
+                        </li>
+                        <li class="">
+                            <a href="tp-index" data-bypass><i class="fa fa-book"></i> 试卷</a>
+                        </li>
+                        <li class="">
+                            <a href="user-reg" data-bypass><i class="fa fa-book"></i> 注册</a>
+                        </li>
+                        <li class="">
+                            <a href="user-list" data-bypass><i class="fa fa-book"></i> 用户列表</a>
+                        </li>
+                        <li class="">
+                            <a href="login" data-bypass><i class="fa fa-book"></i>登录</a>
+                        </li>
+                        <li class="">
+                            <a href="tpk-index" data-bypass><i class="fa fa-book"></i>试题包</a>
+                        </li>
+                    </ul>
+                    <ul class="nav pull-right">
+                        <!--
+                        <li class="" id="debug">
+                            <a href="" class="link"><i class="fa fa-wrench"></i></a>
+                        </li>
+                        <li class="">
+                            <a href="" class="link"><i class="fa fa-question"></i></a>
+                        </li>
+                        <li class="">
+                            <a href="" class="link"><i class="fa fa-info"></i></a>
+                        </li>
+                        <li class="">
+                            <a href="" class="link"><i class="fa fa-cog"></i></a>
+                        </li>
+                        -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>  <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:"> 个人中心</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:"> 修改密码</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="javascript:">注册</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:">找回密码</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="javascript:">退出</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+
+            </div></div></div>
+</header>
+
+<section>
+    <!--<div class="main-header-padding" ></div>-->
+    <div class="main-frame" >
+
+        <div class="container">
+            <div class="stretch-height">
+                <div class="container">
+                    <div class="container-fluid ">
+                        <div class="frame-table">
+                            <div class="tile-padding">
+                                <%-blocks.view%>
+                            </div>
+                            <div class="tile-body" data-view-id="manager">
+                                <%-body -%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</section>
+
+<footer>
+</footer>
+</body>
+</html>

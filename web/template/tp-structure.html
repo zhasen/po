@@ -1,0 +1,39 @@
+<div class="accordion" id="accordion2">
+    <%
+
+    var st = input;
+    //console.log(st);
+    for(var k in st) {
+    var st2 = st[k];
+    //for(var k2 in st2) {
+    //console.log(st2);
+    %>
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" route-bypass data-parent="#accordion2" <%if(st2.children != null) {%> href="#<%= k %>" <%}%> >
+            <%= st2.title %>&nbsp;&nbsp;&nbsp;&nbsp;(0)
+            </a>
+        </div>
+
+        <div id="<%= k %>" class="accordion-body collapse in">
+            <%
+            if(st2.children != null) {
+            var part = st2.children;
+            //console.log(part);
+            for(var p in part) {
+            %>
+            <div class="accordion-inner">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a><%= part[p].title %>&nbsp;&nbsp;&nbsp;&nbsp;(0)</a>
+            </div>
+            <%
+            }
+            }
+            %>
+        </div>
+
+    </div>
+    <%
+    }
+    %>
+
+</div>

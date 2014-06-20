@@ -1,0 +1,269 @@
+<% layout('layout') -%>
+<br>
+
+
+
+<div class="tabbable"> <!-- Only required for left/right tabs -->
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">已选择试卷</a></li>
+        <li><a href="#tab2" data-toggle="tab">未选择试卷</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+            <div class="row-fluid" >
+                <div class="">
+                    选择机构：
+                    <div class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">全部可选机构<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">全部可选机构</a></li>
+                            <li><a href="#">北京新东方</a></li>
+                            <li><a href="#">国外考试推广管理中心</a></li>
+                        </ul>
+                    </div>
+                    学科：
+                    <div class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">全部可选学科<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">学科1</a></li>
+                            <li><a href="#">学科2</a></li>
+                            <li><a href="#">学科3</a></li>
+                        </ul>
+                    </div>
+                    年份：
+                    <div class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">2014<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">2013</a></li>
+                            <li><a href="#">2014</a></li>
+                            <li><a href="#">2015</a></li>
+                        </ul>
+                    </div>
+                    试卷名称：
+                    <input class="" type="text" placeholder="试卷名称">
+                    <a href="#" class="btn">搜索</a>
+                    <a href="#" class="btn">删除</a>
+                </div>
+            </div>
+            <div class="" >
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th style="width: 5px;"><input type="checkbox" id="controlAll" onchange="selectAll()"/> </th>
+                        <th>试卷名称</th>
+                        <th>测评次数</th>
+                        <th>题数</th>
+                        <th>平均分</th>
+                        <th>最高分</th>
+                        <th>最低分</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="checkbox"/></td>
+                        <td>测试练习包试卷</td>
+                        <td>2</td>
+                        <td>22</td>
+                        <td>33</td>
+                        <td>60</td>
+                        <td>10</td>
+                        <td>
+                            <a data-toggle="modal"
+                               data-bypass onMouseOver="$(this).tooltip('show')"
+                               data-toggle="tooltip" data-placement="top"
+                               title data-original-title="移出试题包">
+                                <i class="icon-minus"></i>
+                            </a>
+                            <a data-toggle="modal"
+                               data-bypass onMouseOver="$(this).tooltip('show')"
+                               data-toggle="tooltip" data-placement="top"
+                               title data-original-title="修改">
+                                <i class="icon-pencil"></i>
+                            </a>
+                            <a data-toggle="modal"
+                               data-bypass onMouseOver="$(this).tooltip('show')"
+                               data-toggle="tooltip" data-placement="top"
+                               title data-original-title="配置试题">
+                                <i class="icon-list"></i>
+                            </a>
+                            <a data-toggle="modal"
+                               data-bypass onMouseOver="$(this).tooltip('show')"
+                               data-toggle="tooltip" data-placement="top"
+                               title data-original-title="预览试卷">
+                                <i class=" icon-file"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination pagination-right">
+                <ul>
+                    <li><a href="#">上一页</a></li>
+                    <li  class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">下一页</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-pane" id="tab2">
+            <div class="row-fluid" >
+                <div class="">
+                    选择机构：
+                    <div class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">全部可选机构<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">全部可选机构</a></li>
+                            <li><a href="#">北京新东方</a></li>
+                            <li><a href="#">国外考试推广管理中心</a></li>
+                        </ul>
+                    </div>
+                    学科：
+                    <div class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">全部可选学科<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">学科1</a></li>
+                            <li><a href="#">学科2</a></li>
+                            <li><a href="#">学科3</a></li>
+                        </ul>
+                    </div>
+                    年份：
+                    <div class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">2014<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">2013</a></li>
+                            <li><a href="#">2014</a></li>
+                            <li><a href="#">2015</a></li>
+                        </ul>
+                    </div>
+                    试卷名称：
+                    <input class="" type="text" placeholder="试卷名称">
+                    <a href="#" class="btn">搜索</a>
+                    <a href="#" class="btn">删除</a>
+                </div>
+            </div>
+            <div class="" >
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th style="width: 5px;"><input type="checkbox" id="controlAll" onchange="selectAll()"/> </th>
+                        <th>试卷名称</th>
+                        <th>测评次数</th>
+                        <th>题数</th>
+                        <th>平均分</th>
+                        <th>最高分</th>
+                        <th>最低分</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="checkbox"/></td>
+                        <td>测试练习包试卷</td>
+                        <td>2</td>
+                        <td>22</td>
+                        <td>33</td>
+                        <td>60</td>
+                        <td>10</td>
+                        <td>
+                            <a data-toggle="modal"
+                               data-bypass onMouseOver="$(this).tooltip('show')"
+                               data-toggle="tooltip" data-placement="top"
+                               title data-original-title="加入试题包">
+                                <i class="icon-plus"></i>
+                            </a>
+                            <a data-toggle="modal"
+                               data-bypass onMouseOver="$(this).tooltip('show')"
+                               data-toggle="tooltip" data-placement="top"
+                               title data-original-title="修改">
+                                <i class="icon-pencil"></i>
+                            </a>
+                            <a data-toggle="modal"
+                               data-bypass onMouseOver="$(this).tooltip('show')"
+                               data-toggle="tooltip" data-placement="top"
+                               title data-original-title="配置试题">
+                                <i class="icon-list"></i>
+                            </a>
+                            <a data-toggle="modal"
+                               data-bypass onMouseOver="$(this).tooltip('show')"
+                               data-toggle="tooltip" data-placement="top"
+                               title data-original-title="预览试卷">
+                                <i class=" icon-file"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination pagination-right">
+                <ul>
+                    <li><a href="#">上一页</a></li>
+                    <li  class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">下一页</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    //操作checkbox使其完成全选或全不选11
+    function selectAll(){
+        var checklist = document.getElementsByName ("selected");
+        if(document.getElementById("controlAll").checked)
+        {
+            for(var i=0;i<checklist.length;i++)
+            {
+                checklist[i].checked = 1;
+            }
+        }else{
+            for(var j=0;j<checklist.length;j++)
+            {
+                checklist[j].checked = 0;
+            }
+        }
+    }
+
+    function copyTestPaper() {
+        var url = "/tp-copy";
+        var pid = $("#paperId").val();
+        var pname = $("#paperName").val();
+        var organization = $("#organization").val();
+        $.ajax({
+            type : "POST",
+            url : url,
+            data : {pid:pid,name:pname,organization:organization},
+            success : function(data) {
+                alert(data);
+            }
+        });
+    }
+
+
+
+</script>
+

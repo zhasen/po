@@ -1,0 +1,120 @@
+<%
+    var item = input;
+%>
+<br>
+<div class="row-fluid" >
+    <section>
+        <div class="bs-docs-example">
+            <ul id="myTab" class="nav nav-tabs">
+                <li><a href="#tp-edit-<%=item.id%>" route-bypass data-toggle="tab">基本信息</a></li>
+                <li class="active"><a href="#tp-edit-2" route-bypass data-toggle="tab">试卷题目</a></li>
+
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade" id="tp-edit-<%=item.id%>">
+                    <div class="row-fluid" >
+                        <div class="span6">
+                            <div class="well">
+
+                                <form class="form-horizontal" method="post">
+                                    <div class="control-group">
+                                        <label class="control-label">试卷名称</label>
+                                        <div class="controls">
+                                            <input type="text" name="name" placeholder="试卷名称" value="<%=item.name%>" required>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">机构</label>
+                                        <div class="controls">
+                                            <label>北京新东方</label>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">年份</label>
+                                        <div class="controls">
+                                            <select name="year">
+                                                <%
+                                                var yearMap = page.years;
+                                                //console.log(page);
+                                                //for(var k in yearMap) {
+                                                yearMap.forEach(function(k) {
+                                                %>
+                                                <option value="<%=k%>" <%if(item.year == k) {%> selected="selected" <%}%> ><%= k %></option>
+                                                <%
+                                                });
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">考区</label>
+                                        <div class="controls">
+                                            <select name="testArea">
+                                                <%
+                                                var testAreaMap = page.enums.Region.values;
+                                                for(var k in testAreaMap) {
+                                                %>
+                                                <option value="<%=k%>" <%if(item.paperType == k) {%> selected="selected" <%}%> ><%= testAreaMap[k] %></option>
+                                                <%
+                                                }
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">类型</label>
+                                        <div class="controls">
+                                            <select name="paperType">
+                                                <%
+                                                var paperTypeMap = page.enums.TestPaperType.values;
+                                                for(var k in paperTypeMap) {
+                                                %>
+                                                <option value="<%=k%>" <%if(item.paperType == k) {%> selected="selected" <%}%> ><%=paperTypeMap[k]%></option>
+                                                <%
+                                                }
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <input type="submit" value="保存" class="btn">
+                                            <a href="tp-del-<%=item.id%>" data-bypass onclick="return confirm('确定删除试卷吗?')" class="btn">删除</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tab-pane fade active in" id="tp-edit-2">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="span3">
+                                <div data-view-id="tp-structure"></div>
+                            </div>
+                            <div class="span9">
+                                <div class="bs-docs-example">
+                                    <ul id="myTab" class="nav nav-tabs">
+                                        <li class="active"><a href="#all" route-bypass data-toggle="tab">在线题库</a></li>
+                                        <li><a href="#selected" route-bypass data-toggle="tab">已选试题</a></li>
+                                    </ul>
+                                    <div id="myTabContent" class="tab-content">
+                                        <div class="tab-pane fade in active" id="all">
+                                            <div data-view-id="tq-filter"></div>
+                                        </div>
+                                        <div class="tab-pane fade" id="selected">
+                                            2222
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>

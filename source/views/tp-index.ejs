@@ -1,0 +1,241 @@
+<% layout('layout') -%>
+<style type="text/css">
+    .icon_gray {
+        color: #cccccc
+    }
+</style>
+<br>
+<div class="row-fluid" >
+    <div class="">
+        <div class="btn-group">
+            <button class="btn dropdown-toggle" data-toggle="dropdown">新建试卷 <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="tp-edit" data-bypass>标准试卷</a></li>
+                <li><a href="#">其他试卷</a></li>
+                <!--<li class="divider"></li>-->
+                <!--<li><a href="#">Separated link</a></li>-->
+            </ul>
+        </div>
+        <div class="btn-group">
+            <button class="btn dropdown-toggle" data-toggle="dropdown">更多操作 <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#">批量发布</a></li>
+                <li><a href="#">批量取消发布</a></li>
+                <li><a href="#">批量删除</a></li>
+                <!--<li class="divider"></li>-->
+                <!--<li><a href="#">Separated link</a></li>-->
+            </ul>
+        </div>
+        <input class="" type="text" placeholder="试卷名">
+        <a href="#" class="btn">搜索</a>
+        <div style="float: right;">
+            <a href="#" class="btn text-right">建立时间<i class="icon-chevron-up"></i></a>
+            <a href="#" class="btn text-right">修改时间<i class="icon-chevron-up"></i></a>
+        </div>
+
+    </div>
+</div>
+<div class="" >
+    <table class="table">
+        <thead>
+        <tr>
+            <th style="width: 5px;"><input type="checkbox" id="controlAll" onchange="selectAll()"/> </th>
+            <th>试卷名称</th>
+            <th>类型</th>
+            <th>考区</th>
+            <th>年份</th>
+            <th>操作人</th>
+            <th>发布</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+
+
+        <tbody>
+        <%
+        function obj_revert(obj) {
+            var o = {};
+            for (var k in obj) {
+                o[obj[k]] = k;
+            }
+            return o;
+        }
+        console.log(page.enums.erPublishStatus.names);
+        var erPublishStatusNames = obj_revert(page.enums.erPublishStatus.names);
+        var paperTypeMap = page.enums.TestPaperType.values;
+        var paperPublishMap = page.enums.erPublishStatus.values;
+        var testAreaMap = page.enums.Region.values;
+        var publishActionMap = page.enums.erPublishAction.values;
+        var list = page.list;
+        var len = list.length;
+                for(var i=0; i<len; i++){
+            var item = list[i];
+        %>
+        <tr id="tr_<%=item.id%>">
+
+            <td style="width: 5px;">
+                <input type="checkbox" name="selected"/>
+            </td>
+            <td>
+                <a data-bypass><%=item.name%></a>
+                <!--<div>发布状态 :<%=paperPublishMap[item.paperPublish]%></div>-->
+            </td>
+            <td><%=paperTypeMap[item.paperType]%></td>
+            <td><%=testAreaMap[item.testArea]%></td>
+            <td><%=item.year%></td>
+            <td>
+                创建人：<%=item.createBy%>&nbsp;&nbsp;<%=item.crtOn%>
+                <div>修改人：<%=item.updateBy%>&nbsp;&nbsp;<%=item.updOn%></div>
+            </td>
+            <td>
+                <a style="color: #000000;" lang="<%= erPublishStatusNames[item.erPublish] %>"
+                   data-bypass
+                   onclick="publishTestPaper('<%= item.id %>', this)"
+                   onMouseOver="$(this).tooltip('show')" data-toggle="tooltip" data-placement="top"
+                   title data-original-title="<%= publishActionMap[item.erPublish] %>">
+                    <i id="publish_i_<%= item.id %>"
+                       class="fa fa-location-arrow <% if(erPublishStatusNames[item.erPublish] == 'Unpublished'){ %> icon_gray <% } %>"></i>
+                </a>&nbsp;&nbsp;
+                <input type="hidden" id="publish_action_txt" value="<%= JSON.stringify(publishActionMap) %>">
+                <input type="hidden" id="publish_status_txt" value="<%= JSON.stringify(erPublishStatusNames) %>">
+            </td>
+            <td>
+                <!--<a href="#" onMouseOver="$(this).tooltip('show')" data-toggle="tooltip" data-placement="top" title data-original-title="预览"><i class="icon-eye-open"></i></a>&nbsp;&nbsp;-->
+                <a id="edit_<%=item.id%>" href="<%if(erPublishStatusNames[item.erPublish] == 'Unpublished') {%>tp-edit-<%=item.id%> <%}else{%> javascript:void(0); <%}%>"  onclick=" <%if(erPublishStatusNames[item.erPublish] == 'Published') {%> alert('试卷取消发布后才能编辑') <%}%> "  data-bypass onMouseOver="$(this).tooltip('show')" data-toggle="tooltip" data-placement="top" title data-original-title="编辑"><i class="icon-pencil"></i> </a>&nbsp;&nbsp;
+
+                <a data-toggle="modal" href="#myModal_<%=item.id%>" data-bypass onMouseOver="$(this).tooltip('show')" data-toggle="tooltip" data-placement="top" title data-original-title="复制"><i class="icon-file"></i></a>&nbsp;&nbsp;
+                <!--div弹出层-->
+                <div id="myModal_<%=item.id%>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 id="myModalLabel">复制试卷</h5>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="modal-body">
+
+                            <div class="control-group">
+                                <label class="control-label" for="inputEmail">试卷名称：</label>
+                                <div class="controls">
+                                    <input required type="text" name="name" id="name_<%=item.id%>" placeholder="试卷名称" value="<%=item.name%>_副本">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="inputPassword">复制到：</label>
+                                <div class="controls">
+                                    <select name="organization" id="organization">
+                                        <option value="bjxdf">北京新东方</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" onclick="copyTestPaper('<%=item.id%>');">确定</button>
+                            <button class="btn" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <!--div弹出层-->
+                <a href="javascript:void(0)" data-bypass onMouseOver="$(this).tooltip('show')" data-toggle="tooltip" data-placement="top" title data-original-title="删除" lang="<%=item.id%>" onclick="deleteTestPaper(this)"><i class="icon-trash"></i></a>&nbsp;&nbsp;
+            </td>
+        </tr>
+        <%
+        }
+        %>
+        </tbody>
+
+
+    </table>
+</div>
+
+<script>
+    //操作checkbox使其完成全选或全不选11
+    function selectAll(){
+        var checklist = document.getElementsByName ("selected");
+        if(document.getElementById("controlAll").checked)
+        {
+            for(var i=0;i<checklist.length;i++)
+            {
+                checklist[i].checked = 1;
+            }
+        }else{
+            for(var j=0;j<checklist.length;j++)
+            {
+                checklist[j].checked = 0;
+            }
+        }
+    }
+
+    function copyTestPaper(pid) {
+        var url = "/tp-copy";
+        var pname = $("#name_"+pid).val();
+        var pid = pid;
+        if(pname == '') {
+            return flase;
+        }
+        var organization = $("#organization").val();
+        $.ajax({
+            type : "POST",
+            url : url,
+            data : {pid:pid,name:pname,organization:organization},
+            success : function(data) {
+                if(data) {
+                    location.reload();
+                }
+            }
+        });
+    }
+
+    function deleteTestPaper(obj) {
+        if (confirm('你确定要删除吗？')) {
+            $.ajax({
+                url: '/tp/' + $(obj).attr('lang'),
+                type: 'delete',
+                success: function (res) {
+                    if(res.status == 'success') {
+                        $("#tr_"+$(obj).attr('lang')).remove();
+                    }
+                },
+                error: function (res) {
+                    alert(res.status);
+                }
+            });
+        }
+        return;
+    }
+
+    function publishTestPaper(tp_id, obj) {
+        if (confirm('确定' + $(obj).attr('data-original-title') + '试卷吗?')) {
+            var stat = $(obj).attr('lang');
+            var stautses = {'Published': 'unpublish', 'Unpublished': 'publish'};
+            var stautses_re = {'Published': 'Unpublished', 'Unpublished': 'Published'};
+            $.ajax({
+                url: '/tp/' + tp_id + '/' + stautses[stat],
+                type: 'put',
+                success: function (res) {
+                    var publish_action = JSON.parse($("#publish_action_txt").val());
+                    var publish_status = JSON.parse($("#publish_status_txt").val());
+                    $(obj).attr({'lang': stautses_re[stat], 'data-original-title': publish_action[res.result._data.erPublish]});
+
+                    if (publish_status[res.result._data.erPublish] == 'Published') {
+                        $('#edit_' + res.result._data.id).attr('onclick',"alert('试卷取消发布后才能编辑')");
+                        $('#edit_' + res.result._data.id).attr('href','javascript:void(0)');
+                        $('#publish_i_' + res.result._data.id).removeClass('icon_gray');
+                    } else {
+                        $('#edit_' + res.result._data.id).removeAttr('onclick');
+                        $('#edit_' + res.result._data.id).attr('href','tp-edit-' + res.result._data.id);
+                        $('#publish_i_' + res.result._data.id).addClass('icon_gray');
+                    }
+                },
+                error: function (res) {
+                    alert(res);
+                }
+            });
+        }
+        return;
+    }
+
+
+
+</script>
+

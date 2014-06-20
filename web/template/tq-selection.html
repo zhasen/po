@@ -1,0 +1,16 @@
+
+    <%
+        var erTypeMap = page.enums.erType.values;
+        var erRiskMap = page.enums.erRisk.values;
+        var erPublishStatusMap = page.enums.erPublishStatus.values;
+        var erAuditStatusMap = page.enums.erAuditStatus.values;
+        var item = input;
+        //onMouseOver="$(this).tooltip('show')"
+    %>
+            <td><a ><%= item.name %></a></td>
+            <td><%= erTypeMap[item.erType] %></td>
+            <td><%= erRiskMap[item.erRisk] %></td>
+            <td><%= item.erYear %></td>
+            <td><%= erPublishStatusMap[item.erPublish] %></td>
+            <td><%= erAuditStatusMap[item.erAudit] %></td>
+            <td id="tq-selection"><i data-toggle="tooltip" data-placement="top" title data-original-title="<%=item.selected ? '取消选择' : '选择'%>" class="fa <%=item.selected ? 'fa-minus-square' : 'fa-plus-square'%>"></i></td>

@@ -1,0 +1,595 @@
+.round-border {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+.shadow-box {
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px;
+}
+.thin-box {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+.transition-opacity {
+  transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+}
+.transition-all {
+  transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -ms-transition: all 0.4s ease-in-out;
+}
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+}
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+}
+.transition-filter {
+  transition: filer 0.4s ease-in-out;
+  -webkit-transition: -webkit-filter 0.4s ease-in-out;
+  -moz-transition: -moz-filter 0.4s ease-in-out;
+  -o-transition: -o-filter 0.4s ease-in-out;
+  -ms-transition: -ms-filter 0.4s ease-in-out;
+}
+.gray {
+  -webkit-filter: grayscale(40%);
+  -moz-filter: grayscale(40%);
+  -ms-filter: grayscale(40%);
+  -o-filter: grayscale(40%);
+  filter: grayscale(40%);
+  filter: gray;
+  transition: filer 0.4s ease-in-out;
+  -webkit-transition: -webkit-filter 0.4s ease-in-out;
+  -moz-transition: -moz-filter 0.4s ease-in-out;
+  -o-transition: -o-filter 0.4s ease-in-out;
+  -ms-transition: -ms-filter 0.4s ease-in-out;
+}
+.ungray {
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  -ms-filter: grayscale(0%);
+  -o-filter: grayscale(0%);
+  filter: grayscale(0%);
+  filter: none;
+  transition: filer 0.4s ease-in-out;
+  -webkit-transition: -webkit-filter 0.4s ease-in-out;
+  -moz-transition: -moz-filter 0.4s ease-in-out;
+  -o-transition: -o-filter 0.4s ease-in-out;
+  -ms-transition: -ms-filter 0.4s ease-in-out;
+}
+.split-left {
+  border-left: 1px solid #e5e5e5;
+  margin-left: 2px;
+}
+.split-right {
+  border-right: 1px solid #e5e5e5;
+  margin-right: 2px;
+}
+.split-top {
+  border-top: 1px solid #e5e5e5;
+  margin-top: 2px;
+}
+.split-bottom {
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 2px;
+}
+.main-frame {
+  display: inline-block;
+  width: 100%;
+  margin: 0px;
+}
+.main-header {
+  display: block;
+}
+.frame {
+  margin: 0px 0px 12px 0px;
+  padding: 0px;
+  border: 0px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+.frame.focus {
+  margin: 10px 5px;
+  padding: 0px;
+  border: #009add dashed 0px;
+}
+.thing {
+  position: relative;
+  background: white;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+.thing-inner {
+  position: relative;
+  float: none;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+.acton {
+  cursor: pointer;
+}
+.acton span {
+  color: white;
+}
+.acton span:hover,
+.acton span:focus,
+.acton span.active {
+  color: #ffffff;
+}
+.lane {
+  margin: 10px 6px;
+  padding: 0px;
+  float: left;
+  box-sizing: border-box;
+}
+.lane ul,
+.lane ol {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+.lane ul > li {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+.lane .thing-inner {
+  width: 236px;
+}
+.lane .thing-inner > a {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+.lane .thing-inner img {
+  text-align: left;
+  width: 236px;
+  height: auto;
+  min-height: 200px;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  -webkit-filter: grayscale(40%);
+  -moz-filter: grayscale(40%);
+  -ms-filter: grayscale(40%);
+  -o-filter: grayscale(40%);
+  filter: grayscale(40%);
+  filter: gray;
+  transition: filer 0.4s ease-in-out;
+  -webkit-transition: -webkit-filter 0.4s ease-in-out;
+  -moz-transition: -moz-filter 0.4s ease-in-out;
+  -o-transition: -o-filter 0.4s ease-in-out;
+  -ms-transition: -ms-filter 0.4s ease-in-out;
+}
+.lane .thing-inner:hover img,
+.lane .thing-inner:focus img {
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  -ms-filter: grayscale(0%);
+  -o-filter: grayscale(0%);
+  filter: grayscale(0%);
+  filter: none;
+  transition: filer 0.4s ease-in-out;
+  -webkit-transition: -webkit-filter 0.4s ease-in-out;
+  -moz-transition: -moz-filter 0.4s ease-in-out;
+  -o-transition: -o-filter 0.4s ease-in-out;
+  -ms-transition: -ms-filter 0.4s ease-in-out;
+}
+.lane .thing-inner div.image {
+  margin-bottom: 0px;
+}
+.lane .thing-inner .acton {
+  position: relative;
+  width: 100%;
+  height: 25px;
+  margin-top: -25px;
+  background-color: rgba(74, 74, 74, 0.6);
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+}
+.lane .thing-inner:hover .acton,
+.lane .thing-inner:focus .acton {
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+}
+.lane .thing-inner .acton span {
+  display: inline-block;
+  float: right;
+  height: 22px;
+  margin: 0px 0px 0px 0px;
+  padding: 2px;
+  white-space: nowrap;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+.lane .thing-inner .acton span .icon {
+  display: inline-block;
+  overflow: hidden;
+  width: 19px;
+  font-size: 14px;
+}
+.lane .thing-inner .acton span .text {
+  display: inline-block;
+  overflow: hidden;
+  font-size: 12px;
+  white-space: nowrap;
+  vertical-align: top;
+  width: 20px;
+  margin: 0px;
+  line-height: 22px;
+}
+.lane .thing-inner h4 {
+  text-align: center;
+  margin: 0px;
+  width: 100%;
+  font-size: 14px;
+  overflow: hidden;
+  color: #777;
+  text-overflow: ellipsis;
+}
+.lane .thing-inner div.desc {
+  display: none;
+  height: 40px;
+  margin: 0px 6px 10px;
+}
+.showcase {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+.showcase .thing-header {
+  margin: 10px;
+  vertical-align: middle;
+}
+.showcase .thing-footer {
+  margin-top: 10px;
+  margin-bottom: 100px;
+}
+.showcase .thing {
+  margin: 10px;
+  background-color: white;
+}
+.showcase .thing-header h3 {
+  font-size: 20px;
+}
+.showcase .thing-header .nav {
+  margin: 10px;
+  vertical-align: middle;
+}
+.snapshot {
+  position: relative;
+  margin: 0 auto;
+}
+.showcase .thing-inner .image {
+  position: relative;
+  text-align: center;
+}
+.showcase .thing-inner .image img {
+  position: relative;
+  width: 100%;
+}
+.showcase .thing-inner .acton {
+  position: absolute;
+  width: 70px;
+  right: 15px;
+  top: 15px;
+  background-color: rgba(74, 74, 74, 0.6);
+  opacity: 0.7;
+  transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+}
+.showcase .thing-inner:hover .acton,
+.showcase .thing-inner:focus .acton {
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+}
+.showcase .thing-inner .acton span {
+  display: block;
+  height: 32px;
+  margin: 0px;
+  padding: 8px 10px;
+  white-space: nowrap;
+  color: white;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+.showcase .thing-inner .acton span .icon {
+  display: inline-block;
+  overflow: hidden;
+  width: 30px;
+}
+.showcase .thing-inner .acton span .text {
+  display: inline;
+  font-size: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: top;
+  line-height: 32px;
+}
+.showcase .thumbnails > li {
+  box-sizing: border-box;
+  display: block;
+  width: 120px;
+  height: 80px;
+  margin: 3px 3px;
+  float: left;
+}
+.showcase .thumbnail img {
+  width: 120px;
+  height: 80px;
+}
+.showcase .desc {
+  margin: 10px 10px;
+}
+.showcase .status {
+  margin: 10px 10px;
+}
+.showcase .actions {
+  margin-left: -25px;
+}
+.showcase .actions ul {
+  list-style-type: none;
+  margin: 10px 0px;
+}
+.showcase .actions ul li {
+  margin: 10px 0px;
+}
+.fixed-nav {
+  position: fixed;
+  width: 250px;
+  height: 100%;
+  top: 10px;
+  left: 20px;
+  bottom: 0px;
+  z-index: 1030;
+}
+.flowctrls {
+  position: fixed;
+  opacity: 0.6;
+  width: 60px;
+  top: 300px;
+  right: 200px;
+  transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+}
+.flowctrls:hover {
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+}
+.flowctrls a,
+.flowctrls a:link,
+.flowctrls a:active,
+.flowctrls a:focus,
+.flowctrls a:hover,
+.flowctrls a:visited {
+  cursor: pointer;
+  text-decoration: none;
+}
+.flowctrls span {
+  display: block;
+  width: 60px;
+  height: 45px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 7px;
+  font-size: 44px;
+  text-align: center;
+  color: #eeeeee;
+  background-color: rgba(74, 74, 74, 0.6);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -ms-transition: all 0.4s ease-in-out;
+}
+.flowctrls a.disabled span {
+  cursor: default;
+  color: #a3a3a3;
+  background-color: #bbbbbb;
+  transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -ms-transition: all 0.4s ease-in-out;
+}
+.list {
+  margin: 10px 0px;
+  padding: 0px;
+  float: left;
+  box-sizing: border-box;
+}
+.list ul,
+.list ol {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+.list ul > li {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+.list .frame {
+  border-top: #e5e5e5 solid 1px;
+  border: 0;
+  margin: 2px;
+}
+.list .thing-inner a {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+.list .thing-inner img {
+  text-align: center;
+  height: auto;
+  min-height: 100px;
+  max-height: 200px;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  -webkit-filter: grayscale(40%);
+  -moz-filter: grayscale(40%);
+  -ms-filter: grayscale(40%);
+  -o-filter: grayscale(40%);
+  filter: grayscale(40%);
+  filter: gray;
+  transition: filer 0.4s ease-in-out;
+  -webkit-transition: -webkit-filter 0.4s ease-in-out;
+  -moz-transition: -moz-filter 0.4s ease-in-out;
+  -o-transition: -o-filter 0.4s ease-in-out;
+  -ms-transition: -ms-filter 0.4s ease-in-out;
+}
+.list .thing-inner:hover img,
+.list .thing-inner:focus img {
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  -ms-filter: grayscale(0%);
+  -o-filter: grayscale(0%);
+  filter: grayscale(0%);
+  filter: none;
+  transition: filer 0.4s ease-in-out;
+  -webkit-transition: -webkit-filter 0.4s ease-in-out;
+  -moz-transition: -moz-filter 0.4s ease-in-out;
+  -o-transition: -o-filter 0.4s ease-in-out;
+  -ms-transition: -ms-filter 0.4s ease-in-out;
+}
+.list .thing-inner div.image {
+  display: table-cell;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+}
+.list .thing-inner .acton {
+  position: absolute;
+  width: 100%;
+  height: 25px;
+  right: 0px;
+  top: 0px;
+  margin: 0px;
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+}
+.list .thing-inner:hover .acton,
+.list .thing-inner:focus .acton {
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+}
+.list .thing-inner .acton span {
+  display: inline-block;
+  float: right;
+  height: 22px;
+  margin: 0px 0px 0px 0px;
+  padding: 2px;
+  color: #777;
+  white-space: nowrap;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+.list .thing-inner .acton span .icon {
+  display: inline-block;
+  overflow: hidden;
+  width: 19px;
+  font-size: 14px;
+}
+.list .thing-inner .acton span .text {
+  display: inline-block;
+  overflow: hidden;
+  font-size: 12px;
+  white-space: nowrap;
+  vertical-align: top;
+  width: 20px;
+  margin: 0px;
+  line-height: 22px;
+}
+.list .thing-inner h4 {
+  text-align: left;
+  margin: 0px;
+  width: 70%;
+  font-size: 14px;
+  overflow: hidden;
+  color: #777;
+  text-overflow: ellipsis;
+}
+.list .thing-inner div.desc {
+  display: none;
+  height: 40px;
+  margin: 0px 6px 10px;
+}

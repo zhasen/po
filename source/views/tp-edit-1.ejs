@@ -1,0 +1,85 @@
+<% layout('layout') -%>
+<br>
+<div class="row-fluid" >
+    <div class="span6">
+        <div class="well">
+            <h4>基本信息</h4>
+            <form class="form-horizontal" action="" method="post">
+                <div class="control-group">
+                    <label class="control-label">试卷名称</label>
+                    <div class="controls">
+                        <input type="text" placeholder="试卷名称" name="name" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">机构</label>
+                    <div class="controls">
+                        <label>北京新东方</label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">年份</label>
+                    <div class="controls">
+                        <select name="year">
+                            <%
+                            var yearMap = page.years;
+                            //console.log(page);
+                                //for(var k in yearMap) {
+                                yearMap.forEach(function(k){
+                            %>
+                            <option value="<%=k%>" <%if(page.year == k){%>selected = "selected"<%}%> ><%= k %></option>
+                            <%
+                            });
+                            %>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">考区</label>
+                    <div class="controls">
+                        <select name="testArea">
+                            <%
+                            var testAreaMap = page.enums.Region.values;;
+                                    for(var k in testAreaMap) {
+                            %>
+                            <option value="<%=k%>"><%= testAreaMap[k] %></option>
+                            <%
+                            }
+                            %>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">类型</label>
+                    <div class="controls">
+                        <select name="paperType">
+                            <%
+                            var paperTypeMap = page.enums.TestPaperType.values;
+                                    for(var k in paperTypeMap) {
+                            %>
+                            <option value="<%=k%>"><%=paperTypeMap[k]%></option>
+                            <%
+                            }
+                            %>
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+
+                        <input type="submit" value="保存" class="btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+

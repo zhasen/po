@@ -1,0 +1,124 @@
+<%
+    var wd = input;
+    var sentences = wd.sentences;
+    var noSentences = !sentences || sentences.length==0;
+%>
+<fieldset><legend><%=wd.word%></legend>
+
+    <div class="row-fluid">
+        <div class="span1">
+            <div class=""><strong>发音</strong></div>
+        </div>
+        <div class="span2">
+            <div class=""><%=wd.phoneticSymbolEn%></div>
+        </div>
+        <div class="span1">
+            <i class="fa fa-volume-up fa-lg player" title="朗读" player="wordAudio"> </i>
+        </div>
+        <div class="span8">
+            <audio id="wordAudio" src="./public/media/7C519749DD2E71ED953FCD82D71699C1.mp3" autoplay>
+                <!--
+                <source src="horse.mp3" type="audio/mpeg">
+                -->
+                您的浏览器不支持 audio 标签。
+            </audio>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span1">
+            <div class=""><strong>解释</strong></div>
+        </div>
+        <div class="span8">
+            <div class=""><%=wd.briefdef%></div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span1">
+            <div class=""><strong>记忆法</strong></div>
+        </div>
+        <div class="span8">
+            <div class=""><%=wd.method%></div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span1">
+            <div class=""><strong>图片</strong></div>
+        </div>
+        <div class="span5">
+            <%if(wd.pictureUrl==null || wd.pictureUrl==''){%>
+            <div class="text-danger">无图片</div>
+            <%}else{%>
+            <img id="wordPic" src1="<%=wd.pictureUrl%>" src2="./public/pic/dTa0zoyePas.jpg" class="img-polaroid media-object" data-src="holder.js/300x300" width1="300" height1="300">
+            <%}%>
+        </div>
+
+        <div class="span1">
+            <div class=""><strong>视频</strong></div>
+        </div>
+        <div class="span1">
+            <i class="fa fa-youtube-play fa-lg player" title="观看视频" player="wordVideo"> </i>
+        </div>
+        <div class="span4">
+            <video id="wordVideo" src1="<%=wd.picture%>" src="./public/media/B5E4BDE40DE3611ECC8A526E38E9ECF4.mp4" width="300" height="300"><!--TODO -->
+                您的浏览器不支持 video 标签。
+            </video>
+        </div>
+    </div>
+
+    <div class="row-fluid <%= noSentences ? 'hide' : ''%>">
+        <div class="span12">
+            <br>例句
+            <hr>
+        </div>
+        <div class="span12">
+            <table class="table table-condensed table-striped">
+                <caption></caption>
+                <thead>
+                <tr>
+                    <th></th><th></th><th></th>
+                </tr>
+                </thead>
+                <tbody>
+            <%_.each(sentences, function(sentence, i){%>
+            <tr>
+                <td><%= ''+(i+1)+'. ' %></td><td><%=sentence.sentence%></td>
+                <td><%= sentence.soundLocal ? '' : '无' %></td>
+            </tr>
+            <tr>
+                <td></td><td><%=sentence.sentenceChinese%></td>
+                <td>
+                    <i class="fa fa-volume-up fa-lg player" title="朗读" player="sentenceAudio"> </i>
+                    <audio id="sentenceAudio" src="./public/media/B5E4BDE40DE3611ECC8A526E38E9ECF4.mp3">
+                        <!--
+                        <source src="horse.mp3" type="audio/mpeg">
+                        -->
+                        您的浏览器不支持 audio 标签。
+                    </audio>
+
+                </td>
+            </tr>
+            <%});%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span1">
+            <div class=""><strong>审核</strong></div>
+        </div>
+        <div class="span8">
+            <div class="btn-group" data-toggle="buttons-radio">
+                <button name="review" class="btn <%= wd.review==30?'active':''%>" value="30">优</button>
+                <button name="review" class="btn <%= wd.review==20?'active':''%>" value="20">中</button>
+                <button name="review" class="btn <%= wd.review==10?'active':''%>" value="10">差</button>
+                <button name="review" class="btn <%= wd.review==0?'active':''%>" value="0">待审核</button>
+            </div>
+        </div>
+    </div>
+
+</fieldset>
+

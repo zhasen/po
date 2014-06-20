@@ -1,0 +1,37 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <!--<link rel="stylesheet" href="<%=asset.mainCss%>">-->
+
+    <link type='text/css' rel='stylesheet' href="web/css/template/common.css"/>
+    <link type="text/css" rel="stylesheet" href="web/css/template/plugs/editor.css">
+    <link type='text/css' rel='stylesheet' href="web/css/template/designer.css"/>
+
+    <script type="text/javascript">
+        var userTemplates = null;
+        var systemTemplates = null;
+        var subjectList = [];
+    </script>
+    <script src="<%=asset.mainJs%>" data-main="<%=asset.configJs%>"></script>
+</head>
+<body>
+<div class="designer_box">
+    <div id="preview_designer" tabindex="97">
+        <div class="designer_header preview_toolbar" style="background-color: #f0f0f0">
+            <span id="btn_preview_exit" class="tpbtn">Exit</span>
+            <div class="tem_right_box">
+                <span id="btn_preview_back" class="tpbtn">Back</span>
+                <span id="btn_preview_next" class="tpbtn">Next</span>
+            </div>
+        </div>
+        <div class="subject_page">
+            <div class="designer_canvas" pindex="0"></div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

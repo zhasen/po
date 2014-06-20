@@ -1,0 +1,25 @@
+    <%
+        var item = input;
+        var childrenBodyId = item.id;
+        var href = item.leaf ? '' : 'href="#' + childrenBodyId + '"';
+        var linkLength = item.links ? item.links.length : 0;
+        var parentId = item.parent ? item.parent.id : '';
+    %>
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" route-bypass data-parent="#<%=parentId%>" <%=href%> >
+            <%= item.title %>&nbsp;&nbsp;&nbsp;&nbsp; <%=linkLength%>
+            </a>
+        </div>
+
+        <%
+            if(!item.leaf){
+        %>
+        <div id="<%=childrenBodyId%>" class="accordion-body collapse in">
+            <div data-view-id="tq-structure-children"></div>
+        </div>
+        <%
+            }
+        %>
+
+    </div>

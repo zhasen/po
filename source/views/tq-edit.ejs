@@ -1,0 +1,175 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>互动教学</title>
+    <link rel="stylesheet" href="<%= asset.mainCss %>">
+    <script src="<%= asset.mainJs %>" data-main="<%= asset.configJs %>"></script>
+</head>
+
+<body>
+
+<%
+function default_treat(list, default_value) {
+    list.forEach(function (item) {
+        item.isDefault = (item.value == default_value) ? 1 : 0;
+    });
+    return list;
+}
+
+function erYear(recentYears) {
+    var obj = []
+    recentYears.forEach(function (y) {
+        obj.push({value: y, title: y});
+    });
+    return obj;
+}
+%>
+<% function option_helper(item) { %>
+<option value="<%= item.value %>"
+        <% if(item.isDefault == 1){ %>
+        selected="selected"
+        <% } %>
+        >
+    <%= item.title %></option>
+<% } %>
+<div id="alert-success" class="alert-success" style="height:0px; width:100%; text-align: center; position: absolute; z-index:10;"></div>
+<div id="tq-edit" style="position: absolute;">
+    <input type="hidden" id="panel_status" value="on">
+    <div id="tqpanel"
+         style="width:300px; position: relative; height: 600px; border-right:1px #cccccc solid; float:left;">
+        <div id="tq_attr_panel" style="padding: 8px 0 0 8px;">
+            <input type="hidden" id="pageType" value="<%= page.type %>">
+            <input type="hidden" id="tq_id" value="<%= page.data.id %>">
+            <span>名称</span>&nbsp;
+            <input type="text" id="name" name="name" value="<%= page.data.name %>" maxlength="100"
+                   style="width:185px;" required/><br/>
+            <span>考区</span>&nbsp;
+            <select id="region" name="region" style="width:80px;">
+                <% default_treat(page.enums.Region.list, page.data.region).forEach(option_helper); %>
+            </select>
+            <span>机构</span>&nbsp;
+            <select id="org" name="org" style="width:80px;">
+                <% default_treat(page.enums.Organization.list, page.data.org).forEach(option_helper); %>
+            </select>
+            <br/>
+
+            <span>题型</span>&nbsp;
+            <select id="erType" name="erType" style="width:80px;">
+                <% default_treat(page.enums.erType.list, page.data.erType).forEach(option_helper); %>
+            </select>
+            <span>风险</span>&nbsp;
+            <select id="erRisk" name="erRisk" style="width:80px;">
+                <% default_treat(page.enums.erRisk.list, page.data.erRisk).forEach(option_helper); %>
+            </select>
+            <br/>
+
+            <span>年份</span>&nbsp;
+            <select id="erYear" name="erYear" style="width:80px;">
+                <% default_treat(erYear(page.recentYears), page.data.erYear).forEach(option_helper); %>
+            </select>
+            <br/>
+            <br/>
+            <a class="btn" data-bypass onclick="tq_submit()">保存</a>
+            <!--<a id="btn-del" class="btn" href="javascript:void(0)" onclick="delete_click();" data-bypass>删除</a>-->
+        </div>
+        <div onclick="caret_left_click()"
+             style="background-color: #008ed0; width:10px; height: 56px; top: 50%; margin-top: -19px; right: 0px; position: absolute; z-index: 10; cursor: pointer;">
+            <i class="fa fa-caret-left" style="margin-top: 20px; margin-left: 2px; color: #ffffff;"></i>
+        </div>
+    </div>
+    <div id="tqcontent" style=" height: 100%; width:950px; border-left:1px #cccccc solid; float:right;">
+        <% include tqt-index %>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+
+<input type="hidden" id="page_content_id" value="<%= page.content.id %>">
+<script>
+
+    window.onload = function () {
+        $('#tqcontent').css({width: document.body.scrollWidth - 320});
+        $('#tqpanel').css({height: document.body.scrollHeight});
+    }
+
+    var testQuestionContentID = document.getElementById('page_content_id').value || -1;
+
+    // 新建和编辑功能
+    function tq_submit() {
+        var content = '';
+        if (DesignerModel){
+            content = DesignerModel.getTestQuestionContent();
+        }
+        var obj = {
+            'attrs': {
+                name: $('#name').val(),
+                region: $('#region').val(),
+                org: $('#org').val(),
+                erType: $('#erType').val(),
+                erRisk: $('#erRisk').val(),
+                erYear: $('#erYear').val()
+            },
+            'content': content
+        };
+        if (!obj.attrs.name) {
+            $('#name').focus();
+            return;
+        }
+        var pageType = $('#pageType').val();
+        if (pageType == 'add') {
+            $.post('/tq', obj, function (res) {
+                //alert(JSON.stringify(res));
+                if (res.s == 'success') {
+                    submit_alert(res);
+                }
+                $('#pageType').val('edit');
+                $('#tq_id').val(res.id);
+                $("#btn-panel").show();
+                //$("#btn-del").show();
+                window.history.pushState(null, null, '/tq-edit-' + res.id);
+            });
+        } else if (pageType == 'edit') {
+            $.ajax({
+                url: '/tq/' + $('#tq_id').val(),
+                type: 'put',
+                data: obj,
+                success: function (res) {
+                    //alert(JSON.stringify(res));
+                    if (res.s == 'success') {
+                        submit_alert(res);
+                    }
+                }
+            });
+        }
+    }
+
+    function submit_alert(res) {
+        $('#alert-success').animate({height: 20}, "slow").addClass('alert').html(res.status);
+        setTimeout(function () {
+            $('#alert-success').animate({height: 0}, "slow").removeClass('alert').html('');
+        }, 3000);
+    }
+
+    // 点击关闭
+    function caret_left_click() {
+        var w = document.body.scrollWidth - 320;
+        var h = document.body.scrollHeight;
+        var panel_status = $('#panel_status').val();
+        if (panel_status == 'on') {
+            $('#tqpanel').animate({width: 10}, "slow");
+            $("#tq_attr_panel").animate({opacity: 0});
+            $('#panel_status').val('off');
+            $("#tqcontent").animate({width: 290 + w}, "slow");
+        } else if (panel_status == 'off') {
+            $('#tqpanel').animate({width: 300}, "slow");
+            $("#tq_attr_panel").animate({opacity: 1});
+            $("#tqcontent").animate({width: w}, "slow");
+            $('#panel_status').val('on');
+        }
+    }
+
+</script>
+
+
+</body>
+</html>

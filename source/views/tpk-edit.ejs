@@ -1,0 +1,58 @@
+<% layout('layout') %>
+<br>
+<script type="text/javascript" src="/public/components/jquery/jquery.min.js"></script>
+<script  type="text/javascript"  src="/web/js/validation/jqBootstrapValidation.js"></script>
+<script>
+    $().ready(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+</script>
+<div class="container">
+
+    <form class="form-signin" action="tpk-save" method="post">
+        <h2 class="form-signin-heading">试题包
+        </h2>
+        <input type="hidden" name="id" value="<%=info.id%>"/>
+        <input type="text" value="<%=info.name%>" name="name"
+               class="input-block-level" placeholder="输试题包名称">
+        <input type="text" value="<%=info.remark%>" name="remark"
+
+               class="input-block-level" placeholder="输入描述">
+
+        <button class="btn btn-large btn-primary" type="submit">提交</button>
+    </form>
+
+</div>
+
+<style type="text/css">
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+    }
+
+    .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    }
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+        margin-bottom: 10px;
+    }
+    .form-signin input[type="text"],
+    .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+    }
+
+</style>
+

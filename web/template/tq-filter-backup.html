@@ -1,0 +1,45 @@
+<br>
+<div class="row-fluid">
+    <div class="">
+        <button class="btn" href="tq-filter" id="filter"><i class="fa fa-refresh"> </i></button>
+    </div>
+</div>
+<div class="">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>描述</th>
+            <th>题型</th>
+            <th>风险</th>
+            <th>年份</th>
+            <th>发布</th>
+            <th>审核</th>
+        </tr>
+        </thead>
+        <tbody>
+    <%
+        var erTypeMap = page.enums.erType.values;
+        var erRiskMap = page.enums.erRisk.values;
+        var erPublishStatusMap = page.enums.erPublishStatus.values;
+        var erAuditStatusMap = page.enums.erAuditStatus.values;
+        var list = input;
+        var len = list.length;
+        //console.log(input);
+        for(var i=0; i<len; i++){
+            var item = list[i];
+    %>
+        <tr>
+            <td><a ><%= item.name %></a></td>
+            <td><%= erTypeMap[item.erType] %></td>
+            <td><%= erRiskMap[item.erRisk] %></td>
+            <td><%= item.erYear %></td>
+            <td><%= erPublishStatusMap[item.erPublish] %></td>
+            <td><%= erAuditStatusMap[item.erAudit] %></td>
+            <td><i onMouseOver="$(this).tooltip('show')" data-toggle="tooltip" data-placement="top" title data-original-title="选择" class="fa fa-plus-square"></i></td>
+        </tr>
+    <%
+        }
+    %>
+        </tbody>
+    </table>
+</div>

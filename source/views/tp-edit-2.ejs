@@ -1,0 +1,173 @@
+<% layout('layout') -%>
+<br>
+<div class="row-fluid" >
+    <section>
+        <div class="bs-docs-example">
+            <ul id="myTab" class="nav nav-tabs">
+                <li><a href="#tp-edit-<%=item.id%>" data-toggle="tab">基本信息</a></li>
+                <li class="active"><a href="#tp-edit-2" data-toggle="tab">试卷题目</a></li>
+
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade" id="tp-edit-<%=item.id%>">
+                    <div class="row-fluid" >
+                        <div class="span6">
+                            <div class="well">
+
+                                <form class="form-horizontal" method="post">
+                                    <div class="control-group">
+                                        <label class="control-label">试卷名称</label>
+                                        <div class="controls">
+                                            <input type="text" name="name" placeholder="试卷名称" value="<%=item.name%>" required>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">机构</label>
+                                        <div class="controls">
+                                            <label>北京新东方</label>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">年份</label>
+                                        <div class="controls">
+                                            <select name="year">
+                                                <%
+                                                var yearMap = page.papers.years;
+                                                //console.log(page);
+                                                    //for(var k in yearMap) {
+                                                    yearMap.forEach(function(k) {
+                                                %>
+                                                <option value="<%=k%>" <%if(item.year == k) {%> selected="selected" <%}%> ><%= k %></option>
+                                                <%
+                                                    });
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">考区</label>
+                                        <div class="controls">
+                                            <select name="testArea">
+                                                <%
+                                                var testAreaMap = page.enums.Region.values;
+                                                        for(var k in testAreaMap) {
+                                                %>
+                                                <option value="<%=k%>" <%if(item.paperType == k) {%> selected="selected" <%}%> ><%= testAreaMap[k] %></option>
+                                                <%
+                                                }
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">类型</label>
+                                        <div class="controls">
+                                            <select name="paperType">
+                                                <%
+                                                var paperTypeMap = page.enums.TestPaperType.values;
+                                                        for(var k in paperTypeMap) {
+                                                %>
+                                                <option value="<%=k%>" <%if(item.paperType == k) {%> selected="selected" <%}%> ><%=paperTypeMap[k]%></option>
+                                                <%
+                                                }
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <input type="submit" value="保存" class="btn">
+                                            <a href="tp-del-<%=item.id%>" data-bypass onclick="return confirm('确定删除试卷吗?')" class="btn">删除</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tab-pane fade active in" id="tp-edit-2">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="span3">
+                                <div class="accordion" id="accordion2">
+                                    <%
+                                        var st = JSON.parse(item.st);
+                                        //console.log(st);
+                                        for(var k in st) {
+                                            var st2 = st[k];
+                                            //for(var k2 in st2) {
+                                        //console.log(st2);
+                                    %>
+                                    <div class="accordion-group">
+                                        <div class="accordion-heading">
+                                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" <%if(st2.children != null) {%> href="#<%= k %>" <%}%> >
+                                                <%= st2.title %>&nbsp;&nbsp;(0)
+                                            </a>
+                                        </div>
+
+                                        <div id="<%= k %>" class="accordion-body collapse in">
+                                            <%
+                                            if(st2.children != null) {
+                                                var part = st2.children;
+                                                //console.log(part);
+                                                    for(var p in part) {
+                                            %>
+                                            <div class="accordion-inner">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" ><%= part[p].title %>&nbsp;&nbsp;(0)</a>
+                                            </div>
+                                            <%
+                                                    }
+                                            }
+                                            %>
+                                        </div>
+
+                                    </div>
+                                    <%
+                                        }
+                                    %>
+
+                                </div>
+                            </div>
+                            <div class="span9">
+                                <div class="bs-docs-example">
+                                    <ul id="myTab" class="nav nav-tabs">
+                                        <li class="active"><a href="#home" data-toggle="tab">在线题库</a></li>
+                                        <li><a href="#profile" data-toggle="tab">已选试题</a></li>
+                                        <!--<li class="dropdown">-->
+                                            <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
+                                            <!--<ul class="dropdown-menu">-->
+                                                <!--<li><a href="#dropdown1" data-toggle="tab">@fat</a></li>-->
+                                                <!--<li><a href="#dropdown2" data-toggle="tab">@mdo</a></li>-->
+                                            <!--</ul>-->
+                                        <!--</li>-->
+                                    </ul>
+                                    <div id="myTabContent" class="tab-content">
+                                        <div class="tab-pane fade in active" id="home">
+                                            111
+                                        </div>
+                                        <div class="tab-pane fade" id="profile">
+                                            2222
+                                        </div>
+                                        <!--<div class="tab-pane fade" id="dropdown1">-->
+                                            <!--<p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>-->
+                                        <!--</div>-->
+                                        <!--<div class="tab-pane fade" id="dropdown2">-->
+                                            <!--<p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+
+

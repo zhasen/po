@@ -1,0 +1,95 @@
+<% layout('layout') -%>
+<br>
+<div class="row-fluid" >
+    <div class="">
+        <a class="btn" href="sj-edit">新建</a>
+        <div class="btn-group">
+            <button class="btn dropdown-toggle" data-toggle="dropdown">更多操作 <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#">批量发布</a></li>
+                <li><a href="#">批量取消发布</a></li>
+                <li><a href="#">批量删除</a></li>
+                <!--<li class="divider"></li>-->
+                <!--<li><a href="#">Separated link</a></li>-->
+            </ul>
+        </div>
+        <input class="" type="text" placeholder="包名称">
+        <a href="#" class="btn">搜索</a>
+        <div style="float: right;">
+            <a href="#" class="btn text-right">建立时间<i class="icon-chevron-up"></i></a>
+            <a href="#" class="btn text-right">修改时间<i class="icon-chevron-up"></i></a>
+        </div>
+
+    </div>
+</div>
+<div class="" >
+    <table class="table">
+        <thead>
+        <tr>
+            <th style="width: 5px;"><input type="checkbox" id="controlAll" onchange="selectAll()"/> </th>
+            <th>包名称</th>
+            <th>类型</th>
+            <th>操作人</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+
+        <%
+        var paperTypeMap = page.papers.paperType.map;
+        var paperPublishMap = page.papers.paperPublish.map;
+        var testAreaMap = page.papers.testArea.map;
+        console.log(page);
+        var list = page.testPapers;
+        var len = list.length;
+        for(var i=0; i<len; i++){
+            var item = list[i];
+        %>
+        <tbody>
+        <tr>
+            <td style="width: 5px;">
+                <input type="checkbox" name="selected"/>
+            </td>
+            <td>
+                <a href=""><%=item.name%></a>
+                <div>发布状态 :<%=paperPublishMap[item.paperPublish]%></div>
+            </td>
+            <td><%=paperTypeMap[item.paperType]%></td>
+            <td>
+                创建人：<%=item.createPerson%>&nbsp;2014-5-20 15:13:48
+                <div>修改人：<%=item.updatePerson%>&nbsp;2014-5-20 15:13:48</div>
+            </td>
+            <td>
+                <a href="#" onMouseOver="$(this).tooltip('show')" data-toggle="tooltip" data-placement="top" title data-original-title="预览"><i class="icon-eye-open"></i></a>&nbsp;&nbsp;
+                <a href="#" onMouseOver="$(this).tooltip('show')" data-toggle="tooltip" data-placement="top" title data-original-title="编辑"><i class="icon-pencil"></i> </a>&nbsp;&nbsp;
+                <a href="#" onMouseOver="$(this).tooltip('show')" data-toggle="tooltip" data-placement="top" title data-original-title="发布"><i class="icon-arrow-up"></i></a>&nbsp;&nbsp;
+                <a href="#" onMouseOver="$(this).tooltip('show')" data-toggle="tooltip" data-placement="top" title data-original-title="复制"><i class="icon-file"></i></a>&nbsp;&nbsp;
+                <a href="#" onMouseOver="$(this).tooltip('show')" data-toggle="tooltip" data-placement="top" title data-original-title="删除"><i class="icon-trash"></i></a>&nbsp;&nbsp;
+            </td>
+        </tr>
+        </tbody>
+        <%
+        }
+        %>
+
+    </table>
+</div>
+
+<script>
+    //操作checkbox使其完成全选或全不选11
+    function selectAll(){
+        var checklist = document.getElementsByName ("selected");
+        if(document.getElementById("controlAll").checked)
+        {
+            for(var i=0;i<checklist.length;i++)
+            {
+                checklist[i].checked = 1;
+            }
+        }else{
+            for(var j=0;j<checklist.length;j++)
+            {
+                checklist[j].checked = 0;
+            }
+        }
+    }
+</script>
+

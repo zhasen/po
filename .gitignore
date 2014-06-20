@@ -1,0 +1,25 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+# os and ide files
+.DS_store
+.idea
+
+# runtime dependency files
+node_modules
+pids
+logs
+public/build/*
+public/components/*
+public/files/*
+web/build/*
+
+# deployment dependency files
+
+

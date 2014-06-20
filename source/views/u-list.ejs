@@ -1,0 +1,80 @@
+<% layout('layout') %>
+<br>
+
+<div class="" >
+    <table class="table">
+        <thead>
+        <tr>
+            <th>名称</th>
+            <th>状态</th>
+            <th>邮箱</th>
+            <th>是否认证</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%
+            var lm = papers.lm ;
+            var lmList = papers.list ;
+            if(null!=allUser && allUser.length>0){
+            for(var i=0; i<allUser.length; i++) {
+                var item = allUser[i];
+        %>
+        <tr>
+            <td>
+                <%=item.loginName%>
+            </td>
+            <td>
+                <%=lm[item.certified]%>
+            </td>
+            <td>
+                <%=item.email%>
+            </td>
+            <td>
+                <%=item.lifeFlag?"已认证":"未认证"%>
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">状态 <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <% for(var x=0;x<lmList.length;x++){
+                            var lItem = lmList[x] ;
+                            if(lItem.id!=item.certified){
+                        %>
+                        <li><a data-bypass href="user-changeType-<%=item.loginName%>-<%=lItem.id%>"><%=lItem.name%></a></li>
+                        <%
+                        }
+                        }
+                        %>
+                    </ul>
+                </div>
+
+            </td>
+        </tr>
+        <%
+        }}
+          %>
+        </tbody>
+
+    </table>
+</div>
+
+<script>
+    //操作checkbox使其完成全选或全不选11
+    function selectAll(){
+        var checklist = document.getElementsByName ("selected");
+        if(document.getElementById("controlAll").checked)
+        {
+            for(var i=0;i<checklist.length;i++)
+            {
+                checklist[i].checked = 1;
+            }
+        }else{
+            for(var j=0;j<checklist.length;j++)
+            {
+                checklist[j].checked = 0;
+            }
+        }
+    }
+</script>
+
