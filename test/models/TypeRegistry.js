@@ -18,6 +18,7 @@ exports.testTypeRegistry = function(test){
     test.equal(erRisk.WithRisk.title(), '有风险');
     console.log(erRisk.names());
     console.log(erRisk.values());
+    console.log(erRisk.valueList());
     console.log(erRisk.list());
     console.log(erRisk.dict());
 
@@ -38,6 +39,7 @@ exports.testTypeRegistry = function(test){
     test.equal(erType.Writing.title(), '写作');
     console.log(erType.names());
     console.log(erType.values());
+    console.log(erType.valueList());
     console.log(erType.list());
     console.log(erType.dict());
 
