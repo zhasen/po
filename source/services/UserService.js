@@ -1,41 +1,46 @@
-var User = require('../models/User');
-var UserState = require('../models/common/enums').UserState;
-var UserKv = require('../kvs/User');
 var settings = require('../../settings');
-var crypto = require('crypto');
 var logger = require('../commons/logging').logger;
+var User = require('../models/User');
+var typeRegistry = require('./TypeRegistry');
+var crypto = require('crypto');
 
 var generateUserToken = function(uid){
     var key = settings.secretKey;
     return crypto.createHash('sha1').update(String(uid)).update(key).digest('hex');
 };
 var UserService = {
-    loadByUserToken: function(utoken, callback){
-        UserKv.load(utoken, callback);
+    loadById: function(id, callback){
+        User
+            .find({ where: { id: id } })
+            .complete(function(err, user) {
+                if (err) {
+                    var errMsg = 'Fail to find user by XDF Passport user id: ' + err.message;
+                    logger.error(errMsg);
+                    callback(new Error(errMsg), null);
+                } else if (!user) {
+                    callback(null, null);
+                } else {
+                    callback(null, user);
+                }
+            });
     },
-    create: function(callback){
-        var user = new User();
-        var uid = user.autoId();
-        var utoken = generateUserToken(uid);
-        user.utoken = utoken;
-        user.stt = UserState.Anonymous;
-        user.save(function(err, result, affected){
-            if(err){
-                logger.error('Fail to create anonymous user: ' + err);
-                callback(new Error('Fail to create anonymous user: ' + err), null);
-                return;
-            }
+    createFromOAuth: function(userObj, callback){
+        //Populate default values
+        userObj.lifeFlag = typeRegistry.LifeFlag.Active.value();
+        userObj.type = typeRegistry.UserType.OAuth.value();
 
-            if(affected==1){
-                var doc = result.toObject({getters: true});
-                doc.liked = '{}'; //TODO: delete it
-                doc.owned = '{}'; //TODO: delete it
-                UserKv.save(doc, callback);
-            }
-            else{
-                callback(new Error('Fail to create anonymous user: ' + err), null);
-            }
-        });
+        //Save the model instance
+        var user = User.build(userObj);
+        user.save()
+            .complete(function (err) {
+                if (err) {
+                    var errMsg = 'Fail to create user from XDF Passport: ' + err.message;
+                    logger.error(errMsg);
+                    callback(new Error(errMsg), user);
+                } else {
+                    callback(null, user);
+                }
+            });
     }
 };
 module.exports = UserService;
