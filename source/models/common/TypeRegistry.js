@@ -39,6 +39,13 @@ Type.prototype = {
             return this._data.vtMap;
         }
     },
+    valueList: function(){
+        var list = [];
+        for(var k in this._data.vtMap){
+            list.push(k);
+        }
+        return list;
+    },
     list: function(){
         return this._data.nvtList;
     },
