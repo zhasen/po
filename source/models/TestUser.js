@@ -1,29 +1,26 @@
-var domainRegistry = require('./common/Registry');
-var time = require('../../source/commons/time');
+var domainRegistry = require('./DomainRegistry');
+var typeRegistry = require('./TypeRegistry');
 var db = domainRegistry.domainBuilder();
-db.withName('TestUser')
+db.withName('User')
     .withBasis() //it includes id and version (may be version)
     .withOptions({
-        modelKey: 'u',
-        modelTable: 'test_user'
+        modelKey: 'usr',
+        modelTable: 'user'
     })
-    .withProperties(
-    {
-        loginName: {type: String, defaultValue: ''},
-        email: {type: String, defaultValue: ''},
-        password: {type: String, defaultValue: ''},
-        lifeFlag: {type: String, defaultValue: false},
-        certified: {type: String, defaultValue: 'r'}
-    }
-)
-//    .withCreatedBy()
-//    .withUpdatedBy()
+    .withProperties({
+        lifeFlag: {type: String, defaultValue: typeRegistry.LifeFlag.Active.value()},
+        type: {type: String, defaultValue: typeRegistry.UserType.OAuth.value()},
+        displayName: {type: String, defaultValue: ''},
+        username: {type: String},
+        password: {type: String},
+        email: {type: String},
+        phone: {type: String},
+        userId: {type: String},
+        accessToken: {type: String},
+        refreshToken: {type: String},
+        expiresIn: {type: Date}
+    })
     .withCreatedOn()
-    .withUpdatedOn()
-
-db.withStaticMethod('filter', function () {
-    console.log('filter');
-});
-
+    .withUpdatedOn();
 
 module.exports = db.build();
