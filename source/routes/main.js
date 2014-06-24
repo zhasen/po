@@ -126,6 +126,6 @@ module.exports = function (app) {
     //app.get('/tp-index', initUser, testPaperIndexPage);
     app.get('/tep-list', initUser, testExercisePackList);
     require("./testPaper")(app);
-    require("./design")(app);
+//    require("./design")(app);
     require("./testQuestion")(app);
 };
