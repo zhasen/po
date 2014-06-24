@@ -1,7 +1,6 @@
 var logger = require('../commons/logging').logger;
 var util = require('util');
 var DictService = require('../services/DictService');
-var TestPapersService = require('../services/TestPapersService');
 var TestExercisePackService = require('../services/TestExercisePackService');
 
 module.exports = function (app) {
@@ -125,7 +124,6 @@ module.exports = function (app) {
     app.get('/tq-edit', initUser);
     //app.get('/tp-index', initUser, testPaperIndexPage);
     app.get('/tep-list', initUser, testExercisePackList);
-    require("./testPaper")(app);
-    require("./design")(app);
+//    require("./design")(app);
     require("./testQuestion")(app);
 };

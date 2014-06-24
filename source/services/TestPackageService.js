@@ -3,7 +3,6 @@ var logger = require('../commons/logging').logger;
 var redis = require("../commons/redis");
 var time = require('../commons/time');
 var TestPackage = require('../models/TestPackage').model;
-var Structure = require('../models/ModelTestStructure');
 var typeRegistry = require('../models/TypeRegistry');
 var Service = {};
 
