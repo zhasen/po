@@ -1,7 +1,7 @@
 var settings = require('../../settings');
 var logger = require('../commons/logging').logger;
 var User = require('../models/User');
-var typeRegistry = require('./TypeRegistry');
+var typeRegistry = require('../models/TypeRegistry');
 var crypto = require('crypto');
 
 var generateUserToken = function(uid){
