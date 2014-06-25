@@ -1,40 +1,45 @@
-var userService = require('../services/TestUserService');
+var UserService = require('../services/UserService');
 module.exports = function(app){
     app.use(require('./xdf').oauth({
         client_id: '95401',
         client_secret: 'u2test-app1-d20-9c5f-4783-8316-ee814test',
         redirect_url: 'http://itemstest.xdf.cn/u2/callback',
         returnUrl: 'http://itemstest.xdf.cn/u2/logout',
-        afterSuccess:function(ret, req, res,next){
+        afterSuccess:function(ret, req, res, next){
             var loginInfo = ret ;
+            if(!req.session.user){
+                UserService.loadById(loginInfo.userId, function(err, user){
+                    if(err){
+                        throw err; //TODO:
+                        return;
+                    }
 
-            if(!req.session){
-                req.session = {} ;
-            }
-            var loginType = req.session.loginType ;
-            if(!loginType){
-                var uid = ret.userId ;
-                userService.findByUid(uid,function(data){
-                    if(!data){
-                        var user = {loginName:loginInfo.email,
+                    if(!user){
+                        var userJson = {
+                            id:loginInfo.userId ,
+                            displayName:loginInfo.nickName,
                             email:loginInfo.email,
-                            uid:loginInfo.userId ,
-                            password:loginInfo.email
-                        }
-                        userService.regUser(user,function(flag,data){
-                            if(flag){
-                                req.session.loginType = true;
-                                req.session.loginName = data.loginName ;
-                                req.session.uid = data.uid;
-                                req.session.iid = data.id ;
-                                res.redirect("/") ;
+                            accessToken:loginInfo.access_token,
+                            refreshToken:loginInfo.refresh_token,
+                            expiresIn:loginInfo.expires_in
+                        };
+                        UserService.createFromOAuth(userJson, function(err, user){
+                            if(err){
+                                throw err; //TODO:
+                                return;
                             }
-                        })
-                    }else{
-                        req.session.loginType = true;
-                        req.session.loginName = data.loginName ;
-                        req.session.uid = data.uid;
-                        req.session.iid = data.id ;
+                            req.session.user = {
+                                id: user.id,
+                                displayName: user.displayName
+                            };
+                            res.redirect("/") ;
+                        });
+                    }
+                    else{
+                        req.session.user = {
+                            id: user.id,
+                            displayName: user.displayName
+                        };
                         res.redirect("/") ;
                     }
                 });
@@ -42,4 +47,3 @@ module.exports = function(app){
         }
     }));
 };
-//---------------------------------录音上传，边录边传功能结束---------------------------------------
