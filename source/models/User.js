@@ -4,7 +4,7 @@ var typeRegistry = require('./TypeRegistry');
 
 var User = sequelize.define('User',
     {
-        id: Sequelize.STRING,
+        id: {type: Sequelize.STRING, primaryKey: true},
         lifeFlag: {
             type: Sequelize.ENUM,
             values: typeRegistry.LifeFlag.valueList(),
