@@ -16,7 +16,7 @@ app.enable('trust proxy');
 
 // all environments
 app.locals(settings.resources);
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3010);
 app.set('views', __dirname + '/source/views');
 app.set('view engine', 'ejs');
 app.engine('ejs', engine);
