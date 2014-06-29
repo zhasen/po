@@ -13,7 +13,7 @@ app.enable('trust proxy');
 
 // all environments
 app.locals(settings.resources);
-app.set('port', process.env.PORT || 3010);
+app.set('port', process.env.PORT || settings.app.port);
 app.set('views', __dirname + '/source/views');
 app.set('view engine', 'ejs');
 app.engine('ejs', engine);
@@ -56,7 +56,7 @@ app.use(function (err, req, res, next) { //Handle XHR errors
     res.render('error');
 });
 
-var server = http.createServer(app).listen(app.get('port'), '127.0.0.1', function(){
+var server = http.createServer(app).listen(app.get('port'), settings.app.host, function(){
     logger.info('The server is listening on port ' + app.get('port') + ' in ' + mode );
 });
 

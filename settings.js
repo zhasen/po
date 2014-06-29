@@ -3,6 +3,10 @@ module.exports = {
     name: '学路',
     creator: '新东方',
     secretKey: 'quick',
+    app: {
+        host: '127.0.0.1',
+        port: 3010
+    },
     mysql:{
         host: 'localhost',
         user: 'po',
