@@ -6,9 +6,6 @@ var express = require('express')
     , engine = require('ejs-locals')
     , settings = require('./settings');
 
-//    , authenticate = require('./source/middlewares/authenticate')
-//    , contexton = require('./source/middlewares/contexton');
-
 var app = module.exports = express();
 
 //some common configuration
@@ -27,15 +24,9 @@ app.use(logging.applogger);
 app.use(express.compress());
 app.use(express.query());
 app.use(express.bodyParser({ uploadDir: './'+settings.file.question }));
-//app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser(settings.secretKey));
 app.use(require('./source/middlewares/session')(express)); //set session middle-ware
-
-require('./source/middlewares/oauthlogin')(app);
-// routing
-//app.use(authenticate); //security checking including auto-sign-up and authentication
-//app.use(contexton); //context loading including request id, session id, user id, and so on.
 
 var mode = app.get('env') || 'development';
 if ('development' == mode) {

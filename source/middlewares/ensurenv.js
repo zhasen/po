@@ -1,5 +1,6 @@
 var fs = require('fs');
 var settings = require('../../settings');
+var id = require('../commons/id');
 
 var ensureDir = function(rootDir, targetDir){
     var targetPath = rootDir +  '/' + targetDir;

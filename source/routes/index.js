@@ -1,9 +1,7 @@
 var main = require("./main")
-    ,recordWebSocket = require("./recordWebSocket"),
-    testUser = require("./testUser");
+    ,recordWebSocket = require("./recordWebSocket");
 
 module.exports = function(app) {
     main(app);
     recordWebSocket(app);
-    testUser(app);
 };
