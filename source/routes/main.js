@@ -1,7 +1,6 @@
 var logger = require('../commons/logging').logger;
 var util = require('util');
 var DictService = require('../services/DictService');
-var TestExercisePackService = require('../services/TestExercisePackService');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -71,59 +70,59 @@ module.exports = function (app) {
 //    };
 
 
-    //练习包列表查询数据并传输到模板
-    var testExercisePackList = function (req, res, next) {
-        asseton(req, res);
-        var input = {};
-        var page = {};
-        input.page = page;
-        page.user = req.user;
-        page.papers = {};
-        page.papers.paperType = Papers.paperType;
-        page.papers.paperPublish = Papers.paperPublish;
-        page.papers.testArea = Papers.testArea;
-        TestExercisePackService.listTestPapers(function (err, list) {
-            if (err) {
-                logger.error(err);
-                res.json(500, err); //TODO response a json document with error info
-                return;
-            }
-            page.testPapers = list;
-            console.log(input);
-            res.render('tep-list', input);
-        });
-    };
+//    //练习包列表查询数据并传输到模板
+//    var testExercisePackList = function (req, res, next) {
+//        asseton(req, res);
+//        var input = {};
+//        var page = {};
+//        input.page = page;
+//        page.user = req.user;
+//        page.papers = {};
+//        page.papers.paperType = Papers.paperType;
+//        page.papers.paperPublish = Papers.paperPublish;
+//        page.papers.testArea = Papers.testArea;
+//        TestExercisePackService.listTestPapers(function (err, list) {
+//            if (err) {
+//                logger.error(err);
+//                res.json(500, err); //TODO response a json document with error info
+//                return;
+//            }
+//            page.testPapers = list;
+//            console.log(input);
+//            res.render('tep-list', input);
+//        });
+//    };
 
     //练习包列表查询数据并传输到模板
-    var ssoLoginCallback = function (req, res, next) {
-        asseton(req, res);
-        var input = {};
-        var page = {};
-        input.page = page;
-        page.user = req.user;
-        page.papers = {};
-        page.papers.paperType = Papers.paperType;
-        page.papers.paperPublish = Papers.paperPublish;
-        page.papers.testArea = Papers.testArea;
-        TestExercisePackService.listTestPapers(function (err, list) {
-            if (err) {
-                logger.error(err);
-                res.json(500, err); //TODO response a json document with error info
-                return;
-            }
-            page.testPapers = list;
-            console.log(input);
-            res.render('tep-list', input);
-        });
-    };
-    app.get('/u2/callback', ssoLoginCallback);
+//    var ssoLoginCallback = function (req, res, next) {
+//        asseton(req, res);
+//        var input = {};
+//        var page = {};
+//        input.page = page;
+//        page.user = req.user;
+//        page.papers = {};
+//        page.papers.paperType = Papers.paperType;
+//        page.papers.paperPublish = Papers.paperPublish;
+//        page.papers.testArea = Papers.testArea;
+//        TestExercisePackService.listTestPapers(function (err, list) {
+//            if (err) {
+//                logger.error(err);
+//                res.json(500, err); //TODO response a json document with error info
+//                return;
+//            }
+//            page.testPapers = list;
+//            console.log(input);
+//            res.render('tep-list', input);
+//        });
+//    };
+//    app.get('/u2/callback', ssoLoginCallback);
 
     app.get('/', dictPage);
     app.get('/tq-index', initUser);
     app.get('/tqt-index', initUser);
     app.get('/tq-edit', initUser);
     //app.get('/tp-index', initUser, testPaperIndexPage);
-    app.get('/tep-list', initUser, testExercisePackList);
+//    app.get('/tep-list', initUser, testExercisePackList);
 //    require("./design")(app);
     require("./testQuestion")(app);
 };
