@@ -101,10 +101,10 @@ module.exports = function (app) {
 //    };
 //    app.get('/u2/callback', ssoLoginCallback);
 
-    app.get('/', dictPage);
-    app.get('/tq-index', initUser);
-    app.get('/tqt-index', initUser);
-    app.get('/tq-edit', initUser);
+//    app.get('/', dictPage);
+//    app.get('/tq-index', initUser);
+//    app.get('/tqt-index', initUser);
+//    app.get('/tq-edit', initUser);
     //app.get('/tp-index', initUser, testPaperIndexPage);
 //    app.get('/tep-list', initUser, testExercisePackList);
 //    require("./design")(app);
