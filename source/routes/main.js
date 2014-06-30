@@ -8,7 +8,7 @@ module.exports = function (app) {
     var mode = app.get('env') || 'development';
     var asseton = require('../middlewares/asseton')(mode);
 
-    auth.bind(app);//use all authentication routing and handlers binding here
+    //auth.bind(app);//use all authentication routing and handlers binding here
 
     var indexPage = function (req, res, next) {
         asseton(req, res);
@@ -102,10 +102,10 @@ module.exports = function (app) {
 //    };
 //    app.get('/u2/callback', ssoLoginCallback);
 
-    app.get('/', dictPage);
-    app.get('/tq-index', initUser);
-    app.get('/tqt-index', initUser);
-    app.get('/tq-edit', initUser);
+//    app.get('/', dictPage);
+//    app.get('/tq-index', initUser);
+//    app.get('/tqt-index', initUser);
+//    app.get('/tq-edit', initUser);
     //app.get('/tp-index', initUser, testPaperIndexPage);
 //    app.get('/tep-list', initUser, testExercisePackList);
 //    require("./design")(app);
