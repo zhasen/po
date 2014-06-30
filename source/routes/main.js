@@ -26,6 +26,7 @@ module.exports = function (app) {
     app.get('/course-schedule', function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i().enums();
-        res.render('course-schedule', input);
+        //input.user = {};
+        res.render('_course-schedule', input);
     }); // 试验课表EJS，正式使用时不需要此路由
 };
