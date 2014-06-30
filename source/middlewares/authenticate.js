@@ -1,17 +1,17 @@
 var Authenticator = require('./authenticator');
 var OAuthClient = require('./oauth-client');
+var settings = require('../../settings').oauth;
 
-//TODO: Use settings
 var xdf = new OAuthClient({
-    providerHost: 'http://testu2.staff.xdf.cn',
-    providerAuthorizeUri: '',
-    providerAccessTokenUri: '/apis/OAuth.ashx',
-    providerLogoutUri: '/Logout.aspx',
-    client_id: '95401',
-    client_secret: 'u2test-app1-d20-9c5f-4783-8316-ee814test',
-    clientHost: 'http://testpath.xdf.cn',
+    providerHost:settings.providerHost,
+    providerAuthorizeUri: settings.providerAuthorizeUri,
+    providerAccessTokenUri: settings.providerAccessTokenUri,
+    providerLogoutUri: settings.providerLogoutUri,
+    client_id: settings.clientId,
+    client_secret: settings.clientSecret,
+    clientHost: settings.clientHost,
     clientCallbackUri: '/auth/callback',
-    clientLogoutReturnUrl: 'http://testpath.xdf.cn'
+    clientLogoutReturnUrl: settings.clientHost
 });
 
 var auth = new Authenticator({

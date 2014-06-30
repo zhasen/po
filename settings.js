@@ -7,6 +7,15 @@ module.exports = {
         host: '127.0.0.1',
         port: 3010
     },
+    oauth: {
+        providerHost: 'http://testu2.staff.xdf.cn',
+        providerAuthorizeUri: '',
+        providerAccessTokenUri: '/apis/OAuth.ashx',
+        providerLogoutUri: '/Logout.aspx',
+        clientId: '95401',
+        clientSecret: 'u2test-app1-d20-9c5f-4783-8316-ee814test',
+        clientHost: 'http://testpath.xdf.cn'
+    },
     mysql:{
         host: 'localhost',
         user: 'po',
