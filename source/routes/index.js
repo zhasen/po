@@ -4,4 +4,5 @@ var main = require("./main")
 module.exports = function(app) {
     main(app);
     recordWebSocket(app);
+//    testUser(app);
 };
