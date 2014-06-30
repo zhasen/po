@@ -21,7 +21,7 @@ module.exports = function (app) {
     app.get('/test', function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i();
-        input.user = {};
+        input.user = req.session.user;
         res.render('test', input);
     });
 
