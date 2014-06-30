@@ -1,5 +1,5 @@
 var logger = require('../commons/logging').logger;
-//var auth = require('../middlewares/authenticate');
+var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
 var util = require('util');
 var DictService = require('../services/DictService');
