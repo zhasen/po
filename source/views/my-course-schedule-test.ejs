@@ -1,0 +1,16 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>课表嵌入测试</title>
+    <link rel="stylesheet" href="<%= asset.mainCss %>">
+    <script src="<%= asset.mainJs %>" data-main="<%= asset.configJs %>"></script>
+</head>
+<body>
+
+    <div style="border: 1px solid #F00; width: 800px; height: 400px; overflow: hidden; margin: 20px auto;">
+        <% include _course-schedule.ejs %>
+    </div>
+
+</body>
+</html>

@@ -25,12 +25,13 @@ module.exports = function (app) {
         res.render('test', input);
     });
 
-    app.get('/course-schedule', function (req, res, next) {
+    app.get('/my-course-schedule-test', function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i().enums();
         //input.user = {};
-        res.render('_course-schedule', input);
-    }); // 试验课表EJS，正式使用时不需要此路由
+        res.render('my-course-schedule-test', input);
+    }); // 课表测试页
+
     //为试卷列表查询数据并传输到模板
 //    var testPaperIndexPage = function (req, res, next) {
 //        asseton(req, res);

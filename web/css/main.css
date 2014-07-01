@@ -1,4 +1,6 @@
 @import url('../../public/components/bootstrap/css/bootstrap.css');
 @import url('../../public/components/bootstrap/css/bootstrap-responsive.css');
 @import url('../../public/components/font-awesome/css/font-awesome.css');
+@import url('./fullcalendar/fullcalendar.css');
+@import url('./fullcalendar/fullcalendar.print.css');
 @import url('./style.css');
