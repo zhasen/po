@@ -3,4 +3,5 @@
 @import url('../../public/components/font-awesome/css/font-awesome.css');
 @import url('./fullcalendar/fullcalendar.css');
 @import url('./fullcalendar/fullcalendar.print.css');
+@import url('./jquery-ui/jquery-ui.min.css');
 @import url('./style.css');

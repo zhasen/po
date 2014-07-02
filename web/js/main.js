@@ -29,12 +29,6 @@ require.config({
         ,'moment' : {
             deps: ['jQuery']
         }
-//        ,'designer_core': {
-//            deps: ['editor']
-//        },
-//        'designer_business': {
-//            deps: ['designer_core']
-//        }
     },
     packages: ["skeleton", "misc", "config", "app", "template", "course_schedule"],
     paths: {
@@ -50,9 +44,6 @@ require.config({
         jquery_qeditor: './template/plugs/editor/editor',
         fullcalendar: './course_schedule/fullcalendar',
         moment: '../../public/components/moment/moment'
-//        ,common: './template/common',
-//        designer_core: './template/designer.core',
-//        designer_business: './template/designer.business'
     },
     deps: ['app', 'misc', 'template', 'course_schedule'],
     callback: function () {

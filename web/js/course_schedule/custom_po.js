@@ -1,8 +1,18 @@
 define(['./fullcalendar'], function ($) {
 
     $('#calendar').fullCalendar({
-        defaultDate: '2014-06-12',
+        theme: true,
+        header: {
+            left: 'prev,next,today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+//        defaultDate: '2014-06-12',
         editable: true,
+        buttonIcons: {
+            prev: 'circle-triangle-w',
+            next: 'circle-triangle-e'
+        },
         events: [
             {
                 title: 'All Day Event',
@@ -43,6 +53,5 @@ define(['./fullcalendar'], function ($) {
             }
         ]
     });
-
 
 });
