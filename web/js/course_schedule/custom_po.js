@@ -1,15 +1,19 @@
-define(['./fullcalendar'], function ($) {
+define(['./fullcalendar', './zh-cn'], function ($, moment) {
 
     $('#calendar').fullCalendar({
         theme: true,
         header: {
             left: 'prev,next,today',
             center: 'title',
-            right: 'month,agendaWeek,agendaDay'
+            right: 'agendaWeek'
         },
-//        defaultDate: '2014-06-12',
-        editable: true,
-        buttonIcons: {
+        lang: 'zh-cn',
+        defaultView: 'agendaWeek',
+        viewRender: function (view, element) {
+//            view.start = '16:00:00'
+        },
+        contentHeight: 600,
+        themeButtonIcons: {
             prev: 'circle-triangle-w',
             next: 'circle-triangle-e'
         },
@@ -21,7 +25,8 @@ define(['./fullcalendar'], function ($) {
             {
                 title: 'Long Event',
                 start: '2014-06-07',
-                end: '2014-06-10'
+                end: '2014-06-10',
+                color: 'red'
             },
             {
                 id: 999,
@@ -51,7 +56,12 @@ define(['./fullcalendar'], function ($) {
                 url: 'http://google.com/',
                 start: '2014-06-28'
             }
-        ]
+        ],
+        eventColor: '#378006',
+        eventBorderColor: 'red',
+        eventBackgroundColor: 'green',
+        eventTextColor: 'blue'
+
     });
 
 });
