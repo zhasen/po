@@ -1,5 +1,5 @@
-define(['jQuery', 'skeleton', 'Bootstrap', './TestQuestionFilterView', './TestPaperEditView'],
-function($, sk, Bootstrap, TestQuestionFilterView, TestPaperEditView) {
+define(['jQuery', 'skeleton', 'Bootstrap', './stu'],
+function($, sk, Bootstrap) {
     var Spa = sk.Spa.extend({
         configure: function(){
             var viewName = $('#_moduleViewName').val();

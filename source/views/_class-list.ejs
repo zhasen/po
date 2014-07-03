@@ -1,0 +1,56 @@
+<style type="text/css">
+    .myul {
+        border: 1px #cccccc solid;
+        margin-left: 25px;
+    }
+
+    .myli {
+        width: 320px;
+        min-height: 140px;
+        _height: 140px; /* 兼容ie6 最小设置高度 */
+        border: 1px green solid;
+        display: -moz-inline-stack; /* 兼容ff2 */
+        display: inline-block; /* ff3 */
+        *display: inline; /* 兼容ie7 */
+        zoom: 1; /* 兼容ie7 */
+        margin: 5px;
+        vertical-align: top;
+    }
+</style>
+
+<div style="">
+    <div>
+        <div style="float: left;">我的班级</div>
+        <div style="float: right;">
+            <input type="text" id="search-class" value="">&nbsp;&nbsp;<span style="cursor: pointer;">搜索班级</span>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+    <div style="border:1px #CCCCCC solid;">
+        <ul class='myul'>
+            <li class='myli'>
+                <div><h4>第一条</h4></div>
+            </li>
+            <li class='myli'>
+                <div><h4>第二条</h4></div>
+            </li>
+            <li class='myli'>
+                <div><h4>第三条</h4></div>
+            </li>
+            <li class='myli'>
+                <div><h4>第四条<br/>第四条</h4></div>
+            </li>
+            <li class='myli'>
+                <div><h4>第五条</h4></div>
+            </li>
+            <li class='myli'>
+                <div><h4>第六条</h4></div>
+            </li>
+            <li class='myli'>
+                <div><h4>第七条<br/>第七条</h4></div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
