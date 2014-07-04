@@ -1,0 +1,30 @@
+/* CSS Document */
+@charset "utf-8";
+*{ font-size:100%; }
+img {-ms-interpolation-mode:bicubic; border:none;}
+button {cursor:pointer;_cursor:hand;}
+button {overflow:visible;}
+abbr[title],acronym[title] {border-bottom:1px dotted;cursor:help;}
+input[type=hidden] {display:none!important;}
+input:focus,textarea:focus { border:1px solid #FFB941; border-radius:3px;}
+a {text-decoration:none; color:#686b6b;}
+a:hover {text-decoration:none; color:#37bed0; }
+.fix {zoom:1;}
+.fix:after {content:"";visibility:hidden;display:block;height:0;clear:both;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,fieldset,legend,input,textarea,p,blockquote,th,td {margin:0;padding:0;}
+ul,ol,li { list-style:none;}
+a{*blr:expression_r(this.onFocus=this.blur());outline:none;} /* 只支持IE，过多使用效率低 */ 
+a:focus {-moz-outline-style: none; } /* IE不支持 */  
+focus {outline: none;} /* for Firefox */
+.bb_none{ border-bottom:none!important;}
+html{overflow-x:hidden; overflow-y:auto;}
+
+.f_l { float:left;}
+.f_r { float:right;}
+.fs_12 { font-size:12px;}
+.fs_14 { font-size:14px;}
+
+.fc_3dc{ color:#3dc0f1;}
+.fc_000 { color:#000;}
+
+

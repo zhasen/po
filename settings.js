@@ -42,6 +42,9 @@ module.exports = {
         question: 'public/upload/question',
         answer: 'public/upload/answer'
     },
+    api:{
+        imitateExam:'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?'
+    },
     resources: {
         appName: '学路',
         appTitle: '学路',

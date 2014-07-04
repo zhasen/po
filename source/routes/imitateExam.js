@@ -1,19 +1,27 @@
-var auth = require('../middlewares/authenticate');
+//var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
 var commonService = require('./common/commonService');
+var api = require('../../settings').api;
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
     var asseton = require('../middlewares/asseton')(mode);
 
+
 //    auth.bind(app);//use all authentication routing and handlers binding here
 
+
     app.get('/imitateExam', function (req, res, next) {
+        var url = {
+            "method":"getXpoListByClassCode",
+            "ccode":"TF13202",
+            "ucode":"BJ986146",
+            "sid":1
+        };
         asseton(req, res);
         var input = PageInput.i().enums();
         input.user = {};
-        var params ="";
-        var param = "http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?method=getXpoListByClassCode&ccode=TF13202&ucode=BJ986146&sid=1";
+        var param = api.imitateExam + commonService.getUrl(url);
         commonService.request(param,function(data){
             dataTemp ={
                 "errno": 0,
@@ -51,11 +59,11 @@ module.exports = function (app) {
 //            var sdata = JSON.parse(dataTemp);
 //            console.log("sdata.result------------" +sdata.result);
             if(dataTemp.errno != 1){
-              res.render('imitateExam-test', {"input":input,"sdata":dataTemp});
+                res.render('imitateExam-test', {"input":input,"sdata":dataTemp});
             }else{
                 res.end();
             }
-        },params);
+        });
 
     }); // 模考测试页
 

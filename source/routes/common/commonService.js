@@ -36,3 +36,12 @@ exports.request = function request(options, callback,params) {
     }
 	post_req.end();
 };
+
+exports.getUrl = function(map){
+    var val = "";
+    for (var key in map) {
+        val += key +"="+ map[key] +"&";
+    }
+    val = val.substr(0,val.length-1);
+    return val;
+};
