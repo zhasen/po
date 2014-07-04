@@ -1,4 +1,4 @@
-define(['jQuery', 'skeleton', 'Bootstrap', './index', './classes_schedules', './schedule'],
+define(['jQuery', 'skeleton', 'Bootstrap', './index', './classes_schedules_stu', './schedule'],
     function ($, sk, Bootstrap) {
         var Spa = sk.Spa.extend({
             configure: function () {

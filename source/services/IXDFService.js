@@ -8,7 +8,7 @@ var md5 = function (str) {
 
 /**
  * GetTeacherByUserId 接口
- * @param id 用户ID，示例 xdf0050001152
+ * @param id 用户ID，示例 xdf001000862
  * 使用例子：GetTeacherByUserId('xdf001000862', function(err, ret){})
  */
 Service.GetTeacherByUserId = function (id, callback) {
