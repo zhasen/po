@@ -40,6 +40,7 @@ exports.request = function request(options, callback,params) {
 exports.getUrl = function(map){
     var val = "";
     for (var key in map) {
+
         val += key +"="+ encodeURIComponent(map[key]) +"&";
     }
     val = val.substr(0,val.length-1);
