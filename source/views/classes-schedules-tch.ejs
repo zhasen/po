@@ -1,0 +1,26 @@
+<%- layout('layout') %>
+<% block('view', '<input id="_moduleViewName" type="hidden" value="classes_schedules">') %>
+
+<div style="width:1100px; margin: 10px auto;">
+    <ul class="nav nav-tabs" id="classes-schedules-tch-tab">
+        <li><a href="#my-class" data-toggle="tab" data-bypass>
+                我的班级
+            </a></li>
+        <li><a href="#my-schedule" data-toggle="tab" data-bypass>
+                我的课表
+            </a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane" id="my-class">
+            <% include _class-list.ejs %>
+        </div>
+        <div class="tab-pane" id="my-schedule">
+            <% include _course-schedule.ejs %>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -2,7 +2,9 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
 
     var calendar = {};
 
-    calendar.renderCalendar = function () {
+    calendar.$ = $;
+
+    calendar.myRenderCalendar = function () {
         $('#calendar').fullCalendar({
             theme: true,
             header: {
@@ -15,7 +17,7 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
             viewRender: function (view, element) {
 //            view.start = '16:00:00'
             },
-            contentHeight: 600,
+            contentHeight: 400,
             themeButtonIcons: {
                 prev: 'circle-triangle-w',
                 next: 'circle-triangle-e'
