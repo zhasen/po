@@ -16,14 +16,19 @@ module.exports = {
         clientSecret: 'u2test-app1-d20-9c5f-4783-8316-ee814test',
         clientHost: 'http://testpath.xdf.cn'
     },
-    mysql:{
+    ixdf: {
+        url: 'http://xytest.staff.xdf.cn/api/Teacher/', // 正式：http://i.xdf.cn/api/calendar/
+        appKey: 'v5appkey_test', // 测试v5appkey_test，正式需申请
+        appid: 5001 // 测试5001，正式需申请
+    },
+    mysql: {
         host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database:'po',
+        user: 'po',
+        password: 'po',
+        database: 'po',
         port: 3306
     },
-    redis:{
+    redis: {
         host: 'localhost',
         port: 6379
     },

@@ -51,7 +51,7 @@ module.exports = function (app) {
                 res.json(500, err);
                 return;
             }
-            console.info('GetTeacherByUserId : ' +  JSON.stringify(ret));
+            console.info('GetTeacherByUserId : ' + JSON.stringify(ret));
             var data = [
                 {
                     id: 999,
