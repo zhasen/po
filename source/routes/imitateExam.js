@@ -18,12 +18,12 @@ module.exports = function (app) {
             "ucode":"BJ986146",
             "sid":1
         };
-        asseton(req, res);
+        /*asseton(req, res);
         var input = PageInput.i().enums();
-        input.user = {};
+        input.user = {};*/
         var param = api.imitateExam + commonService.getUrl(url);
         commonService.request(param,function(data){
-            dataTemp ={
+            /*dataTemp ={
                 "errno": 0,
                 "result": [
                     {
@@ -55,11 +55,11 @@ module.exports = function (app) {
                         "paperTypeId": "tpo"
                     }
                 ]
-            };
-//            var sdata = JSON.parse(dataTemp);
-//            console.log("sdata.result------------" +sdata.result);
-            if(dataTemp.errno != 1){
-                res.render('imitateExam-test', {"input":input,"sdata":dataTemp});
+            };*/
+            var sdata = JSON.parse(data);
+            console.log("sdata.result------------" +JSON.stringify(sdata.result));
+            if(sdata.errno != 1){
+                res.render('imitateExam-test', {"sdata":sdata});
             }else{
                 res.end();
             }
@@ -67,6 +67,7 @@ module.exports = function (app) {
 
     }); // 模考测试页
 
+    //试题详细
     app.get('/testQuestionDetail', function (req, res, next) {
         var url = {
             "method":"getPaperAllDataByPaperId",
@@ -106,10 +107,7 @@ module.exports = function (app) {
                     flag[j].item.subjectData = JSON.parse(temp);
                     console.log("temp----" + temp);
                 }
-
             }
-
-
             console.log("data.result------------" +JSON.stringify(data.result));
             /*if(data.errno != 1){
                 res.render('tq-detail', {"data":data.result});

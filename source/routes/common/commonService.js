@@ -1,15 +1,10 @@
 var http = require('http');
-var request = require("request");
+//var request = require("request");
 http.globalAgent.maxSockets = 50000;
 var TIMEOUT = 60*1000;
 
-exports.request = function request(options, callback,params) {
-	var post_data = "";
+exports.request = function(options, callback) {
     var logInfo = "http请求:" + options;
-    if(params){
-        post_data = JSON.stringify(params);
-        logInfo = logInfo +",params:"+post_data;
-    }
 	var post_req = http.request(options, function(result) {
 		console.log(logInfo);
 		var data = '';
@@ -19,10 +14,9 @@ exports.request = function request(options, callback,params) {
 		});
 		result.on('end', function() {
 			console.log("请求返回结果，result:" + data.toString());
-			callback(data);
+            return callback(data);
 		});
 	});
-
 	post_req.setTimeout(TIMEOUT, function() {
 		post_req.abort();
         callback(new Error('Request timeout'));
@@ -30,9 +24,6 @@ exports.request = function request(options, callback,params) {
 	post_req.on('error', function(e) {
 		callback(new Error("httpGet : exception " + e.message));
 	});
-    if(params){
-        post_req.write(post_data);
-    }
 	post_req.end();
 };
 
