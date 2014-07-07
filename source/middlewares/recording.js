@@ -10,7 +10,7 @@ function UUID() {
 
 var WebSocket = require('faye-websocket')
 var fs = require('fs');
-var wav = require('wav');
+//var wav = require('wav');
 module.exports = function(recordSocketServer){
     recordSocketServer.on('upgrade', function(request, socket, body) {
         if (WebSocket.isWebSocket(request)) {

@@ -67,4 +67,56 @@ module.exports = function (app) {
 
     }); // 模考测试页
 
+    app.get('/testQuestionDetail', function (req, res, next) {
+        var url = {
+            "method":"getPaperAllDataByPaperId",
+            "paperId":"33818BD0-C00B-48B2-8F25-2624CFF8BC53"
+        };
+        var param = api.imitateExam + commonService.getUrl(url);
+        commonService.request(param,function(data) {
+            var data = JSON.parse(data);
+            console.log("data.result------------" +JSON.stringify(data.result));
+            if(data.errno != 1){
+                res.render('tq-detail', {"data":data.result});
+            }else{
+                res.end();
+            }
+        });
+
+    });
+
+    app.get('/testQuestion', function (req, res, next) {
+        var url = {
+            "method":"getPaperAllDataByPaperId",
+            "paperId":"33818BD0-C00B-48B2-8F25-2624CFF8BC53"
+        };
+        var param = api.imitateExam + commonService.getUrl(url);
+        commonService.request(param,function(data) {
+            var data = JSON.parse(data);
+            var jsonVal = data.result.structItem.trees;
+
+            for(var i in jsonVal){
+//                console.log("i:" + i +"\t" +JSON.stringify(jsonVal[i].items));
+
+                var flag = jsonVal[i].items;
+                for(var j in flag){
+                    console.log("j:" + j +"\t" +JSON.stringify(flag[j].item.subjectData));
+                    var temp = flag[j].item.subjectData;
+                    temp = decodeURIComponent(temp);
+                    flag[j].item.subjectData = JSON.parse(temp);
+                    console.log("temp----" + temp);
+                }
+
+            }
+
+
+            console.log("data.result------------" +JSON.stringify(data.result));
+            /*if(data.errno != 1){
+                res.render('tq-detail', {"data":data.result});
+            }else{
+                res.end();
+            }*/
+        });
+
+    });
 };
