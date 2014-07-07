@@ -5,8 +5,7 @@ var TIMEOUT = 60*1000;
 
 exports.request = function request(options, callback,params) {
 	var post_data = "";
-    var logInfo = "http请求，url:" + "http://" + options.host + ":"
-        + options.port + options.path;
+    var logInfo = "http请求:" + options;
     if(params){
         post_data = JSON.stringify(params);
         logInfo = logInfo +",params:"+post_data;
@@ -40,7 +39,6 @@ exports.request = function request(options, callback,params) {
 exports.getUrl = function(map){
     var val = "";
     for (var key in map) {
-
         val += key +"="+ encodeURIComponent(map[key]) +"&";
     }
     val = val.substr(0,val.length-1);

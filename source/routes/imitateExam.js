@@ -67,4 +67,21 @@ module.exports = function (app) {
 
     }); // 模考测试页
 
+    app.get('/testQuestionDetail', function (req, res, next) {
+        var url = {
+            "method":"getPaperAllDataByPaperId",
+            "paperId":"33818BD0-C00B-48B2-8F25-2624CFF8BC53"
+        };
+        var param = api.imitateExam + commonService.getUrl(url);
+        commonService.request(param,function(data) {
+            var data = JSON.parse(data);
+            console.log("data.result------------" +JSON.stringify(data.result));
+            if(data.errno != 1){
+                res.render('tq-detail', {"data":data.result});
+            }else{
+                res.end();
+            }
+        });
+
+    });
 };
