@@ -12,9 +12,9 @@ define(['jQuery'], function ($) {
 
     $(function () {
         $(".lp_class_list li").hover(function () {
-            $(this).children(".hasended").animate({opacity: '1'}, "600");
+            $(this).find(".hasended").animate({opacity: '1'}, "600");
         }, function () {
-            $(this).children(".hasended").animate({opacity: '0.5'}, "600");
+            $(this).find(".hasended").animate({opacity: '0.5'}, "600");
         })
     })
 

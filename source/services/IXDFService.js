@@ -66,9 +66,9 @@ Service.GetTeacherByUserId = function (param, callback) {
 /**
  * GetCalendarEventListOfTeacher 接口：获取教师的日历数据
  */
-/*Service.GetCalendarEventListOfTeacher = function (param, callback) {
- var methodname = getObjFirstAttrName(this);
- uniAPIDeal(param, methodname, callback);
- };*/
+Service.GetCalendarEventListOfTeacher = function (param, callback) {
+    var methodname = getObjFirstAttrName(this);
+    uniAPIDeal(param, methodname, callback);
+};
 
 module.exports = Service;

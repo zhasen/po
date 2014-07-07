@@ -2,13 +2,14 @@
 /* CSS Document */
 
 .lpath_page { width:1000px; margin:0 auto; }
-body { background:#F9F9F9;}
+
 
 /*头部*/
 .learn_path_header { height:64px; background:#000;}
 .learn_path_header .top dt { width:101px;}
 .learn_path_header .top dd { width:800px; padding-right:15px;}
 
+.learn_path_header .nav { position:relative;}
 .learn_path_header .nav li { float:left; padding:0 5px; position:relative;}
 .learn_path_header .nav .menu { width:100px; padding:0 15px;}
 .learn_path_header .nav span{  display:block; color:#fff; font-size:15px; font-family:SimSun;cursor:pointer; height:64px; line-height:46px; text-align:center;}
@@ -19,12 +20,15 @@ body { background:#F9F9F9;}
 .learn_path_header .sub_menu a { color:#fff; text-align:center; display:block; /*height:40px; border-bottom:1px solid #218ab5;*/ font-size:14px; line-height:1.5em;  margin-bottom:15px;}
 .learn_path_header .nav li.ico_infor { padding:0px;}
 .learn_path_header .nav li.ico_infor .menu { width:70px; padding-top:20px;}
-.learn_path_header .nav li.right_blank { margin-left:180px;} 
+.learn_path_header .nav li.right_blank { position:absolute; right:120px; top:-10px;} 
+.learn_path_header .nav li.right_blank1 { position:absolute; right:0;top:-10px;} 
 
 /*底部*/
 .learn_path_footer { background:#252525; height:234px;}
 .learn_path_footer p { text-align:center; color:#fff; font-size:14px;font-family:'SimSun','宋体'; line-height:2.3em; padding-top:30px;}
 .learn_path_footer p img { display:inline-block; margin-top:30px;}
+
+.tile-body { min-height:350px!Important;}
 
 
 
