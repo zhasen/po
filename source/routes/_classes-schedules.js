@@ -38,14 +38,14 @@ module.exports = function (app) {
         asseton(req, res);
         var input = PageInput.i();
         input.user = req.session.user;
-        res.render('class', input);
+        res.render('classpage', input);
     });
 
     /**
      * 课表获取数据的调用地址
      */
     app.get('/schedule-data', function (req, res, next) {
-        ixdf.GetTeacherByUserId('xdf00228972', function (err, ret) {
+        ixdf.GetTeacherByUserId({userid: 'xdf00228972'}, function (err, ret) {
             if (err) {
                 logger.error(err);
                 res.json(500, err);
