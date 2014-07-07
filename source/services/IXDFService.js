@@ -58,14 +58,17 @@ var uniAPIDeal = function (param, methodname, callback) {
  * @param id 用户ID，示例 xdf001000862
  * 使用例子：GetTeacherByUserId('xdf001000862', function(err, ret){})
  */
-Service.GetTeacherByUserId = function (userId, callback) {
-    var param = {userId: userId};
+Service.GetTeacherByUserId = function (param, callback) {
     var methodname = getObjFirstAttrName(this);
     uniAPIDeal(param, methodname, callback);
 };
 
 /**
- * GetCalendarEventListOfTeacher接口：获取教师的日历数据
+ * GetCalendarEventListOfTeacher 接口：获取教师的日历数据
  */
+/*Service.GetCalendarEventListOfTeacher = function (param, callback) {
+ var methodname = getObjFirstAttrName(this);
+ uniAPIDeal(param, methodname, callback);
+ };*/
 
 module.exports = Service;

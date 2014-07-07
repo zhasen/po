@@ -30,7 +30,7 @@ require.config({
             deps: ['jQuery']
         }
     },
-    packages: ["skeleton", "misc", "config", "app", "template", "course_schedule"],
+    packages: ["skeleton", "misc", "config", "app", "template", "course_schedule", "po"],
     paths: {
         requireLib: '../../public/components/requirejs/require',
         jQuery: '../../public/components/jquery/jquery',
@@ -45,7 +45,7 @@ require.config({
         fullcalendar: './course_schedule/fullcalendar',
         moment: '../../public/components/moment/moment'
     },
-    deps: ['app', 'misc', 'template', 'course_schedule'],
+    deps: ['app', 'misc', 'template', 'course_schedule', 'po'],
     callback: function () {
     },
     preserveLicenseComments: false

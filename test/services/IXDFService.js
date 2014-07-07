@@ -14,7 +14,7 @@ exports.tearDown = function (done) {
 
 // 测试 GetTeacherByUserId 接口：通过userID获取老师相关信息
 exports.testGetTeacherByUserId = function (test) {
-    ixdf.GetTeacherByUserId('xdf00228972', function (err, ret) {
+    ixdf.GetTeacherByUserId({userid: 'xdf00228972'}, function (err, ret) {
         console.info('TEST：GetTeacherByUserId :');
         console.info(JSON.stringify(ret));
         //console.info(ret); // 显示列表
