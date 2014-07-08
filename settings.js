@@ -5,7 +5,8 @@ module.exports = {
     secretKey: 'quick',
     app: {
         host: '127.0.0.1',
-        port: 3010
+        port: 3010,
+        context: '/'
     },
     oauth: {
         providerHost: 'http://testu2.staff.xdf.cn',
@@ -14,7 +15,7 @@ module.exports = {
         providerLogoutUri: '/Logout.aspx',
         clientId: '95401',
         clientSecret: 'u2test-app1-d20-9c5f-4783-8316-ee814test',
-        clientHost: 'http://testpath.xdf.cn'
+        clientHost: 'http://path.staff.xdf.cn'
     },
     mysql:{
         host: 'localhost',
