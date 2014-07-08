@@ -17,7 +17,7 @@ module.exports = {
         clientHost: 'http://testpath.xdf.cn'
     },
     ixdf: {
-        url: 'http://xytest.staff.xdf.cn/api/Teacher/', // 正式：http://i.xdf.cn/api/calendar/
+        url: 'http://xytest.staff.xdf.cn/api/', // 正式：http://i.xdf.cn/api/
         appKey: 'v5appkey_test', // 测试v5appkey_test，正式需申请
         appid: 5001 // 测试5001，正式需申请
     },

@@ -12,20 +12,84 @@ exports.tearDown = function (done) {
     done()
 };
 
-// 测试 GetTeacherByUserId 接口：通过userID获取老师相关信息
-exports.testGetTeacherByUserId = function (test) {
-    ixdf.GetTeacherByUserId({userid: 'xdf00228972'}, function (err, ret) {
-        console.info('TEST：GetTeacherByUserId :');
-        console.info(JSON.stringify(ret));
-        //console.info(ret); // 显示列表
-        console.info("\n");
+// 测试 GetUserTypeByUserId 接口：获取用户角色
+exports.GetUserTypeByUserId = function (test) {
+    ixdf.uniAPIInterface({
+//        userid: 'xdf00228972' // 张洪伟 老师
+        userid: 'xdf001000862' // 李梦晗 学员
+    }, 'user', 'GetUserTypeByUserId', function (err, ret) {
+        console.info('TEST：GetUserTypeByUserId:' + JSON.stringify(ret) + "\n");
         test.done();
     });
 }
 
+// 测试 GetDefaultStudentByUserId 接口：通过学生UserId获取学生信息
+exports.GetDefaultStudentByUserId = function (test) {
+    ixdf.uniAPIInterface({
+        userid: 'xdf001000862' // 李梦晗 学员
+    }, 'student', 'GetDefaultStudentByUserId', function (err, ret) {
+        console.info('TEST：GetDefaultStudentByUserId:' + JSON.stringify(ret) + "\n");
+        console.info(ret);
+        test.done();
+    });
+}
+
+// 测试 GetTeacherByUserId 接口：通过userID获取老师相关信息
+exports.GetTeacherByUserId = function (test) {
+    ixdf.uniAPIInterface({
+        userid: 'xdf00228972' // 张洪伟 老师
+    }, 'teacher', 'GetTeacherByUserId', function (err, ret) {
+        console.info('TEST：GetTeacherByUserId:' + JSON.stringify(ret) + "\n");
+        //console.info(ret);
+        test.done();
+    });
+}
+
+// 测试 GetClassListFilterByTeacherCode 接口：根据教师编号获取班级列表
+exports.GetClassListFilterByTeacherCode = function (test) {
+    ixdf.uniAPIInterface({
+        schoolid: 1,
+        teachercode: 'BM0001',
+        classcodeorname: '',
+        classstatus: 3,
+        pageindex: 1,
+        pagesize: 10
+    }, 'class', 'GetClassListFilterByTeacherCode', function (err, ret) {
+        console.info('TEST：GetClassListFilterByTeacherCode:' + JSON.stringify(ret) + "\n");
+        //console.info(ret);
+        test.done();
+    })
+}
+
+// 测试 GetClassListFilterByStudentCode 接口：根据学生编号获取班级列表
+exports.GetClassListFilterByStudentCode = function (test) {
+    ixdf.uniAPIInterface({
+        schoolid: 1,
+        studentcode: 'BJ986146',
+        classcodeorname: '',
+        classstatus: 3,
+        pageindex: 1,
+        pagesize: 10
+    }, 'class', 'GetClassListFilterByStudentCode', function (err, ret) {
+        console.info('TEST：GetClassListFilterByStudentCode:' + JSON.stringify(ret) + "\n");
+        //console.info(ret);
+        test.done();
+    })
+}
+
 // 测试 GetCalendarEventListOfTeacher 接口：获取教师的日历数据
-exports.testGetCalendarEventListOfTeacher = function (test) {
-    test.done();
+exports.GetCalendarEventListOfTeacher = function (test) {
+    ixdf.uniAPIInterface({
+        schoolid: 1,
+        teachercode: 'BM0001',
+        language: 1,
+        fromDay: '2001-06-15',
+        toDay: '2014-07-07'
+    }, 'calendar', 'GetCalendarEventListOfTeacher', function (err, ret) {
+        console.info('TEST：GetCalendarEventListOfTeacher:' + JSON.stringify(ret) + "\n");
+        //console.info(ret);
+        test.done();
+    });
 }
 
 // 测试 GetCalendarInfoListOfTeacher 接口：获取教师日历信息列表

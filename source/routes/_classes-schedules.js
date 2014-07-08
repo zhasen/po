@@ -45,7 +45,7 @@ module.exports = function (app) {
      * 课表获取数据的调用地址
      */
     app.get('/schedule-data', function (req, res, next) {
-        ixdf.GetTeacherByUserId({userid: 'xdf00228972'}, function (err, ret) {
+        ixdf.uniAPIInterface({userid: 'xdf00228972'}, 'teacher', 'GetTeacherByUserId', function (err, ret) {
             if (err) {
                 logger.error(err);
                 res.json(500, err);
