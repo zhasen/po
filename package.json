@@ -1,38 +1,38 @@
 {
-  "name": "po",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node app.js"
-  },
-  "dependencies": {
-    "async": "^0.6.2",
-    "connect-redis": "~1.4.5",
-    "ejs": "~0.8.4",
-    "ejs-locals": "~1.0.2",
-    "express": "3.2.5",
-    "log4js": "~0.6.6",
-    "mysql": "~2.1.1",
-    "redis": "~0.8.3",
-    "underscore": "~1.5.1",
-    "faye-websocket": "~0.7.2",
-    "wav": "0.1.2",
-    "querystring": "^0.2.0",
-    "request": "^2.36.0",
-    "uuid": "^1.4.1",
-    "sequelize": "~1.7.9"
-  },
-  "devDependencies": {
-    "nodeunit": "~0.8.1",
-    "grunt": "latest",
-    "grunt-contrib-copy": "latest",
-    "grunt-contrib-concat": "latest",
-    "grunt-contrib-jst": "latest",
-    "grunt-contrib-uglify": "latest",
-    "grunt-contrib-jshint": "latest",
-    "grunt-contrib-nodeunit": "latest",
-    "grunt-contrib-watch": "latest",
-    "grunt-recess": "~0.3.3",
-    "grunt-contrib-requirejs": "~0.4.1"
-  }
+    "name": "po",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "async": "^0.6.2",
+        "connect-redis": "~1.4.5",
+        "ejs": "~0.8.4",
+        "ejs-locals": "~1.0.2",
+        "express": "3.2.5",
+        "log4js": "~0.6.6",
+        "mysql": "~2.1.1",
+        "redis": "~0.8.3",
+        "underscore": "~1.5.1",
+        "faye-websocket": "~0.7.2",
+        "wav": "0.1.2",
+        "querystring": "^0.2.0",
+        "request": "^2.36.0",
+        "uuid": "^1.4.1",
+        "sequelize": "~1.7.9"
+    },
+    "devDependencies": {
+        "nodeunit": "~0.8.1",
+        "grunt": "latest",
+        "grunt-contrib-copy": "latest",
+        "grunt-contrib-concat": "latest",
+        "grunt-contrib-jst": "latest",
+        "grunt-contrib-uglify": "latest",
+        "grunt-contrib-jshint": "latest",
+        "grunt-contrib-nodeunit": "latest",
+        "grunt-contrib-watch": "latest",
+        "grunt-recess": "~0.3.3",
+        "grunt-contrib-requirejs": "~0.4.1"
+    }
 }

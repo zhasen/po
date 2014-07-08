@@ -22,21 +22,17 @@ require.config({
         },
         'jquery_qeditor': {
             deps: ['jQuery']
+        },
+        'fullcalendar': {
+            deps: ['jQuery']
         }
-//        ,'common': {
-//            deps: ['jQuery']
-//        },
-//        'designer_core': {
-//            deps: ['editor']
-//        },
-//        'designer_business': {
-//            deps: ['designer_core']
-//        }
+        ,'moment' : {
+            deps: ['jQuery']
+        }
     },
-    packages: ["skeleton", "misc", "config", "app", "template"],
-    //packages: ["skeleton", "misc", "config", "app"],
+    packages: ["skeleton", "misc", "config", "app", "template", "course_schedule", "po"],
     paths: {
-        requireLib : '../../public/components/requirejs/require',
+        requireLib: '../../public/components/requirejs/require',
         jQuery: '../../public/components/jquery/jquery',
         Underscore: '../../public/components/underscore/underscore',
         Backbone: '../../public/components/backbone/backbone',
@@ -45,14 +41,13 @@ require.config({
         JST: '../../public/build/js/templates',
         jQueryCustom: 'jquery.custom',
         jqBootstrapValidation: '../../public/components/jqBootstrapValidation/dist/jqBootstrapValidation-1.3.7',
-        jquery_qeditor: './template/plugs/editor/editor'
-//        ,common: './template/common',
-//        designer_core: './template/designer.core',
-//        designer_business: './template/designer.business'
+        jquery_qeditor: './template/plugs/editor/editor',
+        fullcalendar: './course_schedule/fullcalendar',
+        moment: '../../public/components/moment/moment'
     },
-    deps: ['app', 'misc', 'template'],
-    //deps: ['app', 'misc'],
-    callback: function(){},
+    deps: ['app', 'misc', 'template', 'course_schedule', 'po'],
+    callback: function () {
+    },
     preserveLicenseComments: false
 });
 

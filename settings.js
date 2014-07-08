@@ -17,14 +17,19 @@ module.exports = {
         clientSecret: 'u2test-app1-d20-9c5f-4783-8316-ee814test',
         clientHost: 'http://path.staff.xdf.cn'
     },
-    mysql:{
+    ixdf: {
+        url: 'http://xytest.staff.xdf.cn/api/Teacher/', // 正式：http://i.xdf.cn/api/calendar/
+        appKey: 'v5appkey_test', // 测试v5appkey_test，正式需申请
+        appid: 5001 // 测试5001，正式需申请
+    },
+    mysql: {
         host: 'localhost',
         user: 'po',
         password: 'po',
-        database:'po',
+        database: 'po',
         port: 3306
     },
-    redis:{
+    redis: {
         host: 'localhost',
         port: 6379
     },
@@ -42,6 +47,9 @@ module.exports = {
         upload: 'public/upload',
         question: 'public/upload/question',
         answer: 'public/upload/answer'
+    },
+    api:{
+        imitateExam:'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?'
     },
     resources: {
         appName: '学路',
