@@ -1,4 +1,4 @@
-module.exports = {
+var settings = {
     id: 'po',
     name: '学路',
     creator: '新东方',
@@ -6,6 +6,7 @@ module.exports = {
     app: {
         host: '127.0.0.1',
         port: 3010,
+        domain: 'path.staff.xdf.cn',
         context: '/'
     },
     oauth: {
@@ -58,3 +59,23 @@ module.exports = {
         errorUnknown: '不好意思，系统出了点小问题'
     }
 };
+
+var util = require('./source/commons/util');
+var profilePath = './settings-dev';
+var profile = function(profilePath){
+    var profileSettings = null;
+    try{
+        profileSettings = require(profilePath);
+    }
+    catch(e){
+        console.error(profilePath + ' is not found: ' + e.message);
+    }
+    return profileSettings;
+};
+
+var profileSettings = profile(profilePath);
+if(profileSettings){
+    util.extendAll(settings, profileSettings);
+}
+
+module.exports = settings;
