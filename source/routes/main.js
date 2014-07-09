@@ -1,5 +1,5 @@
 var logger = require('../commons/logging').logger;
-//var auth = require('../middlewares/authenticate');
+var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
 var util = require('util');
 var DictService = require('../services/DictService');
@@ -10,7 +10,7 @@ module.exports = function (app) {
     var mode = app.get('env') || 'development';
     var asseton = require('../middlewares/asseton')(mode);
 
-    //auth.bind(app);//use all authentication routing and handlers binding here
+    auth.bind(app);//use all authentication routing and handlers binding here
 
     var indexPage = function (req, res, next) {
         asseton(req, res);
