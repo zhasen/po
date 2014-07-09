@@ -35,17 +35,19 @@ module.exports = function (app) {
                 // 获取前六个班级
                 var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 6};
                 var controllername = 'class';
-                var methodname = '', viewname = '';
+                var methodname = '', viewname = '', token = '';
                 if (userData.type == 2) {
                     param.schoolid = userData.data.nSchoolId;
                     param.teachercode = userData.data.sCode;
                     methodname = 'GetClassListFilterByTeacherCode';
                     viewname = 'index_tch';
+                    token = 'tch';
                 } else {
                     param.schoolid = userData.data.SchoolId;
                     param.studentcode = userData.data.Code;
                     methodname = 'GetClassListFilterByStudentCode';
                     viewname = 'index_stu';
+                    token = 'stu';
                 }
                 //console .info(param);
                 ixdf.uniAPIInterface(param, controllername, methodname, function (err, ret) {
@@ -55,6 +57,7 @@ module.exports = function (app) {
                         clas.poEndDate = time.format(time.netToDate(clas.EndDate), 'yyyy.MM.dd')
                     });
                     input.classes = ret.Data;
+                    input.token = token;
                     res.render(viewname, input);
                 })
             });

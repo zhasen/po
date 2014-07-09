@@ -19,7 +19,7 @@ module.exports = function (app) {
         res.render('classes-schedules-stu', input);
     });
 
-    app.get('/classes-schedules-tch', function (req, res, next) {
+    app.get('/classes-schedules-tch-:tabname', function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i();
         input.user = req.session.user;
