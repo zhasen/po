@@ -14,7 +14,7 @@ exports.request = function(options, callback) {
 		});
 		result.on('end', function() {
 			console.log("请求返回结果，result:" + data.toString());
-            return callback(data);
+            callback(data);
 		});
 	});
 	post_req.setTimeout(TIMEOUT, function() {

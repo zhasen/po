@@ -59,7 +59,7 @@ module.exports = function (app) {
             var sdata = JSON.parse(data);
             console.log("sdata.result------------" +JSON.stringify(sdata.result));
             if(sdata.errno != 1){
-                res.render('imitateExam-test', {"sdata":sdata});
+                res.render('ie-student', {"sdata":sdata});
             }else{
                 res.end();
             }
