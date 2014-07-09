@@ -12,6 +12,7 @@ module.exports = function (app) {
 
     //auth.bind(app);//use all authentication routing and handlers binding here
 
+
     var indexPage = function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i();
