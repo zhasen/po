@@ -1,8 +1,6 @@
 var logger = require('../commons/logging').logger;
 var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
-var util = require('util');
-var DictService = require('../services/DictService');
 var ixdf = require('../../source/services/IXDFService');
 var time = require('../../source/commons/time');
 
@@ -10,6 +8,18 @@ module.exports = function (app) {
     var mode = app.get('env') || 'development';
     var asseton = require('../middlewares/asseton')(mode);
 
+    auth.afterLogin = function(user, next){
+//        user.studentNo = 'xxxxxx';
+//        next();
+        var getStudentNo = function(userId, callback){
+            callback(null, 'test-student-no');
+        };
+        getStudentNo(user.id, function(err, studentNo){
+            user.studentNo = studentNo;
+            console.log(user);
+            next();
+        });
+    };
     auth.bind(app);//use all authentication routing and handlers binding here
 
     var indexPage = function (req, res, next) {
@@ -68,7 +78,6 @@ module.exports = function (app) {
     app.get('/test', function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i();
-        input.user = req.session.user;
         res.render('test', input);
     });
 
