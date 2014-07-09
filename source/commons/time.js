@@ -5,7 +5,7 @@ module.exports = {
     currentTimeMillis: function () {
         return new Date().getTime();
     },
-    currentYear: function(){
+    currentYear: function () {
         return new Date().getFullYear();
     },
     recentYears: function (range) {
@@ -16,7 +16,7 @@ module.exports = {
         }
         return years;
     },
-    format: function(date, pattern){
+    format: function (date, pattern) {
         var o = {
             "M+": date.getMonth() + 1, //月份
             "d+": date.getDate(), //日
@@ -30,5 +30,12 @@ module.exports = {
         for (var k in o)
             if (new RegExp("(" + k + ")").test(pattern)) pattern = pattern.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return pattern;
+    },
+    // 把.net默认日期格式(如 2007-4-12 6:00:00)转成JS日期对象
+    netToDate: function (str) {
+        str = str.replace("-", "/ ");
+        var val = Date.parse(str);
+        var newDate = new Date(val);
+        return newDate;
     }
 };
