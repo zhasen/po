@@ -47,7 +47,8 @@ var settings = {
         components: 'public/components',
         upload: 'public/upload',
         question: 'public/upload/question',
-        answer: 'public/upload/answer'
+        answer: 'public/upload/answer',
+        schedule: 'public/upload/schedule' // 存放生成的课表PDF文件
     },
     api:{
         imitateExam:'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?'

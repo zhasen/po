@@ -4,7 +4,7 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
 
     calendar.$ = $;
 
-    calendar.myRenderCalendar = function () {
+    calendar.myRenderCalendar = function (userid) {
         $('#calendar').fullCalendar('destroy');
         $('#calendar').fullCalendar({
             theme: true,
@@ -24,13 +24,13 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
             maxTime: "24:00:00",
             slotDuration: '00:30:00',
             events: {
-                url: '/schedule-data',
+                url: '/schedule-data?userid=' + userid,
                 cache: false, // 正式启用时用 true，测试时用false
                 error: function () {
                     console.log('schedule-data:err');
                 }
             },
-            loading: function(bool) {
+            loading: function (bool) {
                 //$('#loading').toggle(bool);
             },
             eventColor: '#378006',

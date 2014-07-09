@@ -16,7 +16,15 @@ module.exports = function (app) {
         input.user = req.session.user;
         input.course_schedule_events = [];
         input.tabname = req.params.tabname; // 开启哪个标签
-        res.render('classes-schedules-stu', input);
+
+        var userid = 'xdf001000862'; // 模拟数据 李梦晗 学员 // todo: 从oauth中取
+        ixdf.userBasicData(userid, function (err, userData) {
+            // 班级列表数据 // todo:用接口调用
+            input.classlist = []; // 班级列表数据
+            input.classes = userData.class6; // layout中的班级列表
+            input.userid = userid; // 用户id
+            res.render('classes-schedules-stu', input);
+        });
     });
 
     app.get('/classes-schedules-tch-:tabname', function (req, res, next) {
@@ -42,16 +50,21 @@ module.exports = function (app) {
     });
 
     /**
-     * 课表获取数据的调用地址
+     * 课表获取数据的调用地址（载入课表时实时加载）
      */
     app.get('/schedule-data', function (req, res, next) {
+
+        var userid = req.query.userid; // eg: xdf001000862
+        var start = req.query.start; // eg: 2014-07-07
+        var end = req.query.end; // eg: 2014-07-14
+
         ixdf.uniAPIInterface({userid: 'xdf00228972'}, 'teacher', 'GetTeacherByUserId', function (err, ret) {
             if (err) {
                 logger.error(err);
                 res.json(500, err);
                 return;
             }
-            console.info('GetTeacherByUserId : ' + JSON.stringify(ret));
+            //console.info('GetTeacherByUserId : ' + JSON.stringify(ret));
             var data = [
                 {
                     id: 999,
@@ -67,6 +80,13 @@ module.exports = function (app) {
             ];
             res.json(data);
         });
+    });
+
+    /**
+     * 根据整理课表数据并下载
+     */
+    app.get('/schedule-download', function (req, res, next) {
+        res.sendfile('public/upload/schedule/example.pdf');
     });
 
 };

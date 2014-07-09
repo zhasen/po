@@ -29,7 +29,7 @@ exports.GetDefaultStudentByUserId = function (test) {
         userid: 'xdf001000862' // 李梦晗 学员
     }, 'student', 'GetDefaultStudentByUserId', function (err, ret) {
         console.info('TEST：GetDefaultStudentByUserId:' + JSON.stringify(ret) + "\n");
-        console.info(ret);
+        //console.info(ret);
         test.done();
     });
 }
@@ -92,9 +92,19 @@ exports.GetCalendarEventListOfTeacher = function (test) {
     });
 }
 
-// 测试 GetCalendarInfoListOfTeacher 接口：获取教师日历信息列表
-
 // 测试 GetStudentLessonEntityList 接口：获取学生的日历数据
+exports.GetStudentLessonEntityList = function (test) {
+    ixdf.uniAPIInterface({
+        schoolid: 1,
+        studentCode: 'BJ986146',
+        beginDate: '2001-06-15',
+        endDate: '2014-07-07'
+    }, 'calendar', 'GetStudentLessonEntityList', function (err, ret) {
+        console.info('TEST：GetStudentLessonEntityList:' + JSON.stringify(ret) + "\n");
+        //console.info(ret);
+        test.done();
+    });
+}
 
 // 接口的使用，关键是对md5 key的正确生成。这里用来测试request和key的配合使用，王志鹏老师写的。
 exports.testKey = function (test) {
