@@ -43,13 +43,13 @@
 .lp_class_list .box { width:286px; height:113px; border:1px solid #81d6f6; border-radius:0;}
 .lp_class_list .ongoing{ background:#f9f9f9; opacity:1;}
 .lp_class_list .hasended { background:#3dc0f1; opacity:0.5; position:relative;}
-.lp_class_list dt { width:180px; padding:18px 26px; }
+.lp_class_list dt { width:180px; padding:13px 26px; }
 .lp_class_list .ongoing dt {color:#4f4e55; font-family:Arial; font-weight:normal;}
 .lp_class_list .hasended dt { color:#fff;}
 .lp_class_list dd { width:54px;}
-.lp_class_list dt p {font-size:18px; font-family:'SimHei'; margin-bottom:10px;}
+.lp_class_list dt p {font-size:17px; font-family:'SimHei'; margin-bottom:7px; line-height:1.3em;}
 .lp_class_list .ongoing dt p{ color:#4f4e55;}
-.lp_class_list .hasended dt p{ color:#fff;}
+.lp_class_list .hasended dt p{ color:#fff; font-weight:normal;}
 .lp_class_list .hasended dt p.lpnos { padding-top:15px;}
 .lp_class_list .hasended dt p font { display:block; margin-top:12px; font-family:'SimHei'; opacity:0.4; padding-left:32px;}
 .lp_class_list .hasended  dt .btn_add_course { background-position:left -117px; width:29px; height:28px; display:inline-block!important; float:left; margin-right:10px; margin-top:15px;}
@@ -75,10 +75,10 @@
 .lp_classmain_focus .focus_bg  { padding-top:60px; height:183px!important;}
 .lp_classmain_focus .lp_thisrec_c { background:url(/public/build/img/po/images/lp_sec_cbg.png) no-repeat; width:391px; height:151px; margin:0 auto;}
 .lp_classmain_focus .lp_reccourse { width:370px; height:113px;background:#F9F9F9;}
-.lp_classmain_focus .lp_reccourse dt { width:286px; padding:15px 15px; color:#4f4e55; font-size:14px; font-weight:normal;}
+.lp_classmain_focus .lp_reccourse dt { width:286px; padding:12px 10px 13px 20px; color:#4f4e55; font-size:14px; font-weight:normal;}
 .lp_classmain_focus .lp_reccourse dd { width:54px;}
-.lp_classmain_focus .lp_reccourse dt p { color:#4f4e55; font-family:SimHei; font-size:18px; margin-bottom:15px; text-align:left;}
-.lp_classmain_focus .lp_reccourse dt strong { display:block; padding-bottom:10px;color:#4f4e55; font-weight:normal;}
+.lp_classmain_focus .lp_reccourse dt p { color:#4f4e55; font-family:SimHei; font-size:17px; margin-bottom:10px; text-align:left; line-height:1.3em;}
+.lp_classmain_focus .lp_reccourse dt strong { display:block; padding-bottom:5px;color:#4f4e55; font-weight:normal;}
 .lp_classmain_focus .rec_level{  height:30px; width:30px; padding:13px 12px; text-align:center;  font-family:'SimSun','宋体';background:#ffc601;color:#000;}
 .lp_classmain_focus  .rec_status #icons_ing { background-position:left top!important; width:24px!important; height:22px!important; margin-left:15px; margin-bottom:5px;}
 .lp_classmain_focus  .rec_status { padding-top:10px; height:47px;}
