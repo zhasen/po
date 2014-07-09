@@ -4,7 +4,7 @@
 
 /*首页banner*/
 .learn_path_focus  { height:333px; background:#2ba3d4;}
-.learn_path_focus .focus_bg { background:url(../images/bg_index_focus.png) no-repeat left top;display:block;  width:1058px; height:333px; margin:0 auto;}
+.learn_path_focus .focus_bg { background:url(/public/build/img/po/images/bg_index_focus.png) no-repeat left top;display:block;  width:1058px; height:333px; margin:0 auto;}
 .learn_path_focus .focus_bg  span { display:block; padding:54px 441px 25px;width:176px;}
 .learn_path_focus .focus_bg  p { font-family:'FZZXHJW'; text-align:center; font-size:30px; color:#fff; }
 
@@ -16,10 +16,10 @@
 .lp_study_plan dt a img {border:4px solid #fff; border-radius:90px; width:150px; height:150px; margin-bottom:10px;}
 
 
-.lp_icon { background:url(../images/lp_ico_arc.png) no-repeat; display:block; width:100px; height:100px; overflow:hidden;}
-.lp_bgs { background:url(../images/lp_bgs.png) no-repeat; display:block; overflow:hidden;}
-.lp_sicons { background:url(../images/lp_icons.png) no-repeat; display:block; overflow:hidden;}
-.lp_pbg { background:url(../images/lp_pagebg.png) no-repeat; display:block; overflow:hidden;}
+.lp_icon { background:url(/public/build/img/po/images/lp_ico_arc.png) no-repeat; display:block; width:100px; height:100px; overflow:hidden;}
+.lp_bgs { background:url(/public/build/img/po/images/lp_bgs.png) no-repeat; display:block; overflow:hidden;}
+.lp_sicons { background:url(/public/build/img/po/images/lp_icons.png) no-repeat; display:block; overflow:hidden;}
+.lp_pbg { background:url(/public/build/img/po/images/lp_pagebg.png) no-repeat; display:block; overflow:hidden;}
 
 .lp_studybg { background:#f9f9f9;}
 .lp_learn_tasks { margin-left:25px; padding-bottom:30px;}
@@ -39,7 +39,7 @@
 
 /*参加的班级列表*/
 .lp_class_list { margin-top:30px; padding-bottom:30px;}
-.lp_class_list li { background:url(../images/lp_bg_shadow.png) no-repeat; width:320px; height:154px; float:left; margin:5px 6px; cursor:pointer;}
+.lp_class_list li { background:url(/public/build/img/po/images/lp_bg_shadow.png) no-repeat; width:320px; height:154px; float:left; margin:5px 6px; cursor:pointer;}
 .lp_class_list .box { width:286px; height:113px; border:1px solid #81d6f6; border-radius:0;}
 .lp_class_list .ongoing{ background:#f9f9f9; opacity:1;}
 .lp_class_list .hasended { background:#3dc0f1; opacity:0.5; position:relative;}
@@ -73,7 +73,7 @@
 /*班级主页*/
 .lp_classmain_focus{ height:243px!important;}
 .lp_classmain_focus .focus_bg  { padding-top:60px; height:183px!important;}
-.lp_classmain_focus .lp_thisrec_c { background:url(../images/lp_sec_cbg.png) no-repeat; width:391px; height:151px; margin:0 auto;}
+.lp_classmain_focus .lp_thisrec_c { background:url(/public/build/img/po/images/lp_sec_cbg.png) no-repeat; width:391px; height:151px; margin:0 auto;}
 .lp_classmain_focus .lp_reccourse { width:370px; height:113px;background:#F9F9F9;}
 .lp_classmain_focus .lp_reccourse dt { width:286px; padding:12px 10px 13px 20px; color:#4f4e55; font-size:14px; font-weight:normal;}
 .lp_classmain_focus .lp_reccourse dd { width:54px;}
