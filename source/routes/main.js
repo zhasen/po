@@ -43,9 +43,14 @@ module.exports = function (app) {
     };
     app.get('/', indexPage);
 
-    app.get('/test', function (req, res, next) {
+    var getCurrentClass = function(req, res, next){
+        PageInput.i(req).put('currentClass', {id: 'xxx', name: '语文'});
+        next();
+    };
+
+    app.get('/test', getCurrentClass, function (req, res, next) {
         asseton(req, res);
-        var input = PageInput.i();
+        var input = PageInput.i(req);
         res.render('test', input);
     });
 
