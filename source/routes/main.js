@@ -27,7 +27,7 @@ module.exports = function (app) {
         var input = PageInput.i();
         input.user = {};
 
-        //var userid = 'xdf00228972'; // 模拟数据1 张洪伟 老师
+//        var userid = 'xdf00228972'; // 模拟数据1 张洪伟 老师
         var userid = 'xdf001000862'; // 模拟数据2 李梦晗 学员
 
         ixdf.userBasicData(userid, function (err, userData) {

@@ -73,6 +73,7 @@ Service.uniAPIInterface = function (param, controllername, methodname, callback)
  * {
  *      type: 老师2 学生1,
  *      data: 用户数据,
+ *      token: tch stu
  *      class6: 前六个班级的对象数组,
  * }
  */

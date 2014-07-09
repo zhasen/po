@@ -4,7 +4,7 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
 
     calendar.$ = $;
 
-    calendar.myRenderCalendar = function (userid) {
+    calendar.myRenderCalendar = function (userid, userType, schoolid, code) {
         $('#calendar').fullCalendar('destroy');
         $('#calendar').fullCalendar({
             theme: true,
@@ -24,7 +24,7 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
             maxTime: "24:00:00",
             slotDuration: '00:30:00',
             events: {
-                url: '/schedule-data?userid=' + userid,
+                url: '/schedule-data?userid=' + userid + '&userType=' + userType + '&schoolid=' + schoolid + '&code=' + code,
                 cache: false, // 正式启用时用 true，测试时用false
                 error: function () {
                     console.log('schedule-data:err');

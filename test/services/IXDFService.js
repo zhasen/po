@@ -106,6 +106,30 @@ exports.GetStudentLessonEntityList = function (test) {
     });
 }
 
+// 测试 GetClassEntity 接口：根据班号获取班级信息
+exports.GetClassEntity = function (test) {
+    ixdf.uniAPIInterface({
+        schoolid: 1,
+        classcode: 'YB02'
+    }, 'class', 'GetClassEntity', function (err, ret) {
+        console.info('TEST：GetClassEntity:' + JSON.stringify(ret) + "\n");
+        //console.info(ret);
+        test.done();
+    });
+}
+
+// 测试 GetCalendarEventListOfClass 接口：获取班级的日历数据列表
+exports.GetCalendarEventListOfClass = function (test) {
+    ixdf.uniAPIInterface({
+        schoolid: 9,
+        classCode: '07N105'
+    }, 'calendar', 'GetCalendarEventListOfClass', function (err, ret) {
+        console.info('TEST：GetCalendarEventListOfClass:' + JSON.stringify(ret) + "\n");
+        //console.info(ret);
+        test.done();
+    });
+}
+
 // 接口的使用，关键是对md5 key的正确生成。这里用来测试request和key的配合使用，王志鹏老师写的。
 exports.testKey = function (test) {
     var id = 'xdf00228972';
