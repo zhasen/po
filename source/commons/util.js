@@ -5,6 +5,21 @@ util.extend = function(obj, source) {
     }
     return obj;
 };
+util.extendAll = function(target, source){
+    for (var prop in source) {
+        if(typeof source[prop]=='object'){
+            if(typeof target[prop]!='object'){
+                target[prop] = {};
+            }
+            util.extendAll(target[prop], source[prop]);
+        }
+        else{
+            target[prop] = source[prop];
+
+        }
+    }
+    return target;
+};
 util.clone = function(source) {
     return util.extend({},source);
 };
@@ -23,6 +38,7 @@ util.result = function(object, property) {
 
 module.exports = {
     extend: util.extend,
+    extendAll: util.extendAll,
     clone: util.clone,
     defaults: util.defaults,
     result: util.result
