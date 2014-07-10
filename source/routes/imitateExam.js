@@ -7,10 +7,6 @@ module.exports = function (app) {
     var mode = app.get('env') || 'development';
     var asseton = require('../middlewares/asseton')(mode);
 
-
-    auth.bind(app);//use all authentication routing and handlers binding here
-
-
     app.get('/imitateExam', function (req, res, next) {
         var url = {
             "method":"getXpoListByClassCode",
