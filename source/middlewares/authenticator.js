@@ -35,7 +35,8 @@ Authenticator.prototype = {
         };
     },
     saveReturnUrl: function(req){
-        req.session[this.returnUrlKey] = req.originalUrl;
+        var originalUrl = req.protocol + '://' + req.get('host') + (this.context=='/' ? '' : this.context) + req.originalUrl;
+        req.session[this.returnUrlKey] = originalUrl;
     },
     redirectReturnUrl: function(req, res){
         var returnUrl = req.session[this.returnUrlKey];
