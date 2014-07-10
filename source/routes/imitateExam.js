@@ -14,6 +14,7 @@ module.exports = function (app) {
             "ucode":"BJ986146",
             "sid":1
         };
+
         /*asseton(req, res);
         var input = PageInput.i().enums();
         input.user = {};*/
