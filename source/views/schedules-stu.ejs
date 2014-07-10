@@ -7,7 +7,7 @@
     <input type="hidden" id="userType" value="<%= userType %>">
     <input type="hidden" id="schoolid" value="<%= userData.SchoolId %>">
     <input type="hidden" id="code" value="<%= userData.Code %>">
-    <ul class="nav nav-tabs" id="classes-schedules-stu-tab">
+    <ul class="nav nav-tabs" id="schedules-stu-tab">
         <li><a href="#myclass" data-toggle="tab" data-bypass>
                 我的班级
             </a></li>
@@ -18,10 +18,10 @@
 
     <div class="tab-content">
         <div class="tab-pane" id="myclass">
-            <% include _class-list.ejs %>
+            <% include s-class-list.ejs %>
         </div>
         <div class="tab-pane" id="myschedule">
-            <% include _course-schedule.ejs %>
+            <% include s-schedules.ejs %>
         </div>
     </div>
 </div>
