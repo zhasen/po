@@ -42,7 +42,7 @@
         <ul class="lp_class_list fix">
             <% classes.forEach(function(clas){ %>
             <li>
-                <a href="class" data-bypass>
+                <a href="class-<%= clas.SchoolId %>-<%= clas.ClassCode %>" data-bypass>
                     <% if(clas.ClassStatus == 1 || clas.ClassStatus == 2){ %>
                     <dl class="box hasended">
                         <% } else { %>
