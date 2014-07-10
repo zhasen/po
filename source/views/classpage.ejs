@@ -1,20 +1,22 @@
 <%- layout('layout') %>
 
+<input id="classcode" type="hidden" value="<%= classcode %>">
+
 <!--banner start-->
 <div class="learn_path_focus lp_classmain_focus">
     <div class="focus_bg">
         <div class="lp_thisrec_c">
             <dl class="lp_reccourse">
                 <dt class="f_l">
-                <p><a href="#">托福基础班</a></p>
-                <strong class="fs_14">TF123</strong>
-                2041.12.12-2041.12.12
+                <p><a href="javascript:void(0);"><%= classData.ClassName %></a></p>
+                <strong class="fs_14"><%= classData.ClassCode %></strong>
+                <%= classData.BeginDate %>-<%= classData.EndDate %>
                 </dt>
                 <dd class="f_r">
                     <div class="rec_level fs_14">预备</div>
                     <div class="rec_status fc_3dc">
                         <font class="lp_sicons" id="icons_ing"></font>
-                        上课中
+                        <%= classData.ClassStatus %>
                     </div>
                 </dd>
             </dl>
@@ -29,10 +31,15 @@
 <!--课程列表start-->
 <div class="lpath_page">
     <ul class="lp_cousreplaylist fix">
-        <li><a href="schedule" data-bypass class="schedule"><span class="schedule_title lp_icon"></span><b>课表</b><font>schedule</font></a></li>
+        <li><a href="schedule" data-bypass class="schedule"><span class="schedule_title lp_icon"></span><b>课表</b><font>schedule</font></a>
+        </li>
         <!--<li><a href="#" class="on_line lp_pbg"><div class="mark"></div><span class="oline_title lp_icon"></span><b class="martk_text">在线练习</b><font>test  on-line</font><strong class="notice">9</strong></a></li>-->
-        <li><a href="interaction-class" data-bypass class="interaction"><span class="inter_title lp_icon"></span><b>互动课堂</b><font>interaction</font></a></li>
-        <li><a href="imitateExam" data-bypass class="practice lp_pbg"><div class="mark"></div><span class="practice_title lp_icon"></span><b class="martk_text">模考</b><font>practice test</font></a></li>
+        <li><a href="interaction-class" data-bypass class="interaction"><span
+                        class="inter_title lp_icon"></span><b>互动课堂</b><font>interaction</font></a></li>
+        <li><a href="imitateExam" data-bypass class="practice lp_pbg">
+                <div class="mark"></div>
+                <span class="practice_title lp_icon"></span><b class="martk_text">模考</b><font>practice test</font></a>
+        </li>
         <!--<li><a href="#" class="class"><span class="class_title lp_icon"></span><b>听课</b><font>class</font></a></li>-->
         <!--<li><a href="#" class="test"><span class="test_title lp_icon"></span><b>测试</b><font>test</font></a></li>-->
         <!--<li><a href="#" class="material lp_pbg"><div class="mark"></div><span class="material_title lp_icon"></span><b class="martk_text">资料</b><font>material</font></a></li>-->

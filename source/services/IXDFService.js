@@ -62,6 +62,59 @@ Service.uniAPIInterface = function (param, controllername, methodname, callback)
             callback(null, ret);
         }
     });
-}
+};
+
+/**
+ * 获取用户基础数据：学员/老师基本信息、学员/老师的前六个班级
+ * 每个页面都要调一次
+ * @param userid 用户ID
+ * @param callback 回调函数
+ * @return userData
+ * {
+ *      type: 老师2 学生1,
+ *      data: 用户数据,
+ *      token: tch stu
+ *      class6: 前六个班级的对象数组,
+ * }
+ */
+Service.userBasicData = function (userid, callback) {
+    var userData = {};
+    var o = this;
+    o.uniAPIInterface({userid: userid}, 'user', 'GetUserTypeByUserId', function (err, ret) { // 获取用户身份
+        userData.type = ret.Data.Type; // 用户类型：老师2 ？学生1 ？
+        if (userData.type == 2) {
+            var controlername = 'teacher';
+            var methodname = 'GetTeacherByUserId';
+            userData.token = 'tch';
+        } else {
+            var controlername = 'student';
+            var methodname = 'GetDefaultStudentByUserId';
+            userData.token = 'stu';
+        }
+        o.uniAPIInterface({userid: userid}, controlername, methodname, function (err, ret) { // 获取用户数据
+            userData.data = ret.Data;
+            //console.info(userData);
+            // 获取前六个班级
+            var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 6};
+            var controllername = 'class';
+            var methodname = '', viewname = '', token = '';
+            if (userData.type == 2) {
+                param.schoolid = userData.data.nSchoolId;
+                param.teachercode = userData.data.sCode;
+                methodname = 'GetClassListFilterByTeacherCode';
+            } else {
+                param.schoolid = userData.data.SchoolId;
+                param.studentcode = userData.data.Code;
+                methodname = 'GetClassListFilterByStudentCode';
+            }
+            o.uniAPIInterface(param, controllername, methodname, function (err, ret) {
+                // console.info(ret)
+                userData.class6 = ret.Data;
+                callback(err, userData);
+            })
+        });
+    });
+};
+
 
 module.exports = Service;
