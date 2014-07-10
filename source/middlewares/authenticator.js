@@ -29,7 +29,7 @@ Authenticator.prototype = {
         req.session[this.userKey] = null;
     },
     setAuthentication: function(req, user){
-        req.session[this.userKey] = {
+        return req.session[this.userKey] = {
             id: user.id,
             displayName: user.displayName
         };
@@ -62,6 +62,9 @@ Authenticator.prototype = {
     oauthCallback: function(req, res, next){
         this.oauthClient.getAccessToken(req, res, next);
     },
+    afterLogin: function(user, next){
+        next();
+    },
     signUpOrIn: function(req, res, next){
         var loginInfo = req.oauth;
         var auth = this;
@@ -85,13 +88,17 @@ Authenticator.prototype = {
                         throw err; //TODO:
                         return;
                     }
-                    auth.setAuthentication(req, user);
-                    auth.redirectReturnUrl(req, res);
+                    var userInfo = auth.setAuthentication(req, user);
+                    auth.afterLogin(userInfo, function(){
+                        auth.redirectReturnUrl(req, res);
+                    });
                 });
             }
             else{
-                auth.setAuthentication(req, user);
-                auth.redirectReturnUrl(req, res);
+                var userInfo = auth.setAuthentication(req, user);
+                auth.afterLogin(userInfo, function(){
+                    auth.redirectReturnUrl(req, res);
+                });
             }
         });
     },

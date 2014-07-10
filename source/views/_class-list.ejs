@@ -22,36 +22,17 @@
     <div>
         <div style="float: left;">我的班级</div>
         <div style="float: right;">
-            <input type="text" id="search-class" value="">&nbsp;&nbsp;<span style="cursor: pointer;">搜索班级</span>
+            <input type="text" id="search-class" value="">&nbsp;&nbsp;<a href="" onclick="this.href = '?s=' + document.getElementById('search-class').value;" data-bypass>搜索班级</a>
         </div>
         <div style="clear: both"></div>
     </div>
     <div style="border:1px #CCCCCC solid;">
         <ul class='myul'>
+            <% classlist.forEach(function(clas){ %>
             <li class='myli'>
-                <div><h4><a href="class" data-bypass>开发测试班级</a></h4></div>
+                <div><h4><a href="class-<%= clas.SchoolId %>-<%= clas.ClassCode %>" data-bypass><%= clas.ClassName %></a></h4></div>
             </li>
-            <li class='myli'>
-                <div><h4>第一条</h4></div>
-            </li>
-            <li class='myli'>
-                <div><h4>第二条</h4></div>
-            </li>
-            <li class='myli'>
-                <div><h4>第三条</h4></div>
-            </li>
-            <li class='myli'>
-                <div><h4>第四条<br/>第四条</h4></div>
-            </li>
-            <li class='myli'>
-                <div><h4>第五条</h4></div>
-            </li>
-            <li class='myli'>
-                <div><h4>第六条</h4></div>
-            </li>
-            <li class='myli'>
-                <div><h4>第七条<br/>第七条</h4></div>
-            </li>
+            <% }); %>
         </ul>
     </div>
 
