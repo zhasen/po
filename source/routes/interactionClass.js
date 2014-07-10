@@ -7,7 +7,7 @@ var api = require('../../settings').api;
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
     var asseton = require('../middlewares/asseton')(mode);
-    
+
     app.get('/interaction-class', function (req, res, next) {
         asseton(req, res);
         var url = {
@@ -19,7 +19,6 @@ module.exports = function (app) {
         var input = PageInput.i().enums();
         input.user = {};
         var param = api.imitateExam + commonService.getUrl(url);
-
         res.render('interaction-class', input);
 //        commonService.request(param,function(data){
 //            dataTemp ={
