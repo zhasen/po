@@ -7,7 +7,7 @@ module.exports = function (app) {
     var mode = app.get('env') || 'development';
     var asseton = require('../middlewares/asseton')(mode);
 
-    app.get('/classes-schedules-stu-:tabname', function (req, res, next) {
+    app.get('/schedules-stu-:tabname', function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i();
         input.user = req.session.user;
@@ -30,12 +30,12 @@ module.exports = function (app) {
                 input.userid = userid; // 用户id
                 input.userType = userData.type; // 用户类型
                 input.userData = userData.data; // 用户数据
-                res.render('classes-schedules-stu', input);
+                res.render('schedules-stu', input);
             })
         });
     });
 
-    app.get('/classes-schedules-tch-:tabname', function (req, res, next) {
+    app.get('/schedules-tch-:tabname', function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i();
         input.user = req.session.user;
@@ -58,7 +58,7 @@ module.exports = function (app) {
                 input.userid = userid; // 用户id
                 input.userType = userData.type; // 用户类型
                 input.userData = userData.data; // 用户数据
-                res.render('classes-schedules-tch', input);
+                res.render('schedules-tch', input);
             })
         });
     });
@@ -80,9 +80,9 @@ module.exports = function (app) {
             schoolid: req.params.schoolid,
             classcode: req.params.classcode
         }, 'class', 'GetClassEntity', function (err, ret) {
-            //console.info(ret);
+            // console.info(ret);
             input.classData = ret.Data;
-            res.render('classpage', input);
+            res.render('class-page', input);
         });
     });
 
