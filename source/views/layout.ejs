@@ -34,7 +34,7 @@
                             <span><font></font>我的班级</span>
                         </div>
                         <div class="sub_menu">
-                            <% page.class6.slice(0, 3).forEach(function(clas){%>
+                            <% page.myClass.slice(0, 3).forEach(function(clas){%>
                                 <a href="class-<%= clas.SchoolId %>-<%= clas.ClassCode %>"><%=clas.ClassName%></a>
                             <% });%>
                             <a href="#">查看所有班级</a>

@@ -159,7 +159,7 @@ Service.userBasicData = function (userid, callback) {
  * }
  * callback 回调函数
  */
-Service.class6 = function (p, callback) {
+Service.myClass = function (p, callback) {
     var param = {schoolid: p.schoolid, classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 6};
     var methodname = '';
     if (p.type == 2) {
