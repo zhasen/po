@@ -151,7 +151,7 @@ Service.userBasicData = function (userid, callback) {
 
 /**
  * 获取学员/老师的前六个班级
- * @param param
+ * @param p
  * {
  *      type 用户类型 老师 2 学员 1
  *      schoolid 学员或老师所在的学校ID
@@ -171,12 +171,12 @@ Service.myClass = function (p, callback) {
     }
     this.uniAPIInterface(param, 'class', methodname, function (err, ret) {
         console.info(ret)
-        var class6 = ret.Data;
-        class6.forEach(function (c) {
+        var myClass = ret.Data;
+        myClass.forEach(function (c) {
             c.poBeginDate = time.format(time.netToDate(c.BeginDate), 'yyyy.MM.dd');
             c.poEndDate = time.format(time.netToDate(c.EndDate), 'yyyy.MM.dd');
         });
-        callback(err, class6);
+        callback(err, myClass);
     })
 };
 

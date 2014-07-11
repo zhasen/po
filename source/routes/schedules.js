@@ -1,6 +1,7 @@
 var logger = require('../commons/logging').logger;
 var PageInput = require('./common/PageInput');
 var util = require('util');
+var time = require('../../source/commons/time');
 var ixdf = require('../services/IXDFService');
 
 module.exports = function (app) {
@@ -21,73 +22,71 @@ module.exports = function (app) {
         });
     };
 
+    // 获取每个学员/老师的全部班级，用于班级下拉框
+    var getAllClass = function (reg, res, next) {
+    }
+
     app.get('/schedules-stu-:tabname', getMyClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
-        input.user = req.session.user;
+        input.user = input.page.user;
         input.tabname = req.params.tabname; // 开启哪个标签
-        var search = req.query.s || ''; // 需要做安全过滤处理
+        input.userId = input.user.id; // 用户id
+        input.userType = input.user.type || 1; // 用户类型
+        input.userSchoolid = input.user.schoolid; // 用户所在学校
+        input.userCode = input.user.code; // 学员code
+        input.searchkey = req.query.s || ''; // todo: 需要做安全过滤处理
 
-        var userid = 'xdf001000862'; // 模拟数据 李梦晗 学员 // todo: 从session中取
-        ixdf.userBasicData(userid, function (err, userData) {
-            ixdf.uniAPIInterface({ // 根据学生编号获取班级列表
-                schoolid: userData.data.SchoolId,
-                studentcode: userData.data.Code,
-                classcodeorname: search,
-                classstatus: 3,
-                pageindex: 1,
-                pagesize: 9
-            }, 'class', 'GetClassListFilterByStudentCode', function (err, ret) {
-                // console.info(ret);
-                input.classlist = ret.Data; // 班级列表数据
-                input.classes = userData.class6; // layout中的班级列表
-                input.userid = userid; // 用户id
-                input.userType = userData.type; // 用户类型
-                input.userData = userData.data; // 用户数据
-                res.render('schedules-stu', input);
-            })
-        });
+        // 根据学生编号获取班级列表
+        ixdf.uniAPIInterface({
+            schoolid: input.user.schoolid,
+            studentcode: input.user.code,
+            classcodeorname: input.searchkey,
+            classstatus: 3,
+            pageindex: 1,
+            pagesize: 9
+        }, 'class', 'GetClassListFilterByStudentCode', function (err, ret) {
+            // console.info(ret);
+            input.classlist = ret.Data; // 班级列表数据
+            res.render('schedules-stu', input);
+        })
     });
 
     app.get('/schedules-tch-:tabname', getMyClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
-        input.user = req.session.user;
+        input.user = input.page.user;
         input.tabname = req.params.tabname; // 开启哪个标签
-        var search = req.query.s || ''; // 需要做安全过滤处理
+        input.userid = input.user.id; // 用户id
+        input.userType = input.user.type || 2; // 老师类型
+        input.userSchoolid = input.user.schoolid; // 用户所在学校
+        input.userCode = input.user.code; // 学员code
+        input.searchkey = req.query.s || ''; // todo: 需要做安全过滤处理
 
-        var userid = 'xdf00228972'; // 模拟数据 张洪伟 老师 // todo: 从session中取
-        ixdf.userBasicData(userid, function (err, userData) {
-            ixdf.uniAPIInterface({ // 根据教师编号获取班级列表
-                schoolid: userData.data.nSchoolId,
-                teachercode: userData.data.sCode,
-                classcodeorname: search,
-                classstatus: 3,
-                pageindex: 1,
-                pagesize: 9
-            }, 'class', 'GetClassListFilterByTeacherCode', function (err, ret) {
-                // console.info(ret);
-                input.classlist = ret.Data; // 班级列表数据
-                input.classes = userData.class6; // layout中的班级列表
-                input.userid = userid; // 用户id
-                input.userType = userData.type; // 用户类型
-                input.userData = userData.data; // 用户数据
-                res.render('schedules-tch', input);
-            })
-        });
+        // 根据教师编号获取班级列表
+        ixdf.uniAPIInterface({
+            schoolid: input.user.schoolid,
+            teachercode: input.user.code,
+            classcodeorname: input.searchkey,
+            classstatus: 3,
+            pageindex: 1,
+            pagesize: 9
+        }, 'class', 'GetClassListFilterByTeacherCode', function (err, ret) {
+            // console.info(ret);
+            input.classlist = ret.Data; // 班级列表数据
+            res.render('schedules-tch', input);
+        })
     });
 
     app.get('/schedule', getMyClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
-        input.user = req.session.user;
         res.render('schedule', input);
     });
 
     app.get('/class-:schoolid-:classcode', getMyClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
-        input.user = req.session.user;
         input.classcode = req.params.classcode;
         input.schoolid = req.params.schoolid;
         ixdf.uniAPIInterface({ // 通过classcode调取班级信息
@@ -95,7 +94,10 @@ module.exports = function (app) {
             classcode: req.params.classcode
         }, 'class', 'GetClassEntity', function (err, ret) {
             // console.info(ret);
-            input.classData = ret.Data;
+            var classData = ret.Data;
+            classData.poBeginDate = time.format(time.netToDate(classData.BeginDate), 'yyyy.MM.dd');
+            classData.poEndDate = time.format(time.netToDate(classData.EndDate), 'yyyy.MM.dd');
+            input.classData = classData;
             res.render('class-page', input);
         });
     });
@@ -128,8 +130,6 @@ module.exports = function (app) {
             }
             var methodname = 'GetCalendarEventListOfTeacher';
         }
-        //console.info('param:');
-        //console.info(param);
         ixdf.uniAPIInterface(param, 'calendar', methodname, function (err, ret) {
             if (err) {
                 logger.error(err);
@@ -137,7 +137,6 @@ module.exports = function (app) {
                 return;
             }
             //console.info('calendar:' + JSON.stringify(ret));
-            //console.info(ret);
             var events = [
                 {
                     id: 111,

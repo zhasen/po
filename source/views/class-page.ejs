@@ -10,13 +10,19 @@
                 <dt class="f_l">
                 <p><a href="javascript:void(0);"><%= classData.ClassName %></a></p>
                 <strong class="fs_14"><%= classData.ClassCode %></strong>
-                <%= classData.BeginDate %>-<%= classData.EndDate %>
+                <%= classData.poBeginDate %>-<%= classData.poEndDate %>
                 </dt>
                 <dd class="f_r">
                     <div class="rec_level fs_14">预备</div>
                     <div class="rec_status fc_3dc">
                         <font class="lp_sicons" id="icons_ing"></font>
-                        <%= classData.ClassStatus %>
+                        <% if (classData.ClassStatus == 1) { %>
+                        已结课
+                        <% } else if (classData.ClassStatus == 2) { %>
+                        未开课
+                        <% } else if (classData.ClassStatus == 0) { %>
+                        上课中
+                        <% } %>
                     </div>
                 </dd>
             </dl>

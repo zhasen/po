@@ -22,7 +22,8 @@
     <div>
         <div style="float: left;">我的班级</div>
         <div style="float: right;">
-            <input type="text" id="search-class" value="">&nbsp;&nbsp;<a href="" onclick="this.href = '?s=' + document.getElementById('search-class').value;" data-bypass>搜索班级</a>
+            <input type="text" id="search-class" value="<%= searchkey %>">&nbsp;&nbsp;
+            <a href="" onclick="this.href = '?s=' + document.getElementById('search-class').value;" data-bypass>搜索班级</a>
         </div>
         <div style="clear: both"></div>
     </div>
