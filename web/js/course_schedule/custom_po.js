@@ -23,6 +23,7 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
             minTime: "06:00:00",
             maxTime: "24:00:00",
             slotDuration: '00:30:00',
+            axisFormat: 'HH',
             events: {
                 url: '/schedule-data?userid=' + userid + '&userType=' + userType + '&schoolid=' + schoolid + '&code=' + code,
                 cache: false, // 正式启用时用 true，测试时用false
@@ -30,13 +31,14 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
                     console.log('schedule-data:err');
                 }
             },
+            timeFormat: 'HH:mm',
             loading: function (bool) {
                 //$('#loading').toggle(bool);
-            },
-            eventColor: '#378006',
+            }
+            /*eventColor: '#378006',
             eventBorderColor: 'red',
             eventBackgroundColor: 'green',
-            eventTextColor: 'blue'
+            eventTextColor: 'blue'*/
         });
     }
 

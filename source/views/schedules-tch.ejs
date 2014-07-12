@@ -3,10 +3,10 @@
 
 <div style="width:1100px; margin: 10px auto;">
     <input type="hidden" id="tabname" value="<%= tabname %>">
-    <input type="hidden" id="userid" value="<%= userid %>">
-    <input type="hidden" id="userType" value="<%= userType %>">
-    <input type="hidden" id="nSchoolId" value="<%= userSchoolid %>">
-    <input type="hidden" id="sCode" value="<%= userCode %>">
+    <input type="hidden" id="userid" value="<%= page.user.id %>">
+    <input type="hidden" id="userType" value="<%= page.user.type || 2 %>">
+    <input type="hidden" id="nSchoolId" value="<%= page.user.schoolid %>">
+    <input type="hidden" id="sCode" value="<%= page.user.code %>">
     <ul class="nav nav-tabs" id="schedules-tch-tab">
         <li><a href="#my-class" data-toggle="tab" data-bypass>
                 我的班级

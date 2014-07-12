@@ -10,7 +10,6 @@ module.exports = function (app) {
 
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
-
         // 测试数据，勿删除，等登录页面做好并打通后再删除
         req.session.user = { id: 'xdf001000862', displayName: '李梦晗', type: 1, code: 'BJ986146', schoolid: 1 }; // 学员
         //req.session.user = { id: 'xdf00228972', displayName: '张洪伟', type: 2, code: 'BM0001', schoolid: 1 }; // 老师
@@ -23,27 +22,36 @@ module.exports = function (app) {
     };
 
     // 获取每个学员/老师的全部班级，用于班级下拉框
-    var getAllClass = function (reg, res, next) {
-    }
-
-    app.get('/schedules-stu-:tabname', getMyClass, function (req, res, next) {
-        asseton(req, res);
+    var getAllClass = function (req, res, next) {
         var input = PageInput.i(req);
-        input.user = input.page.user;
-        input.tabname = req.params.tabname; // 开启哪个标签
-        input.userId = input.user.id; // 用户id
-        input.userType = input.user.type || 1; // 用户类型
-        input.userSchoolid = input.user.schoolid; // 用户所在学校
-        input.userCode = input.user.code; // 学员code
-        input.searchkey = req.query.s || ''; // todo: 需要做安全过滤处理
-
-        // 根据学生编号获取班级列表
+        // 根据学生/老师Code获取全部班级列表
         ixdf.uniAPIInterface({
-            schoolid: input.user.schoolid,
-            studentcode: input.user.code,
-            classcodeorname: input.searchkey,
+            schoolid: input.page.user.schoolid,
+            studentcode: input.page.user.code,
+            classcodeorname: '',
             classstatus: 3,
             pageindex: 1,
+            pagesize: 9999
+        }, 'class', 'GetClassListFilterByStudentCode', function (err, ret) {
+            // console.info(ret);
+            PageInput.i(req).put('myAllClass', ret.Data); // 班级全部列表数据
+            next();
+        })
+    }
+
+    app.get('/schedules-stu-:tabname-:page', getMyClass, getAllClass, function (req, res, next) {
+        asseton(req, res);
+        var input = PageInput.i(req);
+        input.tabname = req.params.tabname; // 开启哪个标签
+        input.searchkey = req.query.s || ''; // todo: 需要做安全过滤处理
+
+        // 根据学生编号获取班级列表，有分页
+        ixdf.uniAPIInterface({
+            schoolid: input.page.user.schoolid,
+            studentcode: input.page.user.code,
+            classcodeorname: input.searchkey,
+            classstatus: 3,
+            pageindex: req.params.page,
             pagesize: 9
         }, 'class', 'GetClassListFilterByStudentCode', function (err, ret) {
             // console.info(ret);
@@ -52,24 +60,19 @@ module.exports = function (app) {
         })
     });
 
-    app.get('/schedules-tch-:tabname', getMyClass, function (req, res, next) {
+    app.get('/schedules-tch-:tabname', getMyClass, getAllClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
-        input.user = input.page.user;
         input.tabname = req.params.tabname; // 开启哪个标签
-        input.userid = input.user.id; // 用户id
-        input.userType = input.user.type || 2; // 老师类型
-        input.userSchoolid = input.user.schoolid; // 用户所在学校
-        input.userCode = input.user.code; // 学员code
         input.searchkey = req.query.s || ''; // todo: 需要做安全过滤处理
 
         // 根据教师编号获取班级列表
         ixdf.uniAPIInterface({
-            schoolid: input.user.schoolid,
-            teachercode: input.user.code,
+            schoolid: input.page.user.schoolid,
+            teachercode: input.page.user.code,
             classcodeorname: input.searchkey,
             classstatus: 3,
-            pageindex: 1,
+            pageindex: req.params.page,
             pagesize: 9
         }, 'class', 'GetClassListFilterByTeacherCode', function (err, ret) {
             // console.info(ret);
