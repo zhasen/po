@@ -33,12 +33,14 @@ module.exports = function (app) {
             pageindex: 1,
             pagesize: 9999
         }, 'class', 'GetClassListFilterByStudentCode', function (err, ret) {
-            // console.info(ret);
+//            console.info('getAllClass: ');
+//            console.info(ret);
             PageInput.i(req).put('myAllClass', ret.Data); // 班级全部列表数据
             next();
         })
     }
 
+    // 学生-所有班级、所有课表页面
     app.get('/schedules-stu-:tabname-:page', getMyClass, getAllClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
@@ -60,7 +62,8 @@ module.exports = function (app) {
         })
     });
 
-    app.get('/schedules-tch-:tabname', getMyClass, getAllClass, function (req, res, next) {
+    // 老师-所有班级、所有课表页面
+    app.get('/schedules-tch-:tabname-:page', getMyClass, getAllClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.tabname = req.params.tabname; // 开启哪个标签
@@ -81,21 +84,14 @@ module.exports = function (app) {
         })
     });
 
-    app.get('/schedule', getMyClass, function (req, res, next) {
-        asseton(req, res);
-        var input = PageInput.i(req);
-        res.render('schedule', input);
-    });
-
+    // 班级主页-首页
     app.get('/class-:schoolid-:classcode', getMyClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classcode = req.params.classcode;
         input.schoolid = req.params.schoolid;
-        ixdf.uniAPIInterface({ // 通过classcode调取班级信息
-            schoolid: req.params.schoolid,
-            classcode: req.params.classcode
-        }, 'class', 'GetClassEntity', function (err, ret) {
+        // 通过classcode调取班级信息
+        ixdf.uniAPIInterface({schoolid: req.params.schoolid, classcode: req.params.classcode}, 'class', 'GetClassEntity', function (err, ret) {
             // console.info(ret);
             var classData = ret.Data;
             classData.poBeginDate = time.format(time.netToDate(classData.BeginDate), 'yyyy.MM.dd');
@@ -103,6 +99,13 @@ module.exports = function (app) {
             input.classData = classData;
             res.render('class-page', input);
         });
+    });
+
+    // 班级主页-课表页
+    app.get('/schedule', getMyClass, getAllClass, function (req, res, next) {
+        asseton(req, res);
+        var input = PageInput.i(req);
+        res.render('schedule', input);
     });
 
     /**
@@ -113,56 +116,49 @@ module.exports = function (app) {
         var userid = req.query.userid; // eg: xdf001000862
         var start = req.query.start; // eg: 2014-07-07
         var end = req.query.end; // eg: 2014-07-14
-
         var userType = req.query.userType; // 用户类型 学员 1 老师 2
+
+        var param = {}, methodname = '';
         if (userType == 1) { // 学员参数
-            var param = {
+            param = {
                 schoolid: req.query.schoolid,
                 studentCode: req.query.code,
                 beginDate: start,
                 endDate: end
             }
-            var methodname = 'GetStudentLessonEntityList';
+            methodname = 'GetStudentLessonEntityList';
         } else if (userType == 2) { // 老师参数
-            var param = {
+            param = {
                 schoolid: req.query.schoolid,
                 teachercode: req.query.code,
                 language: 1,
                 fromDay: start,
                 toDay: end
             }
-            var methodname = 'GetCalendarEventListOfTeacher';
+            methodname = 'GetCalendarEventListOfTeacher';
         }
+//        console.info('param:' + JSON.stringify(param));
         ixdf.uniAPIInterface(param, 'calendar', methodname, function (err, ret) {
             if (err) {
                 logger.error(err);
                 res.json(500, err);
                 return;
             }
-            //console.info('calendar:' + JSON.stringify(ret));
-            var events = [
-                {
-                    id: 111,
-                    title: '初中英语2600词汇精品班',
-                    start: '2014-07-11T09:00:00', // todo: net时间需要转成moment时间
-                    end: '2014-07-11T12:00:00'
-                },
-                {
-                    id: 112,
-                    title: '听说读写二级精华暑假走读精品小班',
-                    start: '2014-07-10T14:00:00', // todo: net时间需要转成moment时间
-                    end: '2014-07-10T16:00:00'
-                }
-            ];
-            /*ret.Data.forEach(function (c) {
-             events.push({
-             id: c.Id, // eg: 6 ?
-             title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
-             start: '2014-07-10T16:00:00', // todo: net时间需要转成moment时间
-             end: '2014-07-11T12:30:00'
-             });
-             return;
-             });*/
+//            console.info('calendar:' + JSON.stringify(ret.Data));
+//            console.info(ret.Data.length);
+            var events = [];
+            ret.Data.forEach(function (c) {
+//                console.info(c);
+                events.push({
+                    id: c.Id, // eg: 60324222
+                    title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
+                    start: c.BeginDate, // eg: 2013-01-23 00:00:00
+                    end: c.EndDate // eg: 2013-01-23 00:00:00
+                });
+            });
+//            console.info('schedule-data: ');
+//            console.info('schedule-data-event:');
+//            console.info(events);
             res.json(events);
         });
     });
@@ -171,6 +167,7 @@ module.exports = function (app) {
      * 根据整理课表数据并下载
      */
     app.get('/schedule-download', function (req, res, next) {
+
         res.download('public/upload/schedule/example.pdf');
     });
 

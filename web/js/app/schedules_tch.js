@@ -7,15 +7,15 @@ define(['jQuery', 'Bootstrap', '../course_schedule/custom_po'],
         var sCode = $('#sCode').val();
 
         var tabname = $('#tabname').val();
-        if (tabname == 'myclass') {
+        if (tabname == 'class') {
             $('#schedules-tch-tab li:eq(0) a').tab('show'); // 默认显示第一个标签
-        } else if (tabname == 'myschedule') {
+        } else if (tabname == 'schedule') {
             $('#schedules-tch-tab li:eq(1) a').tab('show'); // 默认显示第二个标签
             calendar.myRenderCalendar(userid, userType, nSchoolId, sCode);
         }
 
         $('#schedules-tch-tab a[data-toggle="tab"]').on('shown', function (e) {
-            if (e.target.hash == '#myschedule') {
+            if (e.target.hash == '#schedule') {
                 calendar.myRenderCalendar(userid, userType, nSchoolId, sCode);
             }
         });

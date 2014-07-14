@@ -55,10 +55,13 @@ Service.uniAPIInterface = function (param, controllername, methodname, callback)
         form: p
     }, function (err, resp, ret) {
         if (err) {
+            console.info('error');
             var errMsg = 'Fail in ' + methodname + ' API: ' + err.message;
             logger.error(errMsg);
             callback(new Error(errMsg), null);
         } else {
+            /*console.info('uniAPIInterface:');
+            console.info(ret);*/
             ret = JSON.parse(ret);
             callback(null, ret);
         }
@@ -81,11 +84,11 @@ Service.uniAPIInterface = function (param, controllername, methodname, callback)
          IdCard: '1234567890',
          Gender: 2,
          Email: 'i@xdf.cn',
-         Address: '医大',
-         PostCode: '',
-         Mobile: 'k0E4Xdv/4/eJTq8Pij4coA==',
-         DeCodeMobile: '13777777777'
-     }
+ Address: '医大',
+ PostCode: '',
+ Mobile: 'k0E4Xdv/4/eJTq8Pij4coA==',
+ DeCodeMobile: '13777777777'
+ }
  *  老师数据示例
  *   {
          nSchoolId: 1,
@@ -97,37 +100,37 @@ Service.uniAPIInterface = function (param, controllername, methodname, callback)
          sMajor: null,
          sPhone: '13777777777',
          sEmail: 'jinxin@xdf.cn',
-         dtBirthday: null,
-         nType: null,
-         nID: 40,
-         sLoginPass: 'NFFyY09VbTZXYXUrVnVCWDhnK0lQZz09',
-         nTeacherType: null,
-         sDeptCode: 'DPBJ001',
-         dtModify: '2012-09-13 21:06:33',
-         SyncDate: '2012-09-13 21:17:29',
-         nInUsed: 1,
-         UserID: 'xdf00228972',
-         Subject: '托福阅读/GMAT阅读',
-         Intro: '北京师范大学英语文学博士，新东方教育科技集团北美项目全国推广管理中心主任。教授过各类英美文学等英语专业课程，特别对英语阅读及写作课程有深入的研究，2001年加盟北京新东方学校，教学激情、幽默、善于把零散的考点总结地令人发指般的清晰。',
-         Motto: null,
-         LogoUrl: 'http://bj.xdf.cn/bj_static/images/teacher/beimei/zhanghongwei.jpg',
-         Pinyin: 'ZhangHongWei',
-         EnglishName: '',
-         NickName: '',
-         Nationality: '中国',
-         BirthAdress: '',
-         Favorite: '',
-         CompanyEmail: null,
-         Quotes: '',
-         NewLogoUrl: '2011/20110518/BM000120110518.jpg',
-         IsImport: '1',
-         IsSearchShow: true,
-         Teachingability: null,
-         TeacherSort: 13994,
-         sCourseCode: null,
-         bValid: true,
-         Id: 13894
-     }
+ dtBirthday: null,
+ nType: null,
+ nID: 40,
+ sLoginPass: 'NFFyY09VbTZXYXUrVnVCWDhnK0lQZz09',
+ nTeacherType: null,
+ sDeptCode: 'DPBJ001',
+ dtModify: '2012-09-13 21:06:33',
+ SyncDate: '2012-09-13 21:17:29',
+ nInUsed: 1,
+ UserID: 'xdf00228972',
+ Subject: '托福阅读/GMAT阅读',
+ Intro: '北京师范大学英语文学博士，新东方教育科技集团北美项目全国推广管理中心主任。教授过各类英美文学等英语专业课程，特别对英语阅读及写作课程有深入的研究，2001年加盟北京新东方学校，教学激情、幽默、善于把零散的考点总结地令人发指般的清晰。',
+ Motto: null,
+ LogoUrl: 'http://bj.xdf.cn/bj_static/images/teacher/beimei/zhanghongwei.jpg',
+ Pinyin: 'ZhangHongWei',
+ EnglishName: '',
+ NickName: '',
+ Nationality: '中国',
+ BirthAdress: '',
+ Favorite: '',
+ CompanyEmail: null,
+ Quotes: '',
+ NewLogoUrl: '2011/20110518/BM000120110518.jpg',
+ IsImport: '1',
+ IsSearchShow: true,
+ Teachingability: null,
+ TeacherSort: 13994,
+ sCourseCode: null,
+ bValid: true,
+ Id: 13894
+ }
  */
 Service.userBasicData = function (userid, callback) {
     var userData = {};
@@ -170,7 +173,7 @@ Service.myClass = function (p, callback) {
         methodname = 'GetClassListFilterByStudentCode';
     }
     this.uniAPIInterface(param, 'class', methodname, function (err, ret) {
-        console.info(ret)
+        //console.info(ret)
         var myClass = ret.Data;
         myClass.forEach(function (c) {
             c.poBeginDate = time.format(time.netToDate(c.BeginDate), 'yyyy.MM.dd');

@@ -7,6 +7,7 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
     calendar.myRenderCalendar = function (userid, userType, schoolid, code) {
         $('#calendar').fullCalendar('destroy');
         $('#calendar').fullCalendar({
+            defaultDate: '2013-01-23', // 学员测试用
             theme: true,
             header: {
                 left: 'prev,next,today',
@@ -21,9 +22,9 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
                 next: 'circle-triangle-e'
             },
             minTime: "06:00:00",
-            maxTime: "24:00:00",
+            maxTime: "23:00:00",
             slotDuration: '00:30:00',
-            axisFormat: 'HH',
+            axisFormat: 'HH:mm',
             events: {
                 url: '/schedule-data?userid=' + userid + '&userType=' + userType + '&schoolid=' + schoolid + '&code=' + code,
                 cache: false, // 正式启用时用 true，测试时用false
