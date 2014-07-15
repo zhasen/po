@@ -4,7 +4,6 @@ var util = require('util');
 var time = require('../../source/commons/time');
 var ixdf = require('../services/IXDFService');
 var PDFDocument = require('pdfkit');
-var blobStream = require('blob-stream');
 var fs = require('fs');
 
 module.exports = function (app) {
@@ -75,7 +74,8 @@ module.exports = function (app) {
         input.classcode = req.params.classcode;
         input.schoolid = req.params.schoolid;
         // 通过classcode调取班级信息
-        ixdf.uniAPIInterface({schoolid: req.params.schoolid, classcode: req.params.classcode}, 'class', 'GetClassEntity', function (err, ret) {
+        var param = {schoolid: req.params.schoolid, classcode: req.params.classcode};
+        ixdf.uniAPIInterface(param, 'class', 'GetClassEntity', function (err, ret) {
             // console.info(ret);
             var classData = ret.Data;
             classData.poBeginDate = time.format(time.netToDate(classData.BeginDate), 'yyyy.MM.dd');
