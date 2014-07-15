@@ -3,6 +3,25 @@
 <head>
     <meta charset="utf-8"/>
     <title>Chat by Web Sockets Record</title>
+    <style type="text/css">
+        canvas {
+            border: 0 none;
+            background: blue;
+        }
+
+        #canvas, #drawing {
+            background: transparent;
+        }
+
+        #drawing, #graphics{
+            position: absolute;
+        }
+
+        #canvas{
+            display: none;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -29,6 +48,10 @@
 
 <%}%>
 
+<div id="canvas">
+    <canvas id="graphics"></canvas>
+    <canvas id="drawing"></canvas>
+</div>
 
 </body>
 

@@ -11,6 +11,11 @@ var ALLWSTYPE = {classRoom:'ClassRoom'};
 
 var ALLMODE = {none:1,student_answer:2,teacher_speak:3};
 
+var canvas, width, height;
+
+var $canvas, $drawing, $graphics;
+var ctxGraphics, ctxDrawing;
+
 function getJsonObject(){
     var json = {};
     json.type = ALLWSTYPE.classRoom;
@@ -18,4 +23,12 @@ function getJsonObject(){
     json.userID = userID;
     json.classCode = classCode;
     return json;
+}
+
+function initElement(){
+    $canvas = $('#canvas');
+    $drawing = $('#drawing')[0];
+    $graphics = $('#graphics')[0];
+    ctxGraphics = $graphics.getContext('2d');
+    ctxDrawing = $drawing.getContext('2d');
 }

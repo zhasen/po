@@ -26,6 +26,8 @@ $(function(){
         }
     }
 
+    initElement();
+
     if(role == ALLROLL.student){
         initStudent();
     }
