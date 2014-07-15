@@ -34,36 +34,13 @@ if ('development' == mode) {
     app.use('/web', express.static(path.join(__dirname, 'web')));
 }
 require('./source/routes')(app);
-
-/*
- *  Error Handling
- */
-app.use(express.errorHandler()); //TODO: figure out what it really does when error hapens
-app.use(function (err, req, res, next) { //Log errors
-    logger.error(err.stack);
-    next(err);
-});
-app.use(function (err, req, res, next) { //Handle XHR errors
-    logger.error( err );
-    if (req.xhr) {
-        res.send(500,{error: 'TODO:真不好意思，程序出错了!'});
-    } else {
-        next(err);
-    }
-});
-app.use(function (err, req, res, next) { //Handle XHR errors
-    res.status(500);
-    res.render('error');
-});
+require('./source/middlewares/errorhandling')(app);
 
 var server = http.createServer(app).listen(app.get('port'), settings.app.host, function(){
     logger.info('The server is listening on port ' + app.get('port') + ' in ' + mode );
 });
 
 
-//var recording = require('./source/middlewares/recording');
-//recording(server);
 
-var websocket = require('./source/middlewares/websocket');
-websocket.init(server);
-websocket.register('ClassRoom',require('./source/services/ClassRoomService'));
+var recording = require('./source/middlewares/recording');
+recording(server);

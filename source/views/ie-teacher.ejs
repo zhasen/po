@@ -1,4 +1,3 @@
-<% layout('layout') %>
 <div class="bs-docs-example">
     <table class="table table-hover">
         <thead>
@@ -11,21 +10,13 @@
         </tr>
         </thead>
         <tbody>
-        <%
-            if(sdata.result.length !=0){
-                   sdata.result.forEach(function(val,index){
-          %>
         <tr>
-            <td><%=val.paperName%></td>
+            <td></td>
             <td>102分</td>
             <td><a class="btn">下载报告</a></td>
             <td><a class="btn">查看报告</a></td>
             <td><a class="btn">答题记录</a></td>
         </tr>
-        <%
-        });
-        }
-        %>
         </tbody>
     </table>
 </div>

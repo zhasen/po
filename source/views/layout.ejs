@@ -34,9 +34,9 @@
                             <span><font></font>我的班级</span>
                         </div>
                         <div class="sub_menu">
-                            <a href="#">托福精讲精练班TF112</a>
-                            <a href="#">雅思走读班IE123</a>
-                            <a href="#">GRE住宿班GG234</a>
+                            <% page.myClass.slice(0, 3).forEach(function(clas){%>
+                                <a href="class-<%= clas.SchoolId %>-<%= clas.ClassCode %>"><%=clas.ClassName%></a>
+                            <% });%>
                             <a href="#">查看所有班级</a>
                         </div>
                     </li>
@@ -79,7 +79,7 @@
                             <a href="#">个人页面</a>
                             <a href="#">账号设置</a>
                             <a href="#">绑定学员号</a>
-                            <a href="#">退出</a>
+                            <a href="/auth/logout" data-bypass>退出</a>
                         </div>
                     </li>
                 </ul>

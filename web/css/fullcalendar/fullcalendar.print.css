@@ -15,8 +15,9 @@
 -----------------------------------------------------*/
  
 .fc-event {
-	background: #fff !important;
-	color: #000 !important;
+	background: #2ba3d4 !important;
+	color:#fff!important;
+	border:1px solid #3ab4e2!important;
 	}
 	
 /* for vertical events */

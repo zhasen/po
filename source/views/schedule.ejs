@@ -1,11 +1,15 @@
 <%- layout('layout') %>
 <% block('view', '<input id="_moduleViewName" type="hidden" value="schedule">') %>
+<input type="hidden" id="userid" value="<%= page.user.id %>">
+<input type="hidden" id="userType" value="<%= page.user.type || 1 %>">
+<input type="hidden" id="schoolid" value="<%= page.user.schoolid %>">
+<input type="hidden" id="code" value="<%= page.user.code %>">
 <br>
 <br>
 <br>
 <div style="width:1100px; margin: 10px auto;">
-    <% include _course-schedule.ejs %>
-<div>
+    <% include s-schedules.ejs %>
+</div>
 
 
 

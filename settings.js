@@ -1,11 +1,13 @@
-module.exports = {
+var settings = {
     id: 'po',
     name: '学路',
     creator: '新东方',
     secretKey: 'quick',
     app: {
         host: '127.0.0.1',
-        port: 3010
+        port: 3010,
+        domain: 'path.staff.xdf.cn',
+        context: '/'
     },
     oauth: {
         providerHost: 'http://testu2.staff.xdf.cn',
@@ -14,10 +16,10 @@ module.exports = {
         providerLogoutUri: '/Logout.aspx',
         clientId: '95401',
         clientSecret: 'u2test-app1-d20-9c5f-4783-8316-ee814test',
-        clientHost: 'http://testpath.xdf.cn'
+        clientHost: 'http://path.staff.xdf.cn'
     },
     ixdf: {
-        url: 'http://xytest.staff.xdf.cn/api/Teacher/', // 正式：http://i.xdf.cn/api/calendar/
+        url: 'http://xytest.staff.xdf.cn/api/', // 正式：http://i.xdf.cn/api/
         appKey: 'v5appkey_test', // 测试v5appkey_test，正式需申请
         appid: 5001 // 测试5001，正式需申请
     },
@@ -45,7 +47,8 @@ module.exports = {
         components: 'public/components',
         upload: 'public/upload',
         question: 'public/upload/question',
-        answer: 'public/upload/answer'
+        answer: 'public/upload/answer',
+        schedule: 'public/upload/schedule' // 存放生成的课表PDF文件
     },
     api:{
         imitateExam:'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?'
@@ -57,3 +60,23 @@ module.exports = {
         errorUnknown: '不好意思，系统出了点小问题'
     }
 };
+
+var util = require('./source/commons/util');
+var profilePath = './settings-dev';
+var profile = function(profilePath){
+    var profileSettings = null;
+    try{
+        profileSettings = require(profilePath);
+    }
+    catch(e){
+        console.error(profilePath + ' is not found: ' + e.message);
+    }
+    return profileSettings;
+};
+
+var profileSettings = profile(profilePath);
+if(profileSettings){
+    util.extendAll(settings, profileSettings);
+}
+
+module.exports = settings;

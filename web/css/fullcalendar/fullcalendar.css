@@ -299,7 +299,7 @@ a.fc-event,
 	
 .fc-event-time,
 .fc-event-title {
-	padding: 0 1px;
+	padding: 0 1px; font-size:14px;
 	}
 	
 .fc .ui-resizable-handle {
@@ -543,14 +543,14 @@ table.fc-border-separate {
 
 .fc-event-vert.fc-event-start {
 	border-top-width: 1px;
-	border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
 	}
 
 .fc-event-vert.fc-event-end {
 	border-bottom-width: 1px;
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
 	}
 	
 .fc-event-vert .fc-event-time {
@@ -597,5 +597,4 @@ table.fc-border-separate {
 .fc-agenda .ui-resizable-resizing { /* TODO: better selector */
 	_overflow: hidden;
 	}
-	
-	
+		

@@ -1,9 +1,13 @@
 <%- layout('layout') %>
-<% block('view', '<input id="_moduleViewName" type="hidden" value="classes_schedules_stu">') %>
+<% block('view', '<input id="_moduleViewName" type="hidden" value="schedules_stu">') %>
 
 <div style="width:1100px; margin: 10px auto;">
     <input type="hidden" id="tabname" value="<%= tabname %>">
-    <ul class="nav nav-tabs" id="classes-schedules-stu-tab">
+    <input type="hidden" id="userid" value="<%= page.user.id %>">
+    <input type="hidden" id="userType" value="<%= page.user.type || 1 %>">
+    <input type="hidden" id="schoolid" value="<%= page.user.schoolid %>">
+    <input type="hidden" id="code" value="<%= page.user.code %>">
+    <ul class="nav nav-tabs" id="schedules-stu-tab">
         <li><a href="#myclass" data-toggle="tab" data-bypass>
                 我的班级
             </a></li>
@@ -14,10 +18,10 @@
 
     <div class="tab-content">
         <div class="tab-pane" id="myclass">
-            <% include _class-list.ejs %>
+            <% include s-class-list.ejs %>
         </div>
         <div class="tab-pane" id="myschedule">
-            <% include _course-schedule.ejs %>
+            <% include s-schedules.ejs %>
         </div>
     </div>
 </div>
