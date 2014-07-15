@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8"/>
     <title>Chat by Web Sockets Record</title>
-    <script type="text/javascript" src="/public/components/jquery/jquery.min.js"></script>
 </head>
 <body>
 
@@ -18,8 +17,13 @@
 
 <%}else{%>
 
-<button id="begin" type="button">分配试题</button>
+<button id="beginAnswer" type="button">分配试题</button>
+
+<button id="beginExplain" type="button">开始讲解</button>
+
 <button id="whiteBoard" type="button">白板</button>
+<button id="endExplain" type="button">结束讲解</button>
+
 <div>在线学员：</div>
 <div id="online"></div>
 
@@ -28,82 +32,19 @@
 
 </body>
 
+<script type="text/javascript" src="/public/components/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/web/js/interactive_classroom_detail/utils.js"></script>
+
 <script type='text/javascript'>
-
-    var ALLMETHOD = {init:'init',close:'close'};
-
-    var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student'};
-    var ALLTEACHERSENDMETHOD = {answer:'teacher_send_answer',explain:'teacher_send_explain'};
-
-    var ALLSTUDENTRECEIVEMETHOD = {wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain'};
-    var ALLSTUDENTSENDMETHOD = {answer:'student_send_answer'};
-
-    var ALLROLL = {student:1,teacher:2};
-    var ALLWSTYPE = {classRoom:'ClassRoom'};
-
-    var ALLMODE = {none:1,student_answer:2,teacher_speak:3};
-
-    function getJsonObject(){
-        var json = {};
-        json.type = ALLWSTYPE.classRoom;
-        json.role = role;
-        json.userID = userID;
-        json.classCode = classCode;
-        return json;
-    }
-
     var role = <%=role%>;
     var userID = '<%=userID%>';
     var classCode = '<%=classCode%>';
-
-    var ws = new WebSocket("ws://127.0.0.1:3010");
-    ws.onopen = function () {
-        $("#show").text('open');
-        {
-            var json = getJsonObject();
-            json.method = ALLMETHOD.init;
-            ws.send(JSON.stringify(json));
-        }
-    };
-    ws.onclose = function (e) {
-        console.log("Close connection to websocket");
-    }
-    ws.onmessage = function (e) {
-        $("#show").text(e.data);
-        var json = JSON.parse(e.data);
-        switch(json.method){
-            case ALLSTUDENTRECEIVEMETHOD.wait:{
-                $('#wait').show();
-                break;
-            }
-            case ALLSTUDENTRECEIVEMETHOD.answer:{
-                $('#wait').hide();
-                break;
-            }
-            case ALLSTUDENTRECEIVEMETHOD.explain:{
-                $('#wait').hide();
-                break;
-            }
-            //上面是学生的
-            //下面是老师的
-            case ALLTEACHERRECEIVEMETHOD.online:{
-                $("#online").text(json.students);
-                break;
-            }
-            default :{
-                break;
-            }
-        }
-    }
-
-    if(role == 2){
-        $("#begin").bind("click", function(){
-            var json = getJsonObject();
-            json.method = ALLTEACHERSENDMETHOD.answer;
-            //这里还需要带上老师分配的试题
-            ws.send(JSON.stringify(json));
-        });
-    }
-
+    var mode = ALLMODE.none;
+    var ws;
 </script>
+
+<script type="text/javascript" src="/web/js/interactive_classroom_detail/student.js"></script>
+<script type="text/javascript" src="/web/js/interactive_classroom_detail/teacher.js"></script>
+<script type="text/javascript" src="/web/js/interactive_classroom_detail/main.js"></script>
+
 </html>

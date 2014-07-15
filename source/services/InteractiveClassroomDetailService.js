@@ -2,7 +2,7 @@
 var ALLMETHOD = {init:'init',close:'close'};
 
 var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student'};
-var ALLTEACHERSENDMETHOD = {answer:'teacher_send_answer',explain:'teacher_send_explain'};
+var ALLTEACHERSENDMETHOD = {answer:'teacher_send_answer',explain:'teacher_send_explain',wait:'teacher_send_wait'};
 
 var ALLSTUDENTRECEIVEMETHOD = {wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain'};
 var ALLSTUDENTSENDMETHOD = {answer:'student_send_answer'};
@@ -50,27 +50,35 @@ module.exports = function (ws, data) {
             if(json.role == ALLROLL.student){
                 classRoom.students[json.userID] = ws;
                 notifyOnlineStudent(classRoom);
-                switch (classRoom.mode){
-                    case ALLMODE.none:{
-                        result.method = ALLSTUDENTRECEIVEMETHOD.wait;
-                        ws.send(JSON.stringify(result));
-                        break;
-                    }
-                    case ALLMODE.student_answer:{
-                        result.method = ALLSTUDENTRECEIVEMETHOD.answer;
-                        ws.send(JSON.stringify(result));
-                        break;
-                    }
-                    case ALLMODE.teacher_speak:{
-                        result.method = ALLSTUDENTRECEIVEMETHOD.explain;
-                        ws.send(JSON.stringify(result));
-                        break;
-                    }
-                }
+                result.method = ALLMETHOD.init;
+                result.mode = classRoom.mode;
+                ws.send(JSON.stringify(result));
+//                switch (classRoom.mode){
+//                    case ALLMODE.none:{
+//                        result.method = ALLSTUDENTRECEIVEMETHOD.wait;
+//
+//                        break;
+//                    }
+//                    case ALLMODE.student_answer:{
+//                        result.method = ALLSTUDENTRECEIVEMETHOD.answer;
+//                        ws.send(JSON.stringify(result));
+//                        break;
+//                    }
+//                    case ALLMODE.teacher_speak:{
+//                        result.method = ALLSTUDENTRECEIVEMETHOD.explain;
+//                        ws.send(JSON.stringify(result));
+//                        break;
+//                    }
+//                }
             }
             else if(json.role == ALLROLL.teacher){
                 classRoom.teacher = ws;
                 notifyOnlineStudent(classRoom);
+
+                result.method = ALLMETHOD.init;
+                result.mode = classRoom.mode;
+                ws.send(JSON.stringify(result));
+
             }
 
             break;
@@ -90,8 +98,8 @@ module.exports = function (ws, data) {
         }
         case ALLTEACHERSENDMETHOD.answer:{
             if(ws.classCode){
-                classRoom.mode = ALLMODE.student_answer;
                 var classRoom = classRooms[ws.classCode];
+                classRoom.mode = ALLMODE.student_answer;
                 if(ws.role == ALLROLL.teacher){
                     for(var key in classRoom.students){
                         var student = classRoom.students[key];

@@ -10,4 +10,5 @@ module.exports = function(app) {
     imitateExam(app);
     interactionClass(app);
     schedules(app);
+    require("./interactiveClassroomDetail")(app);
 };

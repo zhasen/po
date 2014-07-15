@@ -7,18 +7,18 @@ module.exports = function (app) {
     var mode = app.get('env') || 'development';
     var asseton = require('../middlewares/asseton')(mode);
 
-    auth.afterLogin = function (user, next) {
-        // user示例：
-        // { id: 'xdf001000862', displayName: '李梦晗', type: 1, code: 'BJ986146', schoolid: 1 } // 学员
-        // { id: 'xdf00228972', displayName: '张洪伟', type: 2, code: 'BM0001', schoolid: 1 } // 老师
-        ixdf.userBasicData(user.id, function (err, userData) {
-            user.type = userData.type; // 用户类型，老师 2 学员 1
-            user.code = userData.data.sCode || userData.data.Code; // 学员code 或者 老师code
-            user.schoolid = userData.data.nSchoolId || userData.data.SchoolId; // 学员或者老师所在的学校ID
-            next();
-        });
-    };
-    auth.bind(app);//use all authentication routing and handlers binding here
+//    auth.afterLogin = function (user, next) {
+//        // user示例：
+//        // { id: 'xdf001000862', displayName: '李梦晗', type: 1, code: 'BJ986146', schoolid: 1 } // 学员
+//        // { id: 'xdf00228972', displayName: '张洪伟', type: 2, code: 'BM0001', schoolid: 1 } // 老师
+//        ixdf.userBasicData(user.id, function (err, userData) {
+//            user.type = userData.type; // 用户类型，老师 2 学员 1
+//            user.code = userData.data.sCode || userData.data.Code; // 学员code 或者 老师code
+//            user.schoolid = userData.data.nSchoolId || userData.data.SchoolId; // 学员或者老师所在的学校ID
+//            next();
+//        });
+//    };
+//    auth.bind(app);//use all authentication routing and handlers binding here
 
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
