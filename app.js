@@ -47,4 +47,4 @@ var server = http.createServer(app).listen(app.get('port'), settings.app.host, f
 
 var websocket = require('./source/middlewares/websocket');
 websocket.init(server);
-websocket.register('ClassRoom',require('./source/services/ClassRoomService'));
+websocket.register('ClassRoom',require('./source/services/InteractiveClassroomDetailService'));
