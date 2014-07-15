@@ -38,7 +38,14 @@ function initTeacher(){
     });
 
     $whiteBoard.bind("click", function(){
-        $canvas.show();
+        if($canvas.is(':visible'))
+            $canvas.hide();
+        else{
+            ctxGraphics.clearRect(0, 0, width, height);
+            ctxDrawing.clearRect(0, 0, width, height);
+            $canvas.show();
+        }
+
     });
 
     canvas = {
