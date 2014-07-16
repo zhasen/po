@@ -3,6 +3,8 @@ var PageInput = require('./common/PageInput');
 var util = require('util');
 var time = require('../../source/commons/time');
 var ixdf = require('../services/IXDFService');
+var PDFDocument = require('pdfkit');
+var fs = require('fs');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -25,19 +27,12 @@ module.exports = function (app) {
     var getAllClass = function (req, res, next) {
         var input = PageInput.i(req);
         // 根据学生/老师Code获取全部班级列表
-        ixdf.uniAPIInterface({
-            schoolid: input.page.user.schoolid,
-            studentcode: input.page.user.code,
-            classcodeorname: '',
-            classstatus: 3,
-            pageindex: 1,
-            pagesize: 9999
-        }, 'class', 'GetClassListFilterByStudentCode', function (err, ret) {
-//            console.info('getAllClass: ');
-//            console.info(ret);
-            PageInput.i(req).put('myAllClass', ret.Data); // 班级全部列表数据
+        var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 9999};
+        ixdf.classList(param, input.page.user, function (err, data) {
+            // console.info(ret);
+            PageInput.i(req).put('myAllClass', data); // 班级全部列表数据
             next();
-        })
+        });
     }
 
     // 学生-所有班级、所有课表页面
@@ -48,21 +43,15 @@ module.exports = function (app) {
         input.searchkey = req.query.s || ''; // todo: 需要做安全过滤处理
 
         // 根据学生编号获取班级列表，有分页
-        ixdf.uniAPIInterface({
-            schoolid: input.page.user.schoolid,
-            studentcode: input.page.user.code,
-            classcodeorname: input.searchkey,
-            classstatus: 3,
-            pageindex: req.params.page,
-            pagesize: 9
-        }, 'class', 'GetClassListFilterByStudentCode', function (err, ret) {
+        var param = {classcodeorname: input.searchkey, classstatus: 3, pageindex: req.params.page, pagesize: 9};
+        ixdf.classList(param, input.page.user, function (err, data) {
             // console.info(ret);
-            input.classlist = ret.Data; // 班级列表数据
+            input.classlist = data; // 班级列表数据
             res.render('schedules-stu', input);
-        })
+        });
     });
 
-    // 老师-所有班级、所有课表页面
+    // 老师-所有班级、所有课表页面，有分页
     app.get('/schedules-tch-:tabname-:page', getMyClass, getAllClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
@@ -70,18 +59,12 @@ module.exports = function (app) {
         input.searchkey = req.query.s || ''; // todo: 需要做安全过滤处理
 
         // 根据教师编号获取班级列表
-        ixdf.uniAPIInterface({
-            schoolid: input.page.user.schoolid,
-            teachercode: input.page.user.code,
-            classcodeorname: input.searchkey,
-            classstatus: 3,
-            pageindex: req.params.page,
-            pagesize: 9
-        }, 'class', 'GetClassListFilterByTeacherCode', function (err, ret) {
+        var param = {classcodeorname: input.searchkey, classstatus: 3, pageindex: req.params.page, pagesize: 9};
+        ixdf.classList(param, input.page.user, function (err, data) {
             // console.info(ret);
-            input.classlist = ret.Data; // 班级列表数据
+            input.classlist = data; // 班级列表数据
             res.render('schedules-tch', input);
-        })
+        });
     });
 
     // 班级主页-首页
@@ -91,7 +74,8 @@ module.exports = function (app) {
         input.classcode = req.params.classcode;
         input.schoolid = req.params.schoolid;
         // 通过classcode调取班级信息
-        ixdf.uniAPIInterface({schoolid: req.params.schoolid, classcode: req.params.classcode}, 'class', 'GetClassEntity', function (err, ret) {
+        var param = {schoolid: req.params.schoolid, classcode: req.params.classcode};
+        ixdf.uniAPIInterface(param, 'class', 'GetClassEntity', function (err, ret) {
             // console.info(ret);
             var classData = ret.Data;
             classData.poBeginDate = time.format(time.netToDate(classData.BeginDate), 'yyyy.MM.dd');
@@ -112,7 +96,6 @@ module.exports = function (app) {
      * 课表获取数据的调用地址（载入课表时实时加载）
      */
     app.get('/schedule-data', function (req, res, next) {
-
         var userid = req.query.userid; // eg: xdf001000862
         var start = req.query.start; // eg: 2014-07-07
         var end = req.query.end; // eg: 2014-07-14
@@ -137,7 +120,7 @@ module.exports = function (app) {
             }
             methodname = 'GetCalendarEventListOfTeacher';
         }
-//        console.info('param:' + JSON.stringify(param));
+        console.info('param:' + JSON.stringify(param));
         ixdf.uniAPIInterface(param, 'calendar', methodname, function (err, ret) {
             if (err) {
                 logger.error(err);
@@ -148,7 +131,7 @@ module.exports = function (app) {
 //            console.info(ret.Data.length);
             var events = [];
             ret.Data.forEach(function (c) {
-//                console.info(c);
+                // console.info(c);
                 events.push({
                     id: c.Id, // eg: 60324222
                     title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
@@ -166,9 +149,37 @@ module.exports = function (app) {
     /**
      * 根据整理课表数据并下载
      */
-    app.get('/schedule-download', function (req, res, next) {
+    var generatePDF = function (req, res, next) {
+        var doc = new PDFDocument;
+        doc.pipe(fs.createWriteStream('public/upload/schedule/output.pdf')); // todo: 下载后需要删掉
+        // doc.pipe(res); // 把流输出到应答
+        doc.fontSize(25).text('Some text with an embedded font!', 100, 100);
+        doc.addPage()
+            .fontSize(25)
+            .text('Here is some vector graphics...', 100, 100);
+        doc.save()
+            .moveTo(100, 150)
+            .lineTo(100, 250)
+            .lineTo(200, 250)
+            .fill("#FF3300");
+        doc.scale(0.6)
+            .translate(470, -380)
+            .path('M 250,75 L 323,301 131,161 369,161 177,301 z')
+            .fill('red', 'even-odd')
+            .restore();
+        doc.addPage()
+            .fillColor("blue")
+            .text('Here is a link!', 100, 100)
+            .underline(100, 100, 160, 27, {color: "#0000FF"})
+            .link(100, 100, 160, 27, 'http://google.com/');
+        doc.end();
+        next();
+    };
 
-        res.download('public/upload/schedule/example.pdf');
+    app.get('/schedule-download', generatePDF, function (req, res, next) {
+        setTimeout(function () {
+            res.download('public/upload/schedule/output.pdf'); // todo: 以后用流控制实现
+        }, 1000);
     });
 
 };

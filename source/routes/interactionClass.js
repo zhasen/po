@@ -3,63 +3,51 @@ var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
 var commonService = require('./common/commonService');
 var api = require('../../settings').api;
+var ixdf = require('../services/IXDFService');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
     var asseton = require('../middlewares/asseton')(mode);
 
-    app.get('/interaction-class', function (req, res, next) {
+    // 取每个学员/老师的前六个班级，用于顶部公共导航条
+    var getMyClass = function (req, res, next) {
+        // 测试数据，勿删除，等登录页面做好并打通后再删除
+        req.session.user = { id: 'xdf001000862', displayName: '李梦晗', type: 1, code: 'BJ986146', schoolid: 1 }; // 学员
+        //req.session.user = { id: 'xdf00228972', displayName: '张洪伟', type: 2, code: 'BM0001', schoolid: 1 }; // 老师
+
+        var user = PageInput.i(req).page.user;
+        ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
+            PageInput.i(req).put('myClass', myClass);
+            next();
+        });
+    };
+
+    app.get('/interaction-class',getMyClass, function (req, res, next) {
         asseton(req, res);
         var url = {
-            "method":"getXpoListByClassCode",
+            "method":"getStudentPaperListInClass",
             "ccode":"TF13202",
             "ucode":"BJ986146",
-            "sid":1
+            "sid":1,
+            "paperTypeId":"hdkt",
+            "ptype":""
         };
-        var input = PageInput.i().enums();
-        input.user = {};
+        var input = PageInput.i(req);
+        input.classes = input.page.myClass; // 用于显示首页的六个班级
+        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
+        input.user = input.page.user;
         var param = api.imitateExam + commonService.getUrl(url);
-        res.render('interaction-class', input);
-//        commonService.request(param,function(data){
-//            dataTemp ={
-//                "errno": 0,
-//                "result": [
-//                    {
-//                        "allotID": "7f032df1-d2f5-44b0-af34-6cf2b4f011b1",
-//                        "flagFinish": -1,
-//                        "paperId": "33818BD0-C00B-48B2-8F25-2624CFF8BC53",
-//                        "paperName": "mini-TPO9-模拟",
-//                        "paperTypeId": "tpo"
-//                    },
-//                    {
-//                        "allotID": "97d62ebd-b52b-4d74-80fc-6e6b3019b373",
-//                        "flagFinish": 0,
-//                        "paperId": "B51D8504-9186-4079-9770-8AD73DC63BD9",
-//                        "paperName": "mini-TPO25-模拟1",
-//                        "paperTypeId": "tpo"
-//                    },
-//                    {
-//                        "allotID": "91af5209-1ee6-4e78-9672-05b84ff78bef",
-//                        "flagFinish": 1,
-//                        "paperId": "24C89AB5-F2D5-404D-B8D0-9130EA6441FF",
-//                        "paperName": "mini-TPO17-模拟",
-//                        "paperTypeId": "tpo"
-//                    },
-//                    {
-//                        "allotID": "3cc436d3-461c-4a0e-aa55-de9b02a572cb",
-//                        "flagFinish": 0,
-//                        "paperId": "8CAC753C-4C72-4839-98E9-D4E4D5E3DD7C",
-//                        "paperName": "mini-TPO11-模拟",
-//                        "paperTypeId": "tpo"
-//                    }
-//                ]
-//            };
-//            if(dataTemp.errno != 1){
-//                res.render('interaction-class', {"input":input,"sdata":dataTemp});
-//            }else{
-//                res.end();
-//            }
-//        });
-    }); // 模考测试页
-
+        console.log(param);
+        commonService.request(param,function(data){
+            console.log(data);
+            var sdata = JSON.parse(data);
+            input.data = sdata;
+            console.log("sdata.result------------" +JSON.stringify(sdata.result));
+                if(sdata.errno != 1){
+                res.render('interaction-class',input);
+            }else{
+                res.end();
+            }
+        });
+    });
 };
