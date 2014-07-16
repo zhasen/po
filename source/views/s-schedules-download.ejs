@@ -1,0 +1,15 @@
+<div style="float: left;">我的课表</div>
+<div style="float: right;">
+    <span>下载课程表</span>&nbsp;&nbsp;
+    <select id="download-class">
+        <option value="0" selected>请选择要下载的班级</option>
+        <% page.myAllClass.forEach(function(clas){ %>
+        <option value="<%= clas.ClassCode %>"><%= clas.ClassName %></option>
+        <% }); %>
+    </select>
+    &nbsp;&nbsp;
+    <a id="schedule-download-url" href="/schedule-download?schoolid=<%= page.user.schoolid %>&classcode=0" style="cursor: pointer;" data-bypass>下载</a>
+
+</div>
+<div style="clear: both"></div>
+

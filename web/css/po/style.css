@@ -20,7 +20,7 @@
 .lp_bgs { background:url(/public/build/img/po/images/lp_bgs.png) no-repeat; display:block; overflow:hidden;}
 .lp_sicons { background:url(/public/build/img/po/images/lp_icons.png) no-repeat; display:block; overflow:hidden;}
 .lp_pbg { background:url(/public/build/img/po/images/lp_pagebg.png) no-repeat; display:block; overflow:hidden;}
-/*.lp_bsw { background:url(../images/lp_box_shadow.png) no-repeat; display:block; overflow:hidden;}*/
+/*.lp_bsw { background:url(/public/build/img/po/images/lp_box_shadow.png) no-repeat; display:block; overflow:hidden;}*/
 
 .lp_studybg { background:#f9f9f9;}
 .lp_learn_tasks { margin-left:25px; padding-bottom:30px;}
@@ -76,7 +76,7 @@
 /*班级主页*/
 .lp_classmain_focus{ height:243px!important;}
 .lp_classmain_focus .focus_bg  { padding-top:60px; height:183px!important;}
-.lp_classmain_focus .lp_thisrec_c { background:url(../images/lp_sec_cbg.png) no-repeat; width:391px; height:151px; margin:0 auto;}
+.lp_classmain_focus .lp_thisrec_c { background:url(/public/build/img/po/images/lp_sec_cbg.png) no-repeat; width:391px; height:151px; margin:0 auto;}
 .lp_classmain_focus .lp_reccourse { width:370px; height:113px;background:#F9F9F9;}
 .lp_classmain_focus .lp_reccourse dt { width:286px; padding:12px 10px 13px 20px; color:#4f4e55; font-size:14px; font-weight:normal;}
 .lp_classmain_focus .lp_reccourse dd { width:54px;}
@@ -141,7 +141,7 @@
 .lp_btnp_Bg .daily_course  .times { background-position:left -220px; width:18px; height:18px; display:inline-block; float:left; margin-right:7px; margin-left:5px;}
 .lp_btnp_Bg .daily_course  strong { display:block; font-weight:normal; font-size:15px; color:#fff; margin-top:8px; line-height:1.5em;text-align:center;}
 
-/*绑定党员号*/
+/*绑定学员号*/
 .lp_classmain_focus .bind_numberno {background:url(/public/build/img/po/images/lp_bindsn.png) no-repeat;width:231px; height:235px; margin:0 auto;}
 .lp_classmain_focus .bind_meNo { background-position:left -1210px; width:116px!important; height:116px; padding:0!important;}
 .lp_classmain_focus .ic_notice { background-position:left -1697px;width:116px!important; height:116px; padding:0!important;}
@@ -155,7 +155,7 @@
 .lp_boundstudentno .sinfor label { color:#5f5f5f; font-size:20px; display:inline-block; float:left; width:95px; text-align:right; margin-right:25px;margin-top:8px;}
 .lp_boundstudentno .sinbk label { margin-top:40px;}
 .lp_boundstudentno .sinfor .input_box { width:268px; border:1px solid #787878; padding:10px 5px; background:#fff; font-size:16px;color:#5f5f5f; }
-.lp_boundstudentno .sinfor .input_box:focus { border:1px solid #ffc601;}
+.lp_boundstudentno .sinfor .input_box:focus { border:1px solid #ffc601; border-radius:0;}
 .lp_boundstudentno .sinfor .select_id { width:280px; float:left;}
 .lp_boundstudentno .sinfor .select_id .indent li { float:left; width:130px; border-right:1px dotted #B2B2B2; height:111px;}
 .lp_boundstudentno .sinfor .select_id .indent  li.last_br { border-right:none;}
@@ -164,7 +164,6 @@
 .lp_boundstudentno .sinfor .select_id .indent  button { width:111px; height:111px; overflow:hidden; cursor:pointer; display:block; border:none;}
 .lp_boundstudentno .sinfor .select_id  .indent  .student { background-position:left -1335px;}
 .lp_boundstudentno .sinfor .select_id .indent  .parent { background-position:left -1465px; margin-left:20px;}
-.lp_boundstudentno .sinfor .select_id .indent   button:focus { border:none;}
 .lp_boundstudentno .sinfor .bg_bind_shadow { background:url(/public/build/img/po/images/lp_box_shadow.png) no-repeat; width:256px; height:107px;}
 .lp_boundstudentno .sinfor .btn_binding { background-position:left -875px; width:173px; height:50px; border:none; cursor:pointer;}
 .lp_boundstudentno  .tips span { display:block; width:44px; height:44px; float:left;}
@@ -239,7 +238,14 @@
 .model_test .mt_student li .mt_sts { width:150px; text-align:center;}
 .model_test .mt_student li dd a { background:#FF9027!important;}
 
-/*我在班级*/
+
+/*我的班级*/
+.lpath_page .search_area  { border-bottom:1px dashed #000; margin:30px auto; padding-bottom:15px;}
+.lpath_page .search_area .search_courses { padding-right:42px;}
+.lpath_page .search_area label { width:197px; height:25px; border:1px solid #7F7F7F; display:block;}
+.lpath_page .search_area label .sinput_box { width:155px; padding:4px 0 0px 10px; color:#3a3a3a; font-size:14px; border:none; display:inline-block; vertical-align:top;}
+.lpath_page .search_area label .ic_search { background-position:left -320px; width:14px; height:13px; border:none; cursor:pointer; display:inline-block; margin-top:6px; margin-left:5px;}
+
 .lp_myclass_list li { background:url(/public/build/img/po/images/lp_myclass_listbg.png) no-repeat; width:320px; height:154px;}
 .lp_myclass_list .box { border:1px solid #fff;}
 .lp_myclass_list .hasended { background:#e7e7e7; opacity:1;}

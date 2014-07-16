@@ -7,12 +7,12 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
     calendar.myRenderCalendar = function (userid, userType, schoolid, code) {
         $('#calendar').fullCalendar('destroy');
         $('#calendar').fullCalendar({
-            defaultDate: '2013-01-23', // 学员测试用
+            defaultDate: '2013-01-23', // 测试用，默认今天
             theme: true,
             header: {
-                left: 'prev,next,today',
-                center: 'title',
-                right: 'agendaWeek'
+                left: 'prev, next', // prev, next, today
+                center: '', // title
+                right: '' // agendaWeek
             },
             lang: 'zh-cn',
             defaultView: 'agendaWeek',
