@@ -13,7 +13,7 @@
 .learn_path_header .nav li { float:left; padding:0 5px; position:relative;}
 .learn_path_header .nav .menu { width:100px; padding:0 15px;}
 .learn_path_header .nav span{  display:block; color:#fff; font-size:15px; font-family:SimSun;cursor:pointer; height:64px; line-height:46px; text-align:center;}
-.learn_path_header .nav span font {background:url(/public/build/img/po/images/icon_right.png) no-repeat right top; height:11px; display:block; position:relative; right:2px; top:28px;}
+.learn_path_header .nav span font {background:url(/public/build/img/po/images/icon_right.png) no-repeat right top; height:11px; display:block; position:relative; right:2px; top:28px;} 
 .learn_path_header .nav  .curren_state { background:#2ba3d4;}
 .learn_path_header .sub_menu { display:none;background:#2ba3d4; width:210px; padding:15px 5px;position:absolute; left:5px; top:63px; z-index:5; border:1px solid #43b7e6; border-top:none;}
 .learn_path_header .nav li.ico_infor .sub_menu { left:0;}

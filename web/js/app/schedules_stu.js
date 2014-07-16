@@ -20,6 +20,12 @@ define(['jQuery', 'Bootstrap', '../course_schedule/custom_po'],
             }
         });
 
+        $('#download-class').change(function () {
+            var url = $('#schedule-download-url').attr('href');
+            var classcode = $(this).val();
+            $('#schedule-download-url').attr('href', url.replace(/classcode=(\w)*/g, 'classcode=' + classcode));
+        });
+
     });
 
 

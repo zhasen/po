@@ -4,11 +4,56 @@
 <input type="hidden" id="userType" value="<%= page.user.type || 1 %>">
 <input type="hidden" id="schoolid" value="<%= page.user.schoolid %>">
 <input type="hidden" id="code" value="<%= page.user.code %>">
-<br>
-<br>
-<br>
-<div style="width:1100px; margin: 10px auto;">
-    <% include s-schedules.ejs %>
+<!--banner start-->
+<div class="learn_path_focus lp_classmain_focus">
+    <div class="focus_bg">
+        <div class="lp_thisrec_c">
+            <dl class="lp_reccourse">
+                <dt class="f_l">
+                <p><a href="javascript:void(0);"><%= classData.ClassName %></a></p>
+                <strong class="fs_14"><%= classData.ClassCode %></strong>
+                <%= classData.poBeginDate %>-<%= classData.poEndDate %>
+                </dt>
+                <dd class="f_r">
+                    <div class="rec_level fs_14">预备</div>
+                    <div class="rec_status fc_3dc">
+                        <font class="lp_sicons" id="icons_ing"></font>
+                        <% if (classData.ClassStatus == 1) { %>
+                        已结课
+                        <% } else if (classData.ClassStatus == 2) { %>
+                        未开课
+                        <% } else if (classData.ClassStatus == 0) { %>
+                        上课中
+                        <% } %>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <div class="lp_view_allcs">
+            <font class="lp_sicons icon_up"></font>
+        </div>
+    </div>
+</div>
+<!--banner end-->
+
+<!--课表导航start-->
+<div class="lp_coursenav">
+    <div class="lpath_page">
+        <div class="sec_nav"><a href="#" class="selected_name">课表</a><a href="#">听课</a><a href="#">互动课堂</a><a href="#">测试</a><a
+                    href="#">在线练习</a><a href="#">模考</a><a href="#">资料</a><a href="#">知识巩固</a></div>
+    </div>
+</div>
+<!--课表导航end-->
+
+<div class="lp_btnp_Bg">
+    <div class="lpath_page">
+        <dl class="btn_part fix">
+            <dt class="f_l"><span class="btn_view_lw lp_pbg"></span><span class="btn_view_nw lp_pbg"></span></dt>
+            <dd class="f_r">
+                <a href="/schedule-download?schoolid=<%= schoolid %>&classcode=<%= classcode %>" data-bypass class="btn_download_schedule lp_pbg"></a></dd>
+        </dl>
+        <% include s-schedules.ejs %>
+    </div>
 </div>
 
 
