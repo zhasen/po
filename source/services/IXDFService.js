@@ -137,4 +137,65 @@ Service.classList = function (param, user, callback) {
     })
 };
 
+/**
+ * 获取学生/老师的课表
+ * @param param
+ * { userid : req.query.userid, // eg: xdf001000862
+     start : req.query.start, // eg: 2014-07-07
+     end : req.query.end, // eg: 2014-07-14
+     userType : req.query.userType // 用户类型 学员 1 老师 2
+ * };
+ * @param callback
+ */
+Service.scheduleList = function (param, callback) {
+    var p = {}, methodname = '';
+    if (param.userType == 1) { // 学员参数
+        p = {schoolid: param.schoolid, studentCode: param.code, beginDate: param.start, endDate: param.end};
+        methodname = 'GetStudentLessonEntityList';
+    } else if (param.userType == 2) { // 老师参数
+        p = {schoolid: param.schoolid, teachercode: param.code, language: 1, fromDay: param.start, toDay: param.end};
+        methodname = 'GetCalendarEventListOfTeacher';
+    }
+    //console.info('param:' + JSON.stringify(param));
+    this.uniAPIInterface(p, 'calendar', methodname, function (err, ret) {
+        if (err) {
+            logger.error(err);
+            res.json(500, err);
+            return;
+        }
+        //console.info('calendar:' + JSON.stringify(ret.Data));
+        //console.info(ret.Data.length);
+        var events = [];
+        if (ret.Data) {
+            ret.Data.forEach(function (c) {
+                events.push({
+                    id: c.Id, // eg: 60324222
+                    title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
+                    start: c.BeginDate, // eg: 2013-01-23 00:00:00
+                    end: c.EndDate // eg: 2013-01-23 00:00:00
+                });
+            });
+        }
+        callback(err, events);
+    });
+};
+
+/**
+ * 获取班级的日历数据列表
+ * @param param
+ * {
+ *      schoolid : 9, // 学校ID
+ *      classCode : '07N105', // 班级code
+ * };
+ */
+Service.scheduleOfClass = function (param, callback) {
+    this.uniAPIInterface({
+        schoolid: param.schoolid, // eg: 9,
+        classCode: param.classcode // eg: '07N105'
+    }, 'calendar', 'GetCalendarEventListOfClass', function (err, ret) {
+        callback(err, ret.Data);
+        //console.info(ret);
+    });
+}
+
 module.exports = Service;
