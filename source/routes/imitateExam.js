@@ -9,7 +9,7 @@ module.exports = function (app) {
 
     app.get('/imitateExam', function (req, res, next) {
         var url = {
-            "method":"getXpoListByClassCode",
+            "method":"getStudentPaperListInClass",
             "ccode":"TF13202",
             "ucode":"BJ986146",
             "sid":1
