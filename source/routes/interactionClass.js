@@ -49,6 +49,5 @@ module.exports = function (app) {
                 res.end();
             }
         });
-    }); // 模考测试页
-
+    });
 };
