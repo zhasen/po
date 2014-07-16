@@ -130,11 +130,14 @@ module.exports = function (app) {
      */
     app.get('/schedule-download', function (req, res, next) {
         var param = {classcode: req.query.classcode, schoolid: req.query.schoolid };
-        console.info('schedule-download:');
-        console.info(param);
-        pdf.generatePDF(param, function (err, filename) {
-            res.download(filename);
+        //console.info('schedule-download:' + JSON.stringify(param));
+        ixdf.scheduleOfClass(param, function (err, data) {
+            var filename = 'schedule-' + param.schoolid + '-' + param.classcode;
+            pdf.generatePDF(filename, data, function (err, filename) {
+                res.download(filename);
+            });
         });
+
     });
 
     /**
