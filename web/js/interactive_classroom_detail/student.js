@@ -31,6 +31,49 @@ function dealStudentMessage(json){
             initStudentExplain();
             break;
         }
+        case ALLSTUDENTRECEIVEMETHOD.white:{
+            if(json.bShow){
+                $canvas.show();
+            }
+            else{
+                $canvas.hide();
+            }
+            break;
+        }
+        case ALLSTUDENTRECEIVEMETHOD.path_clear:{
+            canvas.graphics.push({type: 'clear'});
+            redrawGraphics();
+            break;
+        }
+        case ALLSTUDENTRECEIVEMETHOD.path_down:{
+            canvas.drawing = {
+                type: 'path',
+                color: json.color,
+                width: json.thickness,
+                points: [{x: json.x, y: json.y}]
+            };
+            break;
+        }
+        case ALLSTUDENTRECEIVEMETHOD.path_move:{
+            var drawing = canvas.drawing;
+            if (drawing && drawing.type === 'path') {
+                drawing.points.push({x: json.x, y: json.y});
+                redrawDrawing();
+            }
+            break;
+        }
+        case ALLSTUDENTRECEIVEMETHOD.path_up:{
+            var drawing = canvas.drawing;
+            if (drawing && drawing.type === 'path') {
+                drawing.points.push({x: json.x, y: json.y});
+                canvas.graphics.push(drawing);
+                drawPath(ctxGraphics, drawing);
+                canvas.drawing = null;
+                canvas.history = [];
+                redrawDrawing();
+            }
+            break;
+        }
         default :{
             break;
         }

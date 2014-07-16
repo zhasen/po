@@ -2,9 +2,9 @@
 var ALLMETHOD = {init:'init',close:'close'};
 
 var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student'};
-var ALLTEACHERSENDMETHOD = {answer:'teacher_send_answer',explain:'teacher_send_explain',wait:'teacher_send_wait'};
+var ALLTEACHERSENDMETHOD = {wait:'teacher_send_wait',answer:'teacher_send_answer',explain:'teacher_send_explain',white:'teacher_send_white',path_down:'teacher_send_path_down',path_move:'teacher_send_path_move',path_up:'teacher_send_path_up',path_clear:'teacher_send_path_clear'};
 
-var ALLSTUDENTRECEIVEMETHOD = {wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain'};
+var ALLSTUDENTRECEIVEMETHOD = {wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain',white:'student_receive_white',path_down:'student_receive_path_down',path_move:'student_receive_path_move',path_up:'student_receive_path_up',path_clear:'student_receive_path_clear'};
 var ALLSTUDENTSENDMETHOD = {answer:'student_send_answer'};
 
 var ALLROLL = {student:1,teacher:2};
@@ -101,11 +101,58 @@ module.exports = function (ws, data) {
                 var classRoom = classRooms[ws.classCode];
                 classRoom.mode = ALLMODE.student_answer;
                 if(ws.role == ALLROLL.teacher){
-                    for(var key in classRoom.students){
-                        var student = classRoom.students[key];
-                        result.method = ALLSTUDENTRECEIVEMETHOD.answer;
-                        student.send(JSON.stringify(result));
-                    }
+                    json.method = ALLSTUDENTRECEIVEMETHOD.answer;
+                    broadcast(classRoom.students,JSON.stringify(json));
+                }
+            }
+            break;
+        }
+        case ALLTEACHERSENDMETHOD.white:{
+            if(ws.classCode){
+                var classRoom = classRooms[ws.classCode];
+                if(ws.role == ALLROLL.teacher){
+                    json.method = ALLSTUDENTRECEIVEMETHOD.white;
+                    broadcast(classRoom.students,JSON.stringify(json));
+                }
+            }
+            break;
+        }
+        case ALLTEACHERSENDMETHOD.path_down:{
+            if(ws.classCode){
+                var classRoom = classRooms[ws.classCode];
+                if(ws.role == ALLROLL.teacher){
+                    json.method = ALLSTUDENTRECEIVEMETHOD.path_down;
+                    broadcast(classRoom.students,JSON.stringify(json));
+                }
+            }
+            break;
+        }
+        case ALLTEACHERSENDMETHOD.path_up:{
+            if(ws.classCode){
+                var classRoom = classRooms[ws.classCode];
+                if(ws.role == ALLROLL.teacher){
+                    json.method = ALLSTUDENTRECEIVEMETHOD.path_up;
+                    broadcast(classRoom.students,JSON.stringify(json));
+                }
+            }
+            break;
+        }
+        case ALLTEACHERSENDMETHOD.path_move:{
+            if(ws.classCode){
+                var classRoom = classRooms[ws.classCode];
+                if(ws.role == ALLROLL.teacher){
+                    json.method = ALLSTUDENTRECEIVEMETHOD.path_move;
+                    broadcast(classRoom.students,JSON.stringify(json));
+                }
+            }
+            break;
+        }
+        case ALLTEACHERSENDMETHOD.path_clear:{
+            if(ws.classCode){
+                var classRoom = classRooms[ws.classCode];
+                if(ws.role == ALLROLL.teacher){
+                    json.method = ALLSTUDENTRECEIVEMETHOD.path_clear;
+                    broadcast(classRoom.students,JSON.stringify(json));
                 }
             }
             break;
@@ -115,3 +162,10 @@ module.exports = function (ws, data) {
         }
     }
 };
+
+function broadcast(students,data){
+    for(var key in students){
+        var student = students[key];
+        student.send(data);
+    }
+}

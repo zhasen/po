@@ -38,51 +38,20 @@ function initTeacher(){
     });
 
     $whiteBoard.bind("click", function(){
-        if($canvas.is(':visible'))
+        var json = getJsonObject();
+        json.method = ALLTEACHERSENDMETHOD.white;
+        if($canvas.is(':visible')){
+            json.bShow = false;
             $canvas.hide();
+        }
         else{
+            json.bShow = true;
             ctxGraphics.clearRect(0, 0, width, height);
             ctxDrawing.clearRect(0, 0, width, height);
             $canvas.show();
         }
-
+        ws.send(JSON.stringify(json));
     });
-
-    canvas = {
-        graphics: [],
-        history: [],
-        drawing: null
-    };
-
-    var offsetX, offsetY;
-    window.onresize = function () {
-        var top, bottom, left, right;
-        top = bottom = left = right = 20;
-        // get current size
-        width = window.innerWidth;
-        height = window.innerHeight;
-        if (width == 0 || height == 0)
-            return;
-
-        offsetX = left;
-        offsetY = top;
-
-        function setPos(e) {
-            e.width = width;
-            e.height = height;
-            e.style.width = width + 'px';
-            e.style.height = height + 'px';
-            e.style.left = offsetX + 'px';
-            e.style.top = offsetY + 'px';
-        }
-        setPos($drawing);
-        setPos($graphics);
-
-        // redraw
-        redrawGraphics();
-        redrawDrawing();
-    };
-    window.onresize();
 
     /* Drawing */
 
@@ -112,6 +81,13 @@ function initTeacher(){
             width: 0.015,
             points: [p]
         };
+        var json = getJsonObject();
+        json.method = ALLTEACHERSENDMETHOD.path_down;
+        json.x = p.x;
+        json.y = p.y;
+        json.color = '#ff0000';
+        json.thickness = 0.015;
+        ws.send(JSON.stringify(json));
         //socket.emit('draw path', p.x, p.y,brushStyle.color, brushStyle.thickness);
     }
 
@@ -122,6 +98,11 @@ function initTeacher(){
             return;
         var p = getPoint(e);
         drawing.points.push(p);
+        var json = getJsonObject();
+        json.method = ALLTEACHERSENDMETHOD.path_move;
+        json.x = p.x;
+        json.y = p.y;
+        ws.send(JSON.stringify(json));
         //socket.emit('draw path add', p.x, p.y);
         redrawDrawing();
     }
@@ -142,6 +123,11 @@ function initTeacher(){
         //$redo.disabled = true;
         //$clear.disabled = false;
         drawPath(ctxGraphics, drawing);
+        var json = getJsonObject();
+        json.method = ALLTEACHERSENDMETHOD.path_up;
+        json.x = lastPoint.x;
+        json.y = lastPoint.y;
+        ws.send(JSON.stringify(json));
         //socket.emit('draw path end', lastPoint.x, lastPoint.y);
         canvas.drawing = null;
         redrawDrawing();
@@ -204,59 +190,4 @@ function initTeacherExplain(){
     $whiteBoard.show();
     $endExplain.show();
     $canvas.hide();
-}
-
-// drawing functions
-function redrawGraphics() {
-    var ctx = ctxGraphics;
-    ctx.clearRect(0, 0, width, height);
-    ctx.save();
-    ctx.globalCompositeOperation = 'destination-over';
-    for (var i = canvas.graphics.length - 1; i >= 0; --i) {
-        var graph = canvas.graphics[i];
-        if (graph.type === 'clear')
-            break;
-        else if (graph.type === 'path')
-            drawPath(ctx, graph);
-    }
-    ctx.restore();
-}
-
-function redrawDrawing() {
-    ctxDrawing.clearRect(0, 0, width, height);
-    if (!canvas.drawing)
-        return;
-    drawPath(ctxDrawing, canvas.drawing);
-}
-
-function drawPath(ctx, graph) {
-    var path = graph.points;
-    if (path.length <= 1)
-        return;
-
-    ctx.save();
-    ctx.lineCap = 'round';
-    ctx.lineWidth = graph.width * width;
-    ctx.strokeStyle = graph.color;
-
-    ctx.beginPath();
-    // move to the first point
-    ctx.moveTo(path[0].x * width, path[0].y * height);
-
-    for (i = 1; i < path.length - 2; i ++)
-    {
-        var xc = (path[i].x + path[i + 1].x) / 2 * width;
-        var yc = (path[i].y + path[i + 1].y) / 2 * height;
-        ctx.quadraticCurveTo(path[i].x * width, path[i].y * height, xc, yc);
-    }
-    // curve through the last two path
-    if (path.length >= 3) {
-        ctx.quadraticCurveTo(
-                path[i].x * width, path[i].y * height,
-                path[i + 1].x * width, path[i + 1].y * height
-        );
-    }
-    ctx.stroke();
-
-    ctx.restore();
 }
