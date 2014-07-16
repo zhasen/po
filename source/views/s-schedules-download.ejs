@@ -8,7 +8,8 @@
         <% }); %>
     </select>
     &nbsp;&nbsp;
-    <a id="schedule-download-url" href="/schedule-download?schoolid=<%= page.user.schoolid %>&classcode=0" style="cursor: pointer;" data-bypass>下载</a>
+    <a id="schedule-download-url" href="/schedule-download?schoolid=<%= page.user.schoolid %>&classcode=0" data-bypass
+       onclick="if($('#download-class').val()==0){return false;}">下载</a>
 
 </div>
 <div style="clear: both"></div>
