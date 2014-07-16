@@ -4,6 +4,7 @@ var PageInput = require('./common/PageInput');
 var commonService = require('./common/commonService');
 var api = require('../../settings').api;
 var ixdf = require('../services/IXDFService');
+var async = require('async');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -21,33 +22,64 @@ module.exports = function (app) {
             next();
         });
     };
-
-    app.get('/interaction-class',getMyClass, function (req, res, next) {
-        asseton(req, res);
+    //查询听说读写四个不同分类的
+    var getClassByType = function(type,callback) {
         var url = {
             "method":"getStudentPaperListInClass",
             "ccode":"TF13202",
             "ucode":"BJ986146",
             "sid":1,
             "paperTypeId":"hdkt",
-            "ptype":""
+            "ptype":type
         };
+        var param = api.imitateExam + commonService.getUrl(url);
+        commonService.request(param,function(err,data){
+            var data = JSON.parse(data);
+            callback(err,data);
+        });
+    };
+    //互动课堂首页
+    app.get('/interaction-class',getMyClass, function (req, res, next) {
+        asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
-        var param = api.imitateExam + commonService.getUrl(url);
-        console.log(param);
-        commonService.request(param,function(data){
-            console.log(data);
-            var sdata = JSON.parse(data);
-            input.data = sdata;
-            console.log("sdata.result------------" +JSON.stringify(sdata.result));
-                if(sdata.errno != 1){
-                res.render('interaction-class',input);
-            }else{
-                res.end();
+        async.series([
+//            function(cb) {
+//                getClassByType(1,function(err,data) {
+//                    cb(err,data);
+//                });
+//            },
+//            function(cb) {
+//                getClassByType(2,function(err,data) {
+//                    cb(err,data);
+//                });
+//            },
+            function(cb) {
+                getClassByType(3,function(err,data) {
+                    cb(err,data);
+                });
             }
-        });
+//            function(cb) {
+//                getClassByType(4,function(err,data) {
+//                    cb(err,data);
+//                });
+//            }
+        ],
+            function(err,data) {
+                if (err) {
+                    throw err; // TODO do more error handling
+                }
+//                input.listening = data[0];
+//                input.speaking = data[1];
+                input.reading = data[0];
+                //input.writing = data[3];
+                console.log(input);
+                res.render('interaction-class',input);
+            }
+        );
     });
+
+
 };

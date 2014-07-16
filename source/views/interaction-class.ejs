@@ -49,28 +49,40 @@
             </ul>
         </div>
         <div class="tab_box">
-            <ul style="display:block;">
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
+
+            <ul style="display:block;" id="reading">
+                <%
+                    if(reading != undefined) {
+                        var reading = reading.result;
+                        var len = reading.length;
+                        for(var i=0;i<len;i++) {
+                            var item = reading[i];
+                %>
+                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#"><%=item.paperName%></a></li>
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
+                <%
+                        }
+                    }
+                %>
             </ul>
-            <ul>
+            <ul id="listening">
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
             </ul>
-            <ul>
+            <ul id="speaking">
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习</a></li>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习</a></li>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
             </ul>
-            <ul>
+            <ul id="writing">
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
