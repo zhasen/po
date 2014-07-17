@@ -34,9 +34,6 @@ module.exports = function (app) {
         };
         var param = api.imitateExam + commonService.getUrl(url);
         commonService.request(param,function(err,data){
-            if(err) {
-                console.err(err);
-            }
             if(data != undefined) {
                 var data = JSON.parse(data);
             }
