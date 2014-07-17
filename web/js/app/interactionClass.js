@@ -8,7 +8,7 @@ define(['jQuery'],
                 var index = $div_li.index(this);
                 $(".tab_box > ul").eq(index).show().siblings().hide();
             })
-        })
+        });
 
         $(function(){
             $(".tab_box ul li").hover(function(){
@@ -16,7 +16,11 @@ define(['jQuery'],
             },function(){
                 $(this).children('.getinto').hide();
             })
-        })
+        });
+
 
     });
+
+
+
 

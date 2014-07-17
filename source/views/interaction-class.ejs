@@ -43,9 +43,9 @@
         <div class="tab_menu">
             <ul class="fix">
                 <li class="selected"><span>Reading</span>阅读</li>
-                <li><span>listening</span>听力</li>
-                <li><span>speaking</span>口语</li>
-                <li><span>writing</span>写作</li>
+                <li onclick="ajaxLoad('listening',1);"><span>listening</span>听力</li>
+                <li onclick="ajaxLoad('speaking',2);"><span>speaking</span>口语</li>
+                <li onclick="ajaxLoad('writing',4);"><span>writing</span>写作</li>
             </ul>
         </div>
         <div class="tab_box">
@@ -59,35 +59,31 @@
                             var item = reading[i];
                 %>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#"><%=item.paperName%></a></li>
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
                 <%
                         }
                     }
                 %>
             </ul>
-            <ul id="listening">
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
+            <ul id="listening" >
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
             </ul>
             <ul id="speaking">
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习</a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习</a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
+                <!--<!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习</a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习</a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
             </ul>
             <ul id="writing">
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习(独立第一条，价值判断第1题) </a></li>
-                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
+                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
             </ul>
         </div>
     </div>
@@ -99,9 +95,31 @@
 <!--课表end-->
 
 <script>
-
-    function ajaxLoad() {
-
+    function ajaxLoad(name,type) {
+        var url = "/interaction/ajaxLoad";
+        $.ajax({
+            type: "POST",
+            data: {type:type},
+            url: url,
+            success: function(data) {
+                if(data != undefined) {
+                    //alert(1);
+                    var result = data.result;
+                    if(result != undefined) {
+                        var arr = [];
+                        //arr.push("<li class='fix'><a href='#' class='getinto'>进入课堂</a> <a href='#'>进入课堂</a></li> ");
+                        for (var i=0;i<result.length;i++)
+                        {
+                            var item = result[i];
+                            if(item != undefined) {
+                                arr.push("<li class='fix'><a href='#' class='getinto'>进入课堂</a> <a href='#'>"+item.paperName+"</a></li> ");
+                            }
+                        }
+                        $("#"+name).html(arr.join(''));
+                    }
+                }
+            }
+        });
     }
 </script>
 

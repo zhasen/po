@@ -34,7 +34,12 @@ module.exports = function (app) {
         };
         var param = api.imitateExam + commonService.getUrl(url);
         commonService.request(param,function(err,data){
-            var data = JSON.parse(data);
+            if(err) {
+                console.err(err);
+            }
+            if(data != undefined) {
+                var data = JSON.parse(data);
+            }
             callback(err,data);
         });
     };
@@ -79,6 +84,14 @@ module.exports = function (app) {
                 res.render('interaction-class',input);
             }
         );
+    });
+
+    //ajax加载其他分类的课程信息
+    app.post('/interaction/ajaxLoad',function(req,res) {
+        var type = req.body.type;
+        getClassByType(type,function(err,data) {
+            res.json(data);
+        });
     });
 
 
