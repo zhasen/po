@@ -18,6 +18,9 @@ define(['jQuery'],
             })
         });
 
+        $(function() {
+
+        });
 
     });
 
