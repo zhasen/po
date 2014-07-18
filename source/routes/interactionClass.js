@@ -22,6 +22,20 @@ module.exports = function (app) {
             next();
         });
     };
+    //获取分类的方法
+    var getPtypeList = function(projectCode,callback) {
+        var url = {
+            "method":"getPtypeList",
+            "projectCode": projectCode
+        };
+        var param = api.imitateExam + commonService.getUrl(url);
+        commonService.request(param,function(err,data){
+            if(data != undefined) {
+                var data = JSON.parse(data);
+            }
+            callback(err,data);
+        });
+    };
     //查询听说读写四个不同分类的
     var getClassByType = function(type,callback) {
         var url = {
@@ -48,35 +62,41 @@ module.exports = function (app) {
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
         async.series([
-//            function(cb) {
-//                getClassByType(1,function(err,data) {
-//                    cb(err,data);
-//                });
-//            },
-//            function(cb) {
-//                getClassByType(2,function(err,data) {
-//                    cb(err,data);
-//                });
-//            },
             function(cb) {
-                getClassByType(3,function(err,data) {
+                getPtypeList("TOEFL",function(err,data) {
+                    cb(err,data);
+                });
+            },
+            function(cb) {
+                getClassByType(1,function(err,data) {
                     cb(err,data);
                 });
             }
-//            function(cb) {
-//                getClassByType(4,function(err,data) {
-//                    cb(err,data);
-//                });
-//            }
+
         ],
             function(err,data) {
                 if (err) {
                     throw err; // TODO do more error handling
                 }
-//                input.listening = data[0];
-//                input.speaking = data[1];
-                input.reading = data[0];
-                //input.writing = data[3];
+                var typeList = data[0].result;
+                for(var i=0;i<typeList.length;i++) {
+                    if(i == 0) {
+                        typeList[i]['ename'] = "listening";
+                        typeList[i]['name'] = "听力";
+                    }else if(i == 1) {
+                        typeList[i]['ename'] = "speaking";
+                        typeList[i]['name'] = "口语";
+                    }else if(i == 2) {
+                        typeList[i]['ename'] = "reading";
+                        typeList[i]['name'] = "阅读";
+                    }else {
+                        typeList[i]['ename'] = "writing";
+                        typeList[i]['name'] = "写作";
+                    }
+
+                }
+                input.typeList = typeList;
+                input.listOne = data[1];
                 console.log(input);
                 res.render('interaction-class',input);
             }

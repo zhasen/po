@@ -36,27 +36,36 @@
 <!--互动课堂start-->
 <div class="lpath_page">
     <ul class="lp_select_operations fix">
-        <li><a href="#" class="btn_test_list lp_pbg"></a></li>
-        <li><a href="#" class="btn_answer_record lp_pbg"></a></li>
+        <li><a class="btn_test_list lp_pbg" id="paperList"></a></li>
+        <li><a class="btn_answer_record lp_pbg" id="answerPaperList"></a></li>
     </ul>
+    <!--课题列表开始-->
     <div class="mt_tab">
         <div class="tab_menu">
             <ul class="fix">
-                <li class="selected"><span>Reading</span>阅读</li>
-                <li onclick="ajaxLoad('listening',1);"><span>listening</span>听力</li>
-                <li onclick="ajaxLoad('speaking',2);"><span>speaking</span>口语</li>
-                <li onclick="ajaxLoad('writing',4);"><span>writing</span>写作</li>
+                <%
+                    for (var x=0;x<typeList.length;x++) {
+                        var type = typeList[x];
+                %>
+                <li <% if(x == 0) {%>class="selected"<% } %> onclick="ajaxLoad('<%=type.ename%>',1);"><span><%=type.ename%></span><%=type.name%></li>
+                <%
+                    }
+                %>
             </ul>
         </div>
         <div class="tab_box">
+            <%
+                for (var t=0;t<typeList.length;t++) {
+                    var ul = typeList[t];
+            %>
 
-            <ul style="display:block;" id="reading">
+            <ul <%if(t == 0) {%>style="display:block;" <% } %> id="<%=ul.ename%>">
                 <%
-                    if(reading != undefined) {
-                        var reading = reading.result;
-                        var len = reading.length;
+                    if(listOne != undefined) {
+                        var listOne = listOne.result;
+                        var len = listOne.length;
                         for(var i=0;i<len;i++) {
-                            var item = reading[i];
+                            var item = listOne[i];
                 %>
                 <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#"><%=item.paperName%></a></li>
                 <%
@@ -64,34 +73,59 @@
                     }
                 %>
             </ul>
-            <ul id="listening" >
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
-            </ul>
-            <ul id="speaking">
-                <!--<!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习</a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习</a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
-            </ul>
-            <ul id="writing">
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习(独立第一条，价值判断第1题) </a></li>-->
-                <!--<li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#">托福精讲精练写作练习</a></li>-->
-            </ul>
+
+            <%
+                }
+            %>
         </div>
     </div>
+    <!--课题列表结束-->
+
+    <!--答题记录-->
+    <div class="mt_tab" style="display: node;">
+        <div class="tab_menu">
+            <ul class="fix">
+                <%
+                for (var x=0;x<typeList.length;x++) {
+                    var type = typeList[x];
+                %>
+                <li <% if(x == 0) {%>class="selected"<% } %> onclick="ajaxLoad('<%=type.ename%>',1);"><span><%=type.ename%></span><%=type.name%></li>
+                <%
+                }
+                %>
+            </ul>
+        </div>
+        <div class="tab_box">
+            <%
+            for (var t=0;t<typeList.length;t++) {
+                var ul = typeList[t];
+            %>
+
+            <ul <%if(t == 0) {%>style="display:block;" <% } %> id="<%=ul.ename%>">
+                <%
+                if(listOne != undefined) {
+                    var listOne = listOne.result;
+                    var len = listOne.length;
+                        for(var i=0;i<len;i++) {
+                    var item = listOne[i];
+                %>
+                <li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#"><%=item.paperName%></a></li>
+                <%
+                }
+                }
+                %>
+            </ul>
+
+            <%
+            }
+            %>
+        </div>
+    </div>
+    <!--答题记录结束-->
+
 </div>
 <!--互动课堂end-->
 
-</div>
-</div>
 <!--课表end-->
 
 <script>

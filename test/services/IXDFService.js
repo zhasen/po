@@ -16,8 +16,9 @@ exports.tearDown = function (done) {
 exports.GetUserTypeByUserId = function (test) {
     ixdf.uniAPIInterface({
 //        userid: 'xdf00228972' // 张洪伟 老师
-        userid: 'xdf001000862' // 李梦晗 学员
-    }, 'user', 'GetUserTypeByUserId', function (err, ret) {
+            userid: 'xdf001000862' // 李梦晗 学员
+        },
+        'user', 'GetUserTypeByUserId', function (err, ret) {
         console.info('TEST：GetUserTypeByUserId:' + JSON.stringify(ret) + "\n");
         test.done();
     });
