@@ -116,6 +116,23 @@ Service.myClass = function (p, callback) {
 };
 
 /**
+ * 通过classcode调取班级信息
+ * param{
+ *  schoolid: req.params.schoolid,
+ *  classcode: req.params.classcode
+ * }
+ */
+Service.classEntity = function (param, callback) {
+    //console.info('classEntity:'+JSON.stringify(param));
+    this.uniAPIInterface(param, 'class', 'GetClassEntity', function (err, ret) {
+        var classData = ret.Data;
+        classData.poBeginDate = time.format(time.netToDate(classData.BeginDate), 'yyyy.MM.dd');
+        classData.poEndDate = time.format(time.netToDate(classData.EndDate), 'yyyy.MM.dd');
+        callback(err, classData);
+    });
+}
+
+/**
  * 根据学生/老师编号获取班级列表，有分页
  * @p 接口中部分应用参数
  * @user 用户对象
@@ -193,8 +210,9 @@ Service.scheduleOfClass = function (param, callback) {
         schoolid: param.schoolid, // eg: 9,
         classCode: param.classcode // eg: '07N105'
     }, 'calendar', 'GetCalendarEventListOfClass', function (err, ret) {
+        console.info('GetCalendarEventListOfClass:');
+        console.info(ret);
         callback(err, ret.Data);
-        //console.info(ret);
     });
 }
 

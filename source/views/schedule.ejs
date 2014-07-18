@@ -1,5 +1,6 @@
 <%- layout('layout') %>
 <% block('view', '<input id="_moduleViewName" type="hidden" value="schedule">') %>
+
 <input type="hidden" id="userid" value="<%= page.user.id %>">
 <input type="hidden" id="userType" value="<%= page.user.type || 1 %>">
 <input type="hidden" id="schoolid" value="<%= page.user.schoolid %>">
@@ -10,19 +11,19 @@
         <div class="lp_thisrec_c">
             <dl class="lp_reccourse">
                 <dt class="f_l">
-                <p><a href="javascript:void(0);"><%= classData.ClassName %></a></p>
-                <strong class="fs_14"><%= classData.ClassCode %></strong>
-                <%= classData.poBeginDate %>-<%= classData.poEndDate %>
+                <p><a href="javascript:void(0);"><%= page.classData.ClassName %></a></p>
+                <strong class="fs_14"><%= page.classData.ClassCode %></strong>
+                <%= page.classData.poBeginDate %>-<%= page.classData.poEndDate %>
                 </dt>
                 <dd class="f_r">
                     <div class="rec_level fs_14">预备</div>
                     <div class="rec_status fc_3dc">
                         <font class="lp_sicons" id="icons_ing"></font>
-                        <% if (classData.ClassStatus == 1) { %>
+                        <% if (page.classData.ClassStatus == 1) { %>
                         已结课
-                        <% } else if (classData.ClassStatus == 2) { %>
+                        <% } else if (page.classData.ClassStatus == 2) { %>
                         未开课
-                        <% } else if (classData.ClassStatus == 0) { %>
+                        <% } else if (page.classData.ClassStatus == 0) { %>
                         上课中
                         <% } %>
                     </div>
@@ -39,8 +40,16 @@
 <!--课表导航start-->
 <div class="lp_coursenav">
     <div class="lpath_page">
-        <div class="sec_nav"><a href="#" class="selected_name">课表</a><a href="#">听课</a><a href="#">互动课堂</a><a href="#">测试</a><a
-                    href="#">在线练习</a><a href="#">模考</a><a href="#">资料</a><a href="#">知识巩固</a></div>
+        <div class="sec_nav">
+            <a href="#" class="selected_name">课表</a>
+            <!--<a href="#">听课</a>-->
+            <a href="#">互动课堂</a>
+            <!--<a href="#">测试</a>-->
+            <!--<a href="#">在线练习</a>-->
+            <a href="#">模考</a>
+            <!--<a href="#">资料</a>-->
+            <!--<a href="#">知识巩固</a>-->
+        </div>
     </div>
 </div>
 <!--课表导航end-->
@@ -50,11 +59,41 @@
         <dl class="btn_part fix">
             <dt class="f_l"><span class="btn_view_lw lp_pbg"></span><span class="btn_view_nw lp_pbg"></span></dt>
             <dd class="f_r">
-                <a href="/schedule-download?schoolid=<%= schoolid %>&classcode=<%= classcode %>" data-bypass class="btn_download_schedule lp_pbg"></a></dd>
+                <a href="/scheduledl-<%= schoolid %>-<%= classcode %>" data-bypass
+                   class="btn_download_schedule lp_pbg"></a></dd>
         </dl>
         <% include s-schedules.ejs %>
     </div>
 </div>
+<script type="text/javascript">
+
+//    window.onload = function () {
+//        var obj = $('.btn_download_schedule');
+//        alert(obj);
+        /*var userid = getElementObj('userid').value;
+         var userType = getElementObj('userType').value;
+         var schoolid = getElementObj('schoolid').value;
+         var code = getElementObj('code').value;
+         alert(1);
+         alert(course_schedule.custom_calendar);
+         alert(custom_calendar);*/
+//        printObj(custom_calendar);
+//        course_schedule.custom_po.myRenderCalendar(userid, userType, schoolid, code);
+//    }
+
+    function getElementObj(name) {
+        return document.getElementById(name);
+    }
+
+    function printObj(obj){
+        var txt = '';
+        for (var key in obj) {
+            txt += ' ' + key + ' ' + obj[key] + "\n";
+        }
+        alert(txt);
+    }
+
+</script>
 
 
 

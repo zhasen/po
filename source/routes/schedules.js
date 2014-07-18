@@ -28,8 +28,22 @@ module.exports = function (app) {
         // 根据学生/老师Code获取全部班级列表
         var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 9999};
         ixdf.classList(param, input.page.user, function (err, data) {
-            // console.info(ret);
+            // console.info(data);
             PageInput.i(req).put('myAllClass', data); // 班级全部列表数据
+            next();
+        });
+    }
+
+    // 通过班级号获取班级数据
+    var getClass = function (req, res, next) {
+        var input = PageInput.i(req);
+        input.classcode = req.params.classcode;
+        input.schoolid = req.params.schoolid;
+        // 通过 classcode 调取班级信息
+        var param = {schoolid: req.params.schoolid, classcode: req.params.classcode};
+        ixdf.classEntity(param, function (err, classData) {
+            console.info(classData);
+            PageInput.i(req).put('classData', classData); // 班级全部列表数据
             next();
         });
     }
@@ -67,41 +81,19 @@ module.exports = function (app) {
     });
 
     // 班级主页-首页
-    app.get('/class-:schoolid-:classcode', getMyClass, function (req, res, next) {
+    app.get('/class-:schoolid-:classcode', getMyClass, getClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
-        input.classcode = req.params.classcode;
-        input.schoolid = req.params.schoolid;
-        // 通过classcode调取班级信息  todo: 封装
-        var param = {schoolid: req.params.schoolid, classcode: req.params.classcode};
-        ixdf.uniAPIInterface(param, 'class', 'GetClassEntity', function (err, ret) {
-            // console.info(ret);
-            var classData = ret.Data;
-            classData.poBeginDate = time.format(time.netToDate(classData.BeginDate), 'yyyy.MM.dd');
-            classData.poEndDate = time.format(time.netToDate(classData.EndDate), 'yyyy.MM.dd');
-            input.classData = classData;
-            res.render('class-page', input);
-        });
+        res.render('class-page', input);
     });
 
     /**
      * 班级主页-课表页
      */
-    app.get('/schedule-:schoolid-:classcode', getMyClass, getAllClass, function (req, res, next) {
+    app.get('/schedule-:schoolid-:classcode', getMyClass, getClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
-        input.classcode = req.params.classcode;
-        input.schoolid = req.params.schoolid;
-        // 通过classcode调取班级信息 todo: 封装
-        var param = {schoolid: req.params.schoolid, classcode: req.params.classcode};
-        ixdf.uniAPIInterface(param, 'class', 'GetClassEntity', function (err, ret) {
-            // console.info(ret);
-            var classData = ret.Data;
-            classData.poBeginDate = time.format(time.netToDate(classData.BeginDate), 'yyyy.MM.dd');
-            classData.poEndDate = time.format(time.netToDate(classData.EndDate), 'yyyy.MM.dd');
-            input.classData = classData;
-            res.render('schedule', input);
-        });
+        res.render('schedule', input);
     });
 
     /**
@@ -128,16 +120,15 @@ module.exports = function (app) {
     /**
      * 下载课程表
      */
-    app.get('/schedule-download', function (req, res, next) {
-        var param = {classcode: req.query.classcode, schoolid: req.query.schoolid };
-        //console.info('schedule-download:' + JSON.stringify(param));
-        ixdf.scheduleOfClass(param, function (err, data) {
-            var filename = 'schedule-' + param.schoolid + '-' + param.classcode;
-            pdf.generatePDF(filename, data, function (err, filename) {
+    app.get('/scheduledl-:schoolid-:classcode', getClass, function (req, res, next) {
+        var input = PageInput.i(req);
+        //console.info('scheduledl:' + JSON.stringify({classcode: input.classcode, schoolid: input.schoolid }));
+        ixdf.scheduleOfClass({classcode: input.classcode, schoolid: input.schoolid }, function (err, events) {
+            var filename = 'schedule-' + input.schoolid + '-' + input.classcode;
+            pdf.generatePDF(filename, events, input.page.classData, function (err, filename) {
                 res.download(filename);
             });
         });
-
     });
 
     /**
