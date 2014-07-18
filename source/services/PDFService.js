@@ -4,13 +4,19 @@ var Service = {};
 
 /**
  * 根据整理课表数据并下载
- * @param param 参数
+ * @param filename pdf文件名字
+ * @param events 日历数据
+ * @param classData 班级数据
  */
-Service.generatePDF = function (filename, data, callback) {
+Service.generatePDF = function (filename, events, classData, callback) {
     var path = 'public/upload/schedule/' + filename + '.pdf';
     var doc = new PDFDocument;
-    data.forEach(function (c) {
-        doc.fontSize(12).text(c.Id + ' ' + c.ClassName + ' ' + c.BeginDate + ' ' + c.EndDate);
+    doc.font('public/upload/schedule/fonts/msyh.ttf'); // 微软雅黑
+//    console.info('generatePDF:' + JSON.stringify(data));
+    console.info('classData:');
+    console.info(classData);
+    events.forEach(function (e) {
+        doc.fontSize(12).text(e.TeacherName + ' ' + e.ClassName + ' ' + e.SectBegin + ' ' + e.SectEnd + ' ' + e.PrintAdress);
     });
     var stream = doc.pipe(fs.createWriteStream(path)); // doc.pipe(res)
     doc.end();

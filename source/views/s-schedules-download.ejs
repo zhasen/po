@@ -1,16 +1,29 @@
 <div style="float: left;">我的课表</div>
 <div style="float: right;">
     <span>下载课程表</span>&nbsp;&nbsp;
-    <select id="download-class">
-        <option value="0" selected>请选择要下载的班级</option>
+    <select id="download-class" onchange="download_change(this)">
+        <option value="0" selected="selected">请选择要下载的班级</option>
         <% page.myAllClass.forEach(function(clas){ %>
         <option value="<%= clas.ClassCode %>"><%= clas.ClassName %></option>
         <% }); %>
     </select>
     &nbsp;&nbsp;
-    <a id="schedule-download-url" href="/schedule-download?schoolid=<%= page.user.schoolid %>&classcode=0" data-bypass
-       onclick="if($('#download-class').val()==0){return false;}">下载</a>
+    <a id="scheduledl-url" href="/scheduledl-<%= page.user.schoolid %>-0" data-bypass
+       onclick="if( getElementObj('download-class').value==0){return false;}">下载</a>
 
 </div>
 <div style="clear: both"></div>
+<script type="text/javascript">
+    window.onload = function () {
+        download_change(getElementObj('download-class'));
+    }
+    function download_change(obj) {
+        var o_a_url = getElementObj('scheduledl-url');
+        //alert(o_a_url.href.match(/\-(\w+)$/g));
+        o_a_url.href = o_a_url.href.replace(/-(\w)+$/g, '-' + obj.value);
+    }
+    function getElementObj(name) {
+        return document.getElementById(name);
+    }
+</script>
 
