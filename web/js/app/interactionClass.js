@@ -17,23 +17,18 @@ define(['jQuery'],
                 })
 
             })
-<<<<<<< HEAD
-=======
-        });
 
-        $(function(){
-            $(".tab_box ul li").hover(function(){
-                $(this).children('.getinto').show();
-            },function(){
-                $(this).children('.getinto').hide();
-            })
-        });
+            $(function(){
+                $(".tab_box ul li").hover(function(){
+                    $(this).children('.getinto').show();
+                },function(){
+                    $(this).children('.getinto').hide();
+                })
+            });
 
-        $(function() {
+            $(function() {
 
-        });
->>>>>>> feivorid
-
+            });
         }
     });
 
