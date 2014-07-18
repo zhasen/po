@@ -2,7 +2,7 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
 
     var custom_calendar = {};
 
-    //calendar.$ = $;
+    custom_calendar.$ = $;
 
     custom_calendar.myRenderCalendar = function (userid, userType, schoolid, code) {
         $('#calendar').fullCalendar('destroy');
