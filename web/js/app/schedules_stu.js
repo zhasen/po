@@ -1,6 +1,7 @@
 define(['jQuery', 'Bootstrap', '../course_schedule/custom_calendar'],
     function ($, Bootstrap, calendar) {
         if ($('#_moduleViewName').val() == 'schedules_stu') {
+
             var userid = $('#userid').val();
             var userType = $('#userType').val();
             var schoolid = $('#schoolid').val();
