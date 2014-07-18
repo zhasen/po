@@ -16,7 +16,7 @@ define(['jQuery'],
                     $(this).children('.getinto').hide();
                 })
 
-            })
+            });
 
             $(function(){
                 $(".tab_box ul li").hover(function(){
@@ -29,6 +29,7 @@ define(['jQuery'],
             $(function() {
 
             });
+
         }
     });
 
