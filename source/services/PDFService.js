@@ -13,7 +13,7 @@ Service.generatePDF = function (filename, events, classData, callback) {
     var doc = new PDFDocument;
     schedule_title(doc, classData); // 课表pdf的title部分
     schedule_class(doc, classData); // 课表pdf的class列表部分
-    schedule_week(doc, events); // 课表pdf的周日历部分
+    //schedule_week(doc, events); // 课表pdf的周日历部分
     var stream = doc.pipe(fs.createWriteStream(path)); // doc.pipe(res)
     doc.end();
     stream.once('close', function () {
@@ -57,7 +57,11 @@ function schedule_title(doc, classData) {
  */
 function schedule_class(doc, classData) {
     schedule_common(doc);
-    grid(doc, 'test', 100, 200, 300, 400);
+    var x = doc.page.margins.left, y = 200; // class列表部分起始的位置
+    /*console.info('doc: ');
+    console.info(doc);*/
+    var w = doc.page.width / 8;
+    grid(doc, 'test', x, y, w, 25, 5, 'center');
 }
 
 /**
@@ -73,11 +77,14 @@ function schedule_week(doc, events) {
  * 封装画格子
  * text(text, x, y, options) 写文字
  * rect(x, y, w, h) 画方格
+ * 部分默认对象属性
+ * doc.page.margins: { top: 72, left: 72, bottom: 72, right: 72 }
+ * doc.page.width: 612
+ * doc.page.height: 792
  */
-function grid(doc, text, x, y, w, h){
-    doc.text(text, x, y);
-    doc.rect(x, y, w, h).stroke();
-//    doc.rect(doc.x, 0, 410, doc.y).stroke();
+function grid(doc, text, x, y, w, h, paddingTop, textAlign) {
+    doc.text(text, x, y + paddingTop, {width: w, height: h, align: textAlign});
+    doc.rect(x, y, w, h).lineWidth(0.5).stroke();
 }
 
 module.exports = Service;
