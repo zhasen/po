@@ -88,4 +88,11 @@ module.exports = function (app) {
         res.render('main-bind',input);
     });
 
+    app.post('/main-bind',function(req,res) {
+        var usertype = req.body.usertype;
+        
+        console.log(usertype);
+        res.redirect('/');
+    });
+
 };
