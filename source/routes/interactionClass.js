@@ -79,24 +79,29 @@ module.exports = function (app) {
                     throw err; // TODO do more error handling
                 }
                 var typeList = data[0].result;
+                var typeArr = [];
                 for(var i=0;i<typeList.length;i++) {
-                    if(i == 0) {
-                        typeList[i]['ename'] = "listening";
-                        typeList[i]['name'] = "听力";
-                    }else if(i == 1) {
-                        typeList[i]['ename'] = "speaking";
-                        typeList[i]['name'] = "口语";
+                    if(i == 1) {
+                        typeArr.push({"code":"1","name":"听力","ename":"listening"});
+//                        typeList[i]['ename'] = "listening";
+//                        typeList[i]['name'] = "听力";
                     }else if(i == 2) {
-                        typeList[i]['ename'] = "reading";
-                        typeList[i]['name'] = "阅读";
-                    }else {
-                        typeList[i]['ename'] = "writing";
-                        typeList[i]['name'] = "写作";
+                        typeArr.push({"code":"2","name":"口语","ename":"speaking"});
+//                        typeList[i]['ename'] = "speaking";
+//                        typeList[i]['name'] = "口语";
+                    }else if(i == 3) {
+                        typeArr.push({"code":"3","name":"阅读","ename":"reading"});
+//                        typeList[i]['ename'] = "reading";
+//                        typeList[i]['name'] = "阅读";
+                    }else if(i == 4){
+                        typeArr.push({"code":"4","name":"写作","ename":"writing"});
+//                        typeList[i]['ename'] = "writing";
+//                        typeList[i]['name'] = "写作";
                     }
 
                 }
-                input.typeList = typeList;
-                input.listOne = data[1];
+                input.typeList = typeArr;
+                input.listOne = data[1].result;
                 console.log(input);
                 res.render('interaction-class',input);
             }
