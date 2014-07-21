@@ -1,1 +1,54 @@
-11
+<%- layout('layout') %>
+<!--banner start-->
+<div class="learn_path_focus lp_classmain_focus">
+    <div class="focus_bg focus_bg_neno">
+        <div class="bind_numberno">
+            <span class="bind_meNo lp_icon"></span>
+            <p>绑定学员号<strong>schedule</strong></p>
+        </div>
+        <div class="lp_view_allcs">
+            <font class="lp_sicons icon_up"></font>
+        </div>
+    </div>
+</div>
+<!--banner end-->
+
+<!--绑定学员信息start-->
+<div class="lpath_page ">
+    <form id="form1" name="form1" method="post" action="" class="lp_boundstudentno">
+        <div class="sinfor fix">
+            <label for="textfield">学员号</label>
+            <input type="text" name="no" class="input_box"/>
+        </div>
+        <div class="sinfor fix">
+            <label for="textfield">学员姓名</label>
+            <input type="text" name="name" class="input_box"/>
+        </div>
+        <div class="sinfor sinbk fix">
+            <label for="textfield">绑定身份</label>
+            <div class="select_id fix">
+                <ul class="indent fix">
+                    <li><button type="button" onclick="getUserType(1);" class="lp_icon student"></button><b>我是学生</b></li>
+                    <li class="last_br"><button onclick="getUserType(2);" type="button" class="lp_icon parent"></button><b>我是家长</b></li>
+                </ul>
+                <p class="bg_bind_shadow fix"><input type="submit" name="button" id="button" value=" " class="btn_binding lp_pbg"/></p>
+                <ul class="tips">
+                    <li class="fix"><span class="bind_success lp_icon"></span><font>您已成功绑定学员号,正在进入班级主页</font> </li>
+                    <li class="fix"><span class="bind_error lp_icon"></span><font class="blank">错误提示</font></li>
+                </ul>
+            </div>
+        </div>
+        <input id="usertype" type="hidden" name="usertype" value="1"/>
+    </form>
+</div>
+<script>
+    function getUserType(type) {
+        if(type == 1) {
+            $("#usertype").val('1');
+        }else if(type == 2) {
+            $("#usertype").val('2');
+        }
+    }
+</script>
+
+<!--绑定学员信息end-->
