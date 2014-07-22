@@ -214,6 +214,49 @@ Service.scheduleOfClass = function (param, callback) {
         console.info(ret);
         callback(err, ret.Data);
     });
-}
+};
+
+/**
+ * 根据学员号 学员姓名绑定学员号。
+ *
+ */
+
+//Service.bindStudentCode = function (userid,email,studentcode,studentName,usertype,method,appkey,appid,url,callback) {
+//    var str = ("method=" + method + "&appid=" + appid + "&userId=" + userid  +  "&email=" + email + "&studentcode=" + studentcode + "&studentName=" + studentName + "&usertype=" + usertype + "&appKey=" + appkey).toLowerCase();
+//    var md5Str = md51(str).toUpperCase();
+//    request({
+//        method: 'post',
+//        url: url,
+//        form: {
+//            method: method,
+//            appid: appid,
+//            userId: userid,
+//            email:email,
+//            studentcode:studentcode,
+//            studentName:studentName,
+//            usertype:usertype,
+//            sign: md5Str
+//        }
+//    }, function (err, resp, ret) {
+//        if(err) {
+//            console.error(err);
+//        }
+//        console.log('----->绑定学员号返回信息:',ret);
+//        callback(ret);
+//    });
+//};
+
+
+var md51 = function (str)
+{
+    var Buffer = require('buffer').Buffer
+    var buf = new Buffer(1024);
+    var len = buf.write(str,0);
+    str = buf.toString('binary', 0, len);
+    var md5sum = crypto.createHash('md5');
+    md5sum.update(str);
+    str = md5sum.digest('hex');
+    return str;
+};
 
 module.exports = Service;
