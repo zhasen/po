@@ -1,5 +1,6 @@
 var PDFDocument = require('pdfkit');
 var fs = require('fs');
+var time = require('../../source/commons/time');
 var Service = {};
 
 /**
@@ -75,40 +76,6 @@ function schedule_class(doc, classData) {
  * 课表pdf的周日历部分
  */
 function schedule_week(doc, events) {
-    var data = {
-        '6-1': 'txx',
-        '1-2': 'xsdfxx',
-        '3-3': 'xxxsfsdf',
-        '1-4': 'xxsdfr43x',
-        '3-1': 'xxxsdf',
-        '2-2': 'xxxsfdcsd',
-        '3-4': 'xxxsdf'
-    };
-    calendar(doc, data);
-    /*events.forEach(function (e) {
-     doc.fontSize(12).text(e.TeacherName + ' ' + e.ClassName + ' ' + e.SectBegin + ' ' + e.SectEnd + ' ' + e.PrintAdress);
-     });*/
-}
-
-/**
- * 画日历
- */
-function calendar(doc, data) {
-    doc.fontSize(10).font('public/upload/schedule/fonts/simfang.ttf');
-    var x = doc.page.margins.left, y = 300; // class列表部分起始的位置
-    var paddingTop = 5, paddingLeft = 1, align = 'center'; // 格子中padding距离, 文字位置
-    var h_title = 25; // 格子的高度
-    var h_event = 50; // 日历格子的高度
-    var columns = [
-        {col: 0, name: '', date: ''},
-        {col: 1, name: '星期一', date: 'xxx'},
-        {col: 2, name: '星期二', date: 'xxx'},
-        {col: 3, name: '星期三', date: 'xxx'},
-        {col: 4, name: '星期四', date: 'xxx'},
-        {col: 5, name: '星期五', date: 'xxx'},
-        {col: 6, name: '星期六', date: 'xxx'},
-        {col: 7, name: '星期日', date: 'xxx'}
-    ]
     var lines = [
         {row: 0, name: ''},
         {row: 1, name: '8:00-10:00'},
@@ -116,6 +83,67 @@ function calendar(doc, data) {
         {row: 3, name: '13:30-15:30'},
         {row: 4, name: '15:40-17:40'}
     ];
+    var weeks = compute_week(events);
+    for (var w in weeks) {
+        var data = {};
+        weeks[w].forEach(function (e) {
+            data[e.weekday + '-1'] = e.ClassName;
+        });
+        calendar(doc, data, w, weeks[w], lines);
+//        console.info('weeks count:' + w);
+    }
+}
+
+/**
+ * 周的计算: 处理日期，分出第几周，一共几周，每周的日期排列
+ * @param data
+ */
+function compute_week(events) {
+    var weeks = {}; // {第几周: [{event}, {event} ... ]}
+    events.sort(function (a, b) {
+        return time.netToDate(a.SectBegin) > time.netToDate(b.SectBegin) ? 1 : -1; // 按日期先后排序
+    });
+    var w = 1; // 第几周
+    var lastWeekDay = 0; // 临时性存储，用于周次判断
+    events.forEach(function (e) {
+        e.weekday = time.netToDate(e.SectBegin).getDay() || 7; // 周几（周日改为7，不默认0）
+        if (e.weekday < lastWeekDay) w++;
+        lastWeekDay = e.weekday;
+        weeks[w] = weeks[w] || [];
+        weeks[w].push(e);
+//        e.SectBegin + ' ' + e.SectEnd + ' ' + e.PrintAdress;
+    });
+    return weeks;
+}
+
+/**
+ * 画日历
+ * @param doc
+ * @param data
+ * @param w 第几周
+ * @param week 一周中的events
+ */
+function calendar(doc, data, w, week, lines) {
+    doc.moveUp();
+    doc.fontSize(10).font('public/upload/schedule/fonts/simfang.ttf');
+    var x = doc.page.margins.left, y = (w - 1) * 10 + 300; // class列表部分起始的位置
+    if (w != 1) doc.addPage();
+    var paddingTop = 5, paddingLeft = 1, align = 'center'; // 格子中padding距离, 文字位置
+    var h_title = 25; // 格子的高度
+    var h_event = 50; // 日历格子的高度
+    var columns = [
+        {col: 0, name: '', date: ''},
+        {col: 1, name: '星期一', date: ''},
+        {col: 2, name: '星期二', date: ''},
+        {col: 3, name: '星期三', date: ''},
+        {col: 4, name: '星期四', date: ''},
+        {col: 5, name: '星期五', date: ''},
+        {col: 6, name: '星期六', date: ''},
+        {col: 7, name: '星期日', date: ''}
+    ]
+    week.forEach(function (e) {
+        columns[e.weekday].date = e.SectBegin;
+    });
     var w = (doc.page.width - doc.page.margins.left - doc.page.margins.right) / columns.length; // 格子的宽度
     for (var col in columns) {
         var column = columns[col];

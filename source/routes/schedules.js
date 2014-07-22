@@ -42,7 +42,7 @@ module.exports = function (app) {
         // 通过 classcode 调取班级信息
         var param = {schoolid: req.params.schoolid, classcode: req.params.classcode};
         ixdf.classEntity(param, function (err, classData) {
-            console.info(classData);
+            //console.info(classData);
             PageInput.i(req).put('classData', classData); // 班级全部列表数据
             next();
         });

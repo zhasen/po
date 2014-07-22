@@ -210,8 +210,8 @@ Service.scheduleOfClass = function (param, callback) {
         schoolid: param.schoolid, // eg: 9,
         classCode: param.classcode // eg: '07N105'
     }, 'calendar', 'GetCalendarEventListOfClass', function (err, ret) {
-        console.info('GetCalendarEventListOfClass:');
-        console.info(ret);
+//        console.info('GetCalendarEventListOfClass:');
+//        console.info(ret);
         callback(err, ret.Data);
     });
 };
