@@ -1,6 +1,6 @@
 <%- layout('layout') %>
 
-<input id="classcode" type="hidden" value="<%= classcode %>">
+<input id="classcode" type="hidden" value="<%= page.classData.ClassCode %>">
 
 <!--banner start-->
 <div class="learn_path_focus lp_classmain_focus">
@@ -8,19 +8,19 @@
         <div class="lp_thisrec_c">
             <dl class="lp_reccourse">
                 <dt class="f_l">
-                <p><a href="javascript:void(0);"><%= classData.ClassName %></a></p>
-                <strong class="fs_14"><%= classData.ClassCode %></strong>
-                <%= classData.poBeginDate %>-<%= classData.poEndDate %>
+                <p><a href="javascript:void(0);"><%= page.classData.ClassName %></a></p>
+                <strong class="fs_14"><%= page.classData.ClassCode %></strong>
+                <%= page.classData.poBeginDate %>-<%= page.classData.poEndDate %>
                 </dt>
                 <dd class="f_r">
                     <div class="rec_level fs_14">预备</div>
                     <div class="rec_status fc_3dc">
                         <font class="lp_sicons" id="icons_ing"></font>
-                        <% if (classData.ClassStatus == 1) { %>
+                        <% if (page.classData.ClassStatus == 1) { %>
                         已结课
-                        <% } else if (classData.ClassStatus == 2) { %>
+                        <% } else if (page.classData.ClassStatus == 2) { %>
                         未开课
-                        <% } else if (classData.ClassStatus == 0) { %>
+                        <% } else if (page.classData.ClassStatus == 0) { %>
                         上课中
                         <% } %>
                     </div>
@@ -37,7 +37,7 @@
 <!--课程列表start-->
 <div class="lpath_page">
     <ul class="lp_cousreplaylist fix">
-        <li><a href="schedule" data-bypass class="schedule"><span class="schedule_title lp_icon"></span><b>课表</b><font>schedule</font></a>
+        <li><a href="schedule-<%= schoolid %>-<%= classcode %>" data-bypass class="schedule"><span class="schedule_title lp_icon"></span><b>课表</b><font>schedule</font></a>
         </li>
         <!--<li><a href="#" class="on_line lp_pbg"><div class="mark"></div><span class="oline_title lp_icon"></span><b class="martk_text">在线练习</b><font>test  on-line</font><strong class="notice">9</strong></a></li>-->
         <li><a href="interaction-class" data-bypass class="interaction"><span

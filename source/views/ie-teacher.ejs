@@ -1,24 +1,98 @@
-<div class="bs-docs-example">
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>模考名</th>
-            <th>状态</th>
-            <th>操作1</th>
-            <th>操作2</th>
-            <th>操作3</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td></td>
-            <td>102分</td>
-            <td><a class="btn">下载报告</a></td>
-            <td><a class="btn">查看报告</a></td>
-            <td><a class="btn">答题记录</a></td>
-        </tr>
-        </tbody>
-    </table>
+<% layout('layout') %>
+<!--banner start-->
+<div class="learn_path_focus lp_classmain_focus">
+    <div class="focus_bg">
+        <div class="lp_thisrec_c">
+            <dl class="lp_reccourse">
+                <dt class="f_l">
+                <p><a href="#">托福基础班</a></p>
+                <strong class="fs_14">TF123</strong>
+                2041.12.12-2041.12.12
+                </dt>
+                <dd class="f_r">
+                    <div class="rec_level fs_14">预备</div>
+                    <div class="rec_status fc_3dc">
+                        <font class="lp_sicons" id="icons_ing"></font>
+                        上课中
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <div class="lp_view_allcs">
+            <font class="lp_sicons icon_up"></font>
+        </div>
+    </div>
 </div>
+<!--banner end-->
 
+<!--课表导航start-->
+<div class="lp_coursenav">
+    <div class="lpath_page">
+        <div class="sec_nav">
+            <a href="#">课表</a>
+            <a href="#">听课</a>
+            <a href="/interaction-class">互动课堂</a>
+            <a href="#">测试</a>
+            <a href="#">在线练习</a>
+            <a href="#" class="selected_name">模考</a>
+            <a href="#">资料</a>
+            <a href="#">知识巩固</a>
+        </div>
+    </div>
+</div>
+<!--课表导航end-->
 
+<!--模考start-->
+<div class="lpath_page">
+    <div class="model_test">
+        <div class="model_test_opers">
+            <div class="mt_boxop">
+                <ul class="mt_exam_result mt_student" style="display:block;">
+                    <%
+                    if(ieData.result.length !=0){
+                            ieData.result.forEach(function(val,index){
+                    %>
+                    <li>
+                        <dl class="fix">
+                            <dt class="f_l">
+                                <span class="mt_name"><%=val.paperName%></span>
+                                <%
+                                    if(val.flagFinish==-1){
+                                %>
+                                    <span class="mt_sts">未开始</span>
+                                <%}
+                                    if(val.flagFinish==0){
+                                %>
+                                    <span class="mt_sts">未完成</span>
+                                <%}
+                                    if(val.flagFinish==1){
+                                %>
+                                <span class="mt_sts">102分</span>
+                                <%}%>
+                            </dt>
+                            <dd class="f_r">
+                                <%
+                                    if(val.flagFinish==-1){
+                                %>
+                                    <a href="#">开始测试</a>
+                                <%}
+                                    if(val.flagFinish==0){
+                                %>
+                                    <a href="#">继续测试</a>
+                                <%}
+                                    if(val.flagFinish==1){
+                                %>
+                                    <a href="#">答题记录</a>
+                                    <a href="#">查看报告</a>
+                                    <a href="#">下载报告</a>
+                                <%}%>
+                            </dd>
+                        </dl>
+                    </li>
+                    <%});}%>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--模考end-->
