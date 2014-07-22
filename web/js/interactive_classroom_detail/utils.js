@@ -39,10 +39,12 @@ function initElement(){
 
     window.onresize = function () {
         var top, bottom, left, right;
-        top = bottom = left = right = 20;
+        top = bottom = left = right = 0;
+        top = 85;
+        right = 140;
         // get current size
-        width = window.innerWidth;
-        height = window.innerHeight;
+        width = window.innerWidth - right;
+        height = window.innerHeight - top;
         if (width == 0 || height == 0)
             return;
 

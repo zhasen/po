@@ -6,7 +6,7 @@
     <style type="text/css">
         canvas {
             border: 0 none;
-            background: blue;
+            background: transparent;
         }
 
         #canvas, #drawing {
@@ -22,12 +22,58 @@
         }
 
     </style>
+
+
+
+    <link type='text/css' rel='stylesheet' href="/web/static/styles/common.css"/>
+    <link type='text/css' rel='stylesheet' href="/web/static/styles/designer.css"/>
+    <link type='text/css' rel='stylesheet' href="/web/static/styles/testing.css"/>
+
+    <script type="text/javascript">
+        var paperDef = {"errno":0,"result":{}};
+    </script>
+
+    <script type="text/javascript" src="/web/static/scripts/common.js"></script>
+    <script type="text/javascript" src="/web/static/scripts/designer.core.js"></script>
+    <script type="text/javascript" src="/web/static/scripts/designer.testing.js"></script>
+
+
 </head>
 <body>
 
-<div id="show"></div>
+<div class="designer_box" style="margin-right: 141px">
+    <div id="subject_designer" tabindex="99">
+        <div class="testing_header">
+            <audio id="bgaudio_player" autoplay="autoplay"></audio>
+            <div id="paper_title">
+                <span id="paper_name"></span>
+                <span id="part_name"></span>
+            </div>
+            <div id="header_right_normal" class="designer_header_right" style="top: 5px;right: 10px;">
+                <input id="btn_extral" type="button" value="查看文章" class="testbtn rect"/>
+                <input id="btn_back" type="button" value="back" class="testbtn"/>
+                <input id="btn_ok" type="button" value="Ok" class="testbtn"/>
+                <input id="btn_next" type="button" value="next" class="testbtn"/>
+                <input id="btn_continue" type="button" value="Continue" class="testbtn rect"/>
+            </div>
+            <div id="header_right_extral_return" class="designer_header_right" style="top: 5px;right: 10px;">
+                <input id="btn_extral_return" type="button" value="Return" class="testbtn rect">
+            </div>
+            <div id="header_question">Question <span></span></div>
+            <div id="header_timer_box">
+                <input id="btn_timer" type="button" value="hideTime" class="timerbtn"/>
+                <span class="header_timer_wrap"><span id="header_timer"></span></span>
+            </div>
+        </div>
+        <div class="subject_page">
+            <div id="subject_canvas" class="designer_canvas"></div>
+        </div>
+    </div>
+</div>
 
 <%if(role == 1){%>
+
+<div id="show"></div>
 
 <div id="wait" style="width: 100%;height:100%;position:fixed;left: 0;top: 0;">
     <div style="width: 100%;height: 100%;background: #000000;opacity: 0.5; position:absolute; left:0; top:0;"></div>
@@ -36,15 +82,20 @@
 
 <%}else{%>
 
-<button id="beginAnswer" type="button">分配试题</button>
+<div id="teacher_control" style="width: 141px;height:100%;position:fixed;right: 0;top: 0;background: #ffffff">
 
-<button id="beginExplain" type="button">开始讲解</button>
+    <div id="show"></div>
 
-<button id="whiteBoard" type="button">白板</button>
-<button id="endExplain" type="button">结束讲解</button>
+    <button id="beginAnswer" type="button">分配试题</button>
 
-<div>在线学员：</div>
-<div id="online"></div>
+    <button id="beginExplain" type="button">开始讲解</button>
+
+    <button id="whiteBoard" type="button">显示白板</button>
+    <button id="endExplain" type="button">结束讲解</button>
+
+    <div>在线学员：</div>
+    <div id="online"></div>
+</div>
 
 <%}%>
 

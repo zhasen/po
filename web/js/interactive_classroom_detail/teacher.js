@@ -43,18 +43,19 @@ function initTeacher(){
         if($canvas.is(':visible')){
             json.bShow = false;
             $canvas.hide();
+            $whiteBoard.text('显示白板');
         }
         else{
             json.bShow = true;
             ctxGraphics.clearRect(0, 0, width, height);
             ctxDrawing.clearRect(0, 0, width, height);
             $canvas.show();
+            $whiteBoard.text('隐藏白板');
         }
         ws.send(JSON.stringify(json));
     });
 
     /* Drawing */
-
     function getPoint(e) {
         var x, y;
         if (e.touches) {
@@ -174,6 +175,7 @@ function initTeacherWait(){
     $whiteBoard.hide();
     $endExplain.hide();
     $canvas.hide();
+    $whiteBoard.text('显示白板');
 }
 
 function initTeacherAnswer(){
@@ -182,6 +184,7 @@ function initTeacherAnswer(){
     $whiteBoard.hide();
     $endExplain.hide();
     $canvas.hide();
+    $whiteBoard.text('显示白板');
 }
 
 function initTeacherExplain(){
@@ -190,4 +193,5 @@ function initTeacherExplain(){
     $whiteBoard.show();
     $endExplain.show();
     $canvas.hide();
+    $whiteBoard.text('显示白板');
 }
