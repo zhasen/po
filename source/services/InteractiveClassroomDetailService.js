@@ -19,14 +19,17 @@ var classRooms = {};
 
 function notifyOnlineStudent(classRoom){
     if(classRoom.teacher){
-        var students = '';
-        for(var key in classRoom.students){
-//            alert(values[ele]);//下标
-            students += key + ' ';
+        for(var key in classRoom.allStudents){
+            if(classRoom.students[key]){
+                classRoom.allStudents[key].status = 1;
+            }
+            else{
+                classRoom.allStudents[key].status = 0;
+            }
         }
         var result = {};
         result.method = ALLTEACHERRECEIVEMETHOD.online;
-        result.students = students;
+        result.students = classRoom.allStudents;
         classRoom.teacher.send(JSON.stringify(result));
     }
 }
@@ -44,6 +47,10 @@ module.exports = function (ws, data) {
                 classRoom = {};
                 classRoom.mode = ALLMODE.none;
                 classRoom.students = {};
+                classRoom.allStudents = {};
+                classRoom.allStudents['1'] = {name:'s1',code:'c1',status:0};
+                classRoom.allStudents['2'] = {name:'s2',code:'c2',status:0};
+                classRoom.allStudents['3'] = {name:'s3',code:'c3',status:0};
                 classRooms[json.classCode] = classRoom;
             }
 

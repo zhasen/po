@@ -8,6 +8,34 @@ var $endExplain;
 
 function initTeacher(){
 
+    var onResize = window.onresize;
+    window.onresize = function () {
+        var winH = $(window).height();
+        $("#resource_panel").height(winH);
+        $("#resource_switch").css("top", winH / 2 - 55);
+        $(".resource_list").height(winH - 120 - 36);
+        if(onresize){
+            onResize();
+        }
+    };
+    window.onresize();
+
+    //右侧资源面板的打开关闭
+    $("#resource_switch").bind("click", function(){
+        $(this).toggleClass("opened")
+        if($(this).hasClass("opened")){
+            //打开
+            $("#resource_panel").css("right", "0px");
+            $("#resource_panel").css("box-shadow", "-3px 0px 5px rgba(0,0,0,0.4)");
+        }else{
+            //关闭
+            $("#resource_panel").css("right", "-200px");
+            $("#resource_panel").css("box-shadow", "none");
+        }
+    });
+
+
+
     $beginAnswer = $("#beginAnswer");
     $beginExplain = $("#beginExplain");
     $whiteBoard = $("#whiteBoard");
@@ -160,7 +188,18 @@ function dealTeacherMessage(json){
             break;
         }
         case ALLTEACHERRECEIVEMETHOD.online:{
-            $("#online").text(json.students);
+            var ul = $("#online_students");
+            ul.children().remove();
+            for(var key in json.students){
+                var student = json.students[key];
+                if(student.status == 0){
+                    ul.append('<li>'+'x '+student.name+'</li>');
+                }
+                else{
+                    ul.append('<li>'+'  '+student.name+'</li>');
+                }
+            }
+            //$("#online").text(json.students);
             break;
         }
         default :{
