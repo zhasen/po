@@ -31,8 +31,10 @@ Authenticator.prototype = {
     setAuthentication: function(req, user){
         return req.session[this.userKey] = {
             id: user.id,
-            displayName: user.displayName
+            displayName: user.displayName,
+            email: user.email
         };
+        console.log(req.session);
     },
     saveReturnUrl: function(req){
         var originalUrl = req.protocol + '://' + req.get('host') + (this.context=='/' ? '' : this.context) + req.originalUrl;
