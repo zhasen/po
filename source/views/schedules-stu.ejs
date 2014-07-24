@@ -1,34 +1,151 @@
 <%- layout('layout') %>
 <% block('view', '<input id="_moduleViewName" type="hidden" value="schedules_stu">') %>
 
-<div style="width:1100px; margin: 10px auto;">
-    <input type="hidden" id="tabname" value="<%= tabname %>">
-    <input type="hidden" id="userid" value="<%= page.user.id %>">
-    <input type="hidden" id="userType" value="<%= page.user.type || 1 %>">
-    <input type="hidden" id="schoolid" value="<%= page.user.schoolid %>">
-    <input type="hidden" id="code" value="<%= page.user.code %>">
-    <ul class="nav nav-tabs" id="schedules-stu-tab">
-        <li><a href="#myclass" data-toggle="tab" data-bypass>
-                我的班级
-            </a></li>
-        <li><a href="#myschedule" data-toggle="tab" data-bypass>
-                我的课表
-            </a></li>
-    </ul>
+<input type="hidden" id="tabname" value="<%= tabname %>">
+<input type="hidden" id="userid" value="<%= page.user.id %>">
+<input type="hidden" id="userType" value="<%= page.user.type || 1 %>">
+<input type="hidden" id="schoolid" value="<%= page.user.schoolid %>">
+<input type="hidden" id="code" value="<%= page.user.code %>">
 
-    <div class="tab-content">
-        <div class="tab-pane" id="myclass">
-            <% include s-class-list.ejs %>
-        </div>
-        <div class="tab-pane" id="myschedule">
-            <div>
-                <% include s-schedules-download.ejs %>
-            </div>
-            <% include s-schedules.ejs %>
-        </div>
+<!--课表/班级start-->
+<div class="lp_positionpage lpath_page">
+    <div class="sche_class_tab">
+        <ul class="fix">
+            <li id="tab0" class="scseleted"><font>Schedule</font>课表</li>
+            <li id="tab1"><font>My class</font>我的班级</li>
+        </ul>
     </div>
 </div>
 
+<div class="sche_class_box">
+    <div class="sche_class">
+        <!--banner start-->
+        <div class="learn_path_focus lp_classmain_focus">
+            <div class="focus_bg focus_bg_neno">
+                <div class="bind_numberno noticels">
+                    <span class="ic_shet lp_icon"></span>
+
+                    <p>课表<strong>schedule</strong></p>
+                </div>
+                <div class="lp_view_allcs">
+                    <font class="lp_sicons icon_up"></font>
+                </div>
+            </div>
+        </div>
+        <!--banner end-->
+
+        <!--课表start-->
+        <div class="lp_btnp_Bg lp_btnp_Bgsc">
+            <div class="lpath_page">
+                <dl class="btn_part fix">
+                    <!--<dt class="f_l"><span class="btn_view_lw lp_pbg"></span><span class="btn_view_nw lp_pbg"></span></dt>-->
+                    <dd class="f_r">
+                        <div id="top_box">
+                            <div id="top">
+                                <dl>
+                                    <dt>
+                                    <div id="left_list" class="f_l">
+                                        <div class="pro_select s1">
+                                            <input type="hidden" class="s-hdn">
+                                            <span class="s-ac" id="cityname"><a name="7">请选择班级</a></span>
+
+                                            <div class="s-key " style="display:none;">
+                                                <ul>
+                                                    <% page.myAllClass.forEach(function(clas){ %>
+                                                    <li class="option_class_download">
+                                                        <a href="javascript:void(0)" name="<%= clas.ClassCode %>"
+                                                           data-bypass><%= clas.ClassName %></a>
+                                                    </li>
+                                                    <% }); %>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                    </dt>
+                </dl>
+            </div>
+        </div>
+        <a id="scheduledl-url" href="javascript:void(0)" data-bypass
+           onclick="if($('#download-class').val()==0){return false;}" name=""
+           class="btn_download_scheduleteacher lp_pbg"></a>
+        </dd>
+        </dl>
+
+        <% include s-schedules.ejs %>
+        <!--课表展示-->
+    </div>
+</div>
+<!--课表end-->
+</div>
+<div class="sche_class" style="display:none;">
+    <!--我的班级部分start-->
+    <!--banner start-->
+    <div class="learn_path_focus lp_classmain_focus">
+        <div class="focus_bg focus_bg_neno">
+            <div class="bind_numberno">
+                <span class="ic_mycs lp_icon"></span>
+
+                <p>我的班级<strong>My class</strong></p>
+            </div>
+            <div class="lp_view_allcs">
+                <font class="lp_sicons icon_up"></font>
+            </div>
+        </div>
+    </div>
+    <!--banner end-->
+
+    <!--我在的班级start-->
+    <div class="lpath_page">
+        <!--搜索班级start-->
+        <div class="search_area fix">
+            <div class="search_courses f_r">
+                <label>
+                    <input type="text" id="search-class" value="<%= searchkey %>" class="sinput_box"/>
+                    <input id="search-class-button" class="ic_search lp_sicons" name="button">
+                </label>
+            </div>
+        </div>
+        <!--搜索班级end-->
+
+        <!--参加的班级start-->
+        <ul id="classlist_ul" class="lp_class_list lp_myclass_list fix">
+            <% classlist.forEach(function(clas){ %>
+            <li><a href="/">
+                    <dl class="box ongoing">
+                        <dt class="f_l fs_14">
+                        <p><a href="class-<%= clas.SchoolId %>-<%= clas.ClassCode %>"
+                              data-bypass><%= clas.ClassName %></a></p>
+
+                        <p><%= clas.ClassCode %></p>
+                        <%= clas.poBeginDate %>-<%= clas.poEndDate %>
+                        </dt>
+                        <dd class="f_r">
+                            <div class="course_level have_course fs_14">预备</div>
+                            <div class="course_stauts fc_3dc">
+                                <span class="lp_sicons icons_ing"></span>
+                                <%= clas.ClassStatusText %>
+                            </div>
+                        </dd>
+                    </dl>
+                </a>
+            </li>
+            <% }); %>
+        </ul>
+        <div class="lp_view_allcs lp_view_allmcs">
+            <!--<a href="#" class="fs_14">查看我的所有班级</a>-->
+        </div>
+        <!--参加的班级end-->
+    </div>
+    <!--我在的班级列表end-->
+</div>
+</div>
+<!--课表end-->
+
+<!--我的班级部分end-->
+</div>
+
+</div>
+<!--课表/班级end-->
 
 
 
