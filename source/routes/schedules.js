@@ -69,7 +69,7 @@ module.exports = function (app) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.tabname = req.params.tabname; // 开启哪个标签
-        input.searchkey = req.query.s || ''; // todo: 需要做安全过滤处理
+        input.searchkey = '';
 
         // 根据教师编号获取班级列表
         var param = {classcodeorname: input.searchkey, classstatus: 3, pageindex: req.params.page, pagesize: 9};
@@ -95,6 +95,17 @@ module.exports = function (app) {
         asseton(req, res);
         var input = PageInput.i(req);
         res.render('schedule', input);
+    });
+
+    /**
+     * 异步获取课表数据
+     */
+    app.get('/classlist-data', function (req, res, next) {
+        var user = {type: req.query.type, schoolid: req.query.schoolid, code: req.query.code};
+        var param = {classcodeorname: req.query.class_key, classstatus: 3, pageindex: 1, pagesize: 99};
+        ixdf.classList(param, user, function (err, data) {
+            res.json(data);
+        });
     });
 
     /**

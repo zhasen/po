@@ -13,7 +13,7 @@ a:hover {text-decoration:none; color:#2ba3d4 }
 .fix:after {content:"";visibility:hidden;display:block;height:0;clear:both;}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,fieldset,legend,input,textarea,p,blockquote,th,td {margin:0;padding:0;}
 ul,ol,li { list-style:none;}
-input:focus { outline:none;}
+input:focus,button:focus { outline:none;}
 a{*blr:expression_r(this.onFocus=this.blur());outline:none;} /* 只支持IE，过多使用效率低 */ 
 a:focus {-moz-outline-style: none; } /* IE不支持 */  
 focus {outline: none;} /* for Firefox */

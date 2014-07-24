@@ -1,3 +1,3 @@
-define(['jQuery', './po'], function ($, po) {
-    return po;
+define(['jQuery', './po', './selectMode'], function ($, po, selectMode) {
+    return {po: po, selectMode: selectMode};
 });
