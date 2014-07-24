@@ -22,7 +22,8 @@ var User = sequelize.define('User',
         phone: {type: Sequelize.STRING},
         accessToken: {type: Sequelize.STRING},
         refreshToken: {type: Sequelize.STRING},
-        expiresIn: {type: Sequelize.DATE}
+        expiresIn: {type: Sequelize.DATE},
+        bindStudentCode: {type: Sequelize.BOOLEAN,defaultValue: 0}
     },
     {
         tableName: 'user'
