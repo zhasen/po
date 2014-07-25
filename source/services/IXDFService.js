@@ -117,7 +117,7 @@ Service.myClass = function (p, callback) {
         param.studentcode = p.code;
         methodname = 'GetClassListFilterByStudentCode';
     }
-    this.uniAPIInterface(param, 'class', methodname, function (err, ret) {
+    this.uniAPIInterface(param, 'classExt', methodname, function (err, ret) {
         //console.info(ret)
         var myClass = ret.Data;
         myClass.forEach(function (c) {
@@ -138,7 +138,7 @@ Service.myClass = function (p, callback) {
  */
 Service.classEntity = function (param, callback) {
     //console.info('classEntity:'+JSON.stringify(param));
-    this.uniAPIInterface(param, 'class', 'GetClassEntity', function (err, ret) {
+    this.uniAPIInterface(param, 'classExt', 'GetClassEntity', function (err, ret) {
         var classData = ret.Data;
         classData.poBeginDate = dateShift(classData.BeginDate);
         classData.poEndDate = dateShift(classData.EndDate);
@@ -165,7 +165,7 @@ Service.classList = function (param, user, callback) {
     }
     extend(p, param);
     // 根据学生编号获取班级列表，有分页
-    this.uniAPIInterface(p, 'class', methodname, function (err, ret) {
+    this.uniAPIInterface(p, 'classExt', methodname, function (err, ret) {
         var classlist = ret.Data;
         classlist.forEach(function (c) {
             c.poBeginDate = dateShift(c.BeginDate);
