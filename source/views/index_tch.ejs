@@ -14,13 +14,16 @@
 <div class="lp_studybg">
     <div class="lpath_page">
         <dl class="lp_study_plan fix">
-            <dt class="f_l"><a href="#"><img src="http://api.xdf.cn/Avatar.aspx?userId=<%= user.id %>&size=big" width="169" height="169"
-                                             alt=""/><%= user.displayName %></dt>
+            <dt class="f_l">
+                <a href="javascritp:void(0);">
+                    <img src="http://api.xdf.cn/Avatar.aspx?userId=<%= user.id %>&size=big" width="169" height="169" alt=""/>
+                    <%= user.displayName %>
+                </a></dt>
             <dd class="f_r">
                 <ul class="lp_learn_tasks fix">
-                    <li><a href="schedules-<%=token%>-schedule-1" data-bypass><span class="lp_icon course"></span>课表</a>
+                    <li><a href="schedules-schedule-1" data-bypass><span class="lp_icon course"></span>课表</a>
                     </li>
-                    <li><a href="schedules-<%=token%>-class-1" data-bypass><span class="lp_icon class"></span>班级</a>
+                    <li><a href="schedules-class-1" data-bypass><span class="lp_icon class"></span>班级</a>
                     </li>
                     <!--<li><a href="#"><span class="lp_icon plan"></span>学习计划</a></li>
                     <li><a href="#"><span class="lp_icon add"></span></a></li>-->
@@ -56,13 +59,7 @@
                                 <div class="course_level have_course fs_14">预备</div>
                                 <div class="course_stauts fc_3dc">
                                     <span class="lp_sicons icons_ing"></span>
-                                    <% if (clas.ClassStatus == 1) { %>
-                                    已结课
-                                    <% } else if (clas.ClassStatus == 2) { %>
-                                    未开课
-                                    <% } else if (clas.ClassStatus == 0) { %>
-                                    上课中
-                                    <% } %>
+                                    <%= clas.ClassStatusText %>
                                 </div>
                             </dd>
                         </dl>
@@ -71,7 +68,7 @@
             <% }); %>
         </ul>
         <div class="lp_view_allcs">
-            <a href="#" class="fs_14">查看我的所有班级</a>
+            <a href="schedules-class-1" class="fs_14" data-bypass>查看我的所有班级</a>
             <span class="lp_sicons icon_up"></span>
         </div>
     </div>

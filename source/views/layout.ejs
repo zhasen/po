@@ -34,10 +34,10 @@
                             <span><font></font>我的班级</span>
                         </div>
                         <div class="sub_menu">
-                            <% page.myClass.slice(0, 3).forEach(function(clas){%>
-                                <a href="class-<%= clas.SchoolId %>-<%= clas.ClassCode %>"><%=clas.ClassName%></a>
-                            <% });%>
-                            <a href="#">查看所有班级</a>
+                            <% page.myClass.slice(0, 3).forEach(function(clas){ %>
+                            <a href="class-<%= clas.SchoolId %>-<%= clas.ClassCode %>"><%= clas.ClassName %></a>
+                            <% }); %>
+                            <a href="schedules-class-1" data-bypass>查看所有班级</a>
                         </div>
                     </li>
 
@@ -72,13 +72,13 @@
                         </div>
                     </li>
                     <li class="ico_infor right_blank1">
-                        <div class="menu"><span><img src="/public/build/img/po/images/icon_my.png" width="27"
-                                                     height="23"
-                                                     alt=""/></span></div>
+                        <div class="menu"><span>
+                                <img src="/public/build/img/po/images/icon_my.png" width="27" height="23" alt=""/>
+                            </span></div>
                         <div class="sub_menu">
-                            <a href="#">个人页面</a>
-                            <a href="#">账号设置</a>
-                            <a href="#">绑定学员号</a>
+                            <!--<a href="#">个人页面</a>-->
+                            <!--<a href="#">账号设置</a>-->
+                            <a href="/main-bind" data-bypass>绑定学员号</a>
                             <a href="/auth/logout" data-bypass>退出</a>
                         </div>
                     </li>
@@ -103,10 +103,10 @@
     <!--版权信息start-->
     <div class="learn_path_footer">
         <div class="lpath_page">
-            <p>北京新东方教育科技（集团）有限公司<br />
-                Copyright 2011-2014 Neworiental Corporation, All Rights Reserved<br />
-                © 2011-2014 新东方 版权所有<br />
-                <img src="/public/build/img/po/images/lp_bottom_logo.png" width="67" height="58" alt="" /> </p>
+            <p>北京新东方教育科技（集团）有限公司<br/>
+                Copyright 2011-2014 Neworiental Corporation, All Rights Reserved<br/>
+                © 2011-2014 新东方 版权所有<br/>
+                <img src="/public/build/img/po/images/lp_bottom_logo.png" width="67" height="58" alt=""/></p>
         </div>
     </div>
     <!--版权信息end-->
