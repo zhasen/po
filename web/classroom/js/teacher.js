@@ -21,20 +21,16 @@ function initTeacher(){
     window.onresize();
 
     //右侧资源面板的打开关闭
-    $("#resource_switch").bind("click", function(){
-        $(this).toggleClass("opened")
-        if($(this).hasClass("opened")){
-            //打开
-            $("#resource_panel").css("right", "0px");
-            $("#resource_panel").css("box-shadow", "-3px 0px 5px rgba(0,0,0,0.4)");
+    $(".left_panel .btn_sh").bind("click",function(){
+        var $clist = $(this).prev();
+        if($clist.is(":visible")){
+            $clist.hide();
+            $(".left_panel .btn_sh").css("background",'url(/web/classroom/images/btn_sh_l.png) no-repeat');
         }else{
-            //关闭
-            $("#resource_panel").css("right", "-200px");
-            $("#resource_panel").css("box-shadow", "none");
+            $clist.show();
+            $(".left_panel .btn_sh").css("background",'url(/web/classroom/images/btn_sh_r.png) no-repeat');
         }
-    });
-
-
+    })
 
     $beginAnswer = $("#beginAnswer");
     $beginExplain = $("#beginExplain");
@@ -190,16 +186,20 @@ function dealTeacherMessage(json){
         case ALLTEACHERRECEIVEMETHOD.online:{
             var ul = $("#online_students");
             ul.children().remove();
+            var count = 0;
+            var online = 0;
             for(var key in json.students){
+                count++;
                 var student = json.students[key];
                 if(student.status == 0){
-                    ul.append('<li>'+'x '+student.name+'</li>');
+                    ul.append('<li><img src="/web/classroom/images/ic_dele.png" width="13" height="13"/>'+student.name+'</li>');
                 }
                 else{
-                    ul.append('<li>'+'  '+student.name+'</li>');
+                    online++;
+                    ul.append('<li><img src="/web/classroom/images/ic_online.png" width="13"  height="13"/>'+student.name+'</li>');
                 }
             }
-            //$("#online").text(json.students);
+            $("#online_students_num").text('在线人数：'+online+'/'+count);
             break;
         }
         default :{
@@ -209,28 +209,25 @@ function dealTeacherMessage(json){
 }
 
 function initTeacherWait(){
-    $beginAnswer.show();
-    $beginExplain.hide();
-    $whiteBoard.hide();
-    $endExplain.hide();
+    $('#layout1').show();
+    $('#layout2').hide();
+    $('#layout3').hide();
     $canvas.hide();
     $whiteBoard.text('显示白板');
 }
 
 function initTeacherAnswer(){
-    $beginAnswer.hide();
-    $beginExplain.show();
-    $whiteBoard.hide();
-    $endExplain.hide();
+    $('#layout1').hide();
+    $('#layout2').show();
+    $('#layout3').hide();
     $canvas.hide();
     $whiteBoard.text('显示白板');
 }
 
 function initTeacherExplain(){
-    $beginAnswer.hide();
-    $beginExplain.hide();
-    $whiteBoard.show();
-    $endExplain.show();
+    $('#layout1').hide();
+    $('#layout2').hide();
+    $('#layout3').show();
     $canvas.hide();
     $whiteBoard.text('显示白板');
 }

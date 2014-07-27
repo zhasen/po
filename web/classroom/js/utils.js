@@ -44,7 +44,7 @@ function initElement(){
         right = 140;
         // get current size
         width = window.innerWidth - right;
-        height = window.innerHeight - top;
+        height = window.innerHeight - top - 5;
         if (width == 0 || height == 0)
             return;
 
@@ -59,6 +59,7 @@ function initElement(){
             e.style.left = offsetX + 'px';
             e.style.top = offsetY + 'px';
         }
+        setPos($canvas[0]);
         setPos($drawing);
         setPos($graphics);
 

@@ -1,0 +1,56 @@
+@charset "UTF-8";
+/* CSS Document */
+@charset "utf-8";
+*{ font:100% "微软雅黑"; }
+img {-ms-interpolation-mode:bicubic; border:none;}
+button {cursor:pointer;_cursor:hand;}
+button {overflow:visible;}
+abbr[title],acronym[title] {border-bottom:1px dotted;cursor:help;}
+input[type=hidden] {display:none!important;}
+a {text-decoration:none; color:#686b6b;}
+a:hover {text-decoration:none; color:#37bed0; }
+.fix {zoom:1;}
+.fix:after {content:"";visibility:hidden;display:block;height:0;clear:both;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,fieldset,legend,input,textarea,p,blockquote,th,td {margin:0;padding:0;}
+ul,ol,li { list-style:none;}
+a{*blr:expression_r(this.onFocus=this.blur());outline:none;} /* 只支持IE，过多使用效率低 */ 
+a:focus {-moz-outline-style: none; } /* IE不支持 */  
+focus {outline: none;} /* for Firefox */
+.f_l { float:left;}
+.f_r { float:right;}
+.page { width:960px; margin:0 auto; }
+
+#teacher_control { background:#F0F0F0; border-right:1px solid #D7D7D7; width:828px;}
+#teacher_control { width:130px; font-size:13px;}
+#teacher_control  label { display:block; margin-bottom:8px; height:30px; line-height:30px; background:#ccc; padding-left:5px; color:#2971BC;}
+#teacher_control  label.title { background:none;}
+#teacher_control  label.title  span{ background:#2971BC; padding:3px 6px;margin-right:3px; color:#fff; font-size:13px; display:inline-block; float:right; margin-top:5px;}
+#teacher_control .cbox { vertical-align:middle; padding-right:5px; }
+
+
+.bottom_nav { background:#000; height:35px;}
+.bottom_nav div { float:right; padding-right:70px;}
+.bottom_nav span { display:block; float:left; padding:7px 12px;}
+.bottom_nav span.selected { background:#555;}
+
+
+.left_panel { width:228px!important ; overflow:hidden; position:absolute; z-index:10; left:0; top:0;}
+.student_list { width:203px; border-right:1px solid #F6C582;background:#fff; display:none;}
+.student_list  h3 { background:#EF9133; height:35px; color:#fff; font-size:14px; line-height:35px; text-align:center; vertical-align:top;}
+.student_list  h3 .ic_count { background:url(../images/ic_couont.png) no-repeat; width:24px; height:23px; display:inline-block; padding-right:10px; margin-top:5px;}
+.student_list ul { margin-left:15px; margin-bottom:30px; height:600px; overflow-y:scroll;}
+.student_list ul li { /*background:url(images/ic_dele.png) no-repeat left 18px;*/ line-height:3em; padding-left:20px;}
+.student_list ul li img { padding-right:9px; vertical-align:middle;}
+.student_list ul li a { line-height:3em; font-size:14px;}
+.btn_sh { width:23px; cursor:pointer; background:url(../images/btn_sh_l.png) no-repeat; padding-top:50%; margin-top:200px;}
+
+
+.overlay{position:fixed;top:0;right:0;bottom:0;left:0;z-index:998;width:100%;height:100%;_padding:0 20px 0 0;background:#000;display:none;}
+.showbox{position:fixed;top:0;left:50%;z-index:9999;opacity:0;filter:alpha(opacity=0);margin-left:-80px;}
+*html,*html body{background-image:url(about:blank);background-attachment:fixed;}
+*html .showbox,*html .overlay{position:absolute;top:expression(eval(document.documentElement.scrollTop));}
+#AjaxLoading{border:1px solid #ccc;color:#555;font-size:14px;font-weight:bold;}
+#AjaxLoading div.loadingWord{width:200px;height:50px;line-height:50px;border:2px solid #ccc;background:#fff;}
+#AjaxLoading img{margin:10px 15px;float:left;display:inline;}
+
+#teacher_control {width: 141px;height:100%;position:absolute;right: 0;top: 0;}

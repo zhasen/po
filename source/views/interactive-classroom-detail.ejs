@@ -3,28 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <title>Chat by Web Sockets Record</title>
-    <style type="text/css">
-        canvas {
-            border: 0 none;
-            background: transparent;
-        }
 
-        #canvas, #drawing {
-            background: transparent;
-        }
-
-        #drawing, #graphics{
-            position: absolute;
-        }
-
-        #canvas{
-            display: none;
-        }
-
-    </style>
-
-
-
+    <!--答题部分-->
     <link type='text/css' rel='stylesheet' href="/web/static/styles/common.css"/>
     <link type='text/css' rel='stylesheet' href="/web/static/styles/designer.css"/>
     <link type='text/css' rel='stylesheet' href="/web/static/styles/testing.css"/>
@@ -37,6 +17,27 @@
     <script type="text/javascript" src="/web/static/scripts/designer.core.js"></script>
     <script type="text/javascript" src="/web/static/scripts/designer.testing.js"></script>
 
+    <!--互动部分-->
+    <style type="text/css">
+        canvas {
+            border: 0 none;
+            background: transparent;
+        }
+
+        #canvas, #drawing {
+            background: transparent;
+        }
+
+        #canvas, #drawing, #graphics{
+            position: absolute;
+        }
+
+        #canvas{
+            display: none;
+        }
+
+    </style>
+    <link type='text/css' rel='stylesheet' href="/web/classroom/css/style.css"/>
 
 </head>
 <body>
@@ -75,39 +76,52 @@
 
 <div id="show"></div>
 
-<div id="wait" style="width: 100%;height:100%;position:fixed;left: 0;top: 0;">
-    <div style="width: 100%;height: 100%;background: #000000;opacity: 0.5; position:absolute; left:0; top:0;"></div>
-    <div style="width: 100%;height: 100%;text-align: center;position: fixed;color: #ffffff;top: 50%">请等待</div>
+<div class="overlay"></div>
+<div id="AjaxLoading" class="showbox">
+    <div class="loadingWord"><img src="/web/classroom/images/waiting.gif">老师离线，请稍候...</div>
 </div>
 
 <%}else{%>
 
-<div id="teacher_control" style="width: 141px;height:100%;position:absolute;right: 0;top: 0;background: #ffffff">
+<div id="teacher_control">
 
     <div id="show"></div>
 
-    <button id="beginAnswer" type="button">分配试题</button>
+    <label id="layout1" class="title fix">
+        <input type="checkbox" name="checkbox" id="checkbox" class="cbox" /> 全部
+        <span id="beginAnswer" >分配试题</span>
+    </label>
+    <!--<button id="beginAnswer" type="button">分配试题</button>-->
+    <label id="layout2" class="title fix">
+        <span id="beginExplain">开始讲解</span>
+    </label>
+    <label id="layout3" class="title fix">
 
-    <button id="beginExplain" type="button">开始讲解</button>
+        <span id="endExplain" class="f_l">结束讲解</span>
+        <span id="whiteBoard" class="f_l">显示白板</span>
+    </label>
+    <label>
+        <input type="checkbox" name="checkbox" id="checkbox1" class="cbox" /> 第1题
+    </label>
 
-    <button id="whiteBoard" type="button">显示白板</button>
-    <button id="endExplain" type="button">结束讲解</button>
 
 </div>
 
-<div id="resource_panel" style="top: 0px">
-    <div id="resource_switch"></div>
-    <div class="resource_header">在线人数</div>
-    <ul id="online_students">
-        <li>x s1</li>
-        <li>x s2</li>
-        <li>  s3</li>
-    </ul>
+<div class="left_panel fix">
+    <div class="student_list f_l">
+        <h3 id="online_students_num"><span class="ic_count"></span></h3>
+        <ul id="online_students" class="list">
+            <li><img src="/web/classroom/images/ic_online.png" width="13"  height="13"/>杨阳</li>
+            <li><img src="/web/classroom/images/ic_dele.png" width="13" height="13"/>刘航畅</li>
+        </ul>
+    </div>
+    <div class="btn_sh f_l"></div>
 </div>
+
 
 <%}%>
 
-<div id="canvas">
+<div id="canvas" style="border:1px solid #f00;">
     <canvas id="graphics"></canvas>
     <canvas id="drawing"></canvas>
 </div>
@@ -115,7 +129,7 @@
 </body>
 
 <script type="text/javascript" src="/public/components/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="/web/js/interactive_classroom_detail/utils.js"></script>
+<script type="text/javascript" src="/web/classroom/js/utils.js"></script>
 
 <script type='text/javascript'>
     var role = <%=role%>;
@@ -125,8 +139,10 @@
     var ws;
 </script>
 
-<script type="text/javascript" src="/web/js/interactive_classroom_detail/student.js"></script>
-<script type="text/javascript" src="/web/js/interactive_classroom_detail/teacher.js"></script>
-<script type="text/javascript" src="/web/js/interactive_classroom_detail/main.js"></script>
+<script type="text/javascript" src="/web/classroom/js/student.js"></script>
+<script type="text/javascript" src="/web/classroom/js/teacher.js"></script>
+<script type="text/javascript" src="/web/classroom/js/main.js"></script>
+
+
 
 </html>
