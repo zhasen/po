@@ -1,15 +1,17 @@
+
 var ALLMETHOD = {init:'init',close:'close'};
 
 var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student'};
-var ALLTEACHERSENDMETHOD = {wait:'teacher_send_wait',answer:'teacher_send_answer',explain:'teacher_send_explain',white:'teacher_send_white',path_down:'teacher_send_path_down',path_move:'teacher_send_path_move',path_up:'teacher_send_path_up',path_clear:'teacher_send_path_clear'};
+var ALLTEACHERSENDMETHOD = {offline:'teacher_send_offline',wait:'teacher_send_wait',answer:'teacher_send_answer',explain:'teacher_send_explain',white:'teacher_send_white',path_down:'teacher_send_path_down',path_move:'teacher_send_path_move',path_up:'teacher_send_path_up',path_clear:'teacher_send_path_clear'};
 
-var ALLSTUDENTRECEIVEMETHOD = {wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain',white:'student_receive_white',path_down:'student_receive_path_down',path_move:'student_receive_path_move',path_up:'student_receive_path_up',path_clear:'student_receive_path_clear'};
+var ALLSTUDENTRECEIVEMETHOD = {offline:'student_receive_offline',wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain',white:'student_receive_white',path_down:'student_receive_path_down',path_move:'student_receive_path_move',path_up:'student_receive_path_up',path_clear:'student_receive_path_clear'};
 var ALLSTUDENTSENDMETHOD = {answer:'student_send_answer'};
 
 var ALLROLL = {student:1,teacher:2};
 var ALLWSTYPE = {classRoom:'ClassRoom'};
 
-var ALLMODE = {none:1,student_answer:2,teacher_speak:3};
+var ALLMODE = {teacher_offline:1,wait_teacher_distribute:2,student_answer:3,teacher_speak:4};
+
 
 var canvas, width, height, offsetX, offsetY;
 var $canvas, $drawing, $graphics;
@@ -60,8 +62,12 @@ function initElement(){
             e.style.top = offsetY + 'px';
         }
         setPos($canvas[0]);
+        offsetX = 0;
+        offsetY = 0;
         setPos($drawing);
         setPos($graphics);
+        offsetX = left;
+        offsetY = top;
 
         // redraw
         redrawGraphics();

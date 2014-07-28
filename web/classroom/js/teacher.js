@@ -90,6 +90,7 @@ function initTeacher(){
             x = e.clientX;
             y = e.clientY;
         }
+        console.log("x="+x+",y="+y);
         x -= offsetX; x /= width;
         y -= offsetY; y /= height;
         return {x: x, y: y};
@@ -171,7 +172,10 @@ function dealTeacherMessage(json){
     switch(json.method){
         case ALLMETHOD.init:{
             switch (json.mode){
-                case ALLMODE.none:
+                case ALLMODE.teacher_offline:
+                    initTeacherWait();
+                    break;
+                case ALLMODE.wait_teacher_distribute:
                     initTeacherWait();
                     break;
                 case ALLMODE.student_answer:

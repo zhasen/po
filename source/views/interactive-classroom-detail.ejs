@@ -18,6 +18,21 @@
     <script type="text/javascript" src="/web/static/scripts/designer.testing.js"></script>
 
     <!--互动部分-->
+
+    <script type="text/javascript" src="/web/classroom/js/utils.js"></script>
+
+    <script type='text/javascript'>
+        var role = <%=role%>;
+        var userID = '<%=userID%>';
+        var classCode = '<%=classCode%>';
+        var mode = ALLMODE.teacher_offline;
+        var ws;
+    </script>
+
+    <script type="text/javascript" src="/web/classroom/js/student.js"></script>
+    <script type="text/javascript" src="/web/classroom/js/teacher.js"></script>
+    <script type="text/javascript" src="/web/classroom/js/main.js"></script>
+
     <style type="text/css">
         canvas {
             border: 0 none;
@@ -33,6 +48,7 @@
         }
 
         #canvas{
+            z-index: 11;
             display: none;
         }
 
@@ -78,7 +94,7 @@
 
 <div class="overlay"></div>
 <div id="AjaxLoading" class="showbox">
-    <div class="loadingWord"><img src="/web/classroom/images/waiting.gif">老师离线，请稍候...</div>
+    <div class="loadingWord"><img src="/web/classroom/images/waiting.gif"><span id="loadingText">老师离线，请稍候...</span></div>
 </div>
 
 <%}else{%>
@@ -127,22 +143,5 @@
 </div>
 
 </body>
-
-<script type="text/javascript" src="/public/components/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="/web/classroom/js/utils.js"></script>
-
-<script type='text/javascript'>
-    var role = <%=role%>;
-    var userID = '<%=userID%>';
-    var classCode = '<%=classCode%>';
-    var mode = ALLMODE.none;
-    var ws;
-</script>
-
-<script type="text/javascript" src="/web/classroom/js/student.js"></script>
-<script type="text/javascript" src="/web/classroom/js/teacher.js"></script>
-<script type="text/javascript" src="/web/classroom/js/main.js"></script>
-
-
 
 </html>

@@ -7,8 +7,11 @@ function dealStudentMessage(json){
     switch(json.method){
         case ALLMETHOD.init:{
             switch (json.mode){
-                case ALLMODE.none:
-                    initStudentWait();
+                case ALLMODE.teacher_offline:
+                    initStudentWait('老师离线，请稍后...');
+                    break;
+                case ALLMODE.wait_teacher_distribute:
+                    initStudentWait('等待老师分配试题...');
                     break;
                 case ALLMODE.student_answer:
                     initStudentAnswer();
@@ -19,8 +22,12 @@ function dealStudentMessage(json){
             }
             break;
         }
+        case ALLSTUDENTRECEIVEMETHOD.offline:{
+            initStudentWait('老师离线，请稍后...');
+            break;
+        }
         case ALLSTUDENTRECEIVEMETHOD.wait:{
-            initStudentWait();
+            initStudentWait('等待老师分配试题...');
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.answer:{
@@ -80,8 +87,9 @@ function dealStudentMessage(json){
     }
 }
 
-function initStudentWait(){
+function initStudentWait(str){
     var h = $(document).height();
+    $('#loadingText').text(str);
     $(".overlay").css({"height": h });
     $(".overlay").css({'display':'block','opacity':'0.4'});
     $(".showbox").stop(true).animate({'margin-top':'300px','opacity':'1'},200);
