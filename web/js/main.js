@@ -25,10 +25,14 @@ require.config({
         },
         'fullcalendar': {
             deps: ['jQuery']
-        }
-        ,'moment' : {
+        },
+        'jquery_selectMode': {
+            deps: ['jQuery']
+        },
+        'moment': {
             deps: ['jQuery']
         }
+
     },
     packages: ["skeleton", "misc", "config", "app", "template", "course_schedule", "po"],
     paths: {
@@ -43,6 +47,7 @@ require.config({
         jqBootstrapValidation: '../../public/components/jqBootstrapValidation/dist/jqBootstrapValidation-1.3.7',
         jquery_qeditor: './template/plugs/editor/editor',
         fullcalendar: './course_schedule/fullcalendar',
+        jquery_selectMode: './po/jquery_selectMode',
         moment: '../../public/components/moment/moment'
     },
     deps: ['app', 'misc', 'template', 'course_schedule', 'po'],
