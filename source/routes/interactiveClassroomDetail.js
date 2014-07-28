@@ -2,6 +2,8 @@
 //var auth = require('../middlewares/authenticate');
 //var PageInput = require('./common/PageInput');
 
+var request = require('request');
+
 module.exports = function (app) {
 //    var mode = app.get('env') || 'development';
 //    var asseton = require('../middlewares/asseton')(mode);
@@ -23,5 +25,53 @@ module.exports = function (app) {
         data.classCode = req.query.classCode;
         res.render('interactive-classroom-detail', data);
     });
+
+
+    var testSave = function(req, res) {
+        var template = JSON.parse(JSON.stringify(req.body));
+        console.log(template);
+        console.log(template.method);
+        console.log(template.data);
+        console.log(JSON.stringify(template.data));
+        request({
+            method: 'post',
+            url: "http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do",
+            form: {
+                data: JSON.stringify(template.data),
+                method: template.method
+            }
+        }, function (err, resp, ret) {
+            res.send(ret);
+        });
+    };
+    app.post('/test-save', testSave);
+
+    var testGet = function(req, res) {
+        var template = JSON.parse(JSON.stringify(req.body));
+        console.log(template);
+        console.log(template.paperId);
+        console.log(template.allotId);
+        console.log(template.testId);
+        console.log(template.userId);
+        console.log(template.testFrom);
+        console.log(template.method);
+        var str = "http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?";
+
+        str += "method="+template.method;
+        str += "&paperId="+template.paperId;
+        str += "&allotId="+template.allotId;
+        str += "&testFrom="+template.testFrom;
+        str += "&userId="+template.userId;
+        if(template.testId)
+            str += "&testId="+template.testId;
+
+        request({
+            method: 'get',
+            url: str
+        }, function (err, resp, ret) {
+            res.send(ret);
+        });
+    };
+    app.post('/test-get', testGet);
 
 };
