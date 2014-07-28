@@ -36,12 +36,12 @@ Service.deletePDF = function (path, callback) {
  */
 function schedule_title(doc, classData) {
     doc.fontSize(18).font('public/upload/schedule/fonts/simhei.ttf');
-    doc.text(classData.SchoolId + 'test', {align: 'center'});
+    doc.text(classData.ClassName, {align: 'center'});
     doc.moveDown();
     doc.fontSize(12).font('public/upload/schedule/fonts/simfang.ttf');
-    doc.text('姓名：' + 'xxx', {align: 'right'});
-    doc.text('部门：' + 'xxx', {align: 'right'});
-    doc.text('老师编号：' + 'xxx', {align: 'center'});
+    //doc.text('姓名：' + 'xxx', {align: 'right'});
+    //doc.text('部门：' + 'xxx', {align: 'right'});
+    //doc.text('老师编号：' + 'xxx', {align: 'center'});
     doc.text('上课班级信息汇总：', {align: 'left'});
 }
 
