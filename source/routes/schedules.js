@@ -12,7 +12,7 @@ module.exports = function (app) {
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
         // 测试数据，勿删除，等登录页面做好并打通后再删除
-        //req.session.user = { id: 'xdf001000862', displayName: '李梦晗', type: 1, code: 'BJ986146', schoolid: 1 }; // 学员
+        req.session.user = { id: 'xdf001000862', displayName: '李梦晗', type: 1, code: 'BJ986146', schoolid: 1 }; // 学员
         //req.session.user = { id: 'xdf00228972', displayName: '张洪伟', type: 2, code: 'BM0001', schoolid: 1 }; // 老师
 
         var user = PageInput.i(req).page.user;
@@ -42,48 +42,33 @@ module.exports = function (app) {
         // 通过 classcode 调取班级信息
         var param = {schoolid: req.params.schoolid, classcode: req.params.classcode};
         ixdf.classEntity(param, function (err, classData) {
-            console.info(classData);
+            //console.info(classData);
             PageInput.i(req).put('classData', classData); // 班级全部列表数据
             next();
         });
     }
 
-    // 学生-所有班级、所有课表页面
-    app.get('/schedules-stu-:tabname-:page', getMyClass, getAllClass, function (req, res, next) {
+    // 学生/老师-所有班级、所有课表页面
+    app.get('/schedules-:tabname-:page', getMyClass, getAllClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.tabname = req.params.tabname; // 开启哪个标签
-        input.searchkey = req.query.s || ''; // todo: 需要做安全过滤处理
+        input.searchkey = '';
+        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
 
         // 根据学生编号获取班级列表，有分页
         var param = {classcodeorname: input.searchkey, classstatus: 3, pageindex: req.params.page, pagesize: 9};
         ixdf.classList(param, input.page.user, function (err, data) {
             // console.info(ret);
             input.classlist = data; // 班级列表数据
-            res.render('schedules-stu', input);
-        });
-    });
-
-    // 老师-所有班级、所有课表页面，有分页
-    app.get('/schedules-tch-:tabname-:page', getMyClass, getAllClass, function (req, res, next) {
-        asseton(req, res);
-        var input = PageInput.i(req);
-        input.tabname = req.params.tabname; // 开启哪个标签
-        input.searchkey = req.query.s || ''; // todo: 需要做安全过滤处理
-
-        // 根据教师编号获取班级列表
-        var param = {classcodeorname: input.searchkey, classstatus: 3, pageindex: req.params.page, pagesize: 9};
-        ixdf.classList(param, input.page.user, function (err, data) {
-            // console.info(ret);
-            input.classlist = data; // 班级列表数据
-            res.render('schedules-tch', input);
+            res.render('schedules-' + input.token, input);
         });
     });
 
     // 班级主页-首页
     app.get('/class-:schoolid-:classcode', getMyClass, getClass, function (req, res, next) {
         asseton(req, res);
-        console.log(req.session);
+        //console.log(req.session);
         var input = PageInput.i(req);
         res.render('class-page', input);
     });
@@ -95,6 +80,17 @@ module.exports = function (app) {
         asseton(req, res);
         var input = PageInput.i(req);
         res.render('schedule', input);
+    });
+
+    /**
+     * 异步获取课表数据
+     */
+    app.get('/classlist-data', function (req, res, next) {
+        var user = {type: req.query.type, schoolid: req.query.schoolid, code: req.query.code};
+        var param = {classcodeorname: req.query.class_key, classstatus: 3, pageindex: 1, pagesize: 99};
+        ixdf.classList(param, user, function (err, data) {
+            res.json(data);
+        });
     });
 
     /**

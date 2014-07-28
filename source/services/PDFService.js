@@ -1,5 +1,6 @@
 var PDFDocument = require('pdfkit');
 var fs = require('fs');
+var time = require('../../source/commons/time');
 var Service = {};
 
 /**
@@ -41,18 +42,17 @@ function schedule_title(doc, classData) {
     doc.text('姓名：' + 'xxx', {align: 'right'});
     doc.text('部门：' + 'xxx', {align: 'right'});
     doc.text('老师编号：' + 'xxx', {align: 'center'});
-    doc.moveDown();
     doc.text('上课班级信息汇总：', {align: 'left'});
-    doc.moveDown();
 }
 
 /**
  * 课表pdf的class列表部分
  */
 function schedule_class(doc, classData) {
-    // console.info('doc: '); console.info(doc);
+    /*console.info('doc: ');
+     console.info(doc);*/
     doc.fontSize(10).font('public/upload/schedule/fonts/simfang.ttf');
-    var x = doc.page.margins.left, y = 200; // class列表部分起始的位置
+    var x = doc.page.margins.left, y = 170; // class列表部分起始的位置
     var paddingTop = 5, paddingLeft = 1, align = 'center'; // 格子中padding距离, 文字位置
     var h1 = 25, h2 = 50; // 两行格子的高度
     var data = [
@@ -75,47 +75,87 @@ function schedule_class(doc, classData) {
  * 课表pdf的周日历部分
  */
 function schedule_week(doc, events) {
-    var data = {
-        '6-1': 'txx',
-        '1-2': 'xsdfxx',
-        '3-3': 'xxxsfsdf',
-        '1-4': 'xxsdfr43x',
-        '3-1': 'xxxsdf',
-        '2-2': 'xxxsfdcsd',
-        '3-4': 'xxxsdf'
-    };
-    calendar(doc, data);
-    /*events.forEach(function (e) {
-     doc.fontSize(12).text(e.TeacherName + ' ' + e.ClassName + ' ' + e.SectBegin + ' ' + e.SectEnd + ' ' + e.PrintAdress);
-     });*/
+    var lines = [
+        {row: 0, name: '', t: 0 },
+        {row: 1, name: '8:00-10:00', t: 8 * 60},
+        {row: 2, name: '10:10-12:10', t: 10 * 60},
+        {row: 3, name: '13:30-15:30', t: 13 * 60 + 30},
+        {row: 4, name: '15:40-17:40', t: 15 * 60 + 40},
+        {row: 5, name: '晚上', t: 24 * 60}
+    ];
+    var weeks = compute_week(events);
+    for (var w in weeks) {
+        var data = {}, row = 0;
+        weeks[w].forEach(function (e) {
+            var date = time.netToDate(e.SectBegin);
+            lines.forEach(function (l) {
+                if (date.getHours() * 60 + date.getMinutes() > l.t) row = l.row;
+            });
+            data[e.weekday + '-' + row] = e.ClassName;
+        });
+        calendar(doc, data, w, weeks[w], lines);
+    }
+}
+
+/**
+ * 周的计算: 处理日期，分出第几周，一共几周，每周的日期排列
+ * @param data
+ */
+function compute_week(events) {
+    var weeks = {}; // {第几周: [{event}, {event} ... ]}
+    events.sort(function (a, b) {
+        return time.netToDate(a.SectBegin) > time.netToDate(b.SectBegin) ? 1 : -1; // 按日期先后排序
+    });
+    var w = 1; // 第几周
+    var lastWeekDay = 0; // 临时性存储，用于周次判断
+    events.forEach(function (e) {
+        e.weekday = time.netToDate(e.SectBegin).getDay() || 7; // 周几（周日改为7，不默认0）
+        if (e.weekday < lastWeekDay) w++;
+        lastWeekDay = e.weekday;
+        weeks[w] = weeks[w] || [];
+        weeks[w].push(e);
+    });
+    return weeks;
 }
 
 /**
  * 画日历
+ * @param doc
+ * @param data
+ * @param w 第几周
+ * @param week 一周中的events
  */
-function calendar(doc, data) {
+function calendar(doc, data, w, week, lines) {
     doc.fontSize(10).font('public/upload/schedule/fonts/simfang.ttf');
-    var x = doc.page.margins.left, y = 300; // class列表部分起始的位置
     var paddingTop = 5, paddingLeft = 1, align = 'center'; // 格子中padding距离, 文字位置
-    var h_title = 25; // 格子的高度
-    var h_event = 50; // 日历格子的高度
+    var h_title = 20; // 格子的高度
+    var h_event = 40; // 日历格子的高度
+    var calendar_height = h_title * 2 + h_event * (lines.length - 1); // 日历的高度
+    var blank_line = 5; // 空行
+    var page = Math.floor(w / 3) + 1; // 第几页
+
+    // 第一页两个课表；从第二页开始，每页三个课表
+    var x = doc.page.margins.left, y = doc.page.margins.top;
+    if (page == 1) {
+        y = doc.page.margins.top + 180 + (w - 1) * (calendar_height + blank_line)
+    } else {
+        if (w == (page - 1) * 3) doc.addPage(); // 每逢w为3/6/9...时，新加pdf页
+        y = doc.page.margins.top + (w - 3) * (calendar_height + blank_line);
+    }
+    // 课表title
     var columns = [
         {col: 0, name: '', date: ''},
-        {col: 1, name: '星期一', date: 'xxx'},
-        {col: 2, name: '星期二', date: 'xxx'},
-        {col: 3, name: '星期三', date: 'xxx'},
-        {col: 4, name: '星期四', date: 'xxx'},
-        {col: 5, name: '星期五', date: 'xxx'},
-        {col: 6, name: '星期六', date: 'xxx'},
-        {col: 7, name: '星期日', date: 'xxx'}
+        {col: 1, name: '星期一', date: ''},
+        {col: 2, name: '星期二', date: ''},
+        {col: 3, name: '星期三', date: ''},
+        {col: 4, name: '星期四', date: ''},
+        {col: 5, name: '星期五', date: ''},
+        {col: 6, name: '星期六', date: ''},
+        {col: 7, name: '星期日', date: ''}
     ]
-    var lines = [
-        {row: 0, name: ''},
-        {row: 1, name: '8:00-10:00'},
-        {row: 2, name: '10:10-12:10'},
-        {row: 3, name: '13:30-15:30'},
-        {row: 4, name: '15:40-17:40'}
-    ];
+    week.forEach(function (e) {
+        columns[e.weekday].date = time.format(time.netToDate(e.SectBegin), 'yyyy.MM.dd');
+    });
     var w = (doc.page.width - doc.page.margins.left - doc.page.margins.right) / columns.length; // 格子的宽度
     for (var col in columns) {
         var column = columns[col];
@@ -123,12 +163,7 @@ function calendar(doc, data) {
         grid(doc, column.date, x + column.col * w, y + h_title, w, h_title, paddingTop, paddingLeft, align);
         for (var row in lines) {
             var line = lines[row];
-            var txt = '';
-            if (column.col == 0) {
-                txt = line.name;
-            } else {
-                txt = data[col + '-' + row] || '';
-            }
+            var txt = (column.col == 0) ? line.name : (data[col + '-' + row] || '');
             grid(doc, txt, x + column.col * w, y + h_title * 2 + (line.row - 1 ) * h_event, w, h_event, paddingTop, paddingLeft, align);
         }
     }

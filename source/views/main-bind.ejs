@@ -18,11 +18,11 @@
     <form id="form1" name="form1" method="post" action="" class="lp_boundstudentno">
         <div class="sinfor fix">
             <label for="textfield">学员号</label>
-            <input type="text" name="no" class="input_box"/>
+            <input type="text" name="studentcode" required class="input_box"/>
         </div>
         <div class="sinfor fix">
             <label for="textfield">学员姓名</label>
-            <input type="text" name="name" class="input_box"/>
+            <input type="text" name="studentName" required class="input_box"/>
         </div>
         <div class="sinfor sinbk fix">
             <label for="textfield">绑定身份</label>
@@ -32,10 +32,10 @@
                     <li class="last_br"><button onclick="getUserType(2);" type="button" class="lp_icon parent"></button><b>我是家长</b></li>
                 </ul>
                 <p class="bg_bind_shadow fix"><input type="submit" name="button" id="button" value=" " class="btn_binding lp_pbg"/></p>
-                <ul class="tips">
-                    <li class="fix"><span class="bind_success lp_icon"></span><font>您已成功绑定学员号,正在进入班级主页</font> </li>
-                    <li class="fix"><span class="bind_error lp_icon"></span><font class="blank">错误提示</font></li>
-                </ul>
+                <!--<ul class="tips">-->
+                    <!--<li class="fix"><span class="bind_success lp_icon"></span><font>您已成功绑定学员号,正在进入班级主页</font> </li>-->
+                    <!--<li class="fix"><span class="bind_error lp_icon"></span><font class="blank">错误提示</font></li>-->
+                <!--</ul>-->
             </div>
         </div>
         <input id="usertype" type="hidden" name="usertype" value="1"/>
@@ -43,12 +43,12 @@
 </div>
 <script>
     function getUserType(type) {
-        if(type == 1) {
-            $("#usertype").val('1');
-        }else if(type == 2) {
-            $("#usertype").val('2');
-        }
+        $("#usertype").val(type);
     }
+
+
+
+
 </script>
 
 <!--绑定学员信息end-->

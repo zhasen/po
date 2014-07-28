@@ -14,6 +14,22 @@ var md5 = function (str) {
     return crypto.createHash('md5').update(String(str)).digest('hex');
 };
 
+var dateShift = function (date) {
+    return time.format(time.netToDate(date), 'yyyy.MM.dd')
+}
+
+var classStatusText = function (ClassStatus) {
+    var text = '';
+    if (ClassStatus == 1) {
+        text = '已结课';
+    } else if (ClassStatus == 2) {
+        text = '未开课';
+    } else if (ClassStatus == 0) {
+        text = '上课中';
+    }
+    return text;
+}
+
 /**
  * 对象合并，把n对象合并到o对象中
  * @param o
@@ -50,9 +66,6 @@ Service.uniAPIInterface = function (param, controllername, methodname, callback)
             logger.error(errMsg);
             callback(new Error(errMsg), null);
         } else {
-            /*console.info('uniAPIInterface:');
-             console.info(ret);
-             callback(null, {Data: []});*/
             ret = JSON.parse(ret);
             callback(null, ret);
         }
@@ -104,12 +117,13 @@ Service.myClass = function (p, callback) {
         param.studentcode = p.code;
         methodname = 'GetClassListFilterByStudentCode';
     }
-    this.uniAPIInterface(param, 'class', methodname, function (err, ret) {
+    this.uniAPIInterface(param, 'classExt', methodname, function (err, ret) {
         //console.info(ret)
         var myClass = ret.Data;
         myClass.forEach(function (c) {
-            c.poBeginDate = time.format(time.netToDate(c.BeginDate), 'yyyy.MM.dd');
-            c.poEndDate = time.format(time.netToDate(c.EndDate), 'yyyy.MM.dd');
+            c.poBeginDate = dateShift(c.BeginDate);
+            c.poEndDate = dateShift(c.EndDate);
+            c.ClassStatusText = classStatusText(c.ClassStatus);
         });
         callback(err, myClass);
     })
@@ -124,10 +138,11 @@ Service.myClass = function (p, callback) {
  */
 Service.classEntity = function (param, callback) {
     //console.info('classEntity:'+JSON.stringify(param));
-    this.uniAPIInterface(param, 'class', 'GetClassEntity', function (err, ret) {
+    this.uniAPIInterface(param, 'classExt', 'GetClassEntity', function (err, ret) {
         var classData = ret.Data;
-        classData.poBeginDate = time.format(time.netToDate(classData.BeginDate), 'yyyy.MM.dd');
-        classData.poEndDate = time.format(time.netToDate(classData.EndDate), 'yyyy.MM.dd');
+        classData.poBeginDate = dateShift(classData.BeginDate);
+        classData.poEndDate = dateShift(classData.EndDate);
+        classData.ClassStatusText = classStatusText(classData.ClassStatus);
         callback(err, classData);
     });
 }
@@ -138,6 +153,7 @@ Service.classEntity = function (param, callback) {
  * @user 用户对象
  */
 Service.classList = function (param, user, callback) {
+    console.info(user);
     var methodname = '', p = {};
     if (user.type == 1) {
         methodname = 'GetClassListFilterByStudentCode';
@@ -149,7 +165,13 @@ Service.classList = function (param, user, callback) {
     }
     extend(p, param);
     // 根据学生编号获取班级列表，有分页
-    this.uniAPIInterface(p, 'class', methodname, function (err, ret) {
+    this.uniAPIInterface(p, 'classExt', methodname, function (err, ret) {
+        var classlist = ret.Data;
+        classlist.forEach(function (c) {
+            c.poBeginDate = dateShift(c.BeginDate);
+            c.poEndDate = dateShift(c.EndDate);
+            c.ClassStatusText = classStatusText(c.ClassStatus);
+        });
         callback(err, ret.Data)
     })
 };
@@ -210,10 +232,52 @@ Service.scheduleOfClass = function (param, callback) {
         schoolid: param.schoolid, // eg: 9,
         classCode: param.classcode // eg: '07N105'
     }, 'calendar', 'GetCalendarEventListOfClass', function (err, ret) {
-        console.info('GetCalendarEventListOfClass:');
-        console.info(ret);
+//        console.info('GetCalendarEventListOfClass:');
+//        console.info(ret);
         callback(err, ret.Data);
     });
-}
+};
+
+/**
+ * 根据学员号 学员姓名绑定学员号。
+ *
+ */
+
+//Service.bindStudentCode = function (userid,email,studentcode,studentName,usertype,method,appkey,appid,url,callback) {
+//    var str = ("method=" + method + "&appid=" + appid + "&userId=" + userid  +  "&email=" + email + "&studentcode=" + studentcode + "&studentName=" + studentName + "&usertype=" + usertype + "&appKey=" + appkey).toLowerCase();
+//    var md5Str = md51(str).toUpperCase();
+//    request({
+//        method: 'post',
+//        url: url,
+//        form: {
+//            method: method,
+//            appid: appid,
+//            userId: userid,
+//            email:email,
+//            studentcode:studentcode,
+//            studentName:studentName,
+//            usertype:usertype,
+//            sign: md5Str
+//        }
+//    }, function (err, resp, ret) {
+//        if(err) {
+//            console.error(err);
+//        }
+//        console.log('----->绑定学员号返回信息:',ret);
+//        callback(ret);
+//    });
+//};
+
+
+var md51 = function (str) {
+    var Buffer = require('buffer').Buffer
+    var buf = new Buffer(1024);
+    var len = buf.write(str, 0);
+    str = buf.toString('binary', 0, len);
+    var md5sum = crypto.createHash('md5');
+    md5sum.update(str);
+    str = md5sum.digest('hex');
+    return str;
+};
 
 module.exports = Service;
