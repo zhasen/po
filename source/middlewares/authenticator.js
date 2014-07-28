@@ -34,7 +34,7 @@ Authenticator.prototype = {
             displayName: user.displayName,
             email: user.email
         };
-        console.log(req.session);
+        //console.log(req.session);
     },
     saveReturnUrl: function(req){
         var originalUrl = req.protocol + '://' + req.get('host') + (this.context=='/' ? '' : this.context) + req.originalUrl;
