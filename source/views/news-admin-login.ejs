@@ -1,0 +1,28 @@
+<%- layout('layout') %>
+<div class="well" style="margin-top: 160px;">
+    <form class="form-horizontal" method="post" style="margin-top: 20px;">
+        <div class="control-group">
+            <label class="control-label" for="inputEmail">账号</label>
+            <div class="controls">
+                <input type="text" name="account" required id="inputEmail" placeholder="请输入账号">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputPassword">密码</label>
+            <div class="controls">
+                <input type="password" name="password" required id="inputPassword" placeholder="请输入密码">
+            </div>
+        </div>
+        <% if(error == 'true') { %>
+        <div class="control-group">
+            <label class="controls small" style="color: red;" for="inputPassword">用户名或密码错误</label>
+        </div>
+        <% } %>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-success">登录</button>
+            </div>
+        </div>
+
+    </form>
+</div>
