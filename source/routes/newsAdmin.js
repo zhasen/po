@@ -22,34 +22,43 @@ module.exports = function (app) {
             next();
         });
     };
-    //登录页面加载
-    app.get('/news-admin-login',getMyClass,function(req,res) {
-        asseton(req, res);
-        var input = PageInput.i(req);
-        input.classes = input.page.myClass; // 用于显示首页的六个班级
-        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
-        input.user = input.page.user;
-
-        var error = req.query.error || '';
-        input.error = error;
-
-        console.log(req.session);
-
-        res.render('news-admin-login',input);
-    });
-    //登录表单提交
-    app.post('/news-admin-login',function(req,res) {
-        var account = req.body.account;
-        var password = req.body.password;
-        if(account == 'admin' && password == '123456') {
-            res.redirect('/news-admin');
+    //判断当前会员是否有权限查看该页面内容
+    var isAdmin = function(req,res,next) {
+        var roles = req.session.user.roles || '';
+        if(roles.indexOf('admin') != -1 ) {
+            next();
         }else {
-            res.redirect('/news-admin-login?error=true');
+            res.redirect('/');
         }
-    });
+    };
+    //登录页面加载
+//    app.get('/news-admin-login',getMyClass,function(req,res) {
+//        asseton(req, res);
+//        var input = PageInput.i(req);
+//        input.classes = input.page.myClass; // 用于显示首页的六个班级
+//        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
+//        input.user = input.page.user;
+//
+//        var error = req.query.error || '';
+//        input.error = error;
+//
+//        console.log(req.session);
+//
+//        res.render('news-admin-login',input);
+//    });
+//    //登录表单提交
+//    app.post('/news-admin-login',function(req,res) {
+//        var account = req.body.account;
+//        var password = req.body.password;
+//        if(account == 'admin' && password == '123456') {
+//            res.redirect('/news-admin');
+//        }else {
+//            res.redirect('/news-admin-login?error=true');
+//        }
+//    });
 
     //消息列表页面加载
-    app.get('/news-admin',getMyClass,function(req,res) {
+    app.get('/news-admin',getMyClass,isAdmin,function(req,res) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
@@ -64,7 +73,7 @@ module.exports = function (app) {
     });
 
     //消息添加页面加载
-    app.get('/news-admin-add',getMyClass,function(req,res) {
+    app.get('/news-admin-add',getMyClass,isAdmin,function(req,res) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
@@ -96,7 +105,7 @@ module.exports = function (app) {
     });
 
     //查看详细
-    app.get('/news-detail-:id',getMyClass,function(req,res) {
+    app.get('/news-detail-:id',getMyClass,isAdmin,function(req,res) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
