@@ -75,7 +75,8 @@ module.exports = function (app) {
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
-
+        var uuid = require('uuid');
+        input.state = uuid.v1();
         res.render('main-login',input);
     });
 
