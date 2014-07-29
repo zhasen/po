@@ -65,6 +65,10 @@ module.exports = function (app) {
         if(template.testId)
             str += "&testId="+template.testId;
 
+        str += "&classCode=TF13202";
+
+        console.log(str);
+
         request({
             method: 'get',
             url: str

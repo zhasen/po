@@ -97,7 +97,15 @@
 
 <%if(role == 1){%>
 
-<div id="show"></div>
+<div id="student_control">
+
+    <div id="show"></div>
+
+    <label>
+        <input type="checkbox" name="checkbox" id="checkbox1" class="cbox" /> 第1题
+    </label>
+
+</div>
 
 <div class="overlay"></div>
 <div id="AjaxLoading" class="showbox">
@@ -110,23 +118,25 @@
 
     <div id="show"></div>
 
-    <label id="layout1" class="title fix">
-        <input type="checkbox" name="checkbox" id="checkbox" class="cbox" /> 全部
-        <span id="beginAnswer" >分配试题</span>
+    <label class="title fix">
+        <span id="beginTempRight">初始化右侧</span>
     </label>
+
+    <span id="layout1" class="title fix">
+        <input type="checkbox" name="checkbox" id="checkbox_allpages" class="cbox" /> 全部
+        <span id="beginAnswer" >分配试题</span>
+    </span>
     <!--<button id="beginAnswer" type="button">分配试题</button>-->
-    <label id="layout2" class="title fix">
+    <label id="layout2" class="title fix" style="display: none">
         <span id="beginExplain">开始讲解</span>
     </label>
-    <label id="layout3" class="title fix">
-
+    <label id="layout3" class="title fix" style="display: none">
         <span id="endExplain" class="f_l">结束讲解</span>
         <span id="whiteBoard" class="f_l">显示白板</span>
     </label>
-    <label>
-        <input type="checkbox" name="checkbox" id="checkbox1" class="cbox" /> 第1题
-    </label>
 
+    <ul id="papers" style="overflow-y: scroll">
+    </ul>
 
 </div>
 
@@ -141,6 +151,9 @@
     <div class="btn_sh f_l"></div>
 </div>
 
+<div class="designer_loading">
+    <img src="/web/static/images/loading.gif"/>数据加载中...
+</div>
 
 <%}%>
 

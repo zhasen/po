@@ -23,8 +23,9 @@ focus {outline: none;} /* for Firefox */
 #teacher_control { background:#F0F0F0; border-right:1px solid #D7D7D7; width:828px;}
 #teacher_control { width:130px; font-size:13px;}
 #teacher_control  label { display:block; margin-bottom:8px; height:30px; line-height:30px; background:#ccc; padding-left:5px; color:#2971BC;}
-#teacher_control  label.title { background:none;}
-#teacher_control  label.title  span{ background:#2971BC; padding:3px 6px;margin-right:3px; color:#fff; font-size:13px; display:inline-block; float:right; margin-top:5px;}
+#teacher_control  ul span { display:block; margin-bottom:8px; height:30px; line-height:30px; background:#ccc; padding-left:5px; color:#2971BC;}
+#teacher_control  .title { background:none;}
+#teacher_control  .title  span{ background:#2971BC; padding:3px 6px;margin-right:3px; color:#fff; font-size:13px; display:inline-block; float:right; margin-top:5px;}
 #teacher_control .cbox { vertical-align:middle; padding-right:5px; }
 
 

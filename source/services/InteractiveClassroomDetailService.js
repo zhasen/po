@@ -68,6 +68,9 @@ module.exports = function (ws, data) {
                 result.method = ALLMETHOD.init;
                 if(classRoom.mode == ALLMODE.teacher_offline)
                     result.mode = classRoom.mode = ALLMODE.wait_teacher_distribute;
+                else
+                    result.mode = classRoom.mode;
+
                 ws.send(JSON.stringify(result));
 
                 switch (result.mode){

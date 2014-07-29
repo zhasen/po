@@ -8,12 +8,47 @@ var $endExplain;
 
 function initTeacher(){
 
+    $("#checkbox_allpages").bind("click", function(){
+        var $target = $(this);
+        if($target.is(':checked')){
+            $("#papers").find('input').prop("checked",true);
+        }
+        else{
+            $("#papers").find('input').attr("checked",false);
+        }
+    });
+
+    //将就着来
+    $("#beginTempRight").bind("click", function(){
+        if(Testing.paper.structItem.trees.length > 0){
+            var ul = $("#papers");
+            ul.children().remove();
+            for(var i = 1; i <= Player.subjectList.pages.length;i++){
+                ul.append('<li><span id="page_span'+i+'" pageIndex="'+(i-1)+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" /> 第'+i+'题</span></li>');
+            }
+            ul.bind("click", function(e){
+
+                if(e.target.tagName.toLocaleLowerCase() === 'span'){
+                    var $target = $(e.target);
+                    Player.pageIndex = parseInt($target.attr("pageIndex"));
+                    Player.play();
+                }
+
+            });
+        }
+    });
+
+
+
+
+
     var onResize = window.onresize;
     window.onresize = function () {
         var winH = $(window).height();
         $("#resource_panel").height(winH);
         $("#resource_switch").css("top", winH / 2 - 55);
         $(".resource_list").height(winH - 120 - 36);
+        $("#papers").height(winH - 120);
         if(onresize){
             onResize();
         }
@@ -38,11 +73,36 @@ function initTeacher(){
     $endExplain = $("#endExplain");
 
     $beginAnswer.bind("click", function(){
-        var json = getJsonObject();
-        json.method = ALLTEACHERSENDMETHOD.answer;
-        //这里还需要带上老师分配的试题
-        ws.send(JSON.stringify(json));
-        initTeacherAnswer();
+
+        var ul = $("#papers");
+
+        if(ul.find(":checked").length > 0){
+            var select = new Array();
+            ul.find('input').each(function(){
+                var $target = $(this);
+                if($target.is(':checked')){
+                    select.push(parseInt($target.parent().attr("pageIndex")));
+                }
+                else{
+                    $target.parent().parent().hide();
+                }
+                $target.css({visibility:"hidden"});
+            });
+            if(select.length == 0){
+                alert('请至少选择一道题');
+            }
+            else{
+                //alert(JSON.stringify(select));
+                var json = getJsonObject();
+                json.method = ALLTEACHERSENDMETHOD.answer;
+                json.data = select;
+                ws.send(JSON.stringify(json));
+                initTeacherAnswer();
+            }
+        }
+        else{
+            alert('请至少选择一道题');
+        }
     });
 
     $beginExplain.bind("click", function(){
@@ -218,6 +278,14 @@ function initTeacherWait(){
     $('#layout3').hide();
     $canvas.hide();
     $whiteBoard.text('显示白板');
+
+    var ul = $("#papers");
+    ul.find('input').each(function(){
+        var $target = $(this);
+        $target.parent().parent().show();
+        $target.css({visibility:"visible"});
+    });
+
 }
 
 function initTeacherAnswer(){
