@@ -59,6 +59,7 @@ module.exports = function (ws, data) {
                 notifyOnlineStudent(classRoom);
                 result.method = ALLMETHOD.init;
                 result.mode = classRoom.mode;
+                result.selectPages = classRoom.selectPages;
                 ws.send(JSON.stringify(result));
             }
             else if(json.role == ALLROLL.teacher){
@@ -109,6 +110,7 @@ module.exports = function (ws, data) {
             if(ws.classCode){
                 var classRoom = classRooms[ws.classCode];
                 classRoom.mode = ALLMODE.student_answer;
+                classRoom.selectPages = json.selectPages;
                 if(ws.role == ALLROLL.teacher){
                     json.method = ALLSTUDENTRECEIVEMETHOD.answer;
                     broadcast(classRoom.students,json);

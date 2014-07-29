@@ -95,7 +95,7 @@ function initTeacher(){
                 //alert(JSON.stringify(select));
                 var json = getJsonObject();
                 json.method = ALLTEACHERSENDMETHOD.answer;
-                json.data = select;
+                json.selectPages = select;
                 ws.send(JSON.stringify(json));
                 initTeacherAnswer();
             }

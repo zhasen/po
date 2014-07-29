@@ -14,7 +14,7 @@ function dealStudentMessage(json){
                     initStudentWait('等待老师分配试题...');
                     break;
                 case ALLMODE.student_answer:
-                    initStudentAnswer();
+                    initStudentAnswer(json);
                     break;
                 case ALLMODE.teacher_speak:
                     initStudentExplain();
@@ -31,7 +31,7 @@ function dealStudentMessage(json){
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.answer:{
-            initStudentAnswer();
+            initStudentAnswer(json);
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.explain:{
@@ -95,9 +95,21 @@ function initStudentWait(str){
     $(".showbox").stop(true).animate({'margin-top':'300px','opacity':'1'},200);
 }
 
-function initStudentAnswer(){
+function initStudentAnswer(json){
     $(".showbox").stop(true).animate({'margin-top':'250px','opacity':'0'},400);
     $(".overlay").css({'display':'none','opacity':'0'});
+
+    var ul = $("#papers");
+    ul.children().remove();
+    for(var i = 0; i < json.selectPages.length;i++){
+        var j = parseInt(json.selectPages[i]);
+        if(i == 0){
+            //这里会出现 题目还没加载回来的情况 所以要判断 不过以后做吧 等王旭那再也不改了
+            Player.pageIndex = j;
+            Player.play();
+        }
+        ul.append('<li><span id="page_span'+(j+1)+'" pageIndex="'+j+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" style="visibility: hidden"/> 第'+(j+1)+'题</span></li>');
+    }
 }
 
 function initStudentExplain(){
