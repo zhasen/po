@@ -30,11 +30,12 @@ Authenticator.prototype = {
         req.session[this.userKey] = null;
     },
     setAuthentication: function(req, user){
-        return req.session[this.userKey] = {
+        req.session[this.userKey] = {
             id: user.id,
             displayName: user.displayName,
             email: user.email
         };
+        return req.session[this.userKey];
         //console.log(req.session);
     },
     saveReturnUrl: function(req){
