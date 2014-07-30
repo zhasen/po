@@ -6,13 +6,13 @@
 .learn_path_focus  { height:333px; background:#2ba3d4;}
 .learn_path_focus .focus_bg { background:url(/public/build/img/po/images/bg_index_focus.png) no-repeat left -90px;display:block;  width:1058px; height:333px; margin:0 auto;}
 .learn_path_focus .focus_bg  span { display:block; padding:54px 441px 25px;width:176px;}
-.learn_path_focus .focus_bg  p { font-family:'FZZXHJW','方正正纤黑简体'; text-align:center; font-size:26px; color:#fff; }
+.learn_path_focus .focus_bg  p { font-family:'FZZXHJW','方正正纤黑简体'; text-align:center; font-size:26px; color:#fff; font-weight:lighter; }
 
 
 .lp_study_plan { padding-top:12px;}
 .lp_study_plan dt { width:194px; padding-left:25px; }
 .lp_study_plan dd { padding-top:40px; border-left:1px dashed #9C9FA0; width:770px;margin-bottom:12px; }
-.lp_study_plan dt a { display:block; width:151px; height:151px; text-align:center; color:#404648; font-size:18px; }
+.lp_study_plan dt a { display:block; width:151px; height:151px; text-align:center; color:#404648; font-size:18px; font-weight:lighter; }
 .lp_study_plan dt a img {border:0.2px solid #fff;-moz-border-radius:90px;-webkit-border-radius:90px; border-radius:90px; width:150px!important; height:150px!important; margin-bottom:10px; display:block;}
 
 
@@ -53,8 +53,8 @@
 .lp_class_list .ongoing{ background:#f9f9f9; opacity:1;}
 .lp_class_list .hasended { background:#3dc0f1; opacity:0.5; filter:alpha(opacity=50); position:relative;}
 .lp_class_list dt { width:192px; padding:12px 20px; }
-.lp_class_list .ongoing dt {color:#4f4e55; font-family:Arial; font-weight:normal;}
-.lp_class_list .hasended dt { color:#fff;}
+.lp_class_list .ongoing dt {color:#4f4e55; font-family:Arial; font-weight:lighter;}
+.lp_class_list .hasended dt { color:#fff; font-weight:lighter;}
 .lp_class_list dd { width:54px;}
 .lp_class_list dt p {font-size:16px; font-family:'SimHei','黑体'; margin-bottom:7px; line-height:1.3em;}
 .lp_class_list .ongoing dt p{ color:#4f4e55;}
@@ -126,7 +126,9 @@
 /*课表*/
 .lp_coursenav { height:60px; background:#EBEDF6;}
 .lp_coursenav .sec_nav a { display:block; float:left; font-size:15px; color:#4d4b4b; line-height:60px; font-family:Microsoft YaHei; padding:0 35px;}
+.lp_coursenav .sec_nav a:hover { color:#2BA3D4;}
 .lp_coursenav .sec_nav .selected_name{ background:#2BA3D4; color:#fff;}
+.lp_coursenav .sec_nav .selected_name:hover { color:#fff;}
 
 .lp_btnp_Bg { background:#fff url(/public/build/img/po/images/lp_Bg_courseshow.png) repeat-x;}
 .lp_btnp_Bg .btn_part { padding:30px 0 25px 10px; position:relative;}
@@ -157,7 +159,7 @@
 .lp_classmain_focus .ic_shet { background-position:left -2270px;width:116px!important; height:116px; padding:0!important;}
 
 .lp_classmain_focus .bind_numberno p { color:#fff; font-family:'Microsoft YaHei'; font-size:18px; margin-top:25px; margin-left:20px; text-align:left;}
-.lp_classmain_focus .bind_numberno p strong { display:block; font-weight:normal; margin-top:7px;}
+.lp_classmain_focus .bind_numberno p strong { display:block; font-weight:lighter; margin-top:7px;}
 .lp_classmain_focus .focus_bg_neno { padding-top:25px;}
 
 .lp_boundstudentno { width:550px; margin:70px auto 30px;}
@@ -179,8 +181,8 @@
 .lp_boundstudentno  .tips span { display:block; width:44px; height:44px; float:left;}
 .lp_boundstudentno  .tips .bind_success { background-position:left -1595px;}
 .lp_boundstudentno  .tips .bind_error { background-position:left -1645px;}
-.lp_boundstudentno  .tips li { color:#252829; font-size:24px; margin-bottom:15px;font-family:'Microsoft YaHei','微软雅黑';}
-.lp_boundstudentno  .tips li font {/* padding-top:5px;*/ display:inline-block; float:right; width:230px; line-height:1.2em;}
+.lp_boundstudentno  .tips li { color:#252829; font-size:22px; margin-bottom:15px;font-family:'Microsoft YaHei','微软雅黑';}
+.lp_boundstudentno  .tips li font {/* padding-top:5px;*/ display:inline-block; float:right; width:230px; line-height:1.3em;}
 .lp_boundstudentno  .tips li .blank { padding-top:10px;}
 
 /*互动课堂*/
@@ -236,15 +238,15 @@
 .model_test .mt_exam_result { display:none;}
 .model_test .mt_menu li.dfsele { background:#46A93F; color:#fff;}
 .model_test .mt_exam_result li { height:58px; border-bottom:1px solid #BFBFBF; line-height:58px;}
-.model_test .mt_exam_result li dt { margin-left:10px; width:480px;}
-.model_test .mt_exam_result li dt span { display:block; float:left; width:150px; margin:0 5px; color:#484848;font-family:'微软雅黑','Microsoft YaHei'; font-size:16px;}
+.model_test .mt_exam_result li dt { margin-left:10px; width:500px; line-height:58px;}
+.model_test .mt_exam_result li dt span { display:block; float:left; width:155px; margin:0 5px; color:#484848;font-family:'微软雅黑','Microsoft YaHei'; font-size:16px;overflow:hidden; text-overflow:ellipsis;white-space:nowrap; font-weight:lighter;}
 .model_test .mt_exam_result li dd { width:360px;}
-.model_test .mt_exam_result li dd a { display:block; float:right; margin:14px 10px; background:#46A93F; color:#fff; padding:0 16px; height:32px; line-height:32px; font-family:'微软雅黑','Microsoft YaHei'; font-size:16px;}
+.model_test .mt_exam_result li dd a { display:block; float:right; margin:12px 10px; background:#46A93F; color:#fff; padding:0 16px; height:32px; line-height:32px; font-family:'微软雅黑','Microsoft YaHei'; font-size:15px; font-weight:lighter;}
 .model_test .mt_boxop { margin-bottom:30px;}
 
 /*模考--学员模考*/
 .model_test .mt_student { margin-top:15px;}
-.model_test .mt_student li .mt_name { width:300px; margin-right:10px;}
+.model_test .mt_student li .mt_name { width:320px; margin-right:10px;}
 .model_test .mt_student li .mt_sts { width:150px; text-align:center;}
 .model_test .mt_student li dd a { background:#FF9027!important;}
 
@@ -284,11 +286,11 @@
 .sche_class_tab ul { border-bottom:1px solid #BCBCBC; width:1000px;}
 .sche_class_tab ul li { float:left; background:#F1F1F3; margin-right:15px; height:58px; text-align:center; font-size:16px; width:103px;font-family:'微软雅黑','Microsoft YaHei'; color:#949494; cursor:pointer;}
 .sche_class_tab ul li.scseleted { background:#56A943; color:#fff;}
-.sche_class_tab ul li font { display:block; font-size:14px; text-align:right; padding:7px 6px 8px 0; color:#c4c3c5;}
+.sche_class_tab ul li font { display:block; font-size:14px; text-align:right; padding:6px 6px 6px 0; color:#c4c3c5;}
 .sche_class_tab ul li.scseleted  font{ color:#b3d7b1;}
 .lp_btnp_Bgsc { background:#fff url(/public/build/img/po/images/lp_Bg_courseshowsc.png) repeat-x!important;}
-.lp_btnp_Bgsc .btn_part { padding-top:100px;}
-.sche_class .lpath_page .search_area { margin-top:90px;}
+.lp_btnp_Bgsc .btn_part { padding-top:100px; margin-bottom:25px;}
+
 
 
 
