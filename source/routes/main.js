@@ -32,10 +32,14 @@ module.exports = function (app) {
 //        req.session.user = { id: 'xdf00228972', displayName: '张洪伟', type: 2, code: 'BM0001', schoolid: 1 }; // 老师
 
         var user = PageInput.i(req).page.user;
-        ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
-            PageInput.i(req).put('myClass', myClass);
-            next();
-        });
+        if (user) {
+            ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
+                PageInput.i(req).put('myClass', myClass);
+                next();
+            });
+        } else {
+            res.redirect('/main-login');
+        }
     };
 
     var indexPage = function (req, res, next) {
@@ -60,26 +64,26 @@ module.exports = function (app) {
         res.render('test', input);
     });
 
-    app.get('/main',getMyClass,function(req,res) {
+    app.get('/main', getMyClass, function (req, res) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
-        res.render('main',input);
+        res.render('main', input);
     });
 
-    app.get('/main-login',getMyClass,function(req,res) {
+    app.get('/main-login', function (req, res) {
         asseton(req, res);
         var input = PageInput.i(req);
-        input.classes = input.page.myClass; // 用于显示首页的六个班级
+        /*input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
-        input.user = input.page.user;
+        input.user = input.page.user;*/
         input.authorizeUrl = auth.oauthClient.getAuthorizeUrl();
-        res.render('main-login',input);
+        res.render('main-login', input);
     });
 
-    app.get('/main-bind',getMyClass,function(req,res) {
+    app.get('/main-bind', getMyClass, function (req, res) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
@@ -87,10 +91,10 @@ module.exports = function (app) {
         input.user = input.page.user;
         var userItem = req.session;
         //console.log(userItem);
-        res.render('main-bind',input);
+        res.render('main-bind', input);
     });
 
-    app.post('/main-bind',function(req,res) {
+    app.post('/main-bind', function (req, res) {
         var userid = 'xdf001000862';
         var email = 'i@xdf.cn';
         var studentcode = req.body.studentcode;
@@ -99,7 +103,7 @@ module.exports = function (app) {
         var m = "BindStudentCodeByStudentName";
         var k = "v5appkey_test";
         var i = "5001";
-        var str = ("method=" + m + "&appid=" + i + "&userId=" + userid  +  "&email=" + email + "&studentcode=" + studentcode + "&studentName=" + studentName + "&usertype=" + usertype + "&appKey=" + k).toLowerCase();
+        var str = ("method=" + m + "&appid=" + i + "&userId=" + userid + "&email=" + email + "&studentcode=" + studentcode + "&studentName=" + studentName + "&usertype=" + usertype + "&appKey=" + k).toLowerCase();
         var md5Str = md51(str).toUpperCase();
         request({
             method: 'post',
@@ -108,10 +112,10 @@ module.exports = function (app) {
                 method: m,
                 appid: 5001,
                 userId: userid,
-                email:email,
-                studentcode:studentcode,
-                studentName:studentName,
-                usertype:usertype,
+                email: email,
+                studentcode: studentcode,
+                studentName: studentName,
+                usertype: usertype,
                 sign: md5Str
             }
         }, function (err, resp, ret) {
@@ -122,11 +126,10 @@ module.exports = function (app) {
 
     });
 
-    var md51 = function (str)
-    {
+    var md51 = function (str) {
         var Buffer = require('buffer').Buffer
         var buf = new Buffer(1024);
-        var len = buf.write(str,0);
+        var len = buf.write(str, 0);
         str = buf.toString('binary', 0, len);
         var md5sum = crypto.createHash('md5');
         md5sum.update(str);
@@ -134,4 +137,5 @@ module.exports = function (app) {
         return str;
     };
 
-};
+}
+;
