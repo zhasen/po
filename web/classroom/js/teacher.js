@@ -286,6 +286,11 @@ function initTeacherWait(){
         $target.css({visibility:"visible"});
     });
 
+    var json = getJsonObject();
+    json.method = ALLTEACHERSENDMETHOD.white;
+    json.bShow = false;
+    ws.send(JSON.stringify(json));
+
 }
 
 function initTeacherAnswer(){

@@ -40,6 +40,8 @@ function dealStudentMessage(json){
         }
         case ALLSTUDENTRECEIVEMETHOD.white:{
             if(json.bShow){
+                ctxGraphics.clearRect(0, 0, width, height);
+                ctxDrawing.clearRect(0, 0, width, height);
                 $canvas.show();
             }
             else{
