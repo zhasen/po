@@ -65,7 +65,7 @@
 </head>
 <body>
 
-<div class="designer_box" style="margin-right: 141px">
+<div class="designer_box" style="margin-right: 180px">
     <div id="subject_designer" tabindex="99">
         <div class="testing_header">
             <audio id="bgaudio_player" autoplay="autoplay"></audio>
@@ -121,10 +121,10 @@
         <span id="beginTempRight">初始化右侧</span>
     </label>
 
-    <span id="layout1" class="title fix">
-        <input type="checkbox" name="checkbox" id="checkbox_allpages" class="cbox" /> 全部
+    <div id="layout1" class="title fix">
+        <font><input type="checkbox" name="checkbox" id="checkbox_allpages" class="cbox" /> 全部</font>
         <span id="beginAnswer" >分配试题</span>
-    </span>
+    </div>
     <!--<button id="beginAnswer" type="button">分配试题</button>-->
     <label id="layout2" class="title fix" style="display: none">
         <span id="beginExplain">开始讲解</span>
@@ -156,9 +156,36 @@
 
 <%}%>
 
-<div id="canvas" style="border:1px solid #f00;">
+<div id="canvas" style="border:2px solid #cecece; box-shadow:0px -2px 5px #df0f5d;">
     <canvas id="graphics"></canvas>
     <canvas id="drawing"></canvas>
+	<div class="bottom_nav fix">
+   <ul class="tool">
+       <li class="selected_pb">
+         <span><font class="brush_size"></font></span>
+         <div class="sub_menu fix">
+             <b></b>
+            <span><font class="border_1px"></font></span>
+            <span><font class="border_3px"></font></span>
+            <span><font class="border_5px"></font></span>
+            <span><font class="border_10px"></font></span>
+           
+         </div> 
+       </li>
+       <li><span><font class="brush_color"></font></span>
+          <div class="sub_menu fix">
+            <b></b>
+            <span><font class="bg_red"></font></span>
+            <span><font class="bg_blue"></font></span>
+            <span><font class="bg_green"></font></span>
+            <span><font class="bg_yellow"></font></span>
+         </div> 
+       </li>
+       <!--<li><img src="images/ic_straw.png" width="21" height="21" alt="" /></li>
+       <li><img src="images/ic_rubber.png" width="21" height="21" alt="" /></li>-->
+       <li><span><font class="clearning_brush"></font></li>
+   </ul>
+  </div>
 </div>
 
 </body>
