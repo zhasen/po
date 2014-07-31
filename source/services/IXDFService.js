@@ -3,6 +3,7 @@ var request = require('request');
 var settings = require('../../settings').ixdf;
 var time = require('../../source/commons/time');
 var querystring = require('querystring');
+var logger = require('../commons/logging').logger;
 var Service = {};
 
 /**
@@ -81,19 +82,24 @@ Service.userBasicData = function (userid, callback) {
     var userData = {};
     var o = this;
     o.uniAPIInterface({userid: userid}, 'user', 'GetUserTypeByUserId', function (err, ret) { // 获取用户身份
-        userData.type = ret.Data.Type; // 用户类型：老师2 ？学生1 ？
-        if (userData.type == 2) {
-            var controlername = 'teacher';
-            var methodname = 'GetTeacherByUserId';
-        } else {
-            var controlername = 'student';
-            var methodname = 'GetDefaultStudentByUserId';
+        if(ret.Data) {
+            userData.type = ret.Data.Type; // 用户类型：老师2 ？学生1 ？
+            if (userData.type == 2) {
+                var controlername = 'teacher';
+                var methodname = 'GetTeacherByUserId';
+            } else {
+                var controlername = 'student';
+                var methodname = 'GetDefaultStudentByUserId';
+            }
+            o.uniAPIInterface({userid: userid}, controlername, methodname, function (err, ret) { // 获取用户数据
+                userData.data = ret.Data;
+                callback(err, userData);
+                //console.info(userData);
+            });
+        }else {
+            callback(err,null);
         }
-        o.uniAPIInterface({userid: userid}, controlername, methodname, function (err, ret) { // 获取用户数据
-            userData.data = ret.Data;
-            callback(err, userData);
-            //console.info(userData);
-        });
+
     });
 };
 
