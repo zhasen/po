@@ -54,12 +54,19 @@ OAuthClient.prototype.getAccessToken = function (req, res, next) {
             method: 'GetAccessToken'
         }
     }, function (err, resp, ret) {
+        if(err){
+            console.error(ret.Message);
+            next();
+            return;
+        }
+
         ret = JSON.parse(ret);
         if (ret.Status === 1) {
             req.oauth = JSON.parse(ret.Data);
             next();
         } else {
-            throw new Error(ret.Message);
+            console.error(ret);
+            next();
         }
     });
     return;
