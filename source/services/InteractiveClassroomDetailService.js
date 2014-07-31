@@ -1,4 +1,6 @@
 
+var ixdf = require('./IXDFService');
+
 var ALLMETHOD = {init:'init',close:'close'};
 
 var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student'};
@@ -48,9 +50,19 @@ module.exports = function (ws, data) {
                 classRoom.mode = ALLMODE.teacher_offline;
                 classRoom.students = {};
                 classRoom.allStudents = {};
-                classRoom.allStudents['1'] = {name:'s1',code:'c1',status:0};
-                classRoom.allStudents['2'] = {name:'s2',code:'c2',status:0};
-                classRoom.allStudents['3'] = {name:'s3',code:'c3',status:0};
+
+                ixdf.uniAPIInterface({
+                    schoolid: 1,
+                    classCode: '02ZTF952'
+                }, 'class', 'GetStudentsOfClass', function (err, ret) {
+                    if(ret.State == 1){
+                        for(var i = 0 ; i < ret.Data.length ; i++){
+                            var info = ret.Data[i];
+                            classRoom.allStudents[info.Code] = {name:info.Name,code:info.Code,status:0};
+                        }
+                        notifyOnlineStudent(classRoom);
+                    }
+                });
                 classRooms[json.classCode] = classRoom;
             }
 
