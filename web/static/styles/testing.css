@@ -1,0 +1,172 @@
+@CHARSET "UTF-8";
+
+.testing_header{
+	background: #fff;
+	height: 85px;
+	position: relative;
+	background: url(../images/testing/testing_bg.png) 0px 0px repeat-y;
+	background-size: 100% auto;
+	font-family: 宋体;
+}
+.testing_header div{
+	font-family: inherit;
+}
+#paper_title{
+	color: white;
+	position: absolute;
+	top: 20px;
+	left: 10px;
+	font-size: 20px;
+}
+#part_name{
+	font-size: 16px;
+}
+#header_question{
+	color: white;
+	text-align: center;
+	width: 100%;
+	position: absolute;
+	bottom: 5px;
+}
+#header_timer_box{
+	color: white;
+	text-align: right;
+	position: absolute;
+	bottom: 5px;
+	right: 10px;
+	display: none;
+}
+.header_timer_wrap{
+	display: inline-block;
+	width: 90px;
+}
+.testbtn{
+	background-color: transparent;
+	color: white;
+	font-size: 10px;
+	cursor: pointer;
+	background-image: url(../images/testing/back_next.png);
+	background-repeat: no-repeat;
+	background-position: 0px -45px;
+	width: 60px;
+	height: 45px;
+	border: 0px;
+	outline:none;
+}
+.testbtn:active{
+	background-position: 0px -90px;
+}
+.testbtn:disabled{
+	background-position: 0px 0px;
+}
+.testbtn.rect{
+	width: 72px;
+	height:30px;
+	background-image: url(../images/testing/continue.png);
+	background-position: 0px 0px;
+}
+.testbtn.rect:active{
+	background-position: 0px -30px;
+}
+.testbtn.rect:disabled{
+	background-position: 0px -60px;
+	cursor: default;
+}
+.timerbtn{
+	background-color: transparent;
+	color: white;
+	font-size: 10px;
+	cursor: pointer;
+	background-image: url(../images/testing/timerbtn.png);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 58px;
+	height: 20px;
+	border: 0px;
+	outline:none;
+}
+.timerbtn:active{
+	background-position: 0px -20px;
+}
+.designer_loading{
+	border: 4px solid rgba(0,0,0,0.5);
+	padding: 10px 20px;
+	height: 40px;
+	line-height: 40px;
+	display: inline-block;
+	font-family: 宋体;
+	font-size: 14px;
+	background: white;
+	position: absolute;
+}
+.designer_loading img{
+	width: 40px;
+	float: left;
+	margin-right: 20px;
+}
+.review_title{
+	font-size: 16px;
+	padding: 10px 0px;
+}
+.review_statis{
+	color: #777;
+	font-size: 14px;
+	padding-bottom: 10px;
+}
+.review_statis span{
+	border: 1px solid #676767;
+	display: inline-block;
+	padding: 3px 10px;
+	margin-right: 10px;
+}
+.review_grid li{
+	height: 26px;
+	font-size: 12px;
+}
+.review_grid li.hd{
+	background-color: rgb(10,113,187);
+	color: white;
+}
+.review_grid .item{
+	color: #666;
+	cursor: default;
+}
+.review_grid .item:hover{
+	background-color: rgb(221,221,221);
+}
+.review_grid .dif{
+	background-color: rgb(238,238,238);
+}
+.review_grid div{
+	height: 26px;
+	line-height: 26px;
+	float: left;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.review_grid .tpbtn{
+	height: 20px;
+	line-height: 20px;
+	min-width: 30px;
+	margin-top: 3px;
+}
+.review_no{
+	width: 10%;
+}
+.review_des{
+	width: 48%;
+}
+.review_uanswer{
+	width: 15%;
+}
+.review_canswer{
+	width: 15%;
+}
+.review_correct{
+	width: 12%;
+}
+.review_grid .review_selected, .review_grid .review_selected:hover{
+	background-color: rgb(197,229,253);
+}

@@ -1,0 +1,52 @@
+@CHARSET "UTF-8";
+
+html {
+	color: #333;
+	background: #fff;
+}
+body{
+	font-size: 13px;
+	overflow: hidden;
+	font-family: 'microsoft yahei',Helvetica,Arial,sans-serif;
+}
+body,div,dl,dt,dd,ul,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,blockquote{
+	margin:0px; padding:0px;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0
+}
+ul,ol {
+	list-style: none
+}
+form {
+	margin: 0;
+	padding: 0;
+	border: 0
+}
+fieldset,img {
+	border: 0
+}
+font, p, h1, h2, h3, h4, h5, h6, input, select, textarea, div{
+	font-family: inherit;
+}
+input,button,textarea,select,optgroup,option {
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit
+}
+input,textarea,div{
+	resize:none;
+}
+a{
+	text-decoration:none;
+	cursor: pointer;
+}
+a:hover, a:active {
+	text-decoration: underline;
+}
+textflow span{
+	padding: 0px 3px;
+}
+
