@@ -183,6 +183,18 @@ exports.GetCalendarEventListOfClass = function (test) {
     });
 }
 
+// 测试 GetStudentsOfClass 根据班号获取班级学生信息
+exports.GetStudentsOfClass = function(test){
+    ixdf.uniAPIInterface({
+        schoolid: 1,
+        classCode: '02ZTF952'
+    }, 'class', 'GetStudentsOfClass', function (err, ret) {
+        console.info('TEST：GetStudentsOfClass:' + JSON.stringify(ret) + "\n");
+//        console.info(ret);
+        test.done();
+    });
+}
+
 // 接口的使用，关键是对md5 key的正确生成。这里用来测试request和key的配合使用，王志鹏老师写的。
 exports.testKey = function (test) {
     var id = 'xdf00228972';
