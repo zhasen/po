@@ -25,10 +25,11 @@ require.config({
         },
         'fullcalendar': {
             deps: ['jQuery']
-        }
-        ,'moment' : {
+        },
+        'moment': {
             deps: ['jQuery']
         }
+
     },
     packages: ["skeleton", "misc", "config", "app", "template", "course_schedule", "po"],
     paths: {

@@ -8,6 +8,7 @@ var _extend = function(target, source){
 var defaults = {
     userKey: 'user', //user's key name in session
     returnUrlKey: 'returnUrl', //returnUrl's key name in session
+    jumpOutView: 'jump', //the rendered view name which is used to jump out from iframe after login
     defaultReturnUrl: '/',
     loginUri: '/auth/login',
     callbackUri: '/auth/callback',
@@ -29,18 +30,19 @@ Authenticator.prototype = {
         req.session[this.userKey] = null;
     },
     setAuthentication: function(req, user){
-        return req.session[this.userKey] = {
+        req.session[this.userKey] = {
             id: user.id,
             displayName: user.displayName,
             email: user.email
         };
-        console.log(req.session);
+        return req.session[this.userKey];
+        //console.log(req.session);
     },
     saveReturnUrl: function(req){
         var originalUrl = req.protocol + '://' + req.get('host') + (this.context=='/' ? '' : this.context) + req.originalUrl;
         req.session[this.returnUrlKey] = originalUrl;
     },
-    redirectReturnUrl: function(req, res){
+    getReturnUrl: function(req, res){
         var returnUrl = req.session[this.returnUrlKey];
         if(returnUrl){
             req.session[this.returnUrlKey] = null;
@@ -48,12 +50,15 @@ Authenticator.prototype = {
         else{
             returnUrl = this.defaultReturnUrl;
         }
-        res.redirect(returnUrl);
+        return returnUrl;
+    },
+    redirectReturnUrl: function(req, res){
+        res.redirect(this.getReturnUrl(req, res));
     },
     bind: function(app){
         app.get(this.loginUri, this.login.bind(this));
         app.get(this.logoutUri, this.logout.bind(this));
-        app.get(this.callbackUri, this.oauthCallback.bind(this), this.signUpOrIn.bind(this));
+        app.get(this.callbackUri, this.oauthCallback.bind(this), this.signUpOrIn.bind(this), this.jumpOut.bind(this));
         app.all(this.authRouteRe, this.check.bind(this));
     },
     login: function(req, res, next){
@@ -93,17 +98,22 @@ Authenticator.prototype = {
                     }
                     var userInfo = auth.setAuthentication(req, user);
                     auth.afterLogin(userInfo, function(){
-                        auth.redirectReturnUrl(req, res);
+                        //auth.redirectReturnUrl(req, res);//use jump page to redirect
+                        next();
                     });
                 });
             }
             else{
                 var userInfo = auth.setAuthentication(req, user);
                 auth.afterLogin(userInfo, function(){
-                    auth.redirectReturnUrl(req, res);
+                    //auth.redirectReturnUrl(req, res);////use jump page to redirect
+                    next();
                 });
             }
         });
+    },
+    jumpOut: function(req, res, next){
+        res.render(this.jumpOutView, {returnUrl: this.getReturnUrl(req, res)});
     },
     logout: function(req, res, next){
         this.clearAuthentication(req);
