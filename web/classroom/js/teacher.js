@@ -6,6 +6,17 @@ var $beginExplain;
 var $whiteBoard;
 var $endExplain;
 
+var currentColor = '#f00';
+var COLORS = [
+    '#f00', '#00f',
+    '#0f0', '#ff0'
+];
+
+var currentThick = 0.007;
+var THICKNESSES = [
+    0.007, 0.009, 0.012, 0.015, 0.02
+];
+
 function initTeacher(){
 
     $("#checkbox_allpages").bind("click", function(){
@@ -32,6 +43,9 @@ function initTeacher(){
                     var $target = $(e.target);
                     Player.pageIndex = parseInt($target.attr("pageIndex"));
                     Player.play();
+
+                    ul.children().removeClass('selected_test');
+                    $target.parent().addClass('selected_test');
                 }
 
             });
@@ -39,8 +53,74 @@ function initTeacher(){
     });
 
 
+    //白板相关
+    $("#size_button").bind("click",function(e){
+        var $view = $("#size_pane");
+        if($view.is(":visible")){
+            $view.hide();
+        }else{
+            $view.show();
+        }
+        var $font;
+        if(e.target.tagName.toLocaleLowerCase() === 'span'){
+            $font = $(e.target).children('font');
+        }
+        else if(e.target.tagName.toLocaleLowerCase() === 'font'){
+            $font = $(e.target);
+        }
+        if($font){
+            switch ($font.attr("class").toLocaleLowerCase()){
+                case 'border_1px':
+                    currentThick = THICKNESSES[0];
+                    break;
+                case 'border_3px':
+                    currentThick = THICKNESSES[1];
+                    break;
+                case 'border_5px':
+                    currentThick = THICKNESSES[2];
+                    break;
+                case 'border_10px':
+                    currentThick = THICKNESSES[3];
+                    break;
+            }
+        }
+    });
 
+    $("#color_button").bind("click",function(e){
+        var $view = $("#color_pane");
+        if($view.is(":visible")){
+            $view.hide();
+        }else{
+            $view.show();
+        }
+        var $font;
+        if(e.target.tagName.toLocaleLowerCase() === 'span'){
+            $font = $(e.target).children('font');
+        }
+        else if(e.target.tagName.toLocaleLowerCase() === 'font'){
+            $font = $(e.target);
+        }
+        if($font){
+            switch ($font.attr("class").toLocaleLowerCase()){
+                case 'bg_red':
+                    currentColor = COLORS[0];
+                    break;
+                case 'bg_blue':
+                    currentColor = COLORS[1];
+                    break;
+                case 'bg_green':
+                    currentColor = COLORS[2];
+                    break;
+                case 'bg_yellow':
+                    currentColor = COLORS[3];
+                    break;
+            }
+        }
+    });
 
+    $("#clear_button").bind("click",function(e){
+        clearWhiteBoard();
+    });
 
     var onResize = window.onresize;
     window.onresize = function () {
@@ -158,21 +238,25 @@ function initTeacher(){
 
     function startDrawing(e) {
         e.preventDefault();
+
+        $("#size_pane").hide();
+        $("#color_pane").hide();
+
         var p = getPoint(e);
         if (typeof e.button === 'number' && e.button !== 0)
             return;
         canvas.drawing = {
             type: 'path',
-            color: '#ff0000',
-            width: 0.015,
+            color: currentColor,
+            width: currentThick,
             points: [p]
         };
         var json = getJsonObject();
         json.method = ALLTEACHERSENDMETHOD.path_down;
         json.x = p.x;
         json.y = p.y;
-        json.color = '#ff0000';
-        json.thickness = 0.015;
+        json.color = currentColor;
+        json.thickness = currentThick;
         ws.send(JSON.stringify(json));
         //socket.emit('draw path', p.x, p.y,brushStyle.color, brushStyle.thickness);
     }
@@ -307,4 +391,14 @@ function initTeacherExplain(){
     $('#layout3').show();
     $canvas.hide();
     $whiteBoard.text('显示白板');
+}
+
+function clearWhiteBoard(){
+
+    ctxGraphics.clearRect(0, 0, width, height);
+    ctxDrawing.clearRect(0, 0, width, height);
+
+    var json = getJsonObject();
+    json.method = ALLTEACHERSENDMETHOD.path_clear;
+    ws.send(JSON.stringify(json));
 }

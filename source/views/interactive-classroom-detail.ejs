@@ -143,8 +143,6 @@
     <div class="student_list f_l">
         <h3 id="online_students_num"><span class="ic_count"></span></h3>
         <ul id="online_students" class="list">
-            <li><img src="/web/classroom/images/ic_online.png" width="13"  height="13"/>杨阳</li>
-            <li><img src="/web/classroom/images/ic_dele.png" width="13" height="13"/>刘航畅</li>
         </ul>
     </div>
     <div class="btn_sh f_l"></div>
@@ -161,9 +159,10 @@
     <canvas id="drawing"></canvas>
 	<div class="bottom_nav fix">
    <ul class="tool">
-       <li class="selected_pb">
+       <!--<li id="size_button" class="selected_pb">-->
+       <li id="size_button">
          <span><font class="brush_size"></font></span>
-         <div class="sub_menu fix">
+         <div id="size_pane" class="sub_menu fix">
              <b></b>
             <span><font class="border_1px"></font></span>
             <span><font class="border_3px"></font></span>
@@ -172,8 +171,8 @@
            
          </div> 
        </li>
-       <li><span><font class="brush_color"></font></span>
-          <div class="sub_menu fix">
+       <li id="color_button"><span><font class="brush_color"></font></span>
+          <div id="color_pane" class="sub_menu fix">
             <b></b>
             <span><font class="bg_red"></font></span>
             <span><font class="bg_blue"></font></span>
@@ -183,7 +182,7 @@
        </li>
        <!--<li><img src="images/ic_straw.png" width="21" height="21" alt="" /></li>
        <li><img src="images/ic_rubber.png" width="21" height="21" alt="" /></li>-->
-       <li><span><font class="clearning_brush"></font></li>
+       <li id="clear_button"><span><font class="clearning_brush"></font></span></li>
    </ul>
   </div>
 </div>
