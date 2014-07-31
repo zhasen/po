@@ -22,6 +22,24 @@ module.exports = function (app) {
             next();
         });
     };
+
+    /*
+     判断登录的会员是否是学生 如果是学生是否绑定了学员号
+     */
+    var isBindStudentCode = function(req,res,next) {
+        console.log('---------------->bind:');
+        console.log(req.session.user);
+        if(req.session.user.type == 0) {
+            res.redirect('/main-bind');
+        }else if(req.session.user.type == 5) {
+            res.redirect('/main-bind');
+        }else if(req.session.user.type == -1) {
+
+        }
+else {
+            next();
+        }
+    };
     //获取分类的方法
     var getPtypeList = function(projectCode,callback) {
         var url = {
@@ -55,7 +73,7 @@ module.exports = function (app) {
         });
     };
     //互动课堂首页
-    app.get('/interaction-class',getMyClass, function (req, res, next) {
+    app.get('/interaction-class',getMyClass,isBindStudentCode, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
