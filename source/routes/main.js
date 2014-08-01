@@ -46,7 +46,7 @@ module.exports = function (app) {
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
         var user = req.session.user;
-        if(user && user.schoolid && user.code) {
+        if(user && user.type == 5) {
             ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
                 PageInput.i(req).put('myClass', myClass);
                 next();
@@ -101,7 +101,7 @@ module.exports = function (app) {
         res.render('main-login', input);
     });
 
-    app.get('/main-bind', getMyClass, function (req, res) {
+    app.get('/main-bind', function (req, res) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
@@ -141,7 +141,12 @@ module.exports = function (app) {
         }, function (err, resp, ret) {
             ret = JSON.parse(ret);
             console.info(ret);
-            res.redirect('/');
+            if(ret.Date == true) {
+                res.redirect('/');
+                //再次用userid 调用获取角色接口然后获取shcoolid scode 等数据。
+            }else {
+                //打印出错误信息并停留在当前页面
+            }
         });
 
     });
