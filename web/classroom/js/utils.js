@@ -16,6 +16,7 @@ var ALLMODE = {teacher_offline:1,wait_teacher_distribute:2,student_answer:3,teac
 var canvas, width, height, offsetX, offsetY;
 var $canvas, $drawing, $graphics;
 var ctxGraphics, ctxDrawing;
+var select_pages;
 
 function getJsonObject(){
     var json = {};
@@ -81,6 +82,59 @@ function initElement(){
         }
     };
     window.onresize();
+
+
+    //和designer.testing.js交互
+    testing_callback = function(result){
+        switch (result.method){
+            case TESTING_CALLBACK_METHOD.loadData:{
+                if(Testing.paper.structItem.trees.length > 0){
+                    var ul = $("#papers");
+                    ul.children().remove();
+                    for(var i = 1; i <= Player.subjectList.pages.length;i++){
+                        ul.append('<li><span id="page_span'+(i-1)+'" pageIndex="'+(i-1)+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" /> 第'+i+'题</span></li>');
+                    }
+                    ul.bind("click", function(e){
+
+                        if(e.target.tagName.toLocaleLowerCase() === 'span'){
+                            var $target = $(e.target);
+                            goToPage($target.attr("pageIndex"),true);
+                        }
+
+                    });
+                }
+            }
+                break;
+
+            case TESTING_CALLBACK_METHOD.getPageNumber:{
+                if(select_pages && select_pages.length > 0){
+                    for(var i = 0 ; i < select_pages.length ; i++){
+                        if(select_pages[i] == result.currentPage){
+                            if(result.orientation == 'next'){
+                                if(i == select_pages.length - 1){
+                                    return -1;
+                                }
+                                else{
+                                    return select_pages[i+1];
+                                }
+                            }
+                            else if(result.orientation == 'back'){
+                                if(i == 0){
+                                    return select_pages[i];
+                                }
+                                else{
+                                    return select_pages[i-1];
+                                }
+                            }
+                            return result.currentPage;
+                        }
+                    }
+                }
+            }
+                break;
+        }
+    }
+
 }
 
 // drawing functions
@@ -136,4 +190,15 @@ function drawPath(ctx, graph) {
     ctx.stroke();
 
     ctx.restore();
+}
+
+function goToPage(page,play){
+    page = parseInt(page)
+    if(play === true){
+        Player.pageIndex = page;
+        Player.play();
+    }
+    var ul = $("#papers");
+    ul.children().removeClass('selected_test');
+    ul.find('#page_span'+page).parent().addClass('selected_test');
 }

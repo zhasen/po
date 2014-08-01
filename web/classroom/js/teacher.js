@@ -29,34 +29,6 @@ function initTeacher(){
         }
     });
 
-    //和designer.testing.js交互
-    testing_callback = function(result){
-        switch (result.method){
-            case TESTING_CALLBACK_METHOD.loadData:{
-                if(Testing.paper.structItem.trees.length > 0){
-                    var ul = $("#papers");
-                    ul.children().remove();
-                    for(var i = 1; i <= Player.subjectList.pages.length;i++){
-                        ul.append('<li><span id="page_span'+i+'" pageIndex="'+(i-1)+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" /> 第'+i+'题</span></li>');
-                    }
-                    ul.bind("click", function(e){
-
-                        if(e.target.tagName.toLocaleLowerCase() === 'span'){
-                            var $target = $(e.target);
-                            Player.pageIndex = parseInt($target.attr("pageIndex"));
-                            Player.play();
-
-                            ul.children().removeClass('selected_test');
-                            $target.parent().addClass('selected_test');
-                        }
-
-                    });
-                }
-            }
-                break;
-        }
-    }
-
     //白板相关
     $("#size_button").bind("click",function(e){
         var $view = $("#size_pane");
@@ -157,6 +129,8 @@ function initTeacher(){
                 json.selectPages = select;
                 ws.send(JSON.stringify(json));
                 initTeacherAnswer();
+                goToPage(select[0],true);
+                select_pages = select;
             }
         }
         else{
@@ -167,7 +141,6 @@ function initTeacher(){
     $beginExplain.bind("click", function(){
         var json = getJsonObject();
         json.method = ALLTEACHERSENDMETHOD.explain;
-        //这里还需要带上老师分配的试题
         ws.send(JSON.stringify(json));
         initTeacherExplain();
     });
@@ -175,9 +148,9 @@ function initTeacher(){
     $endExplain.bind("click", function(){
         var json = getJsonObject();
         json.method = ALLTEACHERSENDMETHOD.wait;
-        //这里还需要带上老师分配的试题
         ws.send(JSON.stringify(json));
         initTeacherWait();
+        delete select_pages;
     });
 
     $whiteBoard.bind("click", function(){

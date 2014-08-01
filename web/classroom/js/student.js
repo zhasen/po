@@ -112,6 +112,7 @@ function initStudentAnswer(json){
         }
         ul.append('<li><span id="page_span'+(j+1)+'" pageIndex="'+j+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" style="visibility: hidden"/> 第'+(j+1)+'题</span></li>');
     }
+    select_pages = json.selectPages;
 }
 
 function initStudentExplain(){

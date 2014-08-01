@@ -575,6 +575,23 @@ var Player = {
 	 * 下一页
 	 */
 	next: function(){
+        if(testing_callback){
+            var result = {};
+            result.method = TESTING_CALLBACK_METHOD.getPageNumber;
+            result.currentPage = this.pageIndex;
+            result.orientation = "next";
+            var page = testing_callback(result);
+            if(typeof(page) != "undefined"){
+                if(page == -1){
+
+                }
+                else if(page != this.pageIndex){
+                    this.pageIndex = page;
+                    this.play();
+                }
+                return;
+            }
+        }
 		var next = this.getNext();
 		if(next == null){
 			//提交试卷
@@ -655,6 +672,25 @@ var Player = {
 	 * 上一页
 	 */
 	back: function(){
+        if(testing_callback){
+
+            var result = {};
+            result.method = TESTING_CALLBACK_METHOD.getPageNumber;
+            result.currentPage = this.pageIndex;
+            result.orientation = "back";
+            var page = testing_callback(result);
+            if(typeof(page) != "undefined"){
+                if(page == -1){
+
+                }
+                else if(page != this.pageIndex){
+                    this.pageIndex = page;
+                    this.play();
+                }
+
+                return;
+            }
+        }
 		var back = this.getBack();
 		if(back != null){
 			//查看当前大题还有没有上一页，否则无法回退
