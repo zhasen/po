@@ -8,6 +8,8 @@
  * 
  * 
  */
+var TESTING_CALLBACK_METHOD = {loadData:'loadData',getPageNumber:'getPageNumber',sendAnswer:'sendAnswer'};
+var testing_callback;
 
 /**
  * 业务处理
@@ -91,8 +93,16 @@ var Testing = {
 			success: function(paperDef){
 				if(paperDef.errno){
 					alert("数据加载失败！");
+                    var result = {};
+                    result.method = TESTING_CALLBACK_METHOD.loadData;
+                    result.data = 0;
+                    testing_callback(result);
 				}else{
 					init(paperDef);
+                    var result = {};
+                    result.method = TESTING_CALLBACK_METHOD.loadData;
+                    result.data = 1;
+                    testing_callback(result);
 				}
 			},
 			error: function(){
@@ -100,6 +110,10 @@ var Testing = {
 					init(defaultDef);
 				}else{
 					alert("数据加载失败！");
+                    var result = {};
+                    result.method = TESTING_CALLBACK_METHOD.loadData;
+                    result.data = 0;
+                    testing_callback(result);
 				}
 			}
 		});

@@ -39,6 +39,7 @@ function initElement(){
         drawing: null
     };
 
+    var onResize = window.onresize;
     window.onresize = function () {
         var top, bottom, left, right;
         top = bottom = left = right = 2;
@@ -72,6 +73,12 @@ function initElement(){
         // redraw
         redrawGraphics();
         redrawDrawing();
+
+        $("#papers").height(window.innerHeight - 40);
+
+        if(onResize){
+            onResize();
+        }
     };
     window.onresize();
 }

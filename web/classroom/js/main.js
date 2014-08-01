@@ -2,7 +2,7 @@
 $(function(){
     ws = new WebSocket("ws://127.0.0.1:3010");
     ws.onopen = function () {
-        $("#show").text('open');
+        console.log('socket open');
         {
             var json = getJsonObject();
             json.method = ALLMETHOD.init;
@@ -10,10 +10,10 @@ $(function(){
         }
     };
     ws.onclose = function (e) {
-        $("#show").text('close');
+        console.log('socket close');
     }
     ws.onmessage = function (e) {
-        $("#show").text(e.data);
+        console.log(e.data);
         var json = JSON.parse(e.data);
         if(json.method == ALLMETHOD.init){
             mode = json.mode;

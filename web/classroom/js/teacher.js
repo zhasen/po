@@ -29,29 +29,33 @@ function initTeacher(){
         }
     });
 
-    //将就着来
-    $("#beginTempRight").bind("click", function(){
-        if(Testing.paper.structItem.trees.length > 0){
-            var ul = $("#papers");
-            ul.children().remove();
-            for(var i = 1; i <= Player.subjectList.pages.length;i++){
-                ul.append('<li><span id="page_span'+i+'" pageIndex="'+(i-1)+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" /> 第'+i+'题</span></li>');
-            }
-            ul.bind("click", function(e){
+    //和designer.testing.js交互
+    testing_callback = function(result){
+        switch (result.method){
+            case TESTING_CALLBACK_METHOD.loadData:{
+                if(Testing.paper.structItem.trees.length > 0){
+                    var ul = $("#papers");
+                    ul.children().remove();
+                    for(var i = 1; i <= Player.subjectList.pages.length;i++){
+                        ul.append('<li><span id="page_span'+i+'" pageIndex="'+(i-1)+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" /> 第'+i+'题</span></li>');
+                    }
+                    ul.bind("click", function(e){
 
-                if(e.target.tagName.toLocaleLowerCase() === 'span'){
-                    var $target = $(e.target);
-                    Player.pageIndex = parseInt($target.attr("pageIndex"));
-                    Player.play();
+                        if(e.target.tagName.toLocaleLowerCase() === 'span'){
+                            var $target = $(e.target);
+                            Player.pageIndex = parseInt($target.attr("pageIndex"));
+                            Player.play();
 
-                    ul.children().removeClass('selected_test');
-                    $target.parent().addClass('selected_test');
+                            ul.children().removeClass('selected_test');
+                            $target.parent().addClass('selected_test');
+                        }
+
+                    });
                 }
-
-            });
+            }
+                break;
         }
-    });
-
+    }
 
     //白板相关
     $("#size_button").bind("click",function(e){
@@ -121,31 +125,6 @@ function initTeacher(){
     $("#clear_button").bind("click",function(e){
         clearWhiteBoard();
     });
-
-    var onResize = window.onresize;
-    window.onresize = function () {
-        var winH = $(window).height();
-        $("#resource_panel").height(winH);
-        $("#resource_switch").css("top", winH / 2 - 55);
-        $(".resource_list").height(winH - 120 - 36);
-        $("#papers").height(winH - 120);
-        if(onresize){
-            onResize();
-        }
-    };
-    window.onresize();
-
-    //右侧资源面板的打开关闭
-    $(".left_panel .btn_sh").bind("click",function(){
-        var $clist = $(this).prev();
-        if($clist.is(":visible")){
-            $clist.hide();
-            $(".left_panel .btn_sh").css("background",'url(/web/classroom/images/btn_sh_l.png) no-repeat');
-        }else{
-            $clist.show();
-            $(".left_panel .btn_sh").css("background",'url(/web/classroom/images/btn_sh_r.png) no-repeat');
-        }
-    })
 
     $beginAnswer = $("#beginAnswer");
     $beginExplain = $("#beginExplain");

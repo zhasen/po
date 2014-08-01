@@ -22,8 +22,8 @@
 
     <script type="text/javascript" src="/web/static/scripts/common.js"></script>
     <script type="text/javascript" src="/web/static/scripts/designer.core.js"></script>
-    <script type="text/javascript" src="/web/static/scripts/designer.testing.js"></script>
-
+    <!--<script type="text/javascript" src="/web/static/scripts/designer.testing.js"></script>-->
+    <script type="text/javascript" src="/web/classroom/js/designer.testing.js"></script>
     <!--互动部分-->
 
     <script type="text/javascript" src="/web/classroom/js/utils.js"></script>
@@ -99,8 +99,6 @@
 
 <div id="teacher_control">
 
-    <div id="show" style="max-height: 40px;overflow: hidden"></div>
-
     <ul id="papers" style="overflow-y: scroll">
     </ul>
 
@@ -114,12 +112,6 @@
 <%}else{%>
 
 <div id="teacher_control">
-
-    <div id="show" style="max-height: 40px;overflow: hidden"></div>
-
-    <label class="title fix">
-        <span id="beginTempRight">初始化右侧</span>
-    </label>
 
     <div id="layout1" class="title fix">
         <font><input type="checkbox" name="checkbox" id="checkbox_allpages" class="cbox" /> 全部</font>
