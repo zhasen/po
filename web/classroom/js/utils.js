@@ -2,9 +2,9 @@
 var ALLMETHOD = {init:'init',close:'close'};
 
 var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student'};
-var ALLTEACHERSENDMETHOD = {offline:'teacher_send_offline',wait:'teacher_send_wait',answer:'teacher_send_answer',explain:'teacher_send_explain',white:'teacher_send_white',path_down:'teacher_send_path_down',path_move:'teacher_send_path_move',path_up:'teacher_send_path_up',path_clear:'teacher_send_path_clear'};
+var ALLTEACHERSENDMETHOD = {offline:'teacher_send_offline',wait:'teacher_send_wait',answer:'teacher_send_answer',explain:'teacher_send_explain',white:'teacher_send_white',path_down:'teacher_send_path_down',path_move:'teacher_send_path_move',path_up:'teacher_send_path_up',path_clear:'teacher_send_path_clear',change_page:'teacher_send_change_page'};
 
-var ALLSTUDENTRECEIVEMETHOD = {offline:'student_receive_offline',wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain',white:'student_receive_white',path_down:'student_receive_path_down',path_move:'student_receive_path_move',path_up:'student_receive_path_up',path_clear:'student_receive_path_clear'};
+var ALLSTUDENTRECEIVEMETHOD = {offline:'student_receive_offline',wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain',white:'student_receive_white',path_down:'student_receive_path_down',path_move:'student_receive_path_move',path_up:'student_receive_path_up',path_clear:'student_receive_path_clear',change_page:'student_receive_change_page'};
 var ALLSTUDENTSENDMETHOD = {answer:'student_send_answer'};
 
 var ALLROLL = {student:1,teacher:2};
@@ -82,59 +82,6 @@ function initElement(){
         }
     };
     window.onresize();
-
-
-    //和designer.testing.js交互
-    testing_callback = function(result){
-        switch (result.method){
-            case TESTING_CALLBACK_METHOD.loadData:{
-                if(Testing.paper.structItem.trees.length > 0){
-                    var ul = $("#papers");
-                    ul.children().remove();
-                    for(var i = 1; i <= Player.subjectList.pages.length;i++){
-                        ul.append('<li><span id="page_span'+(i-1)+'" pageIndex="'+(i-1)+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" /> 第'+i+'题</span></li>');
-                    }
-                    ul.bind("click", function(e){
-
-                        if(e.target.tagName.toLocaleLowerCase() === 'span'){
-                            var $target = $(e.target);
-                            goToPage($target.attr("pageIndex"),true);
-                        }
-
-                    });
-                }
-            }
-                break;
-
-            case TESTING_CALLBACK_METHOD.getPageNumber:{
-                if(select_pages && select_pages.length > 0){
-                    for(var i = 0 ; i < select_pages.length ; i++){
-                        if(select_pages[i] == result.currentPage){
-                            if(result.orientation == 'next'){
-                                if(i == select_pages.length - 1){
-                                    return -1;
-                                }
-                                else{
-                                    return select_pages[i+1];
-                                }
-                            }
-                            else if(result.orientation == 'back'){
-                                if(i == 0){
-                                    return select_pages[i];
-                                }
-                                else{
-                                    return select_pages[i-1];
-                                }
-                            }
-                            return result.currentPage;
-                        }
-                    }
-                }
-            }
-                break;
-        }
-    }
-
 }
 
 // drawing functions

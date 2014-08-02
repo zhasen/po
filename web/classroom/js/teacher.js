@@ -19,6 +19,16 @@ var THICKNESSES = [
 
 function initTeacher(){
 
+    //左侧学生列表
+    $(".btn_sh").bind("click",function(){
+        var $clist = $(this).prev();
+        if($clist.is(":visible")){
+            $clist.hide();
+        }else{
+            $clist.show();
+        }
+    });
+
     $("#checkbox_allpages").bind("click", function(){
         var $target = $(this);
         if($target.is(':checked')){
@@ -309,6 +319,9 @@ function dealTeacherMessage(json){
 }
 
 function initTeacherWait(){
+
+    classMode = ALLMODE.wait_teacher_distribute;
+
     $('#layout1').show();
     $('#layout2').hide();
     $('#layout3').hide();
@@ -330,6 +343,9 @@ function initTeacherWait(){
 }
 
 function initTeacherAnswer(){
+
+    classMode = ALLMODE.student_answer;
+
     $('#layout1').hide();
     $('#layout2').show();
     $('#layout3').hide();
@@ -338,6 +354,14 @@ function initTeacherAnswer(){
 }
 
 function initTeacherExplain(){
+
+    classMode = ALLMODE.teacher_speak;
+
+    var json = getJsonObject();
+    json.method = ALLTEACHERSENDMETHOD.change_page;
+    json.page = Player.pageIndex;
+    ws.send(JSON.stringify(json));
+
     $('#layout1').hide();
     $('#layout2').hide();
     $('#layout3').show();

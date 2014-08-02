@@ -23,18 +23,22 @@ function dealStudentMessage(json){
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.offline:{
+            classMode = ALLMODE.teacher_offline;
             initStudentWait('老师离线，请稍后...');
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.wait:{
+            classMode = ALLMODE.wait_teacher_distribute;
             initStudentWait('等待老师分配试题...');
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.answer:{
+            classMode = ALLMODE.student_answer;
             initStudentAnswer(json);
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.explain:{
+            classMode = ALLMODE.teacher_speak;
             initStudentExplain();
             break;
         }
@@ -83,6 +87,10 @@ function dealStudentMessage(json){
             }
             break;
         }
+        case ALLSTUDENTRECEIVEMETHOD.change_page:{
+            goToPage(json.page,true);
+            break;
+        }
         default :{
             break;
         }
@@ -90,6 +98,9 @@ function dealStudentMessage(json){
 }
 
 function initStudentWait(str){
+
+    $("#forbid_control").hide();
+
     var h = $(document).height();
     $('#loadingText').text(str);
     $(".overlay").css({"height": h });
@@ -98,6 +109,9 @@ function initStudentWait(str){
 }
 
 function initStudentAnswer(json){
+
+    $("#forbid_control").hide();
+
     $(".showbox").stop(true).animate({'margin-top':'250px','opacity':'0'},400);
     $(".overlay").css({'display':'none','opacity':'0'});
 
@@ -118,4 +132,6 @@ function initStudentAnswer(json){
 function initStudentExplain(){
     $(".showbox").stop(true).animate({'margin-top':'250px','opacity':'0'},400);
     $(".overlay").css({'display':'none','opacity':'0'});
+    $("#forbid_control").show();
+    $("#forbid_control").css({"height": $(document).height() });
 }

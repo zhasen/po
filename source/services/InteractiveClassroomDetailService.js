@@ -4,9 +4,9 @@ var ixdf = require('./IXDFService');
 var ALLMETHOD = {init:'init',close:'close'};
 
 var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student'};
-var ALLTEACHERSENDMETHOD = {offline:'teacher_send_offline',wait:'teacher_send_wait',answer:'teacher_send_answer',explain:'teacher_send_explain',white:'teacher_send_white',path_down:'teacher_send_path_down',path_move:'teacher_send_path_move',path_up:'teacher_send_path_up',path_clear:'teacher_send_path_clear'};
+var ALLTEACHERSENDMETHOD = {offline:'teacher_send_offline',wait:'teacher_send_wait',answer:'teacher_send_answer',explain:'teacher_send_explain',white:'teacher_send_white',path_down:'teacher_send_path_down',path_move:'teacher_send_path_move',path_up:'teacher_send_path_up',path_clear:'teacher_send_path_clear',change_page:'teacher_send_change_page'};
 
-var ALLSTUDENTRECEIVEMETHOD = {offline:'student_receive_offline',wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain',white:'student_receive_white',path_down:'student_receive_path_down',path_move:'student_receive_path_move',path_up:'student_receive_path_up',path_clear:'student_receive_path_clear'};
+var ALLSTUDENTRECEIVEMETHOD = {offline:'student_receive_offline',wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain',white:'student_receive_white',path_down:'student_receive_path_down',path_move:'student_receive_path_move',path_up:'student_receive_path_up',path_clear:'student_receive_path_clear',change_page:'student_receive_change_page'};
 var ALLSTUDENTSENDMETHOD = {answer:'student_send_answer'};
 
 var ALLROLL = {student:1,teacher:2};
@@ -208,6 +208,16 @@ module.exports = function (ws, data) {
                 var classRoom = classRooms[ws.classCode];
                 if(ws.role == ALLROLL.teacher){
                     json.method = ALLSTUDENTRECEIVEMETHOD.path_clear;
+                    broadcast(classRoom.students,json);
+                }
+            }
+            break;
+        }
+        case ALLTEACHERSENDMETHOD.change_page:{
+            if(ws.classCode){
+                var classRoom = classRooms[ws.classCode];
+                if(ws.role == ALLROLL.teacher){
+                    json.method = ALLSTUDENTRECEIVEMETHOD.change_page;
                     broadcast(classRoom.students,json);
                 }
             }
