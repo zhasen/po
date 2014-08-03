@@ -66,12 +66,14 @@ module.exports = function (ws, data) {
                 classRooms[json.classCode] = classRoom;
             }
 
+            result.selectPages = classRoom.selectPages;
+            result.currentPage = classRoom.currentPage;
+
             if(json.role == ALLROLL.student){
                 classRoom.students[json.userID] = ws;
                 notifyOnlineStudent(classRoom);
                 result.method = ALLMETHOD.init;
                 result.mode = classRoom.mode;
-                result.selectPages = classRoom.selectPages;
                 ws.send(JSON.stringify(result));
             }
             else if(json.role == ALLROLL.teacher){
@@ -88,19 +90,19 @@ module.exports = function (ws, data) {
 
                 switch (result.mode){
                     case ALLMODE.teacher_offline:
-                        json.method = ALLSTUDENTRECEIVEMETHOD.offline;
+                        result.method = ALLSTUDENTRECEIVEMETHOD.offline;
                         break;
                     case ALLMODE.wait_teacher_distribute:
-                        json.method = ALLSTUDENTRECEIVEMETHOD.wait;
+                        result.method = ALLSTUDENTRECEIVEMETHOD.wait;
                         break;
                     case ALLMODE.student_answer:
-                        json.method = ALLSTUDENTRECEIVEMETHOD.answer;
+                        result.method = ALLSTUDENTRECEIVEMETHOD.answer;
                         break;
                     case ALLMODE.teacher_speak:
-                        json.method = ALLSTUDENTRECEIVEMETHOD.explain;
+                        result.method = ALLSTUDENTRECEIVEMETHOD.explain;
                         break;
                 }
-                broadcast(classRoom.students,json);
+                broadcast(classRoom.students,result);
             }
 
             break;
@@ -217,6 +219,7 @@ module.exports = function (ws, data) {
             if(ws.classCode){
                 var classRoom = classRooms[ws.classCode];
                 if(ws.role == ALLROLL.teacher){
+                    classRoom.currentPage = json.page;
                     json.method = ALLSTUDENTRECEIVEMETHOD.change_page;
                     broadcast(classRoom.students,json);
                 }

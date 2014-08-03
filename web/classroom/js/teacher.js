@@ -138,9 +138,9 @@ function initTeacher(){
                 json.method = ALLTEACHERSENDMETHOD.answer;
                 json.selectPages = select;
                 ws.send(JSON.stringify(json));
-                initTeacherAnswer();
-                goToPage(select[0],true);
                 select_pages = select;
+                goToPage(select[0],true);
+                initTeacherAnswer();
             }
         }
         else{
@@ -160,7 +160,6 @@ function initTeacher(){
         json.method = ALLTEACHERSENDMETHOD.wait;
         ws.send(JSON.stringify(json));
         initTeacherWait();
-        delete select_pages;
     });
 
     $whiteBoard.bind("click", function(){
@@ -285,9 +284,12 @@ function dealTeacherMessage(json){
                     initTeacherWait();
                     break;
                 case ALLMODE.student_answer:
+                    select_pages = json.selectPages;
                     initTeacherAnswer();
                     break;
                 case ALLMODE.teacher_speak:
+                    select_pages = json.selectPages;
+                    current_Page = json.currentPage;
                     initTeacherExplain();
                     break;
             }
@@ -320,6 +322,8 @@ function dealTeacherMessage(json){
 
 function initTeacherWait(){
 
+    delete select_pages;
+
     classMode = ALLMODE.wait_teacher_distribute;
 
     $('#layout1').show();
@@ -351,22 +355,28 @@ function initTeacherAnswer(){
     $('#layout3').hide();
     $canvas.hide();
     $whiteBoard.text('显示白板');
+
+    reloadTeacherSelectPage();
+
 }
 
 function initTeacherExplain(){
 
     classMode = ALLMODE.teacher_speak;
 
-    var json = getJsonObject();
-    json.method = ALLTEACHERSENDMETHOD.change_page;
-    json.page = Player.pageIndex;
-    ws.send(JSON.stringify(json));
-
     $('#layout1').hide();
     $('#layout2').hide();
     $('#layout3').show();
     $canvas.hide();
     $whiteBoard.text('显示白板');
+
+    reloadTeacherSelectPage(current_Page);
+
+    var json = getJsonObject();
+    json.method = ALLTEACHERSENDMETHOD.change_page;
+    json.page = Player.pageIndex;
+    ws.send(JSON.stringify(json));
+
 }
 
 function clearWhiteBoard(){
@@ -377,4 +387,31 @@ function clearWhiteBoard(){
     var json = getJsonObject();
     json.method = ALLTEACHERSENDMETHOD.path_clear;
     ws.send(JSON.stringify(json));
+}
+
+function reloadTeacherSelectPage(page){
+    var ul = $("#papers");
+
+    ul.find('input').each(function () {
+        var $target = $(this);
+        var pageIndex = parseInt($target.parent().attr("pageIndex"));
+        for(var i = 0 ; i < select_pages.length ; i++){
+            if(i == 0){
+                if(typeof(page) != "undefined"){
+                    goToPage(parseInt(page),true);
+                }
+                else{
+                    goToPage(parseInt(select_pages[i]),true);
+                }
+            }
+            $target.parent().parent().hide();
+            $target.attr("checked",false);
+            if(select_pages[i] == pageIndex){
+                $target.prop("checked",true);
+                $target.parent().parent().show();
+                break;
+            }
+        }
+        $target.css({visibility: "hidden"});
+    });
 }

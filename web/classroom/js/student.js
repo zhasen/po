@@ -14,9 +14,12 @@ function dealStudentMessage(json){
                     initStudentWait('等待老师分配试题...');
                     break;
                 case ALLMODE.student_answer:
-                    initStudentAnswer(json);
+                    select_pages = json.selectPages;
+                    initStudentAnswer();
                     break;
                 case ALLMODE.teacher_speak:
+                    select_pages = json.selectPages;
+                    current_Page = json.currentPage;
                     initStudentExplain();
                     break;
             }
@@ -34,7 +37,8 @@ function dealStudentMessage(json){
         }
         case ALLSTUDENTRECEIVEMETHOD.answer:{
             classMode = ALLMODE.student_answer;
-            initStudentAnswer(json);
+            select_pages = json.selectPages;
+            initStudentAnswer();
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.explain:{
@@ -99,6 +103,8 @@ function dealStudentMessage(json){
 
 function initStudentWait(str){
 
+    delete select_pages;
+
     $("#forbid_control").hide();
 
     var h = $(document).height();
@@ -108,25 +114,15 @@ function initStudentWait(str){
     $(".showbox").stop(true).animate({'margin-top':'300px','opacity':'1'},200);
 }
 
-function initStudentAnswer(json){
+function initStudentAnswer(){
 
     $("#forbid_control").hide();
 
     $(".showbox").stop(true).animate({'margin-top':'250px','opacity':'0'},400);
     $(".overlay").css({'display':'none','opacity':'0'});
 
-    var ul = $("#papers");
-    ul.children().remove();
-    for(var i = 0; i < json.selectPages.length;i++){
-        var j = parseInt(json.selectPages[i]);
-        if(i == 0){
-            //这里会出现 题目还没加载回来的情况 所以要判断 不过以后做吧 等王旭那再也不改了
-            Player.pageIndex = j;
-            Player.play();
-        }
-        ul.append('<li><span id="page_span'+(j+1)+'" pageIndex="'+j+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" style="visibility: hidden"/> 第'+(j+1)+'题</span></li>');
-    }
-    select_pages = json.selectPages;
+    reloadStudentSelectPage();
+
 }
 
 function initStudentExplain(){
@@ -134,4 +130,24 @@ function initStudentExplain(){
     $(".overlay").css({'display':'none','opacity':'0'});
     $("#forbid_control").show();
     $("#forbid_control").css({"height": $(document).height() });
+
+    reloadStudentSelectPage(current_Page);
+
+}
+
+function reloadStudentSelectPage(page){
+    var ul = $("#papers");
+    ul.children().remove();
+    for(var i = 0; i < select_pages.length;i++){
+        var j = parseInt(select_pages[i]);
+        ul.append('<li><span id="page_span'+(j)+'" pageIndex="'+j+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" style="visibility: hidden"/> 第'+(j+1)+'题</span></li>');
+    }
+
+    if(typeof(page) != "undefined"){
+        goToPage(parseInt(page),true);
+    }
+    else{
+        goToPage(parseInt(select_pages[0]),true);
+    }
+
 }

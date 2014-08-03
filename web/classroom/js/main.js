@@ -40,6 +40,7 @@ $(function(){
         switch (result.method){
             case TESTING_CALLBACK_METHOD.loadData:{
                 if(Testing.paper.structItem.trees.length > 0){
+
                     var ul = $("#papers");
                     ul.children().remove();
                     for(var i = 1; i <= Player.subjectList.pages.length;i++){
@@ -66,6 +67,25 @@ $(function(){
                             }
 
                         });
+                    }
+
+                    if(select_pages && select_pages.length > 0){
+                        if(classMode == ALLMODE.student_answer){
+                            if(role == ALLROLL.student){
+                                initStudentAnswer();
+                            }
+                            else if(role == ALLROLL.teacher){
+                                initTeacherAnswer();
+                            }
+                        }
+                        else if(classMode == ALLMODE.teacher_speak){
+                            if(role == ALLROLL.student){
+                                initStudentExplain();
+                            }
+                            else if(role == ALLROLL.teacher){
+                                initTeacherExplain();
+                            }
+                        }
                     }
                 }
             }

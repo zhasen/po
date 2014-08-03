@@ -16,7 +16,11 @@ var ALLMODE = {teacher_offline:1,wait_teacher_distribute:2,student_answer:3,teac
 var canvas, width, height, offsetX, offsetY;
 var $canvas, $drawing, $graphics;
 var ctxGraphics, ctxDrawing;
+
+//全局状态维护
 var select_pages;
+var classMode;
+var current_Page;
 
 function getJsonObject(){
     var json = {};
