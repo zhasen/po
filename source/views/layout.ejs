@@ -78,7 +78,7 @@
                         <div class="sub_menu">
                             <!--<a href="#">个人页面</a>-->
                             <!--<a href="#">账号设置</a>-->
-                            <a href="/main-bind" data-bypass>绑定学员号</a>
+                            <%if (page.user.type == 5 || page.user.type == 0) {%><a href="/main-bind" data-bypass>绑定学员号</a><%}%>
                             <a href="/auth/logout" data-bypass>退出</a>
                         </div>
                     </li>
