@@ -15,6 +15,11 @@ module.exports = function (app) {
                 user.type = userData.type; // 用户类型，老师 2 学员 1
                 user.code = userData.data.sCode || userData.data.Code; // 学员code 或者 老师code
                 user.schoolid = userData.data.nSchoolId || userData.data.SchoolId; // 学员或者老师所在的学校ID
+//                console.log('------>user:');
+//                console.log(user);
+                next();
+            } else {
+                user.type = 5;//游客
                 next();
             }
         });
@@ -27,16 +32,10 @@ module.exports = function (app) {
         console.log('--------->user:');
         console.log(user);
         if(user) {
-            if(user.type == 1 || user.type == 9 || user.type == 2 || user.type == 22) {
-                ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
-                    PageInput.i(req).put('myClass', myClass);
-                    next();
-                });
-            }else if(user.type == 0 || user.type == 5) {
-                res.redirect('/');
-            }else {
-                res.redirect('/main-login');
-            }
+            ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
+                PageInput.i(req).put('myClass', myClass);
+                next();
+            });
         } else {
             res.redirect('/main-login');
         }
@@ -49,7 +48,6 @@ module.exports = function (app) {
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
-        req.session.user.type = 2;
         res.render('index_' + input.token, input);
     };
 
