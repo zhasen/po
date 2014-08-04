@@ -49,6 +49,7 @@ module.exports = function (app) {
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
+        req.session.user.type = 2;
         res.render('index_' + input.token, input);
     };
 
@@ -76,10 +77,6 @@ module.exports = function (app) {
 
     app.get('/main-login', function (req, res) {
         asseton(req, res);
-//        var input = PageInput.i(req);
-        /*input.classes = input.page.myClass; // 用于显示首页的六个班级
-        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
-        input.user = input.page.user;*/
         var input = {};
         input.authorizeUrl = auth.oauthClient.getAuthorizeUrl();
         res.render('main-login', input);

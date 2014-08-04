@@ -84,12 +84,15 @@ Service.userBasicData = function (userid, callback) {
     o.uniAPIInterface({userid: userid}, 'user', 'GetUserTypeByUserId', function (err, ret) { // 获取用户身份
         if(ret.Data) {
             userData.type = ret.Data.Type; // 用户类型：老师2 ？学生1 ？
-            if (userData.type == 2) {
+            if (userData.type == 2 || userData.type == 22) {
                 var controlername = 'teacher';
                 var methodname = 'GetTeacherByUserId';
-            } else {
+            } else if(userData.type == 1 || userData.type == 9) {
                 var controlername = 'student';
                 var methodname = 'GetDefaultStudentByUserId';
+            } else {
+                callback(err, {type:userData.type, code: null, schoolid: null});
+                return;
             }
             o.uniAPIInterface({userid: userid}, controlername, methodname, function (err, ret) { // 获取用户数据
                 userData.data = ret.Data;
