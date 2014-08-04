@@ -110,10 +110,11 @@
         <!--参加的班级start-->
         <ul id="classlist_ul" class="lp_class_list lp_myclass_list fix">
             <% classlist.forEach(function(clas){ %>
-            <li><a href="class-<%= clas.SchoolId %>-<%= clas.ClassCode %>" data-bypass>
+            <li>
+                <a href="class-<%= clas.SchoolId %>-<%= clas.ClassCode %>" data-bypass>
                     <dl class="box ongoing">
                         <dt class="f_l fs_14">
-                        <p><a href="javascript:void(0);"><%= clas.ClassName %></a></p>
+                        <p><%= clas.ClassName %></p>
 
                         <p><%= clas.ClassCode %></p>
                         <%= clas.poBeginDate %>-<%= clas.poEndDate %>
