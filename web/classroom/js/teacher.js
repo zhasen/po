@@ -1,4 +1,9 @@
 
+var studentAnswers = {};
+var ANSWERS = [
+    '(A)', '(B)','(C)', '(D)', '(E)', '(F)', '(G)', '(H)', '(I)', '(J)', '(K)'
+];
+
 var $beginAnswer;
 
 var $beginExplain;
@@ -137,9 +142,11 @@ function initTeacher(){
                 var json = getJsonObject();
                 json.method = ALLTEACHERSENDMETHOD.answer;
                 json.selectPages = select;
+                json.testId = Testing.paper.testId;
                 ws.send(JSON.stringify(json));
                 select_pages = select;
                 goToPage(select[0],true);
+                reloadStudentAnswer();
                 initTeacherAnswer();
             }
         }
@@ -304,11 +311,11 @@ function dealTeacherMessage(json){
                 count++;
                 var student = json.students[key];
                 if(student.status == 0){
-                    ul.append('<li><img src="/web/classroom/images/ic_dele.png" width="13" height="13"/>'+student.name+'<span class="wrong">(B)</li>');
+                    ul.append('<li id="studentCode'+student.code+'"><img src="/web/classroom/images/ic_dele.png" width="13" height="13"/>'+student.name+'<span style="visibility: hidden" class="wrong">(B)</span></li>');
                 }
                 else{
                     online++;
-                    ul.append('<li><img src="/web/classroom/images/ic_online.png" width="13"  height="13"/>'+student.name+'<span class="correct">(C)</span></li>');
+                    ul.append('<li id="studentCode'+student.code+'"><img src="/web/classroom/images/ic_online.png" width="13"  height="13"/>'+student.name+'<span style="visibility: hidden" class="correct">(C)</span></li>');
                 }
             }
             $("#online_students_num").text('在线人数：'+online+'/'+count);
@@ -316,8 +323,7 @@ function dealTeacherMessage(json){
         }
         case ALLTEACHERRECEIVEMETHOD.answer:{
             studentAnswers[json.studentCode] = json.data;
-
-
+            reloadStudentAnswer();
             break;
         }
         default :{
@@ -420,16 +426,28 @@ function reloadTeacherSelectPage(page){
         }
         $target.css({visibility: "hidden"});
     });
+    reloadStudentAnswer();
 }
 
-function reloadStudentAnser(){
-
+function reloadStudentAnswer(){
     var ul = $("#online_students");
-
+    ul.find("span").css({visibility:"hidden"});
     for(var key in studentAnswers){
-        var li = ul.children("#studentCode"+json.studentCode);
+        var answerData = studentAnswers[key].subjectData.data.data[Player.pageIndex].data[0];
+        var li = ul.children("#studentCode"+key);
         if(li){
-
+            if(answerData){
+                if(answerData.userAnswer.length > 1){
+                    if(answerData.userAnswer[0] == 'org.neworiental.rmp.base::OptionGroup'){
+                        var span = li.children('span');
+                        var userAnswer = parseInt(answerData.userAnswer[1]);
+                        var rightAnswer = parseInt(answerData.rightAnswer[0]);
+                        span.css({visibility:"visible"});
+                        span.attr("class",userAnswer == rightAnswer ? 'correct' : 'wrong');
+                        span.text(ANSWERS[userAnswer]);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 
+var logger = require('../commons/logging').logger;
 var ixdf = require('./IXDFService');
+var InteractiveClassRoomRecord = require('../models/InteractiveClassRoomRecord');
 
 var ALLMETHOD = {init:'init',close:'close'};
 
@@ -79,6 +81,7 @@ exports.dealFunc = function (ws, data) {
             }
             else if(json.role == ALLROLL.teacher){
                 classRoom.teacher = ws;
+                classRoom.teacherId = json.userID;
                 notifyOnlineStudent(classRoom);
 
                 result.method = ALLMETHOD.init;
@@ -123,10 +126,11 @@ exports.dealFunc = function (ws, data) {
         }
         case ALLTEACHERSENDMETHOD.answer:{
             if(ws.classCode){
-                var classRoom = classRooms[ws.classCode];
-                classRoom.mode = ALLMODE.student_answer;
-                classRoom.selectPages = json.selectPages;
                 if(ws.role == ALLROLL.teacher){
+                    var classRoom = classRooms[ws.classCode];
+                    classRoom.mode = ALLMODE.student_answer;
+                    classRoom.selectPages = json.selectPages;
+                    classRoom.teacherTestId = json.testId;
                     json.method = ALLSTUDENTRECEIVEMETHOD.answer;
                     broadcast(classRoom.students,json);
                 }
@@ -232,11 +236,51 @@ exports.dealFunc = function (ws, data) {
             if(ws.classCode){
                 var classRoom = classRooms[ws.classCode];
                 if(ws.role == ALLROLL.student){
+
+                    ws.testId = json.testId;
+                    ws.testData = json.data;
+
                     if(classRoom.teacher){
                         result.method = ALLTEACHERRECEIVEMETHOD.answer;
                         result.data = json.data;
+                        result.data.subjectData = JSON.parse(result.data.subjectData);
                         result.studentCode = json.userID;
                         classRoom.teacher.send(JSON.stringify(result));
+
+                        {
+                            var recordJson = {
+                                testId: json.testId ,
+                                classCode: json.classCode,
+                                userId: json.userID,
+                                data: JSON.stringify(json.data),
+                                paperName: json.paperName
+                            };
+
+                            addTestRecord(recordJson);
+                        }
+
+                        {
+                            var testIds = '';
+                            for(var key in classRoom.students){
+                                var student = classRoom.students[key];
+                                if(student.testId)
+                                    testIds += "," + student.testId;
+                            }
+                            if(testIds.length > 0)
+                                testIds = testIds.substr(1);
+
+                            var recordJson = {
+                                testId: classRoom.teacherTestId ,
+                                classCode: json.classCode,
+                                userId: classRoom.teacherId,
+                                data: testIds,
+                                paperName: json.paperName
+                            };
+
+                            addTestRecord(recordJson);
+                        }
+
+
                     }
                 }
             }
@@ -257,4 +301,40 @@ function broadcast(students,data){
         data.userID = student.userID;
         student.send(JSON.stringify(data));
     }
+}
+
+exports.findTestRecord = function (classCode,userId,callback) {
+    InteractiveClassRoomRecord
+        .findAll({ where: {classCode:classCode,userId:userId} , order: [['updatedAt', 'DESC']] })
+        .complete(function(err, records) {
+            if (err) {
+                logger.error(err.message);
+                callback(err, null);
+            } else {
+                callback(null, user);
+            }
+        });
+}
+
+var addTestRecord = function (recordObj,callback) {
+
+    InteractiveClassRoomRecord
+        .find({ where: {testId:recordObj.testId}})
+        .complete(function(err, record) {
+            if (err || !record) {
+                record = InteractiveClassRoomRecord.build(recordObj);
+            } else {
+                delete recordObj.testId;
+                record.updateAttributes(recordObj);
+            }
+            record.save()
+                .complete(function (err) {
+
+                    if (err)
+                        logger.error(err.message);
+
+                    if (callback)
+                        callback(err);
+                });
+        });
 }

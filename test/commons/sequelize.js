@@ -1,5 +1,6 @@
 var sequelize = require('../../source/commons/sequelize');
 var User = require('../../source/models/User');
+require('../../source/models/InteractiveClassRoomRecord');
 
 exports.setUp = function(done){
     done();

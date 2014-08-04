@@ -58,6 +58,7 @@ $(function(){
                             if(e.target.tagName.toLocaleLowerCase() === 'span'){
                                 var $target = $(e.target);
                                 goToPage($target.attr("pageIndex"),true);
+                                reloadStudentAnswer();
                                 if(classMode == ALLMODE.teacher_speak){
                                     var json = getJsonObject();
                                     json.method = ALLTEACHERSENDMETHOD.change_page;
@@ -100,14 +101,17 @@ $(function(){
                                     return -1;
                                 }
                                 else{
+                                    goToPage(select_pages[i+1],false);
                                     return select_pages[i+1];
                                 }
                             }
                             else if(result.orientation == 'back'){
                                 if(i == 0){
+                                    goToPage(select_pages[i],false);
                                     return select_pages[i];
                                 }
                                 else{
+                                    goToPage(select_pages[i-1],false);
                                     return select_pages[i-1];
                                 }
                             }
@@ -123,6 +127,8 @@ $(function(){
                     var json = getJsonObject();
                     json.method = ALLSTUDENTSENDMETHOD.answer;
                     json.data = result.data;
+                    json.paperName = Testing.paper.paperName;
+                    json.testId = Testing.paper.testId;
                     ws.send(JSON.stringify(json));
                 }
             }

@@ -1,32 +1,16 @@
 var Sequelize = require('sequelize');
 var sequelize = require('../commons/sequelize');
-var typeRegistry = require('./TypeRegistry');
 
-var User = sequelize.define('User',
+var InteractiveClassRoomRecord = sequelize.define('InteractiveClassRoomRecord',
     {
-        id: {type: Sequelize.STRING, primaryKey: true},
-        lifeFlag: {
-            type: Sequelize.ENUM,
-            values: typeRegistry.LifeFlag.valueList(),
-            defaultValue: typeRegistry.LifeFlag.Active.value()
-        },
-        type: {
-            type: Sequelize.ENUM,
-            values: typeRegistry.UserType.valueList(),
-            defaultValue: typeRegistry.UserType.OAuth.value()
-        },
-        displayName: {type: Sequelize.STRING},
-        username: {type: Sequelize.STRING},
-        password: {type: Sequelize.STRING},
-        email: {type: Sequelize.STRING},
-        phone: {type: Sequelize.STRING},
-        accessToken: {type: Sequelize.STRING},
-        refreshToken: {type: Sequelize.STRING},
-        expiresIn: {type: Sequelize.DATE},
-        bindStudentCode: {type: Sequelize.BOOLEAN,defaultValue: 0}
+        testId: {type: Sequelize.STRING, primaryKey: true},
+        classCode: {type: Sequelize.STRING},
+        userId: {type: Sequelize.STRING},
+        data: {type: Sequelize.TEXT},
+        paperName: {type: Sequelize.STRING}
     },
     {
-        tableName: 'user'
+        tableName: 'InteractiveClassRoomRecord'
     }
 );
-module.exports = User;
+module.exports = InteractiveClassRoomRecord;
