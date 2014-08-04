@@ -124,8 +124,9 @@ Service.myClass = function (p, callback) {
         methodname = 'GetClassListFilterByStudentCode';
     }
     this.uniAPIInterface(param, 'classExt', methodname, function (err, ret) {
-        //console.info(ret)
+        console.info(ret);
         var myClass = ret.Data;
+        console.log(myClass);
         myClass.forEach(function (c) {
             c.poBeginDate = dateShift(c.BeginDate);
             c.poEndDate = dateShift(c.EndDate);
