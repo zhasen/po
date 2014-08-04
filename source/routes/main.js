@@ -15,8 +15,6 @@ module.exports = function (app) {
                 user.type = userData.type; // 用户类型，老师 2 学员 1
                 user.code = userData.data.sCode || userData.data.Code; // 学员code 或者 老师code
                 user.schoolid = userData.data.nSchoolId || userData.data.SchoolId; // 学员或者老师所在的学校ID
-//                console.log('------>user:');
-//                console.log(user);
                 next();
             } else {
                 user.type = 5;//游客
@@ -29,8 +27,8 @@ module.exports = function (app) {
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
         var user = req.session.user;
-        console.log('--------->user:');
-        console.log(user);
+//        console.log('--------->user:');
+//        console.log(user);
         if(user) {
             ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
                 PageInput.i(req).put('myClass', myClass);
@@ -39,7 +37,6 @@ module.exports = function (app) {
         } else {
             res.redirect('/main-login');
         }
-
     };
 
     var indexPage = function (req, res, next) {
@@ -91,6 +88,7 @@ module.exports = function (app) {
         res.render('main-bind', input);
     });
 
+    //绑定学员号
     app.post('/main-bind', function (req, res) {
 //        var userid = 'xdf001000862';
         var userid = req.session.user.id;
@@ -120,27 +118,36 @@ module.exports = function (app) {
         }, function (err, resp, ret) {
             //根据接口返回数据判断其绑定学院号的结果
             ret = JSON.parse(ret);
+            console.log('------------>绑定学院号接口返回信息:');
             console.info(ret);
-            if(ret.Date == true) {
+            if(ret.Data == true) {
                 var userid = req.session.user.id;
 
                 ixdf.userBasicData(userid, function (err, userData) {
+                    console.log('-------->通过ID查身份返回信息:');
+                    console.log(userData);
                     if(userData) {
                         req.session.user.type = userData.type; // 用户类型，老师 2 学员 1
                         req.session.user.code = userData.data.sCode || userData.data.Code; // 学员code 或者 老师code
                         req.session.user.schoolid = userData.data.nSchoolId || userData.data.SchoolId; // 学员或者老师所在的学校ID
+                        console.log('------------->改变之后的session：');
+                        console.log(req.session.user);
                         res.redirect('/');
+                    }else {
+                        res.redirect('/main-bind');
                     }
                 });
                 //再次用userid 调用获取角色接口然后获取shcoolid scode 等数据。
             }else {
-                req.redirect('/main-bind?err=');
+                res.redirect('/main-bind?err='+ret.Error);
                 //打印出错误信息并停留在当前页面
             }
         });
 
     });
 
+
+    //汉字加密不乱码
     var md51 = function (str) {
         var Buffer = require('buffer').Buffer;
         var buf = new Buffer(1024);

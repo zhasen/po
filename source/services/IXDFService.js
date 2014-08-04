@@ -82,8 +82,8 @@ Service.userBasicData = function (userid, callback) {
     var userData = {};
     var o = this;
     o.uniAPIInterface({userid: userid}, 'user', 'GetUserTypeByUserId', function (err, ret) { // 获取用户身份
-        console.log('--------->登录');
-        console.log(ret);
+//        console.log('--------->登录');
+//        console.log(ret);
         if(ret.Data) {
             userData.type = ret.Data.Type; // 用户类型：老师2 ？学生1 ？
             if (userData.type == 2 || userData.type == 22) {
@@ -174,7 +174,7 @@ Service.classEntity = function (param, callback) {
  * @user 用户对象
  */
 Service.classList = function (param, user, callback) {
-    console.info(user);
+//    console.info(user);
     var methodname = '', p = {};
     if (user.type == 1) {
         methodname = 'GetClassListFilterByStudentCode';
