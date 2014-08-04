@@ -116,23 +116,32 @@ Service.userBasicData = function (userid, callback) {
 Service.myClass = function (p, callback) {
     var param = {schoolid: p.schoolid, classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 6};
     var methodname = '';
-    if (p.type == 2) {
+    if (p.type == 2 || p.type == 22) {
         param.teachercode = p.code;
         methodname = 'GetClassListFilterByTeacherCode';
-    } else {
+    } else if(p.type == 1 || p.type == 9) {
         param.studentcode = p.code;
         methodname = 'GetClassListFilterByStudentCode';
-    }
-    this.uniAPIInterface(param, 'classExt', methodname, function (err, ret) {
-        console.info(ret);
-        var myClass = ret.Data;
-        console.log(myClass);
-        myClass.forEach(function (c) {
-            c.poBeginDate = dateShift(c.BeginDate);
-            c.poEndDate = dateShift(c.EndDate);
-            c.ClassStatusText = classStatusText(c.ClassStatus);
-        });
+    } else {
+        var myClass = [];
         callback(err, myClass);
+    };
+    this.uniAPIInterface(param, 'classExt', methodname, function (err, ret) {
+        //console.info(ret);
+        var myClass = ret.Data;
+        //console.log(myClass);
+        if(myClass) {
+            myClass.forEach(function (c) {
+                c.poBeginDate = dateShift(c.BeginDate);
+                c.poEndDate = dateShift(c.EndDate);
+                c.ClassStatusText = classStatusText(c.ClassStatus);
+            });
+            callback(err, myClass);
+        }else {
+            myClass = [];
+            callback(err,myClass);
+        }
+
     })
 };
 

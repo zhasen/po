@@ -10,11 +10,6 @@ module.exports = function (app) {
     var asseton = require('../middlewares/asseton')(mode);
 
     auth.afterLogin = function (user, next) {
-//        console.log('-------> user session:');
-//        console.log(user);
-        // user示例：
-        // { id: 'xdf001000862', displayName: '李梦晗', type: 1, code: 'BJ986146', schoolid: 1 } // 学员
-        // { id: 'xdf00228972', displayName: '张洪伟', type: 2, code: 'BM0001', schoolid: 1 } // 老师
         ixdf.userBasicData(user.id, function (err, userData) {
             if(userData) {
                 user.type = userData.type; // 用户类型，老师 2 学员 1
@@ -22,46 +17,29 @@ module.exports = function (app) {
                 user.schoolid = userData.data.nSchoolId || userData.data.SchoolId; // 学员或者老师所在的学校ID
                 next();
             }
-//            else {
-//                user.type = 5;//游客
-//                user.code = null;
-//                user.schoolid = null;
-//                next();
-//            }
         });
     };
     auth.bind(app);//use all authentication routing and handlers binding here
-    //判断是否登录是否绑定了学员好
-    var isLoginOrIsBind = function(req,res,next) {
-        var user = req.session.user;
-        if (user) {
-            if(user.type == 5) {
-                res.redirect('/main-bind');
-            }else {
-                next();
-            }
-        }else {
-            res.redirect('/main-login');
-        }
-    };
+
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
         var user = req.session.user;
-        console.log('----------------->user:');
+        console.log('--------->user:');
         console.log(user);
         if(user) {
-            if(user.type == 1 || user.type == 2) {
+            if(user.type == 1 || user.type == 9 || user.type == 2 || user.type == 22) {
                 ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
                     PageInput.i(req).put('myClass', myClass);
                     next();
                 });
+            }else if(user.type == 0 || user.type == 5) {
+                res.redirect('/');
             }else {
-                res.redirect('/main-bind');
+                res.redirect('/main-login');
             }
-        }else {
+        } else {
             res.redirect('/main-login');
         }
-
 
     };
 
@@ -71,8 +49,6 @@ module.exports = function (app) {
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
-
-        //console.log(req.session);
         res.render('index_' + input.token, input);
     };
 
