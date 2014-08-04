@@ -1,4 +1,6 @@
 
+var studentAnswers = {};
+
 var $beginAnswer;
 
 var $beginExplain;
@@ -304,14 +306,20 @@ function dealTeacherMessage(json){
                 count++;
                 var student = json.students[key];
                 if(student.status == 0){
-                    ul.append('<li><img src="/web/classroom/images/ic_dele.png" width="13" height="13"/>'+student.name+'</li>');
+                    ul.append('<li id="studentCode"'+student.code+'><img src="/web/classroom/images/ic_dele.png" width="13" height="13"/>'+student.name+'</li>');
                 }
                 else{
                     online++;
-                    ul.append('<li><img src="/web/classroom/images/ic_online.png" width="13"  height="13"/>'+student.name+'</li>');
+                    ul.append('<li id="studentCode"'+student.code+'><img src="/web/classroom/images/ic_online.png" width="13"  height="13"/>'+student.name+'</li>');
                 }
             }
             $("#online_students_num").text('在线人数：'+online+'/'+count);
+            break;
+        }
+        case ALLTEACHERRECEIVEMETHOD.answer:{
+            studentAnswers[json.studentCode] = json.data;
+
+
             break;
         }
         default :{
@@ -414,4 +422,16 @@ function reloadTeacherSelectPage(page){
         }
         $target.css({visibility: "hidden"});
     });
+}
+
+function reloadStudentAnser(){
+
+    var ul = $("#online_students");
+
+    for(var key in studentAnswers){
+        var li = ul.children("#studentCode"+json.studentCode);
+        if(li){
+
+        }
+    }
 }

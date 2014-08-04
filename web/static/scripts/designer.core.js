@@ -1,4 +1,62 @@
 
+//On creation of a UUID object, set it's initial value  
+function UUID(){  
+    this.id = this.createUUID();  
+}  
+
+UUID.prototype.valueOf = function(){ return this.id; }  
+UUID.prototype.toString = function(){ return this.id; }  
+
+UUID.prototype.createUUID = function(){  
+    var dg = new Date(1582, 10, 15, 0, 0, 0, 0);  
+    var dc = new Date();  
+    var t = dc.getTime() - dg.getTime();  
+    var h = '';  
+    var tl = UUID.getIntegerBits(t,0,31);  
+    var tm = UUID.getIntegerBits(t,32,47);  
+    var thv = UUID.getIntegerBits(t,48,59) + '1'; // version 1, security version is 2  
+    var csar = UUID.getIntegerBits(UUID.rand(4095),0,7);  
+    var csl = UUID.getIntegerBits(UUID.rand(4095),0,7);  
+    
+    var n = UUID.getIntegerBits(UUID.rand(8191),0,7) +   
+            UUID.getIntegerBits(UUID.rand(8191),8,15) +   
+            UUID.getIntegerBits(UUID.rand(8191),0,7) +   
+            UUID.getIntegerBits(UUID.rand(8191),8,15) +   
+            UUID.getIntegerBits(UUID.rand(8191),0,15); // this last number is two octets long  
+    return (tl + h + tm + h + thv + h + csar + csl + h + n).toLowerCase();   
+}  
+  
+  
+UUID.getIntegerBits = function(val,start,end){  
+    var base16 = UUID.returnBase(val,16);  
+    var quadArray = new Array();  
+    var quadString = '';  
+    var i = 0;  
+    for(i=0;i<base16.length;i++){  
+        quadArray.push(base16.substring(i,i+1));      
+    }  
+    for(i=Math.floor(start/4);i<=Math.floor(end/4);i++){  
+        if(!quadArray[i] || quadArray[i] == '') quadString += '0';  
+        else quadString += quadArray[i];  
+    }  
+    return quadString;  
+}  
+
+UUID.returnBase = function(number, base){  
+    var convert = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];  
+    if (number < base) var output = convert[number];  
+    else {  
+        var MSD = '' + Math.floor(number / base);  
+        var LSD = number - MSD*base;  
+        if (MSD >= base) var output = this.returnBase(MSD,base) + convert[LSD];  
+        else var output = convert[MSD] + convert[LSD];  
+    }  
+    return output;  
+}  
+
+UUID.rand = function(max){  
+    return Math.floor(Math.random() * max);  
+}
 /**
  * 设计器对象
  * @returns
@@ -867,42 +925,58 @@ function Designer(){
 			}
 			canvas.find(".record_time").text(minutes + ":" +seconds);
 			canvas.css("text-align", "center");
-			if(Des.config.status == "testing"){
-				//如果是测试状态，直接开始倒计时
-				var begin = new Date().getTime();
-				var progress = canvas.find(".record_progress");
-				var bar = $("<div></div>").appendTo(progress);
-				var intTimer = setInterval(function(){
-					if(canvas.length == 0 || !canvas.is(":visible")){
-						//canvas不存在了或者隐藏了
-						clearInterval(intTimer);
-						return;
-					}
-					var now = new Date().getTime();
-					var past = Math.round((now - begin) / 1000); //已经过去多少秒
-					var totalTime = parseInt(subject.totalTime);
-					var last = totalTime - past;
-					if(last <= 0){
-						//倒计时结束
-						bar.css("width", "100%");
-						canvas.find(".record_time").text("00:00");
-						clearInterval(intTimer);
-						canvas.trigger("ended");
-						return;
-					}
-					//设置进度条
-					bar.css("width", past / totalTime * 100 + "%");
-					//设置时间显示
-					var minutes = Math.floor(last / 60);
-					if(minutes < 10){
-						minutes = "0" + minutes;
-					}
-					var seconds = last % 60;
-					if(seconds < 10){
-						seconds = "0" + seconds;
-					}
-					canvas.find(".record_time").text(minutes + ":" +seconds);
-				}, 250);
+			if(Des.config.status == "testing" && Des.config.statusType != "review"){
+				//如果是测试状态，直接开始录音，并倒计时
+				Recorder.get(function (rec) {
+					//开始录音
+					var recorder = rec;
+	                if(recorder != null){
+	                	var newId = Des.utils.newId();
+	                	subjectBox.attr("recordId", newId); //设置一个id，提交答案、上传录音时会使用
+	                	subjectBox.bind("submit", function(){
+	                		//上传
+	                		recorder.upload("upload1?id=" + newId);
+	                	});
+	                	//开始录音
+	                	recorder.start();
+	                	//开始倒计时
+	                	var begin = new Date().getTime();
+						var progress = canvas.find(".record_progress");
+						var bar = $("<div></div>").appendTo(progress);
+						var intTimer = setInterval(function(){
+							if(canvas.length == 0 || !canvas.is(":visible")){
+								//canvas不存在了或者隐藏了
+								clearInterval(intTimer);
+								return;
+							}
+							var now = new Date().getTime();
+							var past = Math.round((now - begin) / 1000); //已经过去多少秒
+							var totalTime = parseInt(subject.totalTime);
+							var last = totalTime - past;
+							if(last <= 0){
+								//倒计时结束
+								bar.css("width", "100%");
+								canvas.find(".record_time").text("00:00");
+								clearInterval(intTimer);
+								canvas.trigger("ended"); //抛出事件
+								recorder.stop(); //停止录音
+								return;
+							}
+							//设置进度条
+							bar.css("width", past / totalTime * 100 + "%");
+							//设置时间显示
+							var minutes = Math.floor(last / 60);
+							if(minutes < 10){
+								minutes = "0" + minutes;
+							}
+							var seconds = last % 60;
+							if(seconds < 10){
+								seconds = "0" + seconds;
+							}
+							canvas.find(".record_time").text(minutes + ":" +seconds);
+						}, 250);
+	                }
+	            });
 			}
 		}else if(subject.className == "org.neworiental.rmp.base::OptionGroup"){
 			canvas.empty();
@@ -1715,9 +1789,11 @@ function Designer(){
 		 * @return {}
 		 */
 		newId: function(){
-			var random = Math.random();
-			var newId = (random + new Date().getTime());
-			return newId.toString(16).replace(".", "");
+			var id = new UUID().id;
+			return id;
+//			var random = Math.random();
+//			var newId = (random + new Date().getTime());
+//			return newId.toString(16).replace(".", "");
 		},
 		/**
 		 * 一个点是否在一个矩形中

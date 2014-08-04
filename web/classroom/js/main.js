@@ -117,6 +117,17 @@ $(function(){
                 }
             }
                 break;
+
+            case TESTING_CALLBACK_METHOD.sendAnswer:{
+                if(role == ALLROLL.student){
+                    var json = getJsonObject();
+                    json.method = ALLSTUDENTSENDMETHOD.answer;
+                    json.data = result.data;
+                    ws.send(JSON.stringify(json));
+                }
+            }
+                break;
+
         }
     }
 

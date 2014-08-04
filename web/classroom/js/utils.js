@@ -1,7 +1,7 @@
 
 var ALLMETHOD = {init:'init',close:'close'};
 
-var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student'};
+var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student',answer:'teacher_receive_student_answer'};
 var ALLTEACHERSENDMETHOD = {offline:'teacher_send_offline',wait:'teacher_send_wait',answer:'teacher_send_answer',explain:'teacher_send_explain',white:'teacher_send_white',path_down:'teacher_send_path_down',path_move:'teacher_send_path_move',path_up:'teacher_send_path_up',path_clear:'teacher_send_path_clear',change_page:'teacher_send_change_page'};
 
 var ALLSTUDENTRECEIVEMETHOD = {offline:'student_receive_offline',wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain',white:'student_receive_white',path_down:'student_receive_path_down',path_move:'student_receive_path_move',path_up:'student_receive_path_up',path_clear:'student_receive_path_clear',change_page:'student_receive_change_page'};

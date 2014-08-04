@@ -140,6 +140,7 @@
 		//停止
 		this.stop = function() {
 			recorder.disconnect();
+			stream.stop(); //关闭浏览器tab中的小红点，录音时，耳机声音会降低，调用此方法进行恢复
 		}
 
 		//获取音频文件
@@ -152,16 +153,13 @@
 		this.play = function(audio) {
 			var blob = this.getBlob();
 			var src = window.URL.createObjectURL(blob);
-			console.log(blob);
 			audio.src = src;
 		}
 
 		//上传
-		this.upload = function(url, callback) {
+		this.upload = function(url, id, callback) {
 			var fd = new FormData();
-			console.log(new Date().getTime());
 			fd.append("audioData", this.getBlob());
-			console.log(new Date().getTime());
 			var xhr = new XMLHttpRequest();
 			if (callback) {
 				xhr.addEventListener("progress", function(e) {
@@ -197,7 +195,8 @@
 						var rec = new Recorder(stream, config);
 						callback(rec);
 					}, function(error) {
-						alert('用户拒绝提供信息。');
+						alert('拒绝设备访问，无法录音');
+						callback(null);
 					});
 			}else {
 				alert('当前浏览器不支持录音功能。');

@@ -725,6 +725,11 @@ var Player = {
 				data: data
 			}
 		});
+		var toelfRecords = $(".subject_box[n='org.neworiental.rmp.base::TOEFLRecord']");
+		if(toelfRecords.length > 0){
+			//如果有录音控件，上传录音
+			toelfRecords.trigger("submit"); //提交录音
+		}
 	},
 	/**
 	 * 获取当前页的答案
@@ -784,6 +789,13 @@ var Player = {
 					}else if(ele.className == "org.neworiental.rmp.base::TOEFLRecord"){
 						//录音
 						var eleAnswer = [ele.className, ""];
+						var box = $("#" + ele.ID); //获取控件
+						if(box.length > 0){
+							var recordId = box.attr("recordId");
+							if(recordId){
+								eleAnswer[1] = recordId;
+							}
+						}
 						pageAnswer.push(eleAnswer);
 					}else if(ele.className == "org.neworiental.rmp.base::BaseInputText"){
 						//写作

@@ -3,14 +3,15 @@ var ixdf = require('./IXDFService');
 
 var ALLMETHOD = {init:'init',close:'close'};
 
-var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student'};
+var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student',answer:'teacher_receive_student_answer'};
 var ALLTEACHERSENDMETHOD = {offline:'teacher_send_offline',wait:'teacher_send_wait',answer:'teacher_send_answer',explain:'teacher_send_explain',white:'teacher_send_white',path_down:'teacher_send_path_down',path_move:'teacher_send_path_move',path_up:'teacher_send_path_up',path_clear:'teacher_send_path_clear',change_page:'teacher_send_change_page'};
 
 var ALLSTUDENTRECEIVEMETHOD = {offline:'student_receive_offline',wait:'student_receive_wait',answer:'student_receive_answer',explain:'student_receive_explain',white:'student_receive_white',path_down:'student_receive_path_down',path_move:'student_receive_path_move',path_up:'student_receive_path_up',path_clear:'student_receive_path_clear',change_page:'student_receive_change_page'};
 var ALLSTUDENTSENDMETHOD = {answer:'student_send_answer'};
 
 var ALLROLL = {student:1,teacher:2};
-var ALLWSTYPE = {classRoom:'ClassRoom'};
+
+exports.ALLWSTYPE = {classRoom:'ClassRoom'};
 
 var ALLMODE = {teacher_offline:1,wait_teacher_distribute:2,student_answer:3,teacher_speak:4};
 
@@ -36,7 +37,7 @@ function notifyOnlineStudent(classRoom){
     }
 }
 
-module.exports = function (ws, data) {
+exports.dealFunc = function (ws, data) {
     var result = {};
     var json = JSON.parse(data);
     switch(json.method){
@@ -226,6 +227,23 @@ module.exports = function (ws, data) {
             }
             break;
         }
+        //学生的
+        case ALLSTUDENTSENDMETHOD.answer:{
+            if(ws.classCode){
+                var classRoom = classRooms[ws.classCode];
+                if(ws.role == ALLROLL.student){
+                    if(classRoom.teacher){
+                        result.method = ALLTEACHERRECEIVEMETHOD.answer;
+                        result.data = json.data;
+                        result.studentCode = json.userID;
+                        classRoom.teacher.send(JSON.stringify(result));
+                    }
+                }
+            }
+            break;
+        }
+
+
         default :{
             return;
         }
