@@ -27,8 +27,6 @@ module.exports = function (app) {
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
         var user = req.session.user;
-//        console.log('--------->user:');
-//        console.log(user);
         if(user) {
             ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
                 PageInput.i(req).put('myClass', myClass);
