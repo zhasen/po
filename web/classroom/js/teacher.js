@@ -161,6 +161,7 @@ function initTeacher(){
     $beginExplain.bind("click", function(){
         var json = getJsonObject();
         json.method = ALLTEACHERSENDMETHOD.explain;
+        json.page = Player.pageIndex;
         ws.send(JSON.stringify(json));
         initTeacherExplain();
     });
@@ -296,11 +297,13 @@ function dealTeacherMessage(json){
                 case ALLMODE.student_answer:
                     test_Id = json.testId;
                     select_pages = json.selectPages;
+                    studentAnswers = json.testData;
                     initTeacherAnswer();
                     break;
                 case ALLMODE.teacher_speak:
                     select_pages = json.selectPages;
                     current_Page = json.currentPage;
+                    studentAnswers = json.testData;
                     initTeacherExplain();
                     break;
             }
@@ -323,6 +326,7 @@ function dealTeacherMessage(json){
                 }
             }
             $("#online_students_num").text('在线人数：'+online+'/'+count);
+            reloadStudentAnswer();
             break;
         }
         case ALLTEACHERRECEIVEMETHOD.answer:{

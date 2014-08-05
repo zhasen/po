@@ -8,14 +8,24 @@ function dealStudentMessage(json){
         case ALLMETHOD.init:{
             switch (json.mode){
                 case ALLMODE.teacher_offline:
+                    current_Page = 0;
                     initStudentWait('老师离线，请稍后...');
                     break;
                 case ALLMODE.wait_teacher_distribute:
+                    current_Page = 0;
                     initStudentWait('等待老师分配试题...');
                     break;
                 case ALLMODE.student_answer:
+                    var temp;current_Page = temp;
                     test_Id = json.testId;
                     select_pages = json.selectPages;
+                    if(json.testData){
+                        //加载答案
+                        Player.paperAnswers = {};
+                        Player.paperAnswers[json.testData.subjectId] = JSON.parse(json.testData.answerContent);
+                        Player.buildAnswer();
+                        current_Page = json.testData.pageIndex;
+                    }
                     initStudentAnswer();
                     break;
                 case ALLMODE.teacher_speak:
@@ -27,29 +37,35 @@ function dealStudentMessage(json){
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.offline:{
+            current_Page = 0;
             classMode = ALLMODE.teacher_offline;
             initStudentWait('老师离线，请稍后...');
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.wait:{
+            current_Page = 0;
             classMode = ALLMODE.wait_teacher_distribute;
             initStudentWait('等待老师分配试题...');
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.answer:{
+            var temp;current_Page = temp;
             test_Id = new UUID().id;
             classMode = ALLMODE.student_answer;
             select_pages = json.selectPages;
 
-            //清除之前的答案
+
+            $('.subject_page').text('');
             Player.paperAnswers = {};
             Player.buildAnswer();
 
             initStudentAnswer();
+
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.explain:{
             classMode = ALLMODE.teacher_speak;
+            current_Page = json.page;
             initStudentExplain();
             break;
         }
@@ -128,7 +144,7 @@ function initStudentAnswer(){
     $(".showbox").stop(true).animate({'margin-top':'250px','opacity':'0'},400);
     $(".overlay").css({'display':'none','opacity':'0'});
 
-    reloadStudentSelectPage();
+    reloadStudentSelectPage(current_Page);
 
 }
 

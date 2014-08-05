@@ -124,7 +124,7 @@ exports.dealFunc = function (ws, data) {
                         result.method = ALLSTUDENTRECEIVEMETHOD.wait;
                         break;
                     case ALLMODE.student_answer:
-                        result.method = ALLSTUDENTRECEIVEMETHOD.answer;
+                        return;
                         break;
                     case ALLMODE.teacher_speak:
                         result.method = ALLSTUDENTRECEIVEMETHOD.explain;
@@ -163,7 +163,10 @@ exports.dealFunc = function (ws, data) {
                                 data: JSON.stringify(json.data),
                                 paperName: json.paperName
                             };
-
+                            if(!json.testId || json.testId.length == 0){
+                                console.log(JSON.stringify(recordJson));
+                                logger.error(JSON.stringify(recordJson));
+                            }
                             addTestRecord(recordJson,null);
                         }
 
@@ -185,7 +188,10 @@ exports.dealFunc = function (ws, data) {
                                 data: testIds,
                                 paperName: json.paperName
                             };
-
+                            if(!json.testId || json.testId.length == 0){
+                                console.log(JSON.stringify(recordJson));
+                                logger.error(JSON.stringify(recordJson));
+                            }
                             addTestRecord(recordJson,null);
                         }
 
