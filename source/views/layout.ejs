@@ -37,7 +37,9 @@
                             <% if(page.myClass) {page.myClass.slice(0, 3).forEach(function(clas){ %>
                             <a href="class-<%= clas.SchoolId %>-<%= clas.ClassCode %>"><%= clas.ClassName %></a>
                             <% }); } %>
+                            <% if (page.user.type != 5) { %>
                             <a href="schedules-class-1" data-bypass>查看所有班级</a>
+                            <% } %>
                         </div>
                     </li>
 
