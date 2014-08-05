@@ -142,9 +142,12 @@ function initTeacher(){
                 var json = getJsonObject();
                 json.method = ALLTEACHERSENDMETHOD.answer;
                 json.selectPages = select;
-                json.testId = Testing.paper.testId;
+                test_Id = new UUID().id;
+                json.testId = test_Id;
                 ws.send(JSON.stringify(json));
+
                 select_pages = select;
+                studentAnswers = {};
                 goToPage(select[0],true);
                 reloadStudentAnswer();
                 initTeacherAnswer();
@@ -291,6 +294,7 @@ function dealTeacherMessage(json){
                     initTeacherWait();
                     break;
                 case ALLMODE.student_answer:
+                    test_Id = json.testId;
                     select_pages = json.selectPages;
                     initTeacherAnswer();
                     break;
@@ -402,30 +406,36 @@ function clearWhiteBoard(){
 }
 
 function reloadTeacherSelectPage(page){
+
     var ul = $("#papers");
+
+    var selectPagesMap = {};
+    for(var i = 0 ; i < select_pages.length ; i++){
+        if(i == 0){
+            if(typeof(page) != "undefined"){
+                goToPage(parseInt(page),true);
+            }
+            else{
+                goToPage(parseInt(select_pages[i]),true);
+            }
+        }
+        selectPagesMap[parseInt(select_pages[i])] = parseInt(select_pages[i]);
+    }
 
     ul.find('input').each(function () {
         var $target = $(this);
         var pageIndex = parseInt($target.parent().attr("pageIndex"));
-        for(var i = 0 ; i < select_pages.length ; i++){
-            if(i == 0){
-                if(typeof(page) != "undefined"){
-                    goToPage(parseInt(page),true);
-                }
-                else{
-                    goToPage(parseInt(select_pages[i]),true);
-                }
-            }
-            $target.parent().parent().hide();
+        if(typeof(selectPagesMap[pageIndex]) != "undefined"){
+            $target.prop("checked",true);
+            $target.parent().parent().show();
+        }
+        else{
             $target.attr("checked",false);
-            if(select_pages[i] == pageIndex){
-                $target.prop("checked",true);
-                $target.parent().parent().show();
-                break;
-            }
+            $target.parent().parent().hide();
         }
         $target.css({visibility: "hidden"});
     });
+
     reloadStudentAnswer();
 }
 
@@ -433,18 +443,20 @@ function reloadStudentAnswer(){
     var ul = $("#online_students");
     ul.find("span").css({visibility:"hidden"});
     for(var key in studentAnswers){
-        var answerData = studentAnswers[key].subjectData.data.data[Player.pageIndex].data[0];
-        var li = ul.children("#studentCode"+key);
-        if(li){
-            if(answerData){
-                if(answerData.userAnswer.length > 1){
-                    if(answerData.userAnswer[0] == 'org.neworiental.rmp.base::OptionGroup'){
-                        var span = li.children('span');
-                        var userAnswer = parseInt(answerData.userAnswer[1]);
-                        var rightAnswer = parseInt(answerData.rightAnswer[0]);
-                        span.css({visibility:"visible"});
-                        span.attr("class",userAnswer == rightAnswer ? 'correct' : 'wrong');
-                        span.text(ANSWERS[userAnswer]);
+        if(studentAnswers[key]){
+            var answerData = studentAnswers[key].subjectData.data.data[Player.pageIndex].data[0];
+            var li = ul.children("#studentCode"+key);
+            if(li){
+                if(answerData){
+                    if(answerData.userAnswer.length > 1){
+                        if(answerData.userAnswer[0] == 'org.neworiental.rmp.base::OptionGroup'){
+                            var span = li.children('span');
+                            var userAnswer = parseInt(answerData.userAnswer[1]);
+                            var rightAnswer = parseInt(answerData.rightAnswer[0]);
+                            span.css({visibility:"visible"});
+                            span.attr("class",userAnswer == rightAnswer ? 'correct' : 'wrong');
+                            span.text(ANSWERS[userAnswer]);
+                        }
                     }
                 }
             }

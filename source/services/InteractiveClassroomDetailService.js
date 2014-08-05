@@ -3,6 +3,8 @@ var logger = require('../commons/logging').logger;
 var ixdf = require('./IXDFService');
 var InteractiveClassRoomRecord = require('../models/InteractiveClassRoomRecord');
 
+exports.ALLWSTYPE = {classRoom:'ClassRoom'};
+
 var ALLMETHOD = {init:'init',close:'close'};
 
 var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student',answer:'teacher_receive_student_answer'};
@@ -13,9 +15,9 @@ var ALLSTUDENTSENDMETHOD = {answer:'student_send_answer'};
 
 var ALLROLL = {student:1,teacher:2};
 
-exports.ALLWSTYPE = {classRoom:'ClassRoom'};
-
 var ALLMODE = {teacher_offline:1,wait_teacher_distribute:2,student_answer:3,teacher_speak:4};
+
+
 
 //classRoom.mode
 //1 等待 2 答题 3 讲解
@@ -43,10 +45,13 @@ exports.dealFunc = function (ws, data) {
     var result = {};
     var json = JSON.parse(data);
     switch(json.method){
+        //浏览器刷新之后 答题记录肯定是获取不到了的 uuid是通过js来生成的 不行的
         case ALLMETHOD.init:{
+
             ws.role = json.role;
-            ws.userID = json.userID;
+            ws.userId = json.userId;
             ws.classCode = json.classCode;
+
             var classRoom = classRooms[json.classCode];
             if(!classRoom){
                 classRoom = {};
@@ -73,18 +78,37 @@ exports.dealFunc = function (ws, data) {
             result.currentPage = classRoom.currentPage;
 
             if(json.role == ALLROLL.student){
-                classRoom.students[json.userID] = ws;
+                var student;
+                if(!classRoom.students[json.userId]){
+                    classRoom.students[json.userId] = {};
+                }
+                student = classRoom.students[json.userId];
+                student.ws = ws;
+                student.role = json.role;
+                student.userId = json.userId;
+                student.classCode = json.classCode;
+
                 notifyOnlineStudent(classRoom);
                 result.method = ALLMETHOD.init;
                 result.mode = classRoom.mode;
+                result.testId = student.testId;
+                result.testData = student.testData;
                 ws.send(JSON.stringify(result));
             }
             else if(json.role == ALLROLL.teacher){
+
                 classRoom.teacher = ws;
-                classRoom.teacherId = json.userID;
+                classRoom.teacherId = json.userId;
                 notifyOnlineStudent(classRoom);
 
                 result.method = ALLMETHOD.init;
+                result.testId = classRoom.teacherTestId;
+                result.testData = {};
+                for(var key in classRoom.students){
+                    var student = classRoom.students[key];
+                    result.testData[student.userId] = student.testData;
+                }
+
                 if(classRoom.mode == ALLMODE.teacher_offline)
                     result.mode = classRoom.mode = ALLMODE.wait_teacher_distribute;
                 else
@@ -111,11 +135,72 @@ exports.dealFunc = function (ws, data) {
 
             break;
         }
+
+        //学生的
+        case ALLSTUDENTSENDMETHOD.answer:{
+            if(ws.classCode){
+                var classRoom = classRooms[ws.classCode];
+                if(ws.role == ALLROLL.student){
+
+                    var student = classRoom.students[ws.userId];
+
+                    student.testId = json.testId;
+                    student.testData = json.data;
+
+                    if(classRoom.teacher){
+                        result.method = ALLTEACHERRECEIVEMETHOD.answer;
+                        result.data = json.data;
+                        result.data.subjectData = JSON.parse(result.data.subjectData);
+                        result.studentCode = json.userId;
+                        classRoom.teacher.send(JSON.stringify(result));
+
+                        {
+                            var recordJson = {
+                                selectPage: JSON.stringify(classRoom.selectPages) ,
+                                testId: json.testId ,
+                                classCode: json.classCode,
+                                userId: json.userId,
+                                data: JSON.stringify(json.data),
+                                paperName: json.paperName
+                            };
+
+                            addTestRecord(recordJson,null);
+                        }
+
+                        {
+                            var testIds = '';
+                            for(var key in classRoom.students){
+                                var student = classRoom.students[key];
+                                if(student.testId)
+                                    testIds += "," + student.testId;
+                            }
+                            if(testIds.length > 0)
+                                testIds = testIds.substr(1);
+
+                            var recordJson = {
+                                selectPage: JSON.stringify(classRoom.selectPages) ,
+                                testId: classRoom.teacherTestId ,
+                                classCode: json.classCode,
+                                userId: classRoom.teacherId,
+                                data: testIds,
+                                paperName: json.paperName
+                            };
+
+                            addTestRecord(recordJson,null);
+                        }
+
+
+                    }
+                }
+            }
+            break;
+        }
+
         case ALLMETHOD.close:{
             if(ws.classCode){
                 var classRoom = classRooms[ws.classCode];
                 if(ws.role == ALLROLL.student){
-                    delete classRoom.students[ws.userID];
+                    delete classRoom.students[ws.userId].ws;
                 }
                 else{
                     delete classRoom.teacher;
@@ -128,6 +213,11 @@ exports.dealFunc = function (ws, data) {
             if(ws.classCode){
                 if(ws.role == ALLROLL.teacher){
                     var classRoom = classRooms[ws.classCode];
+                    for(var key in classRoom.students){
+                        var student = classRoom.students[key];
+                        delete student.testId;
+                        delete student.testData;
+                    }
                     classRoom.mode = ALLMODE.student_answer;
                     classRoom.selectPages = json.selectPages;
                     classRoom.teacherTestId = json.testId;
@@ -231,62 +321,6 @@ exports.dealFunc = function (ws, data) {
             }
             break;
         }
-        //学生的
-        case ALLSTUDENTSENDMETHOD.answer:{
-            if(ws.classCode){
-                var classRoom = classRooms[ws.classCode];
-                if(ws.role == ALLROLL.student){
-
-                    ws.testId = json.testId;
-                    ws.testData = json.data;
-
-                    if(classRoom.teacher){
-                        result.method = ALLTEACHERRECEIVEMETHOD.answer;
-                        result.data = json.data;
-                        result.data.subjectData = JSON.parse(result.data.subjectData);
-                        result.studentCode = json.userID;
-                        classRoom.teacher.send(JSON.stringify(result));
-
-                        {
-                            var recordJson = {
-                                testId: json.testId ,
-                                classCode: json.classCode,
-                                userId: json.userID,
-                                data: JSON.stringify(json.data),
-                                paperName: json.paperName
-                            };
-
-                            addTestRecord(recordJson);
-                        }
-
-                        {
-                            var testIds = '';
-                            for(var key in classRoom.students){
-                                var student = classRoom.students[key];
-                                if(student.testId)
-                                    testIds += "," + student.testId;
-                            }
-                            if(testIds.length > 0)
-                                testIds = testIds.substr(1);
-
-                            var recordJson = {
-                                testId: classRoom.teacherTestId ,
-                                classCode: json.classCode,
-                                userId: classRoom.teacherId,
-                                data: testIds,
-                                paperName: json.paperName
-                            };
-
-                            addTestRecord(recordJson);
-                        }
-
-
-                    }
-                }
-            }
-            break;
-        }
-
 
         default :{
             return;
@@ -298,8 +332,8 @@ function broadcast(students,data){
     for(var key in students){
         var student = students[key];
         data.role = ALLROLL.student;
-        data.userID = student.userID;
-        student.send(JSON.stringify(data));
+        data.userId = student.userId;
+        student.ws.send(JSON.stringify(data));
     }
 }
 

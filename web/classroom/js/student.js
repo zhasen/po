@@ -14,6 +14,7 @@ function dealStudentMessage(json){
                     initStudentWait('等待老师分配试题...');
                     break;
                 case ALLMODE.student_answer:
+                    test_Id = json.testId;
                     select_pages = json.selectPages;
                     initStudentAnswer();
                     break;
@@ -36,8 +37,14 @@ function dealStudentMessage(json){
             break;
         }
         case ALLSTUDENTRECEIVEMETHOD.answer:{
+            test_Id = new UUID().id;
             classMode = ALLMODE.student_answer;
             select_pages = json.selectPages;
+
+            //清除之前的答案
+            Player.paperAnswers = {};
+            Player.buildAnswer();
+
             initStudentAnswer();
             break;
         }

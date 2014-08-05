@@ -1,4 +1,6 @@
 
+var ALLWSTYPE = {classRoom:'ClassRoom'};
+
 var ALLMETHOD = {init:'init',close:'close'};
 
 var ALLTEACHERRECEIVEMETHOD = {online:'teacher_receive_online_student',answer:'teacher_receive_student_answer'};
@@ -8,7 +10,6 @@ var ALLSTUDENTRECEIVEMETHOD = {offline:'student_receive_offline',wait:'student_r
 var ALLSTUDENTSENDMETHOD = {answer:'student_send_answer'};
 
 var ALLROLL = {student:1,teacher:2};
-var ALLWSTYPE = {classRoom:'ClassRoom'};
 
 var ALLMODE = {teacher_offline:1,wait_teacher_distribute:2,student_answer:3,teacher_speak:4};
 
@@ -21,12 +22,14 @@ var ctxGraphics, ctxDrawing;
 var select_pages;
 var classMode;
 var current_Page;
+//每次点击分配按钮 都回生成一个testid
+var test_Id;
 
 function getJsonObject(){
     var json = {};
     json.type = ALLWSTYPE.classRoom;
     json.role = role;
-    json.userID = userID;
+    json.userId = userId;
     json.classCode = classCode;
     return json;
 }

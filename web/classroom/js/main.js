@@ -59,12 +59,7 @@ $(function(){
                                 var $target = $(e.target);
                                 goToPage($target.attr("pageIndex"),true);
                                 reloadStudentAnswer();
-                                if(classMode == ALLMODE.teacher_speak){
-                                    var json = getJsonObject();
-                                    json.method = ALLTEACHERSENDMETHOD.change_page;
-                                    json.page = $target.attr("pageIndex");
-                                    ws.send(JSON.stringify(json));
-                                }
+                                notifyStudentChangePage($target.attr("pageIndex"));
                             }
 
                         });
@@ -102,16 +97,19 @@ $(function(){
                                 }
                                 else{
                                     goToPage(select_pages[i+1],false);
+                                    notifyStudentChangePage(select_pages[i+1]);
                                     return select_pages[i+1];
                                 }
                             }
                             else if(result.orientation == 'back'){
                                 if(i == 0){
                                     goToPage(select_pages[i],false);
+                                    notifyStudentChangePage(select_pages[i]);
                                     return select_pages[i];
                                 }
                                 else{
                                     goToPage(select_pages[i-1],false);
+                                    notifyStudentChangePage(select_pages[i-1]);
                                     return select_pages[i-1];
                                 }
                             }
@@ -128,12 +126,21 @@ $(function(){
                     json.method = ALLSTUDENTSENDMETHOD.answer;
                     json.data = result.data;
                     json.paperName = Testing.paper.paperName;
-                    json.testId = Testing.paper.testId;
+                    json.testId = test_Id;
                     ws.send(JSON.stringify(json));
                 }
             }
                 break;
 
+        }
+    }
+
+    function notifyStudentChangePage(page){
+        if(role == ALLROLL.teacher && classMode == ALLMODE.teacher_speak){
+            var json = getJsonObject();
+            json.method = ALLTEACHERSENDMETHOD.change_page;
+            json.page = page;
+            ws.send(JSON.stringify(json));
         }
     }
 

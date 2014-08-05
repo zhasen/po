@@ -21,8 +21,18 @@ module.exports = function (app) {
         var data = {};
         //1 学生 2老师
         data.role = req.query.role;
-        data.userID = req.query.userID;
+        data.userId = req.query.userId;
         data.classCode = req.query.classCode;
+        data.testId = req.query.testId;
+
+        if(!data.testId){
+            data.testId = "";
+            data.statusType = "normal";
+        }
+        else{
+            data.statusType = "review";
+        }
+
         res.render('interactive-classroom-detail', data);
     });
 
