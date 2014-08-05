@@ -12,34 +12,17 @@ module.exports = function (app) {
 
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
-        // 测试数据，勿删除，等登录页面做好并打通后再删除
-        req.session.user = { id: 'xdf001000862', displayName: '李梦晗', type: 1, code: 'BJ986146', schoolid: 1 }; // 学员
-        //req.session.user = { id: 'xdf00228972', displayName: '张洪伟', type: 2, code: 'BM0001', schoolid: 1 }; // 老师
-
-        var user = PageInput.i(req).page.user;
-        ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
-            PageInput.i(req).put('myClass', myClass);
-            next();
-        });
-    };
-
-    /*
-     判断登录的会员是否是学生 如果是学生是否绑定了学员号
-     */
-    var isBindStudentCode = function(req,res,next) {
-        console.log('---------------->bind:');
-        console.log(req.session.user);
-        if(req.session.user.type == 0) {
-            res.redirect('/main-bind');
-        }else if(req.session.user.type == 5) {
-            res.redirect('/main-bind');
-        }else if(req.session.user.type == -1) {
-
-        }
-else {
-            next();
+        var user = req.session.user;
+        if(user) {
+            ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
+                PageInput.i(req).put('myClass', myClass);
+                next();
+            });
+        } else {
+            res.redirect('/main-login');
         }
     };
+
     //获取分类的方法
     var getPtypeList = function(projectCode,callback) {
         var url = {
@@ -73,7 +56,7 @@ else {
         });
     };
     //互动课堂首页
-    app.get('/interaction-class',getMyClass,isBindStudentCode, function (req, res, next) {
+    app.get('/interaction-class',getMyClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
