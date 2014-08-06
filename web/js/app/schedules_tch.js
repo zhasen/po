@@ -4,8 +4,8 @@ define(['jQuery', 'Bootstrap', '../course_schedule/custom_calendar'],
 
             var userid = $('#userid').val();
             var userType = $('#userType').val();
-            var nSchoolId = $('#nSchoolId').val();
-            var sCode = $('#sCode').val();
+            var schoolid = $('#nSchoolId').val();
+            var code = $('#sCode').val();
 
             $().selectMode('.s-ac', '.s-key', '.s-hdn'); // 班级下拉菜单
 
