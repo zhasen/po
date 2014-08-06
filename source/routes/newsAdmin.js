@@ -4,7 +4,7 @@ var logger = require('../commons/logging').logger;
 var util = require('util');
 var time = require('../commons/time');
 var NewsAdminService = require('../services/NewsAdminService');
-var NewsAdmin = require('../models/NewsAdmin').model;
+var NewsAdmin = require('../models/StuNewsAdmin').model;
 var UserService = require('../services/UserService');
 
 module.exports = function (app) {
@@ -38,44 +38,28 @@ module.exports = function (app) {
             }
         });
     };
-    //登录页面加载
-//    app.get('/news-admin-login',getMyClass,function(req,res) {
-//        asseton(req, res);
-//        var input = PageInput.i(req);
-//        input.classes = input.page.myClass; // 用于显示首页的六个班级
-//        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
-//        input.user = input.page.user;
-//
-//        var error = req.query.error || '';
-//        input.error = error;
-//
-//        console.log(req.session);
-//
-//        res.render('news-admin-login',input);
-//    });
-//    //登录表单提交
-//    app.post('/news-admin-login',function(req,res) {
-//        var account = req.body.account;
-//        var password = req.body.password;
-//        if(account == 'admin' && password == '123456') {
-//            res.redirect('/news-admin');
-//        }else {
-//            res.redirect('/news-admin-login?error=true');
-//        }
-//    });
 
-    //消息列表页面加载
+    /*
+        消息列表页面加载
+        1:表示学生
+        2:表示老师
+        5:游客
+     */
     app.get('/news-admin',getMyClass,isAdmin,function(req,res) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
-
-        NewsAdminService.listAllNews(function(err,list) {
-            console.log(list);
-            input.list = list;
-            res.render('news-admin',input);
+        NewsAdminService.listAllNews(1,function(err,stulist) {
+            input.stulist = stulist;
+            NewsAdminService.listAllNews(2,function(err,tealist) {
+                input.tealist = tealist;
+                NewsAdminService.listAllNews(5,function(err,vislist) {
+                    input.vislist = vislist;
+                    res.render('news-admin',input);
+                });
+            });
         });
     });
 
@@ -91,7 +75,7 @@ module.exports = function (app) {
 
     //执行添加功能
     app.post('/news-admin-add',function(req,res) {
-        NewsAdminService.insert(req.body,function(err,item) {
+        NewsAdminService.insert(req.body.to,req.body,function(err,item) {
             if (err) {
                 console.err('save error'); // TODO: 页面弹出提示窗，不跳转页面
             } else {
@@ -102,8 +86,8 @@ module.exports = function (app) {
     });
 
     //删除
-    app.get('/news-del-:id',function(req,res) {
-        NewsAdminService.delete(req.params.id,function(err) {
+    app.get('/news-del-:to-:id',function(req,res) {
+        NewsAdminService.delete(req.params.to,req.params.id,function(err) {
             if(err) {
                 logger.error(err);
             }
@@ -112,13 +96,13 @@ module.exports = function (app) {
     });
 
     //查看详细
-    app.get('/news-detail-:id',getMyClass,isAdmin,function(req,res) {
+    app.get('/news-detail-:to-:id',getMyClass,isAdmin,function(req,res) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
-        NewsAdminService.getById(req.params.id,function(err,item) {
+        NewsAdminService.getById(req.params.to,req.params.id,function(err,item) {
             if(err) {
                 logger.error(err);
             }

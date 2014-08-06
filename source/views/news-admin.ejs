@@ -1,31 +1,111 @@
 <%- layout('layout') %>
 <a href="/news-admin-add" class="btn btn-warning" style="margin-top: 10px;margin-left:50px;text-align: center;">发布消息</a>
-<table class="table table-hover" style="margin-top: 10px;margin-left:50px;text-align: center;">
 
-    <thead>
 
-    <tr>
-        <th>发布者</th>
-        <th>标题</th>
-        <th>发布时间</th>
-        <th>使用者</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody>
-    <%
-        for(var i=0;i<list.length;i++) {
-            var item = list[i];
-    %>
-    <tr>
-        <td>admin</td>
-        <td><%=item.title%></td>
-        <td><%=item.crtOn%></td>
-        <td><%if(item.to == 1) {%> 学生 <% } else {%> 老师 <% } %></td>
-        <td><a data-bypass href="/news-detail-<%=item.id%>">查看详细</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a data-bypass href="/news-del-<%=item.id%>" onclick="return confirm('你确定要删除吗？')">删除</a> </td>
-    </tr>
-    <%
-        }
-    %>
-    </tbody>
-</table>
+
+<div class="bs-docs-example" style="margin-top: 10px;margin-left:50px;text-align: center;">
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active" ><a href="#stu" data-toggle="tab">学生</a></li>
+        <li><a href="#tea" data-toggle="tab">老师</a></li>
+        <li><a href="#vis" data-toggle="tab">游客</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="stu">
+            <table class="table table-hover" style="margin-top: 10px;text-align: center;">
+
+                <thead>
+
+                <tr>
+                    <th>发布者</th>
+                    <th>标题</th>
+                    <th>发布时间</th>
+                    <th>使用者</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                for(var i=0;i<stulist.length;i++) {
+                    var item = stulist[i];
+                %>
+                <tr>
+                    <td>admin</td>
+                    <td><%=item.title%></td>
+                    <td><%=item.crtOn%></td>
+                    <td><%if(item.to == 1) {%> 学生 <% } else if(item.to == 2) {%> 老师 <% }else { %> 游客 <% } %></td>
+                    <td><a data-bypass href="/news-detail-<%=item.to%>-<%=item.id%>">查看详细</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a data-bypass href="/news-del-<%=item.to%>-<%=item.id%>" onclick="return confirm('你确定要删除吗？')">删除</a> </td>
+                </tr>
+                <%
+                }
+                %>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="tea">
+            <table class="table table-hover" style="margin-top: 10px;text-align: center;">
+
+                <thead>
+
+                <tr>
+                    <th>发布者</th>
+                    <th>标题</th>
+                    <th>发布时间</th>
+                    <th>使用者</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                for(var i=0;i<tealist.length;i++) {
+                    var item = tealist[i];
+                %>
+                <tr>
+                    <td>admin</td>
+                    <td><%=item.title%></td>
+                    <td><%=item.crtOn%></td>
+                    <td><%if(item.to == 1) {%> 学生 <% } else if(item.to == 2) {%> 老师 <% }else { %> 游客 <% } %></td>
+                    <td><a data-bypass href="/news-detail-<%=item.to%>-<%=item.id%>">查看详细</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a data-bypass href="/news-del-<%=item.to%>-<%=item.id%>" onclick="return confirm('你确定要删除吗？')">删除</a> </td>
+                </tr>
+                <%
+                }
+                %>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="vis">
+            <table class="table table-hover" style="margin-top: 10px;text-align: center;">
+
+                <thead>
+
+                <tr>
+                    <th>发布者</th>
+                    <th>标题</th>
+                    <th>发布时间</th>
+                    <th>使用者</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                for(var i=0;i<vislist.length;i++) {
+                    var item = vislist[i];
+                %>
+                <tr>
+                    <td>admin</td>
+                    <td><%=item.title%></td>
+                    <td><%=item.crtOn%></td>
+                    <td><%if(item.to == 1) {%> 学生 <% } else if(item.to == 2) {%> 老师 <% }else { %> 游客 <% } %></td>
+                    <td><a data-bypass href="/news-detail-<%=item.to%>-<%=item.id%>">查看详细</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a data-bypass href="/news-del-<%=item.to%>-<%=item.id%>" onclick="return confirm('你确定要删除吗？')">删除</a> </td>
+                </tr>
+                <%
+                }
+                %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
