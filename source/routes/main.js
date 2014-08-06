@@ -37,6 +37,7 @@ module.exports = function (app) {
         }
     };
 
+    //会员首页
     var indexPage = function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
@@ -45,19 +46,19 @@ module.exports = function (app) {
         input.user = input.page.user;
         res.render('index_' + input.token, input);
     };
-
     app.get('/', getMyClass, indexPage);
 
-    var getCurrentClass = function (req, res, next) {
-        PageInput.i(req).put('currentClass', {id: 'xxx', name: '语文'});
-        next();
-    };
 
-    app.get('/test', getCurrentClass, function (req, res, next) {
-        asseton(req, res);
-        var input = PageInput.i(req);
-        res.render('test', input);
-    });
+//    var getCurrentClass = function (req, res, next) {
+//        PageInput.i(req).put('currentClass', {id: 'xxx', name: '语文'});
+//        next();
+//    };
+//
+//    app.get('/test', getCurrentClass, function (req, res, next) {
+//        asseton(req, res);
+//        var input = PageInput.i(req);
+//        res.render('test', input);
+//    });
 
     app.get('/main', getMyClass, function (req, res) {
         asseton(req, res);
@@ -68,6 +69,7 @@ module.exports = function (app) {
         res.render('main', input);
     });
 
+    //登陆页面
     app.get('/main-login', function (req, res) {
         asseton(req, res);
         var input = {};
@@ -75,6 +77,7 @@ module.exports = function (app) {
         res.render('main-login', input);
     });
 
+    //绑定学员号页面
     app.get('/main-bind', function (req, res) {
         asseton(req, res);
         var input = PageInput.i(req);
@@ -86,7 +89,7 @@ module.exports = function (app) {
         res.render('main-bind', input);
     });
 
-    //绑定学员号
+    //绑定学员号功能
     app.post('/main-bind', function (req, res) {
 //        var userid = 'xdf001000862';
         var userid = req.session.user.id;
