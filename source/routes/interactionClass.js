@@ -37,8 +37,9 @@ module.exports = function (app) {
             callback(err,data);
         });
     };
-    //查询听说读写四个不同分类的
+    //查询听说读写四个不同分类的课程列表
     var getClassByType = function(type,callback) {
+
         var url = {
             "method":"getStudentPaperListInClass",
             "ccode":"TF13202",
@@ -56,7 +57,11 @@ module.exports = function (app) {
         });
     };
     //互动课堂首页
-    app.get('/interaction-class',getMyClass, function (req, res, next) {
+    app.get('/interaction-class-:classcode',getMyClass, function (req, res, next) {
+        var classcode = req.params.classcode;
+        var user = req.session.user;
+        console.log('---------->user:');
+        console.log(user);
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
@@ -99,11 +104,10 @@ module.exports = function (app) {
 //                        typeList[i]['ename'] = "writing";
 //                        typeList[i]['name'] = "写作";
                     }
-
                 }
                 input.typeList = typeArr;
                 input.listOne = data[1].result;
-                console.log(input);
+                //console.log(input);
                 res.render('interaction-class',input);
             }
         );
