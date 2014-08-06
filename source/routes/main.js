@@ -37,6 +37,18 @@ module.exports = function (app) {
         }
     };
 
+    //汉字加密不乱码
+    var md51 = function (str) {
+        var Buffer = require('buffer').Buffer;
+        var buf = new Buffer(1024);
+        var len = buf.write(str, 0);
+        str = buf.toString('binary', 0, len);
+        var md5sum = crypto.createHash('md5');
+        md5sum.update(str);
+        str = md5sum.digest('hex');
+        return str;
+    };
+
     //会员首页
     var indexPage = function (req, res, next) {
         asseton(req, res);
@@ -144,21 +156,28 @@ module.exports = function (app) {
                 //打印出错误信息并停留在当前页面
             }
         });
-
     });
 
+    //会员消息列表页
+    app.get('/notifications',getMyClass,function(req,res) {
+        asseton(req, res);
+        var input = PageInput.i(req);
+        input.classes = input.page.myClass; // 用于显示首页的六个班级
+        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
+        var user = input.page.user;
+        input.user = user;
 
-    //汉字加密不乱码
-    var md51 = function (str) {
-        var Buffer = require('buffer').Buffer;
-        var buf = new Buffer(1024);
-        var len = buf.write(str, 0);
-        str = buf.toString('binary', 0, len);
-        var md5sum = crypto.createHash('md5');
-        md5sum.update(str);
-        str = md5sum.digest('hex');
-        return str;
-    };
+        res.render('notifications',input);
+    });
 
-}
-;
+    //会员消息详细
+    app.get('notifications-:id',getMyClass,function(req,res) {
+        asseton(req, res);
+        var input = PageInput.i(req);
+        input.classes = input.page.myClass; // 用于显示首页的六个班级
+        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
+        input.user = input.page.user;
+        res.render('notifications-detail',input);
+    });
+
+};
