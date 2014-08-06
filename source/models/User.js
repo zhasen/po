@@ -20,6 +20,7 @@ var User = sequelize.define('User',
         password: {type: Sequelize.STRING},
         email: {type: Sequelize.STRING},
         phone: {type: Sequelize.STRING},
+        roles: {type: Sequelize.STRING},
         accessToken: {type: Sequelize.STRING},
         refreshToken: {type: Sequelize.STRING},
         expiresIn: {type: Sequelize.DATE}

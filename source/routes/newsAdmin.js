@@ -5,6 +5,7 @@ var util = require('util');
 var time = require('../commons/time');
 var NewsAdminService = require('../services/NewsAdminService');
 var NewsAdmin = require('../models/NewsAdmin').model;
+var UserService = require('../services/UserService');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -12,24 +13,30 @@ module.exports = function (app) {
 
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
-        //console.log(req.session);
-        // 测试数据，勿删除，等登录页面做好并打通后再删除
-        req.session.user = { id: 'xdf001000862', displayName: '李梦晗', type: 1, code: 'BJ986146', schoolid: 1 }; // 学员
-
-        var user = PageInput.i(req).page.user;
-        ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
-            PageInput.i(req).put('myClass', myClass);
-            next();
-        });
+        var user = req.session.user;
+        if(user) {
+            ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
+                PageInput.i(req).put('myClass', myClass);
+                next();
+            });
+        } else {
+            res.redirect('/main-login');
+        }
     };
     //判断当前会员是否有权限查看该页面内容
     var isAdmin = function(req,res,next) {
-        var roles = req.session.user.roles || '';
-        if(roles.indexOf('admin') != -1 ) {
-            next();
-        }else {
-            res.redirect('/');
-        }
+        UserService.loadById(req.session.user.id,function(err,item) {
+            var roles = item.roles;
+            if(roles) {
+                if(roles.indexOf('admin') != -1 ) {
+                    next();
+                } else {
+                    res.redirect('/');
+                }
+            } else {
+                res.redirect('/');
+            }
+        });
     };
     //登录页面加载
 //    app.get('/news-admin-login',getMyClass,function(req,res) {

@@ -38,13 +38,13 @@ module.exports = function (app) {
         });
     };
     //查询听说读写四个不同分类的课程列表
-    var getClassByType = function(type,callback) {
+    var getClassByType = function(type,ccode,ucode,sid,callback) {
 
         var url = {
             "method":"getStudentPaperListInClass",
-            "ccode":"TF13202",
-            "ucode":"BJ986146",
-            "sid":1,
+            "ccode":ccode,
+            "ucode":ucode,
+            "sid":sid,
             "paperTypeId":"hdkt",
             "ptype":type
         };
@@ -60,13 +60,12 @@ module.exports = function (app) {
     app.get('/interaction-class-:classcode',getMyClass, function (req, res, next) {
         var classcode = req.params.classcode;
         var user = req.session.user;
-        console.log('---------->user:');
-        console.log(user);
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
+        input.classcode = classcode;
         async.series([
             function(cb) {
                 getPtypeList("TOEFL",function(err,data) {
@@ -74,7 +73,7 @@ module.exports = function (app) {
                 });
             },
             function(cb) {
-                getClassByType(1,function(err,data) {
+                getClassByType(1,classcode,user.code,user.schoolid,function(err,data) {
                     cb(err,data);
                 });
             }
@@ -89,25 +88,16 @@ module.exports = function (app) {
                 for(var i=0;i<typeList.length;i++) {
                     if(i == 1) {
                         typeArr.push({"code":"1","name":"听力","ename":"listening"});
-//                        typeList[i]['ename'] = "listening";
-//                        typeList[i]['name'] = "听力";
                     }else if(i == 2) {
                         typeArr.push({"code":"2","name":"口语","ename":"speaking"});
-//                        typeList[i]['ename'] = "speaking";
-//                        typeList[i]['name'] = "口语";
                     }else if(i == 3) {
                         typeArr.push({"code":"3","name":"阅读","ename":"reading"});
-//                        typeList[i]['ename'] = "reading";
-//                        typeList[i]['name'] = "阅读";
                     }else if(i == 4){
                         typeArr.push({"code":"4","name":"写作","ename":"writing"});
-//                        typeList[i]['ename'] = "writing";
-//                        typeList[i]['name'] = "写作";
                     }
                 }
                 input.typeList = typeArr;
                 input.listOne = data[1].result;
-                //console.log(input);
                 res.render('interaction-class',input);
             }
         );
@@ -115,8 +105,10 @@ module.exports = function (app) {
 
     //ajax加载其他分类的课程信息
     app.post('/interaction/ajaxLoad',function(req,res) {
+        var user = req.session.user;
         var type = req.body.type;
-        getClassByType(type,function(err,data) {
+        var classcode = req.body.classcode;
+        getClassByType(type,classcode,user.code,user.schoolid,function(err,data) {
             res.json(data);
         });
     });
