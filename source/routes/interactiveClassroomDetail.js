@@ -3,6 +3,7 @@
 //var PageInput = require('./common/PageInput');
 
 var request = require('request');
+var interactiveClassroomDetailService = require('../services/InteractiveClassroomDetailService');
 
 module.exports = function (app) {
 //    var mode = app.get('env') || 'development';
@@ -24,6 +25,7 @@ module.exports = function (app) {
         data.userId = req.query.userId;
         data.classCode = req.query.classCode;
         data.testId = req.query.testId;
+        data.pType = req.query.pType;
 
         if(!data.testId){
             data.testId = "";
@@ -87,5 +89,20 @@ module.exports = function (app) {
         });
     };
     app.post('/test-get', testGet);
+
+    app.get('/answer-get', function (req, res, next) {
+
+        interactiveClassroomDetailService.findTestRecord({testId:req.query.testId},function(err,records){
+            if(err){
+                res.send(err.message);
+            }
+            else if(records.length == 0){
+                res.send('未找到记录');
+            }
+            else{
+                res.json(records);
+            }
+        })
+    });
 
 };

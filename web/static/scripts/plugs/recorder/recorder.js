@@ -6,7 +6,8 @@
 
 	var Recorder = function(stream, config) {
 		config = config || {};
-		config.sampleBits = config.sampleBits || 8; //采样数位 8, 16
+        //需要改成16 要不无法转成mp3
+		config.sampleBits = config.sampleBits || 16; //采样数位 8, 16
 		config.sampleRate = config.sampleRate || (44100 / 6); //采样率(1/6 44100)
 
 		var context = new (AudioContext || webkitAudioContext)();

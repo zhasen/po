@@ -873,11 +873,10 @@ var Player = {
 			ID: page.ID,
 			data: []
 		};
-		if(page.isExplain == "true"){
-			//如果是说明页，直接返回
-			return pageData;
-		}
-		
+//		if(page.isExplain == "true"){
+//			//如果是说明页，直接返回
+//			return pageData;
+//		}
 		for (var ci = 0; ci < page.containers.length; ci++) {
 			var container = page.containers[ci];
 			//开始循环每一个控件
@@ -1314,6 +1313,32 @@ var Player = {
 			var part = this.structItem[i];
 			build(part);
 		}
+	},
+	/**
+	 * 判断一页中是否包含题目
+	 */
+	containsSubject: function(page){
+		for (var ci = 0; ci < page.containers.length; ci++) {
+			var container = page.containers[ci];
+			//开始循环每一个控件
+			if(container.contents && container.contents.length > 0){
+				for (var eleIndex = 0; eleIndex < container.contents.length; eleIndex++) {
+					var ele = container.contents[eleIndex];
+					if(ele.className == "org.neworiental.rmp.base::OptionGroup"){
+						return true;
+					}else if(ele.className == "org.neworiental.rmp.base::ToelfInsertPart"){
+						return true;
+					}else if(ele.className == "org.neworiental.rmp.base::TOEFLReadingDrag"){
+						return true;
+					}else if(ele.className == "org.neworiental.rmp.base::BaseInputText"){
+						return true;
+					}else if(ele.className == "org.neworiental.rmp.base::TOEFLRecord"){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 };
 

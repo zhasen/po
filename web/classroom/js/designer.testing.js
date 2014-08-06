@@ -82,7 +82,7 @@ var Testing = {
 			url: "test-get",
 			type: "post",
 			data: {
-				method: "loadTestPaper",
+				method: "getPaperAllDataByPaperId",
 				paperId: paperConfig.paperId,
 				testId: paperConfig.testId,
 				userId: paperConfig.userId,
@@ -589,18 +589,23 @@ var Player = {
             var page = testing_callback(result);
             if(typeof(page) != "undefined"){
 
-                var next = this.getNext();
-                this.sendAnswer(next);
+                if(paperConfig.statusType == 'normal'){
+                    var next = this.getNext();
+                    this.sendAnswer(next);
+                }
 
                 if(page == -1){
-                    if(confirm("完成答卷，等待老师讲解")){
+                    if(paperConfig.statusType == 'normal'){
+                        if(confirm("完成答卷，等待老师讲解")){
 
+                        }
                     }
                 }
                 else if(page != this.pageIndex){
                     this.pageIndex = page;
                     this.play();
                 }
+
                 return;
             }
         }
@@ -1480,7 +1485,12 @@ var Review = {
 	 * 显示review窗口
 	 */
 	show: function(){
-		$("#dlg_paper_review").dlg();
+        if(testing_callback){
+
+        }
+        else{
+            $("#dlg_paper_review").dlg();
+        }
 	},
 	/**
 	 * 获取一页题的题目信息

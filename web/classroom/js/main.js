@@ -14,7 +14,7 @@ $(function(){
     testing_callback = function(result){
         switch (result.method){
             case TESTING_CALLBACK_METHOD.loadData:{
-
+                if(!paperConfig.testId || paperConfig.testId.length == 0)
                 {
                     ws = new WebSocket("ws://127.0.0.1:3010");
                     ws.onopen = function () {
@@ -42,7 +42,23 @@ $(function(){
                         }
                     }
                 }
+                else{
+                    $.ajax({
+                        url: "answer-get?testId="+paperConfig.testId,
+                        success: function(json){
+                            console.log(json);
+                            if(role == ALLROLL.student){
+                                initStudentReview(json);
+                            }
+                            else if(role == ALLROLL.teacher){
+                                initTeacherReview(json);
+                            }
+                        },
+                        error: function(){
 
+                        }
+                    });
+                }
                 if(Testing.paper.structItem.trees.length > 0){
 
                     var ul = $("#papers");
@@ -131,6 +147,7 @@ $(function(){
                     json.data = result.data;
                     json.paperName = Testing.paper.paperName;
                     json.testId = test_Id;
+                    json.pType = pType;
                     ws.send(JSON.stringify(json));
                 }
             }

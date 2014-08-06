@@ -160,6 +160,7 @@ exports.dealFunc = function (ws, data) {
                                 testId: json.testId ,
                                 classCode: json.classCode,
                                 userId: json.userId,
+                                pType: json.pType,
                                 data: JSON.stringify(json.data),
                                 paperName: json.paperName
                             };
@@ -186,6 +187,7 @@ exports.dealFunc = function (ws, data) {
                                 classCode: json.classCode,
                                 userId: classRoom.teacherId,
                                 data: testIds,
+                                pType: json.pType,
                                 paperName: json.paperName
                             };
                             if(!json.testId || json.testId.length == 0){
@@ -343,15 +345,17 @@ function broadcast(students,data){
     }
 }
 
-exports.findTestRecord = function (classCode,userId,callback) {
+
+//{classCode:classCode,userId:userId}
+exports.findTestRecord = function (whereObject,callback) {
     InteractiveClassRoomRecord
-        .findAll({ where: {classCode:classCode,userId:userId} , order: [['updatedAt', 'DESC']] })
+        .findAll({ where: whereObject, order: [['updatedAt', 'DESC']] })
         .complete(function(err, records) {
             if (err) {
                 logger.error(err.message);
                 callback(err, null);
             } else {
-                callback(null, user);
+                callback(null, records);
             }
         });
 }

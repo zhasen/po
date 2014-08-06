@@ -366,6 +366,10 @@ function initTeacherWait(){
 
 }
 
+function initTeacherReview(){
+
+}
+
 function initTeacherAnswer(){
 
     classMode = ALLMODE.student_answer;

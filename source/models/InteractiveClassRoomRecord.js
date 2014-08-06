@@ -8,6 +8,7 @@ var InteractiveClassRoomRecord = sequelize.define('InteractiveClassRoomRecord',
         userId: {type: Sequelize.STRING},
         data: {type: Sequelize.TEXT},
         selectPage: {type: Sequelize.TEXT},
+        pType: {type: Sequelize.INTEGER},
         paperName: {type: Sequelize.STRING}
     },
     {

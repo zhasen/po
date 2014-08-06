@@ -137,6 +137,22 @@ function initStudentWait(str){
     $(".showbox").stop(true).animate({'margin-top':'300px','opacity':'1'},200);
 }
 
+function initStudentReview(json){
+    if(json.length == 1){
+        json = json[0];
+        var temp;current_Page = temp;
+        select_pages = JSON.parse(json.selectPage);
+        if(json.data){
+            json.data = JSON.parse(json.data);
+            //加载答案
+            Player.paperAnswers = {};
+            Player.paperAnswers[json.data.subjectId] = JSON.parse(json.data.answerContent);
+            Player.buildAnswer();
+        }
+        initStudentAnswer();
+    }
+}
+
 function initStudentAnswer(){
 
     $("#forbid_control").hide();
