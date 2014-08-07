@@ -596,9 +596,7 @@ var Player = {
 
                 if(page == -1){
                     if(paperConfig.statusType == 'normal'){
-                        if(confirm("完成答卷，等待老师讲解")){
-
-                        }
+                        alert("完成答卷，等待老师讲解");
                     }
                 }
                 else if(page != this.pageIndex){

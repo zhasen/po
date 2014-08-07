@@ -371,6 +371,7 @@ function initTeacherReview(json){
     select_pages = json.selectPages;
     studentAnswers = json.testData;
     initTeacherAnswer();
+    $('#layout2').hide();
 
     json.method = ALLTEACHERRECEIVEMETHOD.online;
     dealTeacherMessage(json);
