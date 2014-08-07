@@ -7,7 +7,8 @@ define(['./fullcalendar', './zh-cn'], function ($, moment) {
     custom_calendar.myRenderCalendar = function (userid, userType, schoolid, code) {
         $('#calendar').fullCalendar('destroy');
         $('#calendar').fullCalendar({
-            defaultDate: '2013-01-23', // 测试用，默认今天
+            //defaultDate: '2013-01-23', // 测试用，默认今天
+            allDaySlot: false,
             theme: true,
             header: {
                 left: 'prev, next', // prev, next, today

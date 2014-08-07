@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -34,10 +34,12 @@
                             <span><font></font>我的班级</span>
                         </div>
                         <div class="sub_menu">
-                            <% page.myClass.slice(0, 3).forEach(function(clas){ %>
+                            <% if(page.myClass) {page.myClass.slice(0, 3).forEach(function(clas){ %>
                             <a href="class-<%= clas.SchoolId %>-<%= clas.ClassCode %>"><%= clas.ClassName %></a>
-                            <% }); %>
+                            <% }); } %>
+                            <% if (page.user.type != 5) { %>
                             <a href="schedules-class-1" data-bypass>查看所有班级</a>
+                            <% } %>
                         </div>
                     </li>
 
@@ -68,7 +70,7 @@
                             <a href="#">您有500积分即将过期</a>
                             <a href="#">你的会员等级升至白金会员</a>
                             <a href="#">本周您有3个课时的新东方要参加</a>
-                            <a href="#">管理我的通知</a>
+                            <a href="/notifications">管理我的通知</a>
                         </div>
                     </li>
                     <li class="ico_infor right_blank1">
@@ -78,7 +80,7 @@
                         <div class="sub_menu">
                             <!--<a href="#">个人页面</a>-->
                             <!--<a href="#">账号设置</a>-->
-                            <a href="/main-bind" data-bypass>绑定学员号</a>
+                            <%if (page.user.type == 5 || page.user.type == 0) {%><a href="/main-bind" data-bypass>绑定学员号</a><%}%>
                             <a href="/auth/logout" data-bypass>退出</a>
                         </div>
                     </li>

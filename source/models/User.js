@@ -20,10 +20,10 @@ var User = sequelize.define('User',
         password: {type: Sequelize.STRING},
         email: {type: Sequelize.STRING},
         phone: {type: Sequelize.STRING},
+        roles: {type: Sequelize.STRING},
         accessToken: {type: Sequelize.STRING},
         refreshToken: {type: Sequelize.STRING},
-        expiresIn: {type: Sequelize.DATE},
-        bindStudentCode: {type: Sequelize.BOOLEAN,defaultValue: 0}
+        expiresIn: {type: Sequelize.DATE}
     },
     {
         tableName: 'user'

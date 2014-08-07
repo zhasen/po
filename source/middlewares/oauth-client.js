@@ -59,6 +59,8 @@ OAuthClient.prototype.getAccessToken = function (req, res, next) {
             next();
             return;
         }
+        console.log('--------------->登录返回信息:');
+        console.log(ret);
 
         ret = JSON.parse(ret);
         if (ret.Status === 1) {

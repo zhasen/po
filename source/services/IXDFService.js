@@ -3,6 +3,7 @@ var request = require('request');
 var settings = require('../../settings').ixdf;
 var time = require('../../source/commons/time');
 var querystring = require('querystring');
+var logger = require('../commons/logging').logger;
 var Service = {};
 
 /**
@@ -81,19 +82,29 @@ Service.userBasicData = function (userid, callback) {
     var userData = {};
     var o = this;
     o.uniAPIInterface({userid: userid}, 'user', 'GetUserTypeByUserId', function (err, ret) { // 获取用户身份
-        userData.type = ret.Data.Type; // 用户类型：老师2 ？学生1 ？
-        if (userData.type == 2) {
-            var controlername = 'teacher';
-            var methodname = 'GetTeacherByUserId';
+//        console.log('--------->登录');
+//        console.log(ret);
+        if (ret.Data) {
+            userData.type = ret.Data.Type; // 用户类型：老师2 ？学生1 ？
+            if (userData.type == 2 || userData.type == 22) {
+                var controlername = 'teacher';
+                var methodname = 'GetTeacherByUserId';
+            } else if (userData.type == 1 || userData.type == 9) {
+                var controlername = 'student';
+                var methodname = 'GetDefaultStudentByUserId';
+            } else {
+                callback(err, {type: userData.type, code: null, schoolid: null});
+                return;
+            }
+            o.uniAPIInterface({userid: userid}, controlername, methodname, function (err, ret) { // 获取用户数据
+                userData.data = ret.Data;
+                callback(err, userData);
+                //console.info(userData);
+            });
         } else {
-            var controlername = 'student';
-            var methodname = 'GetDefaultStudentByUserId';
+            callback(err, null);
         }
-        o.uniAPIInterface({userid: userid}, controlername, methodname, function (err, ret) { // 获取用户数据
-            userData.data = ret.Data;
-            callback(err, userData);
-            //console.info(userData);
-        });
+
     });
 };
 
@@ -110,22 +121,33 @@ Service.userBasicData = function (userid, callback) {
 Service.myClass = function (p, callback) {
     var param = {schoolid: p.schoolid, classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 6};
     var methodname = '';
-    if (p.type == 2) {
+    if (p.type == 2 || p.type == 22) {
         param.teachercode = p.code;
         methodname = 'GetClassListFilterByTeacherCode';
-    } else {
+    } else if (p.type == 1 || p.type == 9) {
         param.studentcode = p.code;
         methodname = 'GetClassListFilterByStudentCode';
+    } else {
+        callback(null, []);
+        return;
     }
+    ;
     this.uniAPIInterface(param, 'classExt', methodname, function (err, ret) {
-        //console.info(ret)
+        //console.info(ret);
         var myClass = ret.Data;
-        myClass.forEach(function (c) {
-            c.poBeginDate = dateShift(c.BeginDate);
-            c.poEndDate = dateShift(c.EndDate);
-            c.ClassStatusText = classStatusText(c.ClassStatus);
-        });
-        callback(err, myClass);
+        //console.log(myClass);
+        if (myClass) {
+            myClass.forEach(function (c) {
+                c.poBeginDate = dateShift(c.BeginDate);
+                c.poEndDate = dateShift(c.EndDate);
+                c.ClassStatusText = classStatusText(c.ClassStatus);
+            });
+            callback(err, myClass);
+        } else {
+            myClass = [];
+            callback(err, myClass);
+        }
+
     })
 };
 
@@ -153,7 +175,7 @@ Service.classEntity = function (param, callback) {
  * @user 用户对象
  */
 Service.classList = function (param, user, callback) {
-    console.info(user);
+//    console.info(user);
     var methodname = '', p = {};
     if (user.type == 1) {
         methodname = 'GetClassListFilterByStudentCode';
@@ -166,13 +188,13 @@ Service.classList = function (param, user, callback) {
     extend(p, param);
     // 根据学生编号获取班级列表，有分页
     this.uniAPIInterface(p, 'classExt', methodname, function (err, ret) {
-        var classlist = ret.Data;
+        var classlist = ret.Data || [];
         classlist.forEach(function (c) {
             c.poBeginDate = dateShift(c.BeginDate);
             c.poEndDate = dateShift(c.EndDate);
             c.ClassStatusText = classStatusText(c.ClassStatus);
         });
-        callback(err, ret.Data)
+        callback(err, classlist);
     })
 };
 
