@@ -48,6 +48,33 @@ module.exports = function (app) {
 
     }); // 模考测试页
 
+    //查看报告
+    app.get('/searchTestReport',getMyClass, function (req, res, next) {
+        var url = {
+            "method":"getTestReportData",
+            "testId":"53BF023C-69CE-4F41-84F9-AC62C5BD8AC8"
+        };
+
+        asseton(req, res);
+        var input = PageInput.i(req);
+        input.classes = input.page.myClass; // 用于显示首页的六个班级
+        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
+        input.user = input.page.user;
+        var param = api.imitateExam + commonService.getUrl(url);
+        commonService.request(param,function(err,data){
+            var sdata = JSON.parse(data);
+            input.reportData = sdata;
+            console.log("sdata.result------------" +JSON.stringify(sdata.result));
+            if(sdata.errno != 1){
+                res.render('ie-report', input);
+            }else{
+                res.end();
+            }
+        });
+
+    });
+
+
     //试题详细
     app.get('/testQuestionDetail', function (req, res, next) {
         var url = {
