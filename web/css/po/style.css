@@ -11,9 +11,9 @@
 
 .lp_study_plan { padding-top:12px;}
 .lp_study_plan dt { width:194px; padding-left:25px; }
-.lp_study_plan dd { padding-top:40px; border-left:1px dashed #9C9FA0; width:770px;margin-bottom:12px; }
+.lp_study_plan dd { padding-top:34px; border-left:1px dashed #9C9FA0; width:770px;margin-bottom:12px; height:161px; overflow:hidden; }
 .lp_study_plan dt a { display:block; width:151px; height:151px; text-align:center; color:#404648; font-size:18px; font-weight:lighter; }
-.lp_study_plan dt a img {border:0.2px solid #fff;-moz-border-radius:90px;-webkit-border-radius:90px; border-radius:90px; width:150px!important; height:150px!important; margin-bottom:10px; display:block;}
+.lp_study_plan dt a img {border:0.2px solid #fff;-moz-border-radius:90px;-webkit-border-radius:90px; border-radius:90px; width:150px!important; height:150px!important; margin-bottom:10px; display:block; border:2px solid #fff;}
 
 
 .lp_icon { background:url(/public/build/img/po/images/lp_ico_arc.png) no-repeat; display:block; width:100px; height:100px; overflow:hidden;}
@@ -40,7 +40,7 @@
 
 
 
-.lp_join_class { background:#3dc0f1;}
+.lp_join_class { background:#3dc0f1; padding-bottom:8px;}
 .lp_class_title { border-bottom:1px dotted #fff; padding:35px 0;}
 .lp_join_class .join_h { background-position:left -425px; width:90px; height:90px; margin-left:364px;}
 .lp_join_class .title_test { background-position:left top; width:147px; height:61px; margin-right:364px; margin-top:15px;}
@@ -152,13 +152,13 @@
 .lp_btnp_Bg .daily_course  strong { display:block; font-weight:normal; font-size:15px; color:#fff; margin-top:8px; line-height:1.5em;text-align:center;}
 
 /*绑定学员号*/
-.lp_classmain_focus .bind_numberno {background:url(/public/build/img/po/images/lp_bindsn.png) no-repeat;width:231px; height:235px; margin:0 auto;}
+.lp_classmain_focus .bind_numberno {background:url(/public/build/img/po/images/lp_bindsn.png) no-repeat;width:231px; height:235px; margin:0 471px;}
 .lp_classmain_focus .bind_meNo { background-position:left -1210px; width:116px!important; height:116px; padding:0!important;}
 .lp_classmain_focus .ic_notice { background-position:left -1697px;width:116px!important; height:116px; padding:0!important;}
 .lp_classmain_focus .ic_mycs { background-position:left -2145px;width:116px!important; height:116px; padding:0!important;}
 .lp_classmain_focus .ic_shet { background-position:left -2270px;width:116px!important; height:116px; padding:0!important;}
 
-.lp_classmain_focus .bind_numberno p { color:#fff; font-family:'Microsoft YaHei'; font-size:18px; margin-top:25px; margin-left:20px; text-align:left;}
+.lp_classmain_focus .bind_numberno p { color:#fff; font-family:'Microsoft YaHei'; font-size:18px; margin-top:25px;/* margin-left:20px;*/ text-align:center; width:116px;}
 .lp_classmain_focus .bind_numberno p strong { display:block; font-weight:lighter; margin-top:7px;}
 .lp_classmain_focus .focus_bg_neno { padding-top:25px;}
 
@@ -196,7 +196,7 @@
 .lpath_page .mt_tab .tab_menu ul { border-bottom:1px solid #BFBFBF;}
 .lpath_page .mt_tab .tab_menu li { float:left; color:#949494; font-size:15px; font-family:'Microsoft YaHei','微软雅黑'; width:103px; height:58px; cursor:pointer; background:#F1F1F3; margin-right:20px; text-align:center; }
 .lpath_page .mt_tab .tab_menu li.selected { background:#ff9027; color:#fff;}
-.lpath_page .mt_tab .tab_menu li span  { display:block; text-align:right; margin:7px 6px 7px auto;}
+.lpath_page .mt_tab .tab_menu li span  { display:block;margin:7px auto;}
 .lpath_page .tab_box ul li { height:60px; border-bottom:1px solid #BFBFBF; padding-left:30px; cursor:pointer;}
 .lpath_page .tab_box ul li a { line-height:60px;font-size:15px; font-family:'Microsoft YaHei','微软雅黑'; color:#555;}
 .lpath_page .tab_box ul li .getinto { float:right; padding:0px 15px; background:#ff9027; color:#fff; display:inline-block; height:35px; line-height:35px; margin-top:15px; margin-right:18px; font-size:14px; display:none;}
@@ -205,7 +205,7 @@
 
 /*消息通知*/
 
-.lp_classmain_focus .noticels p { padding-left:25px;}
+/*.lp_classmain_focus .noticels p { padding-left:25px;}*/
 .notice_list { margin-bottom:50px;}
 .notice_list li { border-bottom:1px solid #D2D1D1; padding:15px 0; min-height:120px;}
 .notice_list li.delete_row { padding:0; min-height:90px!important;}
@@ -286,7 +286,7 @@
 .sche_class_tab ul { border-bottom:1px solid #BCBCBC; width:1000px;}
 .sche_class_tab ul li { float:left; background:#F1F1F3; margin-right:15px; height:58px; text-align:center; font-size:16px; width:103px;font-family:'微软雅黑','Microsoft YaHei'; color:#949494; cursor:pointer;}
 .sche_class_tab ul li.scseleted { background:#56A943; color:#fff;}
-.sche_class_tab ul li font { display:block; font-size:14px; text-align:right; padding:6px 6px 6px 0; color:#c4c3c5;}
+.sche_class_tab ul li font { display:block; font-size:14px; text-align:center; padding:6px 0px 6px 0; color:#c4c3c5;}
 .sche_class_tab ul li.scseleted  font{ color:#b3d7b1;}
 .lp_btnp_Bgsc { background:#fff url(/public/build/img/po/images/lp_Bg_courseshowsc.png) repeat-x!important;}
 .lp_btnp_Bgsc .btn_part { padding-top:100px; margin-bottom:25px;}
