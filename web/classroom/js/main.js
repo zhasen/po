@@ -44,7 +44,7 @@ $(function(){
                 }
                 else{
                     $.ajax({
-                        url: "answer-get?testId="+paperConfig.testId,
+                        url: "answer-get?testId="+paperConfig.testId+"&role="+role,
                         success: function(json){
                             console.log(json);
                             if(role == ALLROLL.student){
@@ -147,7 +147,6 @@ $(function(){
                     json.data = result.data;
                     json.paperName = Testing.paper.paperName;
                     json.testId = test_Id;
-                    json.pType = pType;
                     ws.send(JSON.stringify(json));
                 }
             }

@@ -3,7 +3,9 @@
 //var PageInput = require('./common/PageInput');
 
 var request = require('request');
+var async = require('async');
 var interactiveClassroomDetailService = require('../services/InteractiveClassroomDetailService');
+var ixdf = require('../services/IXDFService');
 
 module.exports = function (app) {
 //    var mode = app.get('env') || 'development';
@@ -23,6 +25,7 @@ module.exports = function (app) {
         //1 学生 2老师
         data.role = req.query.role;
         data.userId = req.query.userId;
+        data.schoolId = req.query.schoolId;
         data.classCode = req.query.classCode;
         data.testId = req.query.testId;
         data.pType = req.query.pType;
@@ -100,7 +103,59 @@ module.exports = function (app) {
                 res.send('未找到记录');
             }
             else{
-                res.json(records);
+                if(req.query.role == interactiveClassroomDetailService.ALLROLL.student){
+                    res.json(records);
+                }
+                else if(req.query.role == interactiveClassroomDetailService.ALLROLL.teacher){
+
+                    async.parallel({
+                            record: function(callback){
+                                interactiveClassroomDetailService.findTestRecord({testId:{in:JSON.parse(records[0].data)}},function(err,records){
+                                    callback(err, records);
+                                });
+                            },
+                            students: function(callback){
+                                ixdf.uniAPIInterface({
+                                    schoolid: records[0].schoolId,
+                                    classCode: records[0].classCode
+                                }, 'class', 'GetStudentsOfClass', function (err, ret) {
+                                    callback(err, ret.Data);
+                                });
+                            }
+                        },
+                        function(err, results) {
+                            if(err){
+                                res.send(err.message);
+                            }
+                            else{
+                                var selectPages;
+                                var studentsMap = {};
+                                for(var i = 0 ; i < results.record.length ; i++){
+                                    var info = results.record[i];
+                                    studentsMap[info.userId] = JSON.parse(info.data);
+                                    if(!selectPages){
+                                        selectPages = JSON.parse(info.selectPage);
+                                    }
+                                }
+
+                                var students = new Array();
+                                for(var i = 0 ; i < results.students.length ; i++){
+                                    var info = results.students[i];
+                                    students.push({name:info.Name,code:info.Code,status:studentsMap[info.Code]?1:0});
+                                }
+
+                                results.selectPages = selectPages;
+                                results.testData = studentsMap;
+                                results.students = students;
+                                delete results.record;
+
+                                res.json(results);
+                            }
+                        });
+                }
+                else{
+                    res.send('未知错误');
+                }
             }
         })
     });

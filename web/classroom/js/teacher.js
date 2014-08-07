@@ -366,7 +366,14 @@ function initTeacherWait(){
 
 }
 
-function initTeacherReview(){
+function initTeacherReview(json){
+
+    select_pages = json.selectPages;
+    studentAnswers = json.testData;
+    initTeacherAnswer();
+
+    json.method = ALLTEACHERRECEIVEMETHOD.online;
+    dealTeacherMessage(json);
 
 }
 

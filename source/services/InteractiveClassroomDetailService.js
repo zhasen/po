@@ -14,6 +14,7 @@ var ALLSTUDENTRECEIVEMETHOD = {offline:'student_receive_offline',wait:'student_r
 var ALLSTUDENTSENDMETHOD = {answer:'student_send_answer'};
 
 var ALLROLL = {student:1,teacher:2};
+exports.ALLROLL = ALLROLL;
 
 var ALLMODE = {teacher_offline:1,wait_teacher_distribute:2,student_answer:3,teacher_speak:4};
 
@@ -51,6 +52,7 @@ exports.dealFunc = function (ws, data) {
             ws.role = json.role;
             ws.userId = json.userId;
             ws.classCode = json.classCode;
+            ws.schoolId = json.schoolId;
 
             var classRoom = classRooms[json.classCode];
             if(!classRoom){
@@ -60,8 +62,8 @@ exports.dealFunc = function (ws, data) {
                 classRoom.allStudents = {};
 
                 ixdf.uniAPIInterface({
-                    schoolid: 1,
-                    classCode: '02ZTF952'
+                    schoolid: json.schoolId,
+                    classCode: json.classCode
                 }, 'class', 'GetStudentsOfClass', function (err, ret) {
                     if(ret.State == 1){
                         for(var i = 0 ; i < ret.Data.length ; i++){
@@ -87,6 +89,7 @@ exports.dealFunc = function (ws, data) {
                 student.role = json.role;
                 student.userId = json.userId;
                 student.classCode = json.classCode;
+                student.schoolId = json.schoolId;
 
                 notifyOnlineStudent(classRoom);
                 result.method = ALLMETHOD.init;
@@ -159,6 +162,7 @@ exports.dealFunc = function (ws, data) {
                                 selectPage: JSON.stringify(classRoom.selectPages) ,
                                 testId: json.testId ,
                                 classCode: json.classCode,
+                                schoolId: json.schoolId,
                                 userId: json.userId,
                                 pType: json.pType,
                                 data: JSON.stringify(json.data),
@@ -172,21 +176,21 @@ exports.dealFunc = function (ws, data) {
                         }
 
                         {
-                            var testIds = '';
+
+                            var testIds = new Array();
                             for(var key in classRoom.students){
                                 var student = classRoom.students[key];
                                 if(student.testId)
-                                    testIds += "," + student.testId;
+                                    testIds.push(student.testId);
                             }
-                            if(testIds.length > 0)
-                                testIds = testIds.substr(1);
 
                             var recordJson = {
                                 selectPage: JSON.stringify(classRoom.selectPages) ,
                                 testId: classRoom.teacherTestId ,
                                 classCode: json.classCode,
+                                schoolId: json.schoolId,
                                 userId: classRoom.teacherId,
-                                data: testIds,
+                                data: JSON.stringify(testIds),
                                 pType: json.pType,
                                 paperName: json.paperName
                             };

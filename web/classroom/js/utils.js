@@ -31,6 +31,8 @@ function getJsonObject(){
     json.role = role;
     json.userId = userId;
     json.classCode = classCode;
+    json.schoolId = schoolId;
+    json.pType = pType;
     return json;
 }
 
