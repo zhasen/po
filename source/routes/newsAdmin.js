@@ -52,10 +52,30 @@ module.exports = function (app) {
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
         NewsAdminService.listAllNews(1,function(err,stulist) {
+
+            var len = stulist.length;
+            for(var i=0; i<len; i++){
+                var item = stulist[i];
+                item.crtOn = item.crtOn.format();
+                item.updOn = item.updOn.format();
+            }
             input.stulist = stulist;
+
             NewsAdminService.listAllNews(2,function(err,tealist) {
+                var len = tealist.length;
+                for(var i=0; i<len; i++){
+                    var item = tealist[i];
+                    item.crtOn = item.crtOn.format();
+                    item.updOn = item.updOn.format();
+                }
                 input.tealist = tealist;
                 NewsAdminService.listAllNews(5,function(err,vislist) {
+                    var len = vislist.length;
+                    for(var i=0; i<len; i++){
+                        var item = vislist[i];
+                        item.crtOn = item.crtOn.format();
+                        item.updOn = item.updOn.format();
+                    }
                     input.vislist = vislist;
                     res.render('news-admin',input);
                 });
