@@ -10,15 +10,40 @@ module.exports = function (app) {
 
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
-        // 测试数据，勿删除，等登录页面做好并打通后再删除
-        req.session.user = { id: 'xdf001000862', displayName: '李梦晗', type: 1, code: 'BJ986146', schoolid: 1 }; // 学员
-        //req.session.user = { id: 'xdf00228972', displayName: '张洪伟', type: 2, code: 'BM0001', schoolid: 1 }; // 老师
-
-        var user = PageInput.i(req).page.user;
-        ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
-            PageInput.i(req).put('myClass', myClass);
-            next();
-        });
+        var user = req.session.user;
+        if(user) {
+            ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
+                PageInput.i(req).put('myClass', myClass);
+                if(user.type == 1 || user.type == 9) {
+                    var type = 1;
+                }else if(user.type == 2 || user.type == 22) {
+                    var type = 2;
+                }else {
+                    var type = 5;
+                }
+                NewsAdmin.listAllNews(type,function(err,msglist) {
+                    if(err) {
+                        logger.log(err);
+                    }
+                    var msg_no_read = [];
+                    if(msglist) {
+                        for(var i=0;i<msglist.length;i++) {
+                            if(msglist[i].is_delete.indexOf(user.id) == -1 && msglist[i].is_read.indexOf(user.id) == -1) {
+                                msg_no_read[i] = msglist[i];
+                            }
+                        }
+                        var num_no_read = msg_no_read.length;
+                    }else {
+                        var num_no_read = 0;
+                    }
+                    PageInput.i(req).put('num_no_read',num_no_read);
+                    PageInput.i(req).put('msglist',msglist);
+                    next();
+                });
+            });
+        } else {
+            res.redirect('/main-login');
+        }
     };
 
     app.get('/imitateExam',getMyClass, function (req, res, next) {
@@ -47,6 +72,33 @@ module.exports = function (app) {
         });
 
     }); // 模考测试页
+
+    //查看报告
+    app.get('/searchTestReport',getMyClass, function (req, res, next) {
+        var url = {
+            "method":"getTestReportData",
+            "testId":"53BF023C-69CE-4F41-84F9-AC62C5BD8AC8"
+        };
+
+        asseton(req, res);
+        var input = PageInput.i(req);
+        input.classes = input.page.myClass; // 用于显示首页的六个班级
+        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
+        input.user = input.page.user;
+        var param = api.imitateExam + commonService.getUrl(url);
+        commonService.request(param,function(err,data){
+            var sdata = JSON.parse(data);
+            input.reportData = sdata;
+            console.log("sdata.result------------" +JSON.stringify(sdata.result));
+            if(sdata.errno != 1){
+                res.render('ie-report', {data:sdata});
+            }else{
+                res.end();
+            }
+        });
+
+    });
+
 
     //试题详细
     app.get('/testQuestionDetail', function (req, res, next) {

@@ -6,6 +6,7 @@ var time = require('../commons/time');
 var NewsAdminService = require('../services/NewsAdminService');
 var NewsAdmin = require('../models/StuNewsAdmin').model;
 var UserService = require('../services/UserService');
+var NewsAdmin = require('../services/NewsAdminService');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -17,7 +18,32 @@ module.exports = function (app) {
         if(user) {
             ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
                 PageInput.i(req).put('myClass', myClass);
-                next();
+                if(user.type == 1 || user.type == 9) {
+                    var type = 1;
+                }else if(user.type == 2 || user.type == 22) {
+                    var type = 2;
+                }else {
+                    var type = 5;
+                }
+                NewsAdmin.listAllNews(type,function(err,msglist) {
+                    if(err) {
+                        logger.log(err);
+                    }
+                    var msg_no_read = [];
+                    if(msglist) {
+                        for(var i=0;i<msglist.length;i++) {
+                            if(msglist[i].is_delete.indexOf(user.id) == -1 && msglist[i].is_read.indexOf(user.id) == -1) {
+                                msg_no_read[i] = msglist[i];
+                            }
+                        }
+                        var num_no_read = msg_no_read.length;
+                    }else {
+                        var num_no_read = 0;
+                    }
+                    PageInput.i(req).put('num_no_read',num_no_read);
+                    PageInput.i(req).put('msglist',msglist);
+                    next();
+                });
             });
         } else {
             res.redirect('/main-login');
@@ -52,10 +78,30 @@ module.exports = function (app) {
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
         NewsAdminService.listAllNews(1,function(err,stulist) {
+
+            var len = stulist.length;
+            for(var i=0; i<len; i++){
+                var item = stulist[i];
+                item.crtOn = item.crtOn.format();
+                item.updOn = item.updOn.format();
+            }
             input.stulist = stulist;
+
             NewsAdminService.listAllNews(2,function(err,tealist) {
+                var len = tealist.length;
+                for(var i=0; i<len; i++){
+                    var item = tealist[i];
+                    item.crtOn = item.crtOn.format();
+                    item.updOn = item.updOn.format();
+                }
                 input.tealist = tealist;
                 NewsAdminService.listAllNews(5,function(err,vislist) {
+                    var len = vislist.length;
+                    for(var i=0; i<len; i++){
+                        var item = vislist[i];
+                        item.crtOn = item.crtOn.format();
+                        item.updOn = item.updOn.format();
+                    }
                     input.vislist = vislist;
                     res.render('news-admin',input);
                 });

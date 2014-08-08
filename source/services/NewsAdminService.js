@@ -8,7 +8,7 @@ var Service = {};
 
 
 /*
-    1:学生身份
+    1: 学生身份
     2：老师身份
     5：游客身份
  */
@@ -49,23 +49,34 @@ Service.getById = function(type,id,callback) {
     }
 };
 //编辑
-Service.update = function(id,obj,callback) {
-    NewsAdmin.loadById(id, true, function (err, item) {
-        item.set('title', obj.title);
-        item.set('content', obj.content);
-        item.set('to', obj.to );
-        item.save(callback);
-    });
-};
-
-//删除
-Service.delete = function(type,id,callback) {
+Service.update = function(type,id,obj,callback) {
     if(type == 1) {
-        StuNewsAdmin.delete(id,callback);
+        StuNewsAdmin.loadById(id, true, function (err, item) {
+            item.set('title', obj.title);
+            item.set('content', obj.content);
+            item.set('to', obj.to );
+            item.set('is_delete',obj.is_delete);
+            item.set('is_read',obj.is_read);
+            item.save(callback);
+        });
     }else if(type == 2) {
-        TeaNewsAdmin.delete(id,callback);
+        TeaNewsAdmin.loadById(id, true, function (err, item) {
+            item.set('title', obj.title);
+            item.set('content', obj.content);
+            item.set('to', obj.to );
+            item.set('is_delete',obj.is_delete);
+            item.set('is_read',obj.is_read);
+            item.save(callback);
+        });
     }else {
-        VisNewsAdmin.delete(id,call);
+        VisNewsAdmin.loadById(id, true, function (err, item) {
+            item.set('title', obj.title);
+            item.set('content', obj.content);
+            item.set('to', obj.to );
+            item.set('is_delete',obj.is_delete);
+            item.set('is_read',obj.is_read);
+            item.save(callback);
+        });
     }
 };
 
