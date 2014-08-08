@@ -2,6 +2,7 @@ var logger = require('../commons/logging').logger;
 var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
 var ixdf = require('../services/IXDFService');
+var NewsAdmin = require('../services/NewsAdminService');
 var crypto = require('crypto');
 var request = require('request');
 
@@ -30,10 +31,43 @@ module.exports = function (app) {
         if(user) {
             ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
                 PageInput.i(req).put('myClass', myClass);
-                next();
+                if(user.type == 1 || user.type == 9) {
+                    var type = 1;
+                }else if(user.type == 2 || user.type == 22) {
+                    var type = 2;
+                }else {
+                    var type = 5;
+                }
+                NewsAdmin.listAllNews(type,function(err,msglist) {
+                    if(err) {
+                        logger.log(err);
+                    }
+                    var msg_no_read = [];
+                    if(msglist) {
+                        for(var i=0;i<msglist.length;i++) {
+                            if(msglist[i].is_delete.indexOf(user.id) == -1 && msglist[i].is_read.indexOf(user.id) == -1) {
+                                msg_no_read[i] = msglist[i];
+                            }
+                        }
+                        var num_no_read = msg_no_read.length;
+                    }else {
+                        var num_no_read = 0;
+                    }
+                    PageInput.i(req).put('num_no_read',num_no_read);
+                    PageInput.i(req).put('msglist',msglist);
+                    next();
+                });
             });
         } else {
             res.redirect('/main-login');
+        }
+    };
+
+    //查询消息
+    var getMessage = function(req,res,next) {
+        var user = req.session.user;
+        if(user) {
+
         }
     };
 
@@ -167,17 +201,109 @@ module.exports = function (app) {
         var user = input.page.user;
         input.user = user;
 
-        res.render('notifications',input);
+        if(input.user.type == 1 || input.user.type == 9) {
+            var type = 1;
+        }else if(input.user.type == 2 || input.user.type == 22) {
+            var type = 2;
+        }else {
+            var type = 5;
+        }
+        NewsAdmin.listAllNews(type,function(err,message) {
+            if(err) {
+                logger.log(err);
+            }
+            for(var i=0;i<message.length;i++) {
+                if(message[i].is_delete.indexOf(req.session.user.id) == -1 && message[i].is_read.indexOf(req.session.user.id) == -1) {
+                    //将用户ID放到is_read字符串里面
+                    var msgitem = {};
+                    msgitem.is_read = message[i].is_read+','+input.user.id;
+                    msgitem.title = message[i].title;
+                    msgitem.to = message[i].to;
+                    msgitem.content = message[i].content;
+                    msgitem.is_delete = message[i].is_delete;
+                    NewsAdmin.update(type,message[i].id,msgitem,function(err,item) {
+                        if(err) {
+                            logger.log(err);
+                        }
+                    });
+                }
+            }
+            input.message = message;
+            input.uid = req.session.user.id;
+            res.render('notifications',input);
+        });
     });
 
-    //会员消息详细
-    app.get('notifications-:id',getMyClass,function(req,res) {
-        asseton(req, res);
-        var input = PageInput.i(req);
-        input.classes = input.page.myClass; // 用于显示首页的六个班级
-        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
-        input.user = input.page.user;
-        res.render('notifications-detail',input);
+    //会员消息删除
+    app.get('/notifications/delete/:id',function(req,res) {
+        var mid = req.params.id;
+        var user = req.session.user;
+        if(user.type == 1 || user.type == 9) {
+            var type = 1;
+        }else if(user.type == 2 || user.type == 22) {
+            var type = 2;
+        }else {
+            var type = 5;
+        }
+        NewsAdmin.getById(type,mid,function(err,msgitem) {
+            if(err) {
+                logger.log(err);
+            }
+            if(msgitem) {
+                var item = {};
+                item.is_delete = msgitem.is_delete + ',' + user.id;
+                item.title = msgitem.title;
+                item.to = msgitem.to;
+                item.content = msgitem.content;
+                item.is_read = msgitem.is_read;
+                NewsAdmin.update(type,mid,item,function(err,msg) {
+                    if(err) {
+                        logger.log(err);
+                    }
+                    console.log(msg);
+                });
+                res.redirect('/notifications');
+            }else {
+                res.redirect('/notifications');
+            }
+        });
+
     });
+
+    //删除所有会员消息
+    app.get('/notifications/delete',function(req,res) {
+        var user = req.session.user;
+        if(user.type == 1 || user.type == 9) {
+            var type = 1;
+        }else if(user.type == 2 || user.type == 22) {
+            var type = 2;
+        }else {
+            var type = 5;
+        }
+        NewsAdmin.listAllNews(type,function(err,list) {
+            if(err) {
+                logger.log(err);
+            }
+            if(list) {
+                for(var i=0;i<list.length;i++) {
+                    var item = {};
+                    item.is_delete = list[i].is_delete + ',' + user.id;
+                    item.title = list[i].title;
+                    item.to = list[i].to;
+                    item.content = list[i].content;
+                    item.is_read = list[i].is_read;
+                    NewsAdmin.update(type,list[i].id,item,function(err,msg) {
+                        if(err) {
+                            logger.log(err);
+                        }
+                        //console.log(msg);
+                    });
+                }
+                res.redirect('/notifications');
+            }else {
+                res.redirect('/notifications');
+            }
+        });
+    })
 
 };

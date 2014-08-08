@@ -65,11 +65,19 @@
                     <li class="ico_infor right_blank">
                         <div class="menu"><span><img src="/public/build/img/po/images/icon_infor.png" width="27"
                                                      height="23"
-                                                     alt=""/></span></div>
+                                                     alt=""/><%if(page.num_no_read > 0) {%><font style="position:absolute; top:20px; right:20px; width:20px; height:20px; background:#f00; font-size:14px; color:#fff; text-align:center; border-radius:20px; line-height:20px;"><%=page.num_no_read%></font><% }%></span></div>
                         <div class="sub_menu">
-                            <a href="#">您有500积分即将过期</a>
-                            <a href="#">你的会员等级升至白金会员</a>
-                            <a href="#">本周您有3个课时的新东方要参加</a>
+                            <%
+                                for(var m=0;m<page.msglist.length;m++) {
+                                    var msg = page.msglist[m];
+                                    //未删除的和未读的显示
+                                    if(msg.is_delete.indexOf(page.user.id) == -1 && msg.is_read.indexOf(page.user.id) == -1) {
+                            %>
+                            <a href="#"><%=msg.title%></a>
+                            <%
+                                    }
+                                }
+                            %>
                             <a href="/notifications">管理我的通知</a>
                         </div>
                     </li>

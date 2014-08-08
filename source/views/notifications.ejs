@@ -17,45 +17,56 @@
 <!--通知列表start-->
 <div class="lpath_page">
     <ul class="notice_list">
-        <li class="delete_row fix"><span class="dele_all lp_pbg"></span></li>
+        <li class="delete_row fix"><a onclick="return confirm('你确定要删除吗？')" href="/notifications/delete"><span class="dele_all lp_pbg"></span></a></li>
+        <%
+            for(var m=0;m<message.length;m++) {
+                var msgitem = message[m];
+                //未删除的显示
+                if(msgitem.is_delete.indexOf(uid) == -1) {
+        %>
         <li>
             <dl class="fix">
                 <dt class="f_l">
                     <span class="ic_delhead lp_icon"></span>
-                <p>恭喜您成功升级到白金会员，白金会员的专属服务有提前预约直播课程，部分课程9折优惠。教师回答问题优先处理等等特权恭喜您成功升级到白金会员，白金会员的专属服务有提前预约直播课程，部分课程9折优惠。教师回答问题优先处理等等特权恭喜您成功升级到白金会员，白金会员的专属服务有提前预约直播课程，部分课程9折优惠。教师回答问题优先处理等等特权</p>
+                    <p><%=msgitem.title%></p>
+                    <p><%=msgitem.content%></p>
                 </dt>
                 <dd class="f_r">
-                    <a href="#">
+                    <a href="/notifications/delete/<%=msgitem.id%>" onclick="return confirm('你确定要删除吗？')">
                         <span class="btn_cancel lp_sicons"></span>删除
                     </a>
                 </dd>
             </dl>
         </li>
-        <li>
-            <dl class="fix">
-                <dt class="f_l">
-                    <span class="ic_delhead lp_icon"></span>
-                <p>恭喜您成功升级到白金会员，白金会员的专属服务有提前预约直播课程，部分课程9折优惠。教师回答问题优先处理等等特权恭喜您成功升级到白金会员，白金会员的专属服务有提前预约直播课程，部分课程9折优惠。教师回答问题优先处理等等特权恭喜您成功升级到白金会员</p>
-                </dt>
-                <dd class="f_r">
-                    <a href="#">
-                        <span class="btn_cancel lp_sicons"></span>删除
-                    </a>
-                </dd>
-            </dl>
-        </li>
-        <li>
-            <dl class="fix">
-                <dt class="f_l">
-                    <span class="ic_delhead lp_icon"></span>
-                <p>恭喜您成功升级到白金会员，白金会员的专属服务有提前预约直播课程，部分课程9折优惠。教师回答问题优先处理等等特权恭喜您成功升级到白金会员，</p>
-                </dt>
-                <dd class="f_r">
-                    <a href="#">
-                        <span class="btn_cancel lp_sicons"></span>删除
-                    </a>
-                </dd>
-            </dl>
-        </li>
+        <%
+                }
+            }
+        %>
+        <!--<li>-->
+            <!--<dl class="fix">-->
+                <!--<dt class="f_l">-->
+                    <!--<span class="ic_delhead lp_icon"></span>-->
+                <!--<p>恭喜您成功升级到白金会员，白金会员的专属服务有提前预约直播课程，部分课程9折优惠。教师回答问题优先处理等等特权恭喜您成功升级到白金会员，白金会员的专属服务有提前预约直播课程，部分课程9折优惠。教师回答问题优先处理等等特权恭喜您成功升级到白金会员</p>-->
+                <!--</dt>-->
+                <!--<dd class="f_r">-->
+                    <!--<a href="#">-->
+                        <!--<span class="btn_cancel lp_sicons"></span>删除-->
+                    <!--</a>-->
+                <!--</dd>-->
+            <!--</dl>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<dl class="fix">-->
+                <!--<dt class="f_l">-->
+                    <!--<span class="ic_delhead lp_icon"></span>-->
+                <!--<p>恭喜您成功升级到白金会员，白金会员的专属服务有提前预约直播课程，部分课程9折优惠。教师回答问题优先处理等等特权恭喜您成功升级到白金会员，</p>-->
+                <!--</dt>-->
+                <!--<dd class="f_r">-->
+                    <!--<a href="#">-->
+                        <!--<span class="btn_cancel lp_sicons"></span>删除-->
+                    <!--</a>-->
+                <!--</dd>-->
+            <!--</dl>-->
+        <!--</li>-->
     </ul>
 </div>
