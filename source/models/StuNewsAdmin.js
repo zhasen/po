@@ -11,7 +11,9 @@ db.withName('StuNewsAdmin')
     {
         title: {type: String},
         content: {type: String},
-        to:{type: Number}
+        to:{type: Number},
+        is_read: {type: String ,defaultValue: ''},
+        is_delete: {type: String ,defaultValue: ''}
     }
 )
     .withCreatedOn()
