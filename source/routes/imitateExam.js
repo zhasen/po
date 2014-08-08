@@ -74,7 +74,7 @@ module.exports = function (app) {
 
     }); // 模考测试页
 
-    //查看报告
+    //模考报告
     app.get('/searchTestReport',getMyClass, function (req, res, next) {
         var url = {
             "method":"getTestReportData",
@@ -87,10 +87,31 @@ module.exports = function (app) {
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
         var param = api.imitateExam + commonService.getUrl(url);
+
+        var scoreNum = 0;
+        function getScoreNum(data){
+            for(var i in data){
+                scoreNum += data[i].correctResult.score;
+            }
+            return scoreNum;
+        }
+
         commonService.request(param,function(err,data){
             var sdata = JSON.parse(data);
+
+            //写作分数
+            var essayScore = getScoreNum(sdata.result.essayRecordList);
+            //口语分数
+            var oralScore = getScoreNum(sdata.result.oralRecordList);
+
+            commonService.getPaperItems('B51D8504-9186-4079-9770-8AD73DC63BD9',function(result){
+                console.log("试卷列表返回数据：" + JSON.stringify(result));
+
+            });
+
             input.reportData = sdata;
             console.log("sdata.result------------" +JSON.stringify(sdata.result));
+
             if(sdata.errno != 1){
                 res.render('ie-report', {data:sdata});
             }else{
