@@ -4,6 +4,7 @@ var util = require('util');
 var time = require('../../source/commons/time');
 var ixdf = require('../services/IXDFService');
 var pdf = require('../services/PDFService');
+var NewsAdmin = require('../services/NewsAdminService');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
