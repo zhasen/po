@@ -14,7 +14,7 @@
         .result dt{font-size:16px;font-weight:bold;text-align:center;background-color:#EDEEF0;padding:2px 0;}
         .result dd{font-weight:bold;padding:3px 0;}
         .items{float:left;display:inline;vertical-align: baseline;font-size: 100%;background-color:#fff;}
-        .dot{width:auto;float: none;display:block;vertical-align: baseline;padding: 0em 0em 0em 0.1em;font-size: 100%; background:url(images/dot.png) left center repeat-x;}
+        .dot{width:auto;float: none;display:block;vertical-align: baseline;padding: 0em 0em 0em 0.1em;font-size: 100%; background:url(../../public/build/img/po/images/dot.png) left center repeat-x;}
         .scores{float:right;display:inline;vertical-align: baseline;font-size: 100%;background-color:#fff;}
         .total{border-top:2px solid #7d7d7d;margin-top:5px;}
         .standard{border:1px solid #fff;border-collapse:collapse;width:100%;margin-top:10px;}
@@ -39,6 +39,18 @@
             </ul>
         </div>
         <div class="result">
+            <%
+            data.essayRecordList.forEach(function(val,index){
+
+              %>
+            <div>
+                <%=val.essayContent%>
+            </div>
+
+            <%
+            })
+             %>
+
             <dl>
                 <dt>Toefl Scaled Score</dt>
                 <dd class="fix">
@@ -69,7 +81,7 @@
             </dl>
         </div>
     </div>
-    <table cellpadding="0" cellspacing="0" class="standard">
+   <!-- <table cellpadding="0" cellspacing="0" class="standard">
         <tr>
             <th width="15%">Reading Skills</th>
             <th width="15%">Level</th>
@@ -145,7 +157,7 @@
 
             </td>
         </tr>
-    </table>
+    </table>-->
 </div>
 </body>
 </html>

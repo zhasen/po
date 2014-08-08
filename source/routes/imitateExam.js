@@ -66,7 +66,7 @@ module.exports = function (app) {
             input.reportData = sdata;
             console.log("sdata.result------------" +JSON.stringify(sdata.result));
             if(sdata.errno != 1){
-                res.render('ie-report', input);
+                res.render('ie-report', {data:sdata});
             }else{
                 res.end();
             }
