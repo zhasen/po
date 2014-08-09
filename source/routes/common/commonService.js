@@ -1,5 +1,5 @@
 var http = require('http');
-//var request = require("request");
+var request = require("request");
 http.globalAgent.maxSockets = 50000;
 var TIMEOUT = 60*1000;
 
@@ -92,7 +92,7 @@ exports.getPaperItems = function (pagerId,callback) {
             var part = structItem[i];
             build(part);
         }
-        callback(part);
+        callback(parts);
 
     });
 }
