@@ -80,4 +80,21 @@ Service.update = function(type,id,obj,callback) {
     }
 };
 
+//删除
+Service.delete = function(to,id,callback) {
+    if(to == 1) {
+        StuNewsAdmin.delete(id,function(err,flag) {
+            callback(flag);
+        });
+    }else if(to == 2) {
+        TeaNewsAdmin.delete(id,function(err,flag) {
+            callback(flag);
+        });
+    }else {
+        VisNewsAdmin.delete(id,function(err,flag) {
+            callback(flag);
+        });
+    }
+};
+
 module.exports = Service;
