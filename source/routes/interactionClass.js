@@ -4,6 +4,7 @@ var PageInput = require('./common/PageInput');
 var commonService = require('./common/commonService');
 var api = require('../../settings').api;
 var ixdf = require('../services/IXDFService');
+var NewsAdmin = require('../services/NewsAdminService');
 var async = require('async');
 
 module.exports = function (app) {

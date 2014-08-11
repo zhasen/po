@@ -3,6 +3,7 @@ var PageInput = require('./common/PageInput');
 var commonService = require('./common/commonService');
 var api = require('../../settings').api;
 var ixdf = require('../services/IXDFService');
+var NewsAdmin = require('../services/NewsAdminService');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -73,7 +74,7 @@ module.exports = function (app) {
 
     }); // 模考测试页
 
-    //查看报告
+    //模考报告
     app.get('/searchTestReport',getMyClass, function (req, res, next) {
         var url = {
             "method":"getTestReportData",
@@ -86,13 +87,63 @@ module.exports = function (app) {
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
         var param = api.imitateExam + commonService.getUrl(url);
+
+        var scoreNum = 0;
+        function getScoreNum(data){
+            for(var i in data){
+                scoreNum += parseInt(JSON.parse(data[i].correctResult).score);
+            }
+            return scoreNum;
+        }
+
         commonService.request(param,function(err,data){
             var sdata = JSON.parse(data);
+
             input.reportData = sdata;
-            console.log("sdata.result------------" +JSON.stringify(sdata.result));
+
             if(sdata.errno != 1){
-                res.render('ie-report', {data:sdata});
+                //写作分数
+                var essayScore = getScoreNum(sdata.result.essayRecordList);
+                //口语分数
+                scoreNum = 0;
+                var oralScore = getScoreNum(sdata.result.oralRecordList);
+                var items = sdata.result.testResultDetailList;
+                //听力分数
+                var listenScore = 0;
+                //阅读分数
+                var readScore = 0;
+                var itemLength = 0;
+
+                commonService.getPaperItems('B51D8504-9186-4079-9770-8AD73DC63BD9',function(result){
+                    for(var i in items){
+                        itemLength++;
+                        var subjectId = items[i].subjectId;
+                        var subjectMark = items[i].subjectMark;
+                        for(var j in result){
+                            if(subjectId == j && result[j].subjectType == 'TOEFL_LISTEN'){
+                                listenScore += subjectMark;
+                            }else if(subjectId == j && result[j].subjectType == 'TOEFL_READ'){
+                                readScore += subjectMark;
+                            }
+                        }
+
+                        if(itemLength == items.length){
+                            var totalScore = essayScore+oralScore+listenScore+readScore;
+                            var mtScore ={
+                                "essayScore":essayScore,
+                                "oralScore":oralScore,
+                                "listenScore":listenScore,
+                                "readScore":readScore,
+                                "totalScore":totalScore
+                            };
+                            res.render('ie-report', {data:mtScore});
+                        }
+
+                    }
+
+                });
             }else{
+                console.log("获取报告出错");
                 res.end();
             }
         });
@@ -151,3 +202,4 @@ module.exports = function (app) {
 
     });
 };
+
