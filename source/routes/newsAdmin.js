@@ -46,7 +46,7 @@ module.exports = function (app) {
                 });
             });
         } else {
-            res.redirect('/main-login');
+            res.redirect('/main');
         }
     };
     //判断当前会员是否有权限查看该页面内容

@@ -38,6 +38,7 @@ OAuthClient.prototype.getAuthorizeUrl = function () {
 };
 OAuthClient.prototype.getAuthorizationCode = function (req, res, next) {
     res.writeHead(303, {Location: this.getAuthorizeUrl()});
+    //res.writeHead(303, {Location: 'http://path.staff.xdf.cn/main-login'});
     res.end();
 };
 OAuthClient.prototype.getAccessToken = function (req, res, next) {
