@@ -59,15 +59,7 @@ module.exports = function (app) {
                 });
             });
         } else {
-            res.redirect('/main-login');
-        }
-    };
-
-    //查询消息
-    var getMessage = function(req,res,next) {
-        var user = req.session.user;
-        if(user) {
-
+            res.redirect('/main');
         }
     };
 
@@ -106,12 +98,10 @@ module.exports = function (app) {
 //        res.render('test', input);
 //    });
 
-    app.get('/main', getMyClass, function (req, res) {
+    //加载未登录首页
+    app.get('/main', function (req, res) {
         asseton(req, res);
-        var input = PageInput.i(req);
-        input.classes = input.page.myClass; // 用于显示首页的六个班级
-        input.token = input.page.user.type == 2 ? 'tch' : 'stu';
-        input.user = input.page.user;
+        var input = {};
         res.render('main', input);
     });
 
