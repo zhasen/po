@@ -6,7 +6,7 @@
             <dl class="lp_reccourse">
                 <dt class="f_l">
                 <p><a href="#">托福基础班</a></p>
-                <strong class="fs_14">TF123</strong>
+                <strong class="fs_14"><%=classcode%></strong>
                 2041.12.12-2041.12.12
                 </dt>
                 <dd class="f_r">
@@ -29,14 +29,14 @@
 <div class="lp_coursenav">
     <div class="lpath_page">
         <div class="sec_nav">
-            <a href="#">课表</a>
-            <a href="#">听课</a>
-            <a href="/interaction-class">互动课堂</a>
-            <a href="#">测试</a>
-            <a href="#">在线练习</a>
+            <a href="/schedule-1-<%=classcode%>">课表</a>
+            <!--<a href="#">听课</a>-->
+            <a href="/interaction-class-<%=classcode%>">互动课堂</a>
+            <!--<a href="#">测试</a>-->
+            <!--<a href="#">在线练习</a>-->
             <a href="#" class="selected_name">模考</a>
-            <a href="#">资料</a>
-            <a href="#">知识巩固</a>
+            <!--<a href="#">资料</a>-->
+            <!--<a href="#">知识巩固</a>-->
         </div>
     </div>
 </div>
@@ -49,7 +49,7 @@
             <div class="mt_boxop">
                 <ul class="mt_exam_result mt_student" style="display:block;">
                     <%
-                    if(ieData.result.length !=0){
+                    if(ieData.errno !=1){
                             ieData.result.forEach(function(val,index){
                     %>
                     <li>
@@ -65,10 +65,19 @@
                                 %>
                                     <span class="mt_sts">未完成</span>
                                 <%}
-                                    if(val.flagFinish==1){
+                                    if(val.flagFinish==1 && val.correctStatus==0){
                                 %>
-                                <span class="mt_sts">102分</span>
+                                <span class="mt_sts">未批改</span>
+                                <%}
+                                     if(val.flagFinish==1 && val.correctStatus==1){
+                                %>
+                                <span class="mt_sts">批改中</span>
+                                <%}
+                                     if(val.flagFinish==1 && val.correctStatus==2){
+                                %>
+                                <span class="mt_sts">已批改</span>
                                 <%}%>
+
                             </dt>
                             <dd class="f_r">
                                 <%
@@ -80,16 +89,29 @@
                                 %>
                                     <a href="#">继续测试</a>
                                 <%}
-                                    if(val.flagFinish==1){
+                                    if(val.flagFinish==1 && val.correctStatus==0){
+                                    var paperId = val.paperId;
                                 %>
                                     <a href="#">答题记录</a>
-                                    <a href="/searchTestReport">查看报告</a>
+                                <%}
+                                    if(val.flagFinish==1 && val.correctStatus==1){
+                                    var paperId = val.paperId;
+                                %>
+                                    <a href="#">答题记录</a>
+                                <%}
+                                    if(val.flagFinish==1 && val.correctStatus==2){
+                                    var paperId = val.paperId;
+                                %>
+                                    <a href="#">答题记录</a>
+                                    <a href="searchTestReport-<%= paperId%>">查看报告</a>
                                     <a href="#">下载报告</a>
                                 <%}%>
                             </dd>
                         </dl>
                     </li>
-                    <%});}%>
+                    <%});}else{%>
+                    <li style="text-align: center;color: #f0ad4e;font-size: 24px;"><%=ieData.errmsg%></li>
+                    <%}%>
                 </ul>
             </div>
         </div>

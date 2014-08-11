@@ -47,11 +47,19 @@ module.exports = function (app) {
         }
     };
 
-    app.get('/imitateExam',getMyClass, function (req, res, next) {
-        var url = {
+    app.get('/imitateExam-:classcode',getMyClass, function (req, res, next) {
+        var user = req.session.user;
+        var classcode = req.params.classcode;
+        /*var url = {
             "method":"getStudentPaperListInClass",
             "ccode":"TF13202",
             "ucode":"BJ986146",
+            "sid":1
+        };*/
+        var url = {
+            "method":"getStudentPaperListInClass",
+            "ccode":classcode,
+            "ucode":user.code,
             "sid":1
         };
 
@@ -64,18 +72,21 @@ module.exports = function (app) {
         commonService.request(param,function(err,data){
             var sdata = JSON.parse(data);
             input.ieData = sdata;
-            console.log("sdata.result------------" +JSON.stringify(sdata.result));
-            if(sdata.errno != 1){
-                res.render('ie-teacher', input);
+            input.classcode =classcode;
+            res.render('ie-list', input);
+            /*if(sdata.errno != 1){
+                res.render('ie-list', input);
             }else{
-                res.end();
-            }
+                res.render('ie-list', input);
+            }*/
         });
 
     }); // 模考测试页
 
     //模考报告
-    app.get('/searchTestReport',getMyClass, function (req, res, next) {
+    app.get('/searchTestReport-:paperId',getMyClass, function (req, res, next) {
+        var paperId = req.params.paperId;
+        console.log(paperId);
         var url = {
             "method":"getTestReportData",
             "testId":"53BF023C-69CE-4F41-84F9-AC62C5BD8AC8"
