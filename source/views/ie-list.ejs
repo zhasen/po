@@ -101,9 +101,11 @@
                                 <%}
                                     if(val.flagFinish==1 && val.correctStatus==2){
                                     var paperId = val.paperId;
+                                    var finishTime = val.finishTime;
+                                    var paperName = val.paperName;
                                 %>
                                     <a href="#">答题记录</a>
-                                    <a href="searchTestReport-<%= paperId%>">查看报告</a>
+                                    <a href="searchTestReport-<%= paperId%>?finishTime=<%=finishTime%>&paperName=<%=paperName%>">查看报告</a>
                                     <a href="#">下载报告</a>
                                 <%}%>
                             </dd>
