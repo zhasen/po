@@ -44,7 +44,7 @@ module.exports = function (app) {
                 });
             });
         } else {
-            res.redirect('/main-login');
+            res.redirect('/main');
         }
     };
 
