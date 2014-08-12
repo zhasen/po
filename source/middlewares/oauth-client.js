@@ -26,13 +26,14 @@ var OAuthClient = function (options) {
 
 _extend(OAuthClient.prototype, defaultConfig);
 
-OAuthClient.prototype.getAuthorizeUrl = function () {
+OAuthClient.prototype.getAuthorizeUrl = function (returnUrl) {
     var qs = {
         scope: 'login',
         response_type: 'code',
         client_id: this.client_id,
         redirect_uri: this.clientHost + this.clientCallbackUri,
-        state: uuid.v1()
+        state: uuid.v1(),
+        returnUrl: (returnUrl == undefined) ? "" : returnUrl
     };
     return this.providerHost + this.providerAuthorizeUri + '?' + (querystring.stringify(qs));
 };
@@ -55,7 +56,7 @@ OAuthClient.prototype.getAccessToken = function (req, res, next) {
             method: 'GetAccessToken'
         }
     }, function (err, resp, ret) {
-        if(err){
+        if (err) {
             console.error(ret.Message);
             next();
             return;
