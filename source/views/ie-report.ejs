@@ -28,6 +28,7 @@
 
 <body>
 <div style="width:750px; overflow:hidden;padding-top:10px;background-color:#fff;margin:0 auto;">
+    <%if(reportData.errno != 1){%>
     <div class="fix">
         <div class="examinee">
             <ul>
@@ -145,6 +146,9 @@
             </td>
         </tr>
     </table>
+    <%}else{%>
+        <h4 style="text-align: center;color: #FFC601;"><%=reportData.errmsg%></h4>
+    <%}%>
 </div>
 </body>
 </html>

@@ -141,14 +141,14 @@ module.exports = function (app) {
             "finishTime":finishTime,
             "paperName":paperName
         };
-        var url = {
-            "method":"getTestReportData",
-            "testId":"53BF023C-69CE-4F41-84F9-AC62C5BD8AC8"
-        };
         /*var url = {
             "method":"getTestReportData",
-            "testId":paperId
+            "testId":"53BF023C-69CE-4F41-84F9-AC62C5BD8AC8"
         };*/
+        var url = {
+            "method":"getTestReportData",
+            "testId":paperId
+        };
 
         asseton(req, res);
         var input = PageInput.i(req);
@@ -205,7 +205,7 @@ module.exports = function (app) {
                                 "readScore":readScore,
                                 "totalScore":totalScore
                             };
-                            res.render('ie-report', {data:mtScore,mtMessage:mtMessage});
+                            res.render('ie-report', {input:input,data:mtScore,mtMessage:mtMessage});
                         }
 
                     }
@@ -213,7 +213,7 @@ module.exports = function (app) {
                 });
             }else{
                 console.log("获取报告出错");
-                res.end();
+                res.render('ie-report',input);
             }
         });
 
