@@ -1,0 +1,701 @@
+/*
+ *  通用css(less版)效率工具
+ *  作者：浙小孩
+ *  联系：xm94630@126.com
+ *  时间：2014-01-17
+ *  更新：2014-03-19
+ */
+/*.myb {
+  border: solid 1px orangered;
+}
+.myb2 {
+  border: dotted 1px deepskyblue;
+}
+.myb3 {
+  border: solid 2px gold;
+}
+.myb4 {
+  border: solid 3px plum;
+}
+.myb5 {
+  border: solid 5px mediumpurple;
+}
+.myb6 {
+  border: dashed 1px mediumpurple;
+}*/
+* {
+  margin: 0px;
+  padding: 0px;
+}
+body {
+  font-size: 12px;
+  font-family: "微软雅黑";
+  color: #666;
+  background: #fff;
+}
+body ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
+body a {
+  text-decoration: none;
+  color: #666;
+}
+.blankBox {
+  clear: both;
+}
+.myHide {
+  display: none;
+}
+.FS10 {
+  font-size: 10px;
+}
+.FS12 {
+  font-size: 12px;
+}
+.FS14 {
+  font-size: 14px;
+}
+.FS16 {
+  font-size: 16px;
+}
+.FS18 {
+  font-size: 16px;
+}
+.floatL {
+  float: left;
+}
+.floatR {
+  float: right;
+}
+.MT5 {
+  margin-top: 5px;
+}
+.MT10 {
+  margin-top: 10px;
+}
+.MT15 {
+  margin-top: 15px;
+}
+.MT20 {
+  margin-top: 20px;
+}
+.MT30 {
+  margin-top: 30px;
+}
+.MB5 {
+  margin-bottom: 5px;
+}
+.MB10 {
+  margin-bottom: 10px;
+}
+.MB15 {
+  margin-bottom: 15px;
+}
+.MB20 {
+  margin-bottom: 20px;
+}
+.MB30 {
+  margin-bottom: 30px;
+}
+.ML5 {
+  margin-left: 5px;
+}
+.ML10 {
+  margin-left: 10px;
+}
+.ML15 {
+  margin-left: 15px;
+}
+.ML20 {
+  margin-left: 20px;
+}
+.ML30 {
+  margin-left: 30px;
+}
+.MR5 {
+  margin-right: 5px;
+}
+.MR10 {
+  margin-right: 10px;
+}
+.MR15 {
+  margin-right: 15px;
+}
+.MR20 {
+  margin-right: 20px;
+}
+.MR30 {
+  margin-right: 30px;
+}
+.gary666 {
+  color: #666;
+}
+.gary999 {
+  color: #999;
+}
+.garyccc {
+  color: #ccc;
+}
+.FCenter {
+  text-align: center;
+}
+.MCenter {
+  margin: 0 auto;
+}
+.t20 {
+  font-size: 20px;
+  font-family: "微软雅黑";
+}
+.t14 {
+  font-size: 14px;
+  font-family: "微软雅黑";
+}
+.block {
+  display: block;
+}
+.bold {
+  font-weight: bold;
+}
+/*@font-face {
+  font-family: "方正正中黑";
+  src: url("../font/方正正中黑.TTF");
+}*/
+/*
+ *  项目css部分
+ */
+
+.bar{
+    width:100%;
+    height:55px;
+    background: url("/public/build/img/po/images/mask.png");
+    position: fixed;
+    z-index:99991;
+}
+.barCon{
+    width:1000px;
+    height:55px;
+    margin: 0 auto;
+}
+.pic{
+    position: absolute;
+    top:0px;
+    width:100%;
+    overflow: hidden;
+}
+.box{
+    width:100px;
+    height:100px;
+    float:left;
+    position: relative;
+    margin-left: 50px;
+    margin-right: 50px;
+    z-index:9;
+}
+.box img{
+    position: relative;
+    top:-50px;
+    left:-50px;
+}
+.box img.wz_JS{
+    position: absolute;
+    top:-50px;
+    left:-50px;
+    z-index: 1;
+}
+
+.wz_JS{
+    position: absolute;
+    top:0px;
+}
+
+@-webkit-keyframes t01 {
+    0% {
+        -webkit-transform:perspective(2000px) rotateY(0deg)
+    }
+    100% {
+        -webkit-transform:perspective(2000px) rotateY(90deg)
+    }
+}
+@-webkit-keyframes t02 {
+    0% {
+        -webkit-transform:perspective(2000px) rotateY(-90deg)
+    }
+    100% {
+        -webkit-transform:perspective(2000px) rotateY(0deg)
+    }
+}
+@-webkit-keyframes t03 {
+    0% {
+        -webkit-transform:perspective(2000px) rotateY(0deg)
+    }
+    100% {
+        -webkit-transform:perspective(2000px) rotateY(90deg)
+    }
+}
+@-webkit-keyframes t04 {
+    0% {
+        -webkit-transform:perspective(2000px) rotateY(-90deg)
+    }
+    100% {
+        -webkit-transform:perspective(2000px) rotateY(0deg)
+    }
+}
+
+
+.turn1{
+    -webkit-animation:t01 .2s linear;
+}
+.turn2{
+    -webkit-animation:t02 .2s linear;
+}
+.turn3{
+    -webkit-animation:t03 .2s linear;
+}
+.turn4{
+    -webkit-animation:t04 .2s linear;
+}
+
+.wz{
+    position: absolute;
+    top:0px;
+    color:#fff;
+    font-size: 2em;
+}
+
+.blank{
+    width:0px;
+    height:1px;
+}
+.line{
+    width:100%;
+    height:100px;
+    position: absolute;
+    top:0px;
+}
+.line1{
+    top:0px;
+    left:100px;
+    margin-top: 50px;
+    z-index:100;
+}
+.line2{
+    top:100px;
+    margin-top: 50px;
+    z-index:100;
+}
+.line3{
+    top:200px;
+    left:300px;
+    margin-top: 50px;
+    z-index:100;
+}
+.picCon{
+    width:1000px;
+    height:410px;
+    position:absolute;
+    top:0px;
+}
+
+.lala{
+    width:100px;
+    height:100px;
+    position: relative;
+    z-index:999;
+    float: left;
+    cursor: pointer;
+/*    border: solid 1px red;*/
+}
+.turn_JS{
+    position: absolute;
+    top:0px;
+    z-index:9;
+}
+.btnsBox{
+    width:1000px;
+    height:410px;
+    position:absolute;
+    top:0px;
+    z-index:999;
+}
+.onebtn{
+    width:100px;
+    height:100px;
+    position: absolute;
+    cursor:pointer;
+    z-index:9999
+}
+.con{
+    position: absolute;
+    top:0px;
+    width:100px;
+    height:100px;
+    color:#fff;
+}
+.con1{
+    font-size: 18px;
+    font-weight: normal;
+    position: absolute;
+    top:28px;
+    left:50px;
+ }
+.con2{
+    font-size: 12px;
+    font-weight: normal;
+    position: absolute;
+    top:52px;
+    left:50px;
+    font-family: "宋体";
+}
+.con3{
+    font-size: 14px;
+    font-weight: normal;
+    position: absolute;
+    top:75px;
+    left:50px;
+    font-family: "宋体";
+    display: block;
+    border-bottom: solid 1px #fff;
+    padding-bottom: 4px;
+    width:50px;
+}
+
+.onebtn img{
+    /*border:solid 1px green;*/
+    width:100px;
+    height:100px;
+}
+
+.funBox{
+    width:1000px;
+    height:180px;
+    background: url("/public/build/img/po/images/fun.jpg");
+    margin:0 auto;
+    position: relative;
+}
+.myBottom{
+    width:100%;
+    height:180px;
+    background: #f6f7f9;
+    position: relative;
+}
+.tianCongBox{
+    width:1000px;
+    margin:0 auto;
+    height:1000px;
+}
+
+.funBoxCon1{
+    width:100px;
+    height:200px;
+    margin-left: 20px;
+}
+.funBoxCon2{
+    width:100px;
+    height:200px;
+    margin-left: 70px;
+}
+.funBoxCon3{
+    width:100px;
+    height:200px;
+    margin-left: 60px;
+}
+.funBoxCon4{
+    width:100px;
+    height:200px;
+    margin-left: 70px;
+}
+.funBoxCon5{
+    width:100px;
+    height:200px;
+    margin-left: 70px;
+}
+.funBoxCon6{
+    width:100px;
+    height:200px;
+    margin-left: 70px;
+}
+
+.linex{
+    width:423px;
+    height:423px;
+    background: url("/public/build/img/po/images/line.png") no-repeat;
+    position: absolute;
+    top:-100px;
+    left:-124px;
+    z-index:500;
+}
+.linex.mod{
+    top:-50px;
+    left:26px;
+}
+.linex.mod2{
+    top:-80px;
+    left:256px;
+}
+.linex.mod3{
+    top:-80px;
+    left:456px;
+}
+.linex.mod4{
+    top:40px;
+    left:536px;
+}
+.linexR{
+    width:423px;
+    height:423px;
+    background: url("/public/build/img/po/images/line2.png") no-repeat;
+    position: absolute;
+    top:-100px;
+    left:-124px;
+    z-index:500;
+}
+.linexR.mod{
+    top:20px;
+    left:20px;
+}
+.linexR.mod2{
+    top:20px;
+    left:220px;
+}
+.linexR.mod3{
+    top:-50px;
+    left:350px;
+}
+.linexR.mod4{
+    top:-50px;
+    left:550px;
+}
+
+/*Z.cx*/
+/*去除chrome默认边框*/
+*:focus {outline: none;} 
+/*修改Placeholder颜色*/
+input::-webkit-input-placeholder {
+    color: white;
+}
+input:-moz-placeholder {
+    color: white;
+}
+.logCon{
+  width:1000px;
+  height:450px;
+  position:absolute;
+  /*background: #2f92b9;*/
+  left: 175px;
+  top:55px;
+}
+.logBox,.rstBox{
+  position: relative;
+  margin-top: 120px;
+  height: 315px;
+  /*background: #76b2b3;*/
+  overflow: hidden;
+}
+.logBox{
+  margin-left: 735px;
+  width: 265px;
+}
+.rstBox{
+  margin-left: 660px;
+  width: 340px;
+}
+
+.username,.password,.mailBox,.passwordRst,.passwordConfirm,.confirm{
+  padding-top: 10px;
+  height: 35px;
+  color: white;
+  font-family: Arial;
+  font-size: 12px;
+  background: url(/public/build/img/po/images/logRgtLine.png) left bottom no-repeat;
+}
+.username,.password,.mailBox,.passwordRst,.passwordConfirm,.confirm span{
+  font-family: 微软雅黑;
+  font-size: 18px;
+  color: white;
+}
+.usernameIpt,.passwordIpt,.mailBoxIpt,.passwordRstIpt,.passwordConfirmIpt,.confirmIpt{
+  border: none;
+  background: none;
+  color: white;
+}
+.usernameIpt,.passwordIpt{
+  padding-left: 5px;
+  width: 200px;
+}
+.mailBoxIpt,.passwordRstIpt,.passwordConfirmIpt,.confirmIpt{
+  padding-left: 10px;
+  width: 200px;
+}
+/*.username{
+  background: url(../img/logRgtLine.png) left bottom no-repeat;
+}
+.password{
+  background: url(../img/password.png) left bottom no-repeat;
+}
+.mailBox{
+  background: url(../img/mailBox.png) left bottom no-repeat;
+}
+.passwordRst{
+  background: url(../img/passwordRst.png) left bottom no-repeat;
+}
+.passwordConfirm{
+  background: url(../img/passwordConfirm.png) left bottom no-repeat;
+}
+.confirm{
+  background: url(../img/confirm.png) left bottom no-repeat;
+}*/
+.vrfRstLog{
+  width: 225px;
+  height: 130px;
+  float: right;
+}
+.vrfCode,.rstBtnCfm{
+  margin-top: 20px;
+  float: left;
+}
+.rstBtnCfm{
+
+}
+.forgetPw,.unclear,.logNow{
+  width: 80px;
+  padding-top: 30px;  
+  background: url(/public/build/img/po/images/fgtLine.png) left bottom no-repeat;
+  float: left;
+}
+.unclear,.logNow{
+  float: right;
+}
+.forgetPw a,.unclear a,.logNow a{
+  color: #bac5cc;
+  font-size: 18px;
+}
+.unclear a,.logNow a{
+  color: #dee0e1;
+}
+.rstLog{
+  width: 180px;
+  padding-top: 20px;
+  height: 40px;
+  float: right;
+}
+.rstBtn,.logBtn,.rstBtnCfm{
+  width: 80px;
+  height: 35px;
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-family: 微软雅黑;
+  cursor: pointer;
+}
+.rstBtn,.rstBtnCfm{
+  border: 1px solid white;
+  background: none;
+}
+.rstBtnCfm{
+  width: 134px;
+}
+.logBtn{
+  margin-left: 10px;
+  background: url(/public/build/img/po/images/logBtn.png) no-repeat;
+}
+.logByQQ{
+  margin-top: 80px;
+}
+.logByWeibo{
+  margin-top: 20px;
+}
+
+.classCon{
+  position:absolute;
+  left: 175px;
+  top:55px;
+  width:1000px;
+  height:450px;
+  /*background: #2f92b9;*/
+}
+.selectBox{
+  position: relative;
+  margin: 100px auto;
+  width: 800px;
+  height: 315px;
+  /*background: #76b2b3;  */
+  /*overflow: hidden;*/ 
+}
+.lesson{
+  margin-top: 50px;
+}
+.lesson ul li{
+  width: 370px;
+  height: 150px;
+  background: url(/public/build/img/po/images/lessonBg.png);
+}
+.liLeft{
+  padding-left: 20px; 
+  width: 300px;
+  height: 114px;
+}
+.liLeftTop{
+  width: 300px;
+  height: 57px;
+  font-family: 黑体;
+  font-size: 20px;
+  line-height: 57px;
+  color: #4f4e55;
+}
+.liLeftBottom p{
+  line-height: 28px;
+  font-family: Arial;
+  font-size: 14px;
+}
+.liRight{
+  width: 50px;
+  height: 114px;
+}
+.liRightTop{
+  width: 50px;
+  height: 57px;
+  font-size:14px;
+  color: black;
+  font-family: 宋体;
+  text-align: center;
+  line-height: 57px;
+  background: #ffc601;
+}
+.liRightBottom{
+  width: 50px;
+  height: 57px;
+  background: url(/public/build/img/po/images/blueCircle.png) center center no-repeat;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
