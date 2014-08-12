@@ -22,7 +22,8 @@ var auth = new Authenticator({
     context: settings.app.context,
     loginUri: '/auth/login',
     callbackUri: '/auth/callback',
-    logoutUri: '/auth/logout'
+    logoutUri: '/auth/logout',
+    jumpUri: '/auth/jump'
 });
 
 module.exports = auth;
