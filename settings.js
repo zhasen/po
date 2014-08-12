@@ -11,7 +11,7 @@ var settings = {
     },
     oauth: {
         providerHost: 'http://testu2.staff.xdf.cn',
-        providerAuthorizeUri: '/i/index.aspx', //for authorizing in iframe
+        providerAuthorizeUri: '/i/v2/index.aspx', //for authorizing in iframe
         providerAccessTokenUri: '/apis/OAuth.ashx',
         providerLogoutUri: '/Logout.aspx',
         clientId: '95401',

@@ -489,13 +489,13 @@ input:-moz-placeholder {
 .logBox,.rstBox{
   position: relative;
   margin-top: 120px;
-  height: 315px;
+  height: 395px;
   /*background: #76b2b3;*/
   overflow: hidden;
 }
 .logBox{
   margin-left: 735px;
-  width: 265px;
+  width: 365px;
 }
 .rstBox{
   margin-left: 660px;
