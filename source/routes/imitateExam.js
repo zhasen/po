@@ -71,8 +71,8 @@ module.exports = function (app) {
         input.user = input.page.user;
         var param = api.imitateExam + commonService.getUrl(url);
         commonService.request(param,function(err,data){
-//            var sdata = JSON.parse(data);
-            var sdata ={
+            var sdata = JSON.parse(data);
+            /*var sdata ={
                 "errno": 0,
                 "result": [
                     {
@@ -119,18 +119,14 @@ module.exports = function (app) {
                         "paperTypeId": "tpo"
                     }
                 ]
-            };
+            };*/
             input.ieData = sdata;
             input.classcode =classcode;
             res.render('ie-list', input);
-            /*if(sdata.errno != 1){
-                res.render('ie-list', input);
-            }else{
-                res.render('ie-list', input);
-            }*/
+
         });
 
-    }); // 模考测试页
+    });
 
     //模考报告
     app.get('/searchTestReport-:paperId',getMyClass, function (req, res, next) {
