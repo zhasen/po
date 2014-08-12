@@ -29,6 +29,9 @@ require.config({
         'moment': {
             deps: ['jQuery']
         }
+        , 'jquery_selectMode': {
+            deps: ['jQuery']
+        }
 
     },
     packages: ["skeleton", "misc", "config", "app", "template", "course_schedule", "po"],
@@ -44,7 +47,8 @@ require.config({
         jqBootstrapValidation: '../../public/components/jqBootstrapValidation/dist/jqBootstrapValidation-1.3.7',
         jquery_qeditor: './template/plugs/editor/editor',
         fullcalendar: './course_schedule/fullcalendar',
-        moment: '../../public/components/moment/moment'
+        moment: '../../public/components/moment/moment',
+        jquery_selectMode: './po/jquery_selectMode'
     },
     deps: ['app', 'misc', 'template', 'course_schedule', 'po'],
     callback: function () {
