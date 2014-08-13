@@ -11,4 +11,5 @@ module.exports = function(app) {
     schedules(app);
     newsAdmin(app);
     require("./interactiveClassroomDetail")(app);
+    require("./tpo")(app);
 };
