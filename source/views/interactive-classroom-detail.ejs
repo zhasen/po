@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat by Web Sockets Record</title>
+
+    <!--答题部分-->
+    <link type='text/css' rel='stylesheet' href="/web/static/styles/common.css"/>
+    <link type='text/css' rel='stylesheet' href="/web/static/styles/designer.css"/>
+    <link type='text/css' rel='stylesheet' href="/web/static/styles/testing.css"/>
+
+    <script type="text/javascript">
+        var paperConfig = {
+            testId: "<%=testId%>",
+            paperId: "B51D8504-9186-4079-9770-8AD73DC63BD9",
+            userId: "BJ986146",
+            allotId: "97d62ebd-b52b-4d74-80fc-6e6b3019b373",
+            testFrom: "test",
+            statusType: "<%=statusType%>"
+        };
+    </script>
+
+    <script type="text/javascript" src="/web/static/scripts/common.js"></script>
+    <script type="text/javascript" src="/web/static/scripts/designer.core.js"></script>
+    <!--<script type="text/javascript" src="/web/static/scripts/designer.testing.js"></script>-->
+    <script type="text/javascript" src="/web/classroom/js/designer.testing.js"></script>
+    <!--互动部分-->
+
+    <script type="text/javascript" src="/web/classroom/js/utils.js"></script>
+
+    <script type='text/javascript'>
+        var role = <%=role%>;
+        var userId = '<%=userId%>';
+        var classCode = '<%=classCode%>';
+        var schoolId = '<%=schoolId%>';
+        var pType = <%=pType%>;
+        var mode = ALLMODE.teacher_offline;
+        var ws;
+    </script>
+
+    <script type="text/javascript" src="/web/classroom/js/student.js"></script>
+    <script type="text/javascript" src="/web/classroom/js/teacher.js"></script>
+    <script type="text/javascript" src="/web/classroom/js/main.js"></script>
+
+    <style type="text/css">
+        canvas {
+            border: 0 none;
+            background: transparent;
+        }
+
+        #canvas, #drawing {
+            background: transparent;
+        }
+
+        #canvas, #drawing, #graphics{
+            position: absolute;
+        }
+
+        #canvas{
+            z-index: 11;
+            display: none;
+        }
+
+    </style>
+    <link type='text/css' rel='stylesheet' href="/web/classroom/css/style.css"/>
+
+</head>
+<body>
+
+<div class="designer_box" style="margin-right: 180px">
+    <div id="subject_designer" tabindex="99">
+        <div class="testing_header">
+            <audio id="bgaudio_player" autoplay="autoplay"></audio>
+            <div id="paper_title">
+                <span id="paper_name"></span>
+                <span id="part_name"></span>
+            </div>
+            <div id="header_right_normal" class="designer_header_right" style="top: 5px;right: 10px;">
+                <input id="btn_extral" type="button" value="查看文章" class="testbtn rect"/>
+                <input id="btn_back" type="button" value="back" class="testbtn"/>
+                <input id="btn_ok" type="button" value="Ok" class="testbtn"/>
+                <input id="btn_next" type="button" value="next" class="testbtn"/>
+                <input id="btn_continue" type="button" value="Continue" class="testbtn rect"/>
+            </div>
+            <div id="header_right_extral_return" class="designer_header_right" style="top: 5px;right: 10px;">
+                <input id="btn_extral_return" type="button" value="Return" class="testbtn rect">
+            </div>
+            <div id="header_question">Question <span></span></div>
+            <div id="header_timer_box">
+                <input id="btn_timer" type="button" value="hideTime" class="timerbtn"/>
+                <span class="header_timer_wrap"><span id="header_timer"></span></span>
+            </div>
+        </div>
+        <div class="subject_page">
+            <div id="subject_canvas" class="designer_canvas"></div>
+        </div>
+    </div>
+</div>
+
+<%if(role == 1){%>
+
+<div id="teacher_control">
+
+    <ul id="papers" style="overflow-y: scroll">
+    </ul>
+
+</div>
+
+    <%if(statusType == 'normal'){%>
+
+    <div class="overlay"></div>
+    <div id="AjaxLoading" class="showbox">
+        <div class="loadingWord"><img src="/web/classroom/images/waiting.gif"><span id="loadingText">老师离线，请稍候...</span></div>
+    </div>
+
+    <%}%>
+
+<div class="designer_loading">
+    <img src="/web/static/images/loading.gif"/>数据加载中...
+</div>
+
+<div id="forbid_control" style="position:fixed;top:0;right:0;bottom:0;left:0;width: 100%;display: none;z-index: 12"></div>
+
+<div id="dlg_paper_review" class="dialog" style="width: 750px">
+    <div class="dialog_header">Test report</div>
+    <div id="review_content" class="dialog_content" style="height: 480px; overflow: auto;">
+    </div>
+</div>
+
+<%}else{%>
+
+<div id="teacher_control">
+
+    <div id="layout1" class="title fix">
+        <font><input type="checkbox" name="checkbox" id="checkbox_allpages" class="cbox" /> 全部</font>
+        <span id="beginAnswer" >分配试题</span>
+    </div>
+    <!--<button id="beginAnswer" type="button">分配试题</button>-->
+    <label id="layout2" class="title fix" style="display: none">
+        <span id="beginExplain">开始讲解</span>
+    </label>
+    <label id="layout3" class="title fix" style="display: none">
+        <span id="endExplain" class="f_l">结束讲解</span>
+        <span id="whiteBoard" class="f_l">显示白板</span>
+    </label>
+
+    <ul id="papers" style="overflow-y: scroll">
+    </ul>
+
+</div>
+
+<div class="left_panel fix">
+    <div class="student_list f_l">
+        <h3 id="online_students_num"><span class="ic_count"></span></h3>
+        <ul id="online_students" class="list">
+        </ul>
+    </div>
+    <div class="btn_sh f_l"></div>
+</div>
+
+<div class="designer_loading">
+    <img src="/web/static/images/loading.gif"/>数据加载中...
+</div>
+
+<%}%>
+
+<div id="canvas" style="border:2px solid #cecece; box-shadow:0px -2px 5px #df0f5d;">
+    <canvas id="graphics"></canvas>
+    <canvas id="drawing"></canvas>
+	<div class="bottom_nav fix">
+   <ul class="tool">
+       <!--<li id="size_button" class="selected_pb">-->
+       <li id="size_button">
+         <span><font class="brush_size"></font></span>
+         <div id="size_pane" class="sub_menu fix">
+             <b></b>
+            <span><font class="border_1px"></font></span>
+            <span><font class="border_3px"></font></span>
+            <span><font class="border_5px"></font></span>
+            <span><font class="border_10px"></font></span>
+           
+         </div> 
+       </li>
+       <li id="color_button"><span><font class="brush_color"></font></span>
+          <div id="color_pane" class="sub_menu fix">
+            <b></b>
+            <span><font class="bg_red"></font></span>
+            <span><font class="bg_blue"></font></span>
+            <span><font class="bg_green"></font></span>
+            <span><font class="bg_yellow"></font></span>
+         </div> 
+       </li>
+       <!--<li><img src="images/ic_straw.png" width="21" height="21" alt="" /></li>
+       <li><img src="images/ic_rubber.png" width="21" height="21" alt="" /></li>-->
+       <li id="clear_button"><span><font class="clearning_brush"></font></span></li>
+   </ul>
+  </div>
+</div>
+
+</body>
+
+</html>

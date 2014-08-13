@@ -10,4 +10,5 @@ module.exports = function(app) {
     interactionClass(app);
     schedules(app);
     newsAdmin(app);
+    require("./interactiveClassroomDetail")(app);
 };

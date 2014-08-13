@@ -39,3 +39,13 @@ require('./source/middlewares/errorhandling')(app);
 var server = http.createServer(app).listen(app.get('port'), settings.app.host, function(){
     logger.info('The server is listening on port ' + app.get('port') + ' in ' + mode );
 });
+
+
+
+//var recording = require('./source/middlewares/recording');
+//recording(server);
+
+var websocket = require('./source/middlewares/websocket');
+websocket.init(server);
+var interactiveClassroomDetailService = require('./source/services/InteractiveClassroomDetailService');
+websocket.register(interactiveClassroomDetailService.ALLWSTYPE.classRoom,interactiveClassroomDetailService.dealFunc);

@@ -23,7 +23,7 @@ module.exports = function (app) {
             }
         });
     };
-    auth.bind(app);//use all authentication routing and handlers binding here
+    //auth.bind(app);//use all authentication routing and handlers binding here
 
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
