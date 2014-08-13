@@ -1,4 +1,9 @@
 
+var path = require('path');
+var fs = require('fs');
+var lame = require('lame');
+var wav = require('wav');
+
 module.exports = function (app) {
 
     app.get('/tpo-test', function (req, res, next) {
@@ -27,5 +32,23 @@ module.exports = function (app) {
         res.render('tpo-review', data);
     });
 
+    app.post('/upload1', function (req, res) {
+        console.log(req.files);
+
+        var patharray = req.files.audioData.path.split(path.sep);
+        var newPath = req.files.audioData.path.replace(patharray[patharray.length - 1],req.query.id)+'.mp3';
+
+        var input = fs.createReadStream(req.files.audioData.path);
+        var output = fs.createWriteStream(newPath);
+
+        var reader = new wav.Reader();
+        reader.on('format', function(format){
+
+            var encoder = new lame.Encoder(format);
+            reader.pipe(encoder).pipe(output);
+
+        });
+        input.pipe(reader);
+    });
 
 };
