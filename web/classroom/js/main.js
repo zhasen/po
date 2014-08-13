@@ -65,10 +65,10 @@ $(function(){
                     ul.children().remove();
                     for(var i = 1; i <= Player.subjectList.pages.length;i++){
                         if(role == ALLROLL.student){
-                            ul.append('<li><span id="page_span'+(i-1)+'" pageIndex="'+(i-1)+'"><input style="visibility:hidden" type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" /> 第'+i+'题</span></li>');
+                            ul.append('<li><span id="page_span'+(i-1)+'" pageIndex="'+(i-1)+'"><input style="visibility:hidden" type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" /> 第'+i+'页</span></li>');
                         }
                         else if(role == ALLROLL.teacher){
-                            ul.append('<li><span id="page_span'+(i-1)+'" pageIndex="'+(i-1)+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" /> 第'+i+'题</span></li>');
+                            ul.append('<li><span id="page_span'+(i-1)+'" pageIndex="'+(i-1)+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" /> 第'+i+'页</span></li>');
                         }
                     }
 

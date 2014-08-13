@@ -179,7 +179,7 @@ function reloadStudentSelectPage(page){
     ul.children().remove();
     for(var i = 0; i < select_pages.length;i++){
         var j = parseInt(select_pages[i]);
-        ul.append('<li><span id="page_span'+(j)+'" pageIndex="'+j+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" style="visibility: hidden"/> 第'+(j+1)+'题</span></li>');
+        ul.append('<li><span id="page_span'+(j)+'" pageIndex="'+j+'"><input type="checkbox" name="checkbox" id="page_checkbox'+i+'" class="cbox" style="visibility: hidden"/> 第'+(j+1)+'页</span></li>');
     }
 
     if(typeof(page) != "undefined"){
