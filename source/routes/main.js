@@ -120,9 +120,44 @@ module.exports = function (app) {
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
-        //var userItem = req.session;
-        //console.log(userItem);
-        res.render('main-bind', input);
+
+        if (input.user.type == 1 || input.user.type == 9) {
+            var type = 1;
+        } else if (input.user.type == 2 || input.user.type == 22) {
+            var type = 2;
+        } else {
+            var type = 5;
+        }
+
+        NewsAdmin.listAllNews(type, function (err, msglist) {
+            if (err) {
+                logger.log(err);
+            }
+            var msg_no_read = [];
+            if (msglist) {
+                for (var i = 0; i < msglist.length; i++) {
+                    if (msglist[i].is_delete.indexOf(input.user.id) == -1 && msglist[i].is_read.indexOf(input.user.id) == -1) {
+                        msg_no_read[i] = msglist[i];
+                    }
+                }
+                var num_no_read = msg_no_read.length;
+            } else {
+                var num_no_read = 0;
+            }
+            //PageInput.i(req).put('num_no_read', num_no_read);
+            input.page.num_no_read = num_no_read;
+            //PageInput.i(req).put('msglist', msglist);
+            input.page.msglist = msglist;
+
+            //判断是否出错
+            var err = req.query.err;
+            if(err == 1) {
+                input.err = '绑定学员号出错！';
+            }else {
+                input.err = null;
+            }
+            res.render('main-bind', input);
+        });
     });
 
     //绑定学员号功能
@@ -153,10 +188,13 @@ module.exports = function (app) {
                 sign: md5Str
             }
         }, function (err, resp, ret) {
+            console.log('---------------------------->学员号接口：');
+            console.log(ret);
             //根据接口返回数据判断其绑定学院号的结果
             ret = JSON.parse(ret);
             console.log('------------>绑定学院号接口返回信息:');
             console.info(ret);
+            //再次用userid 调用获取角色接口然后获取shcoolid scode 等数据。
             if (ret.Data == true) {
                 var userid = req.session.user.id;
 
@@ -174,10 +212,9 @@ module.exports = function (app) {
                         res.redirect('/main-bind');
                     }
                 });
-                //再次用userid 调用获取角色接口然后获取shcoolid scode 等数据。
             } else {
-                res.redirect('/main-bind?err=' + ret.Error);
                 //打印出错误信息并停留在当前页面
+                res.redirect('/main-bind?err=1');
             }
         });
     });
