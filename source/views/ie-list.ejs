@@ -5,15 +5,21 @@
         <div class="lp_thisrec_c">
             <dl class="lp_reccourse">
                 <dt class="f_l">
-                <p><a href="#">托福基础班</a></p>
+                <p><a href="#"><%=classname%></a></p>
                 <strong class="fs_14"><%=classcode%></strong>
-                2041.12.12-2041.12.12
+                <%=poBeginDate%>-<%=poEndDate%>
                 </dt>
                 <dd class="f_r">
                     <div class="rec_level fs_14">预备</div>
                     <div class="rec_status fc_3dc">
                         <font class="lp_sicons" id="icons_ing"></font>
+                        <% if (classStatus == 1) { %>
+                        已结课
+                        <% } else if (classStatus == 2) { %>
+                        未开课
+                        <% } else if (classStatus == 0) { %>
                         上课中
+                        <% } %>
                     </div>
                 </dd>
             </dl>

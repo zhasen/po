@@ -42,7 +42,7 @@
         <!--<li><a href="#" class="on_line lp_pbg"><div class="mark"></div><span class="oline_title lp_icon"></span><b class="martk_text">在线练习</b><font>test  on-line</font><strong class="notice">9</strong></a></li>-->
         <li><a href="interaction-class-<%= classcode %>" data-bypass class="interaction"><span
                         class="inter_title lp_icon"></span><b>互动课堂</b><font>interaction</font></a></li>
-        <li><a href="imitateExam-<%= classcode %>" data-bypass class="practice lp_pbg">
+        <li><a href="imitateExam-<%= classcode %>?classname=<%= page.classData.ClassName %>&poBeginDate=<%= page.classData.poBeginDate %>&poEndDate=<%= page.classData.poEndDate %>&classStatus=<%=page.classData.ClassStatus%>" data-bypass class="practice lp_pbg">
                 <div class="mark"></div>
                 <span class="practice_title lp_icon"></span><b class="martk_text">模考</b><font>practice test</font></a>
         </li>
