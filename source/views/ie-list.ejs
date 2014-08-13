@@ -6,7 +6,7 @@
             <dl class="lp_reccourse">
                 <dt class="f_l">
                 <p><a href="#"><%=classname%></a></p>
-                <strong class="fs_14"><%=classcode%></strong>
+                <strong class="fs_14"><%=classCode%></strong>
                 <%=poBeginDate%>-<%=poEndDate%>
                 </dt>
                 <dd class="f_r">
@@ -35,9 +35,9 @@
 <div class="lp_coursenav">
     <div class="lpath_page">
         <div class="sec_nav">
-            <a href="/schedule-1-<%=classcode%>">课表</a>
+            <a href="/schedule-1-<%=classCode%>">课表</a>
             <!--<a href="#">听课</a>-->
-            <a href="/interaction-class-<%=classcode%>">互动课堂</a>
+            <a href="/interaction-class-<%=classCode%>">互动课堂</a>
             <!--<a href="#">测试</a>-->
             <!--<a href="#">在线练习</a>-->
             <a href="#" class="selected_name">模考</a>
@@ -89,16 +89,16 @@
                                 <%
                                     if(val.flagFinish==-1){
                                 %>
-                                    <a href="tpo-test?paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classcode=<%=classcode%>" target="_blank">开始测试</a>
+                                    <a href="tpo-test?paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank">开始测试</a>
                                 <%}
                                     if(val.flagFinish==0){
                                 %>
-                                    <a href="tpo-test?paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classcode=<%=classcode%>" target="_blank">继续测试</a>
+                                    <a href="tpo-test?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank">继续测试</a>
                                 <%}
                                     if(val.flagFinish==1 && val.correctStatus==0){
                                     var paperId = val.paperId;
                                 %>
-                                    <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classcode=<%=classcode%>" target="_blank">答题记录</a>
+                                    <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank">答题记录</a>
                                 <%}
                                     if(val.flagFinish==1 && val.correctStatus==1){
                                     var paperId = val.paperId;

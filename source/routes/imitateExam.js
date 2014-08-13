@@ -50,7 +50,7 @@ module.exports = function (app) {
     //模考列表页面
     app.get('/imitateExam-:classcode',getMyClass, function (req, res, next) {
         var user = req.session.user;
-        var classcode = req.params.classcode;
+        var classCode = req.params.classcode;
         var classname = req.query.classname || '';
         var poBeginDate = req.query.poBeginDate || '';
         var poEndDate = req.query.poEndDate || '';
@@ -64,7 +64,7 @@ module.exports = function (app) {
         };*/
         var url = {
             "method":"getStudentPaperListInClass",
-            "ccode":classcode,
+            "ccode":classCode,
             "ucode":user.code,
             "sid":user.schoolid
         };
@@ -126,7 +126,7 @@ module.exports = function (app) {
                 ]
             };*/
             input.ieData = sdata;
-            input.classcode =classcode;
+            input.classCode =classCode;
             input.classname =classname;
             input.poBeginDate =poBeginDate;
             input.poEndDate =poEndDate;
