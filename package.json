@@ -21,7 +21,8 @@
         "request": "^2.36.0",
         "uuid": "^1.4.1",
         "sequelize": "~1.7.9",
-        "pdfkit": "~0.6.2"
+        "pdfkit": "~0.6.2",
+        "lame": "0.1.2"
     },
     "devDependencies": {
         "nodeunit": "~0.8.1",
