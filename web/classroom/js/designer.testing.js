@@ -87,6 +87,7 @@ var Testing = {
 				testId: paperConfig.testId,
 				userId: paperConfig.userId,
 				allotId: paperConfig.allotId,
+                classCode: paperConfig.classCode,
 				testFrom: paperConfig.testFrom
 			},
 			dataType: "json",

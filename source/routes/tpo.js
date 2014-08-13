@@ -7,6 +7,7 @@ module.exports = function (app) {
         data.testId = req.query.testId;
         data.paperId = req.query.paperId;
         data.allotId = req.query.allotId;
+        data.classCode = req.query.classCode;
 
         if(!data.testId){
             data.testId = "";
@@ -21,6 +22,7 @@ module.exports = function (app) {
         data.testId = req.query.testId;
         data.paperId = req.query.paperId;
         data.allotId = req.query.allotId;
+        data.classCode = req.query.classCode;
 
         res.render('tpo-review', data);
     });
