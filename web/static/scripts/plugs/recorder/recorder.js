@@ -183,6 +183,9 @@
 		//音频采集
 		recorder.onaudioprocess = function(e) {
 			var data = e.inputBuffer.getChannelData(0);
+			if(config.onRecording){
+				config.onRecording(data);
+			}
 			audioData.input(data);
 		}
 

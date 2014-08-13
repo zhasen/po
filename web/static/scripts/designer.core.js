@@ -1311,18 +1311,65 @@ function Designer(){
 				});
 			}
 		}else if(subject.className == "org.neworiental.rmp.base::TOEFLRecordChecker"){
-			var html = "<div class='subject_record_test'>" +
+			var html = "<div class='subject_record_test'><audio autoplay></audio>" +
 				"<div class='record_test_line'>" +
 				"Select Microphone<div class='tpbtn drop record_test_select'>Default</div>" +
-				"<div class='tpbtn' style='width: 80px;'>Recording</div><div class='tpbtn'>Stop</div>" +
+				"<input type='button' class='tpbtn record_btn' style='width: 90px' value='Recording'/>" +
+				"<input type='button' class='tpbtn stop_btn' style='width: 70px' value='Stop' disabled='disabled'/>" +
 				"</div>" +
 				"<div class='record_test_line record_test_line2'>" +
-				"<div class='record_test_progress'></div>" +
-				"<div class='tpbtn' style='width: 80px;'>Play</div><div class='tpbtn'>ReTry</div>" +
+				"<div class='record_test_progress'><div></div><b>您可以测试麦克风了！</b></div>" +
+				"<input type='button' class='tpbtn play_btn' style='width: 90px' value='Play' disabled='disabled'/>" +
+				"<input type='button' class='tpbtn' style='width: 70px' value='ReTry' disabled='disabled'/>" +
 				"</div>" +
 				"</div>";
 			canvas.html(html);
 			canvas.css("text-align", "center");
+			if(Des.config.status == "testing" && Des.config.statusType != "review"){
+				//如果是测试状态，支持检测
+				var recorder = null;
+				//录音
+				canvas.find(".record_btn").bind("click", function(){
+					Recorder.get(function (rec) {
+						recorder = rec;
+		                if(recorder != null){
+		                	//开始录音
+		                	recorder.start();
+		                	//激活停止按钮
+		                	canvas.find(".tpbtn").prop("disabled", "disabled");
+		                	canvas.find(".stop_btn").prop("disabled", false);
+		                }
+		            }, {
+		            	onRecording: function(data){
+        					var vol = data[0] / 0.2;
+        					if(vol > 1){
+        						vol = 1;
+        					}
+							canvas.find(".record_test_progress").children("div").width(vol * 360 + "px");
+		            	}
+		            });
+				});
+				//停止
+				canvas.find(".stop_btn").bind("click", function(){
+					if(recorder != null){
+	                	//停止录音
+	                	recorder.stop();
+	                	canvas.find(".record_test_progress").children("div").width("0px");
+	                	//激活播放按钮
+	                	canvas.find(".tpbtn").prop("disabled", "disabled");
+	                	canvas.find(".record_btn").prop("disabled", false);
+	                	canvas.find(".play_btn").prop("disabled", false);
+	                }
+				});
+				//播放录音
+				canvas.find(".play_btn").bind("click", function(){
+					if(recorder != null){
+	                	//停止录音
+						var audio = canvas.find("audio")[0];
+	                	recorder.play(audio);
+	                }
+				});
+			}
 		}else if(subject.className == "org.neworiental.rmp.base::ToelfAudio"){
 			canvas.html("<div class='subject_audiotext'><div class='subject_audiotext_progress'></div></div>");
 			if(this.config.status == "template" || this.config.status == "subject"){

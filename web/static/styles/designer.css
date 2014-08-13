@@ -532,10 +532,12 @@ input[type=radio].chk:checked:before{
 }
 .record_test_line{
 	height: 22px;
-	font-size: 13px;
+	font-size: 12px;
 	line-height: 22px;
+	font-family: 宋体;
 }
 .record_test_line .tpbtn{
+	outline: none;
 	margin-left: 10px;
 }
 .record_test_select{
@@ -550,9 +552,23 @@ input[type=radio].chk:checked:before{
 	border: 1px solid #bbb;
 	line-height: 20px;
 	height:20px;
-	width: 374px;
+	width: 360px;
 	display: inline-block;
 	margin-right: 10px;
+	text-align: left;
+	color: red;
+	position: relative;
+}
+.record_test_progress div{
+	background: #e5e5e5;
+	position: absolute;
+	height: 20px;
+	width: 0px;
+}
+.record_test_progress b{
+	position: absolute;
+	margin-left: 5px;
+	line-height: 20px;
 }
 .subject_tableselect{
 	font-size:14px;

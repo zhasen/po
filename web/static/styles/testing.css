@@ -1,7 +1,6 @@
 @CHARSET "UTF-8";
 
 .testing_header{
-	background: #fff;
 	height: 85px;
 	position: relative;
 	background: url(../images/testing/testing_bg.png) 0px 0px repeat-y;
