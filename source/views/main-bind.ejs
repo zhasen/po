@@ -21,6 +21,13 @@
 <!--绑定学员信息start-->
 <div class="lpath_page ">
     <form id="form1" name="form1" method="post" action="" class="lp_boundstudentno">
+        <% if(err) {%>
+        <div class="sinfor fix" style="margin-left: 200px;">
+            <ul>
+                <li class="fix"><span class="bind_error lp_icon"></span><font class="blank" style="color: red;font-weight: 700;"><%=err%></font></li>
+            </ul>
+        </div>
+        <% }%>
         <div class="sinfor fix">
             <label for="textfield">学员号</label>
             <input type="text" name="studentcode" required class="input_box"/>
@@ -41,6 +48,7 @@
                     <!--<li class="fix"><span class="bind_success lp_icon"></span><font>您已成功绑定学员号,正在进入班级主页</font> </li>-->
                     <!--<li class="fix"><span class="bind_error lp_icon"></span><font class="blank">错误提示</font></li>-->
                 <!--</ul>-->
+
             </div>
         </div>
         <input id="usertype" type="hidden" name="usertype" value="1"/>
