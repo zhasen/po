@@ -89,16 +89,16 @@
                                 <%
                                     if(val.flagFinish==-1){
                                 %>
-                                    <a href="#">开始测试</a>
+                                    <a href="tpo-test?paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classcode=<%=classcode%>" target="_blank">开始测试</a>
                                 <%}
                                     if(val.flagFinish==0){
                                 %>
-                                    <a href="#">继续测试</a>
+                                    <a href="tpo-test?paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classcode=<%=classcode%>" target="_blank">继续测试</a>
                                 <%}
                                     if(val.flagFinish==1 && val.correctStatus==0){
                                     var paperId = val.paperId;
                                 %>
-                                    <a href="#">答题记录</a>
+                                    <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classcode=<%=classcode%>" target="_blank">答题记录</a>
                                 <%}
                                     if(val.flagFinish==1 && val.correctStatus==1){
                                     var paperId = val.paperId;
