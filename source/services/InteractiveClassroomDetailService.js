@@ -3,6 +3,7 @@ var request = require('request');
 var logger = require('../commons/logging').logger;
 var ixdf = require('./IXDFService');
 var InteractiveClassRoomRecord = require('../models/InteractiveClassRoomRecord');
+var api = require('../../settings').api;
 
 exports.ALLWSTYPE = {classRoom:'ClassRoom'};
 
@@ -390,7 +391,7 @@ var addTestRecord = function (recordObj,callback) {
 
 //'B51D8504-9186-4079-9770-8AD73DC63BD9'
 exports.getPaperItems = function (pagerId,callback) {
-    var str = "http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?";
+    var str = api.imitateExam;
 
     str += "method="+'getPaperAllDataByPaperId';
     str += "&paperId="+pagerId;
