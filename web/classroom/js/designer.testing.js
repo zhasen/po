@@ -240,7 +240,7 @@ var Player = {
 	 * 当前播放的部分的索引
 	 * @type {Number}
 	 */
-	partIndex: 2,
+	partIndex: 0,
 	/**
 	 * 当前部分的播放进度，最大播放到了什么位置，下一页时会与这个进行比对
 	 * @type {}
