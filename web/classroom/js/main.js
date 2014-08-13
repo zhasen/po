@@ -104,6 +104,9 @@ $(function(){
                         }
                     }
                 }
+
+                goToPage(0,false);
+
             }
                 break;
 
@@ -135,6 +138,18 @@ $(function(){
                             }
                             return result.currentPage;
                         }
+                    }
+                }
+                else{
+                    if(result.orientation == 'next'){
+                        var page = result.currentPage + 1;
+                        if(page < Player.subjectList.pages.length)
+                            goToPage(page,false);
+                    }
+                    else{
+                        var page = result.currentPage - 1;
+                        if(page >= 0)
+                            goToPage(page,false);
                     }
                 }
             }
