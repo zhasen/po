@@ -51,10 +51,10 @@ module.exports = function (app) {
     app.get('/imitateExam-:classcode',getMyClass, function (req, res, next) {
         var user = req.session.user;
         var classcode = req.params.classcode;
-        var classname = req.query.classname;
-        var poBeginDate = req.query.poBeginDate;
-        var poEndDate = req.query.poEndDate;
-        var classStatus = req.query.classStatus;
+        var classname = req.query.classname || '';
+        var poBeginDate = req.query.poBeginDate || '';
+        var poEndDate = req.query.poEndDate || '';
+        var classStatus = req.query.classStatus || '';
 
         /*var url = {
             "method":"getStudentPaperListInClass",
@@ -131,7 +131,6 @@ module.exports = function (app) {
             input.poBeginDate =poBeginDate;
             input.poEndDate =poEndDate;
             input.classStatus =classStatus;
-
 
             res.render('ie-list', input);
 
