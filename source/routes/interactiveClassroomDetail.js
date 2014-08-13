@@ -81,7 +81,7 @@ module.exports = function (app) {
         if(template.testId)
             str += "&testId="+template.testId;
 
-        str += "&classCode=TF13202";
+        str += "&classCode="+template.classCode;
 
         console.log(str);
 
