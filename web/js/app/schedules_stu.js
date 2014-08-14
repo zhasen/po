@@ -1,4 +1,4 @@
-define(['jQuery', 'Bootstrap', '../course_schedule/custom_calendar'],
+define(['../po/jquery_selectMode', 'Bootstrap', '../course_schedule/custom_calendar'],
     function ($, Bootstrap, calendar) {
         if ($('#_moduleViewName').val() == 'schedules_stu') {
 
@@ -6,6 +6,20 @@ define(['jQuery', 'Bootstrap', '../course_schedule/custom_calendar'],
             var userType = $('#userType').val();
             var schoolid = $('#schoolid').val();
             var code = $('#code').val();
+
+            $(".nav li").hover(function () {
+                $(this).children(".menu").addClass("curren_state").siblings().removeClass("curren_state");
+                $(this).children(".menu").next().show();
+            }, function () {
+                $(this).children(".menu").removeClass("curren_state");
+                $(this).children(".menu").next().hide();
+            })
+
+            $(".lp_class_list li").hover(function () {
+                $(this).find(".hasended").animate({opacity: '1'}, "600");
+            }, function () {
+                $(this).find(".hasended").animate({opacity: '0.5'}, "600");
+            })
 
             $().selectMode('.s-ac', '.s-key', '.s-hdn'); // 班级下拉菜单
 

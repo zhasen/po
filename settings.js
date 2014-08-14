@@ -31,15 +31,23 @@ var settings = {
         port: 3306
     },
     redis: {
+        mode: 'single',
         host: 'localhost',
-        port: 6379
+        port: 6379,
+        auth: '',
+        sentinel: {
+            hosts: [
+                {host: '127.0.0.1', port: 26379}
+            ],
+            masterName: 'mymaster'
+        }
     },
     session: {
         expires: 60 // minutes
     },
     logging: {
         reloadSecs: 0, //INFO: set 0 could let nodeunit tests which use log4js exit properly
-        level: 'DEBUG'
+        level: 'DEBUG' // INFO
     },
     file: {
         public: 'public',
@@ -50,8 +58,8 @@ var settings = {
         answer: 'public/upload/answer',
         schedule: 'public/upload/schedule' // 存放生成的课表PDF文件
     },
-    api:{
-        imitateExam:'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?'
+    api: {
+        imitateExam: 'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?'
     },
     resources: {
         appName: '学路',
@@ -62,20 +70,27 @@ var settings = {
 };
 
 var util = require('./source/commons/util');
-var profilePath = './settings-dev';
-var profile = function(profilePath){
+var profile = function () {
+    var profilePath = '';
+    var mode = process.env['NODE_ENV'] || 'development';
     var profileSettings = null;
-    try{
-        profileSettings = require(profilePath);
+    try {
+        if (mode == 'development') {
+            profilePath = './settings-dev';
+            profileSettings = require(profilePath);
+        } else {
+            profilePath = './settings-prd';
+            profileSettings = require(profilePath);
+        }
     }
-    catch(e){
+    catch (e) {
         console.error(profilePath + ' is not found: ' + e.message);
     }
     return profileSettings;
 };
 
-var profileSettings = profile(profilePath);
-if(profileSettings){
+var profileSettings = profile();
+if (profileSettings) {
     util.extendAll(settings, profileSettings);
 }
 
