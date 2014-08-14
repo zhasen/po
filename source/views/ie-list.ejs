@@ -5,21 +5,14 @@
         <div class="lp_thisrec_c">
             <dl class="lp_reccourse">
                 <dt class="f_l">
-                <p><a href="#"><%=classname%></a></p>
-                <strong class="fs_14"><%=classCode%></strong>
-                <%=poBeginDate%>-<%=poEndDate%>
+                <p><a href="javascript:void(0);"><%= page.classData.ClassName %></a></p>
+                <strong class="fs_14"><%= page.classData.ClassCode %></strong>
+                <%= page.classData.poBeginDate %>-<%= page.classData.poEndDate %>
                 </dt>
                 <dd class="f_r">
                     <div class="rec_level fs_14">预备</div>
                     <div class="rec_status fc_3dc">
-                        <font class="lp_sicons" id="icons_ing"></font>
-                        <% if (classStatus == 1) { %>
-                        已结课
-                        <% } else if (classStatus == 2) { %>
-                        未开课
-                        <% } else if (classStatus == 0) { %>
-                        上课中
-                        <% } %>
+                        <%= page.classData.ClassStatusText %>
                     </div>
                 </dd>
             </dl>
@@ -35,12 +28,12 @@
 <div class="lp_coursenav">
     <div class="lpath_page">
         <div class="sec_nav">
-            <a href="/schedule-1-<%=classCode%>">课表</a>
+            <a href="/schedule-<%=schoolId%>-<%=classCode%>">课表</a>
             <!--<a href="#">听课</a>-->
             <a href="/interaction-class-<%=classCode%>">互动课堂</a>
             <!--<a href="#">测试</a>-->
             <!--<a href="#">在线练习</a>-->
-            <a href="#" class="selected_name">模考</a>
+            <a href="/imitateExam-<%=schoolId%>-<%=classCode%>" class="selected_name">模考</a>
             <!--<a href="#">资料</a>-->
             <!--<a href="#">知识巩固</a>-->
         </div>
@@ -103,15 +96,15 @@
                                     if(val.flagFinish==1 && val.correctStatus==1){
                                     var paperId = val.paperId;
                                 %>
-                                    <a href="#">答题记录</a>
+                                <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank">答题记录</a>
                                 <%}
                                     if(val.flagFinish==1 && val.correctStatus==2){
                                     var paperId = val.paperId;
                                     var finishTime = val.finishTime;
                                     var paperName = val.paperName;
                                 %>
-                                    <a href="#">答题记录</a>
-                                    <a href="searchTestReport-<%= paperId%>?finishTime=<%=finishTime%>&paperName=<%=paperName%>">查看报告</a>
+                                <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank">答题记录</a>
+                                <a href="searchTestReport-<%= paperId%>?finishTime=<%=finishTime%>&paperName=<%=paperName%>">查看报告</a>
                                     <a href="#">下载报告</a>
                                 <%}%>
                             </dd>

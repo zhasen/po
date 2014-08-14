@@ -47,14 +47,25 @@ module.exports = function (app) {
         }
     };
 
+    // 通过班级号获取班级数据
+    var getClass = function (req, res, next) {
+        var input = PageInput.i(req);
+        input.classcode = req.params.classcode;
+        input.schoolid = req.params.schoolid;
+        // 通过 classcode 调取班级信息
+        var param = {schoolid: req.params.schoolid, classcode: req.params.classcode};
+        ixdf.classEntity(param, function (err, classData) {
+            //console.info(classData);
+            PageInput.i(req).put('classData', classData); // 班级全部列表数据
+            next();
+        });
+    }
+
     //模考列表页面
-    app.get('/imitateExam-:classcode',getMyClass, function (req, res, next) {
+    app.get('/imitateExam-:schoolid-:classcode',getClass,getMyClass, function (req, res, next) {
         var user = req.session.user;
         var classCode = req.params.classcode;
-        var classname = req.query.classname || '';
-        var poBeginDate = req.query.poBeginDate || '';
-        var poEndDate = req.query.poEndDate || '';
-        var classStatus = req.query.classStatus || '';
+        var schoolId = req.params.schoolid;
 
         /*var url = {
             "method":"getStudentPaperListInClass",
@@ -66,7 +77,7 @@ module.exports = function (app) {
             "method":"getStudentPaperListInClass",
             "ccode":classCode,
             "ucode":user.code,
-            "sid":user.schoolid
+            "sid":schoolId
         };
 
         asseton(req, res);
@@ -127,11 +138,7 @@ module.exports = function (app) {
             };*/
             input.ieData = sdata;
             input.classCode =classCode;
-            input.classname =classname;
-            input.poBeginDate =poBeginDate;
-            input.poEndDate =poEndDate;
-            input.classStatus =classStatus;
-
+            input.schoolId =schoolId;
             res.render('ie-list', input);
 
         });
