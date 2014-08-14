@@ -69,7 +69,7 @@
                             for(var i=0;i<len;i++) {
                                 var item = listOne[i];
                 %>
-                <%if(item.answerid == undefined) {%><li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#"><%=item.paperName%></a></li><%}%>
+                <%if(item.answerid == undefined) {%><li class="fix"><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.pType%>" class="getinto">进入课堂</a><a href="#"><%=item.paperName%></a></li><%}%>
                 <%
                             }
                         }
@@ -92,7 +92,7 @@
                 for (var x=0;x<typeList.length;x++) {
                     var type = typeList[x];
                 %>
-                <li <% if(x == 0) {%>class="selected"<% } %> onclick="ajaxLoad('<%=type.ename%>','<%=type.code%>',1);"><span><%=type.ename%></span><%=type.name%></li>
+                <li <% if(x == 0) {%>class="selected"<% } %> onclick="ajaxLoadAnwser('<%=type.ename%>','<%=type.code%>',1);"><span><%=type.ename%></span><%=type.name%></li>
                 <%
                     }
                 %>
@@ -107,13 +107,13 @@
             <ul <%if(t == 0) {%>style="display:block;" <% } %> id="<%=ul.ename%>_1">
                 <%
                 if(t == 0) {
-                        if(listOne != undefined) {
+                        if(listOneAnwser != undefined) {
                     //var listOne = listOne.result;
-                    var len = listOne.length;
+                    var len = listOneAnwser.length;
                         for(var i=0;i<len;i++) {
-                    var item = listOne[i];
+                    var item = listOneAnwser[i];
                 %>
-                <%if(item.answerid != undefined) {%><li class="fix"><a href="#" class="getinto">进入课堂</a><a href="#"><%=item.paperName%></a></li><%}%>
+                <%if(item.answerid != undefined) {%><li class="fix"><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.testId%>" class="getinto">进入课堂</a><a href="#"><%=item.paperName%></a></li><%}%>
                 <%
                 }
                 }
@@ -136,6 +136,38 @@
 <script>
     function ajaxLoad(name,type,answerid) {
         var url = "/interaction/ajaxLoad";
+        $.ajax({
+            type: "POST",
+            data: {type:type,classcode:$("#classcode").val()},
+            url: url,
+            success: function(data) {
+                if(data != undefined) {
+                    //alert(1);
+                    var result = data.result;
+                    if(result != undefined) {
+                        var arr = [];
+                        //arr.push("<li class='fix'><a href='#' class='getinto'>进入课堂</a> <a href='#'>进入课堂</a></li> ");
+                        for (var i=0;i<result.length;i++)
+                        {
+                            var item = result[i];
+                            if(item != undefined) {
+                                arr.push("<li class='fix'><a href='#' class='getinto'>进入课堂</a> <a href='#'>"+item.paperName+"</a></li> ");
+                            }
+                        }
+                        if(answerid == 1) {
+                            $("#"+name+"_1").html(arr.join(''));
+                        }else {
+                            $("#"+name).html(arr.join(''));
+                        }
+
+                    }
+                }
+            }
+        });
+    }
+
+    function ajaxLoadAnwser(name,type,answerid) {
+        var url = "/interaction/ajaxLoadAnswer";
         $.ajax({
             type: "POST",
             data: {type:type,classcode:$("#classcode").val()},
