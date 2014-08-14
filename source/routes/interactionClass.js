@@ -5,6 +5,7 @@ var commonService = require('./common/commonService');
 var api = require('../../settings').api;
 var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
+var InteractiveClassroomDetailService = require('../services/InteractiveClassroomDetailService');
 var async = require('async');
 
 module.exports = function (app) {
@@ -92,6 +93,14 @@ module.exports = function (app) {
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
         input.classcode = classcode;
+
+        //获取答题记录列表条件
+        var whereObject = {
+            'classCode': classcode,
+            'userId': req.session.user.id,
+            'pType': 1
+        };
+
         async.series([
             function(cb) {
                 getPtypeList("TOEFL",function(err,data) {
@@ -100,6 +109,11 @@ module.exports = function (app) {
             },
             function(cb) {
                 getClassByType(1,classcode,user.code,user.schoolid,function(err,data) {
+                    cb(err,data);
+                });
+            },
+            function(cb) {
+                InteractiveClassroomDetailService.findTestRecord(whereObject,function(err,data) {
                     cb(err,data);
                 });
             }
@@ -124,17 +138,35 @@ module.exports = function (app) {
                 }
                 input.typeList = typeArr;
                 input.listOne = data[1].result;
+                input.listOneAnwser = data[2].result;
+
                 res.render('interaction-class',input);
             }
         );
     });
 
-    //ajax加载其他分类的课程信息
+    //ajax加载课程信息
     app.post('/interaction/ajaxLoad',function(req,res) {
         var user = req.session.user;
         var type = req.body.type;
         var classcode = req.body.classcode;
         getClassByType(type,classcode,user.code,user.schoolid,function(err,data) {
+            res.json(data);
+        });
+    });
+
+    //ajax加载答题记录信息
+    app.post('/interaction/ajaxLoadAnswer',function(req,res) {
+        var user = req.session.user;
+        var type = req.body.type;
+        var classcode = req.body.classcode;
+        //获取答题记录列表条件
+        var whereObject = {
+            'classCode': classcode,
+            'userId': user.id,
+            'pType': type
+        };
+        InteractiveClassroomDetailService.findTestRecord(whereObject,function(err,data) {
             res.json(data);
         });
     });
