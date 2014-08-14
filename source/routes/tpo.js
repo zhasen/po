@@ -3,6 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var lame = require('lame');
 var wav = require('wav');
+var api = require('../../settings').api;
 
 module.exports = function (app) {
 
@@ -49,6 +50,22 @@ module.exports = function (app) {
 
         });
         input.pipe(reader);
+    });
+
+    app.get('/download-get', function(req, res) {
+        var str = api.imitateExam;
+        str += "method=downloadResource";
+        str += "&keyUUID="+req.query.keyUUID;
+        request({
+            method: 'get',
+            url: str,
+            followRedirect: false
+        }, function (err, resp, ret) {
+            res.writeHead(302, {
+                'Location': resp.headers.location
+            });
+            res.end();
+        });
     });
 
 };
