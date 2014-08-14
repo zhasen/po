@@ -23,9 +23,11 @@ module.exports = function (app) {
     app.get('/interactive-classroom-detail', function (req, res, next) {
         //暂时通过query参数来做，以后会通过session里的判断身份以及权限的
         var data = {};
+        //data.role = req.query.role;
+        //data.userId = req.query.userId;
         //1 学生 2老师
-        data.role = req.query.role;
-        data.userId = req.query.userId;
+        data.role = parseInt(req.session.user.type)+1;
+        data.userId = req.session.user.code;
         data.schoolId = req.query.schoolId;
         data.classCode = req.query.classCode;
         data.testId = req.query.testId;
