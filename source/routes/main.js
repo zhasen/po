@@ -3,6 +3,7 @@ var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
 var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
+var settings = require('../../settings');
 var crypto = require('crypto');
 var request = require('request');
 
@@ -16,6 +17,9 @@ module.exports = function (app) {
                 user.type = userData.type; // 用户类型，老师 2 学员 1
                 user.code = userData.data.sCode || userData.data.Code; // 学员code 或者 老师code
                 user.schoolid = userData.data.nSchoolId || userData.data.SchoolId; // 学员或者老师所在的学校ID
+                console.log('----------------->');
+                console.log(userData);
+                console.log(user);
                 next();
             } else {
                 user.type = 5;//游客
@@ -170,16 +174,16 @@ module.exports = function (app) {
         var studentName = req.body.studentName;
         var usertype = req.body.usertype;
         var m = "BindStudentCodeByStudentName";
-        var k = "v5appkey_test";
-        var i = "5001";
+        var k = settings.ixdf.appKey;
+        var i = settings.ixdf.appid;
         var str = ("method=" + m + "&appid=" + i + "&userId=" + userid + "&email=" + email + "&studentcode=" + studentcode + "&studentName=" + studentName + "&usertype=" + usertype + "&appKey=" + k).toLowerCase();
         var md5Str = md51(str).toUpperCase();
         request({
             method: 'post',
-            url: "http://xytest.staff.xdf.cn/api/user",
+            url: settings.ixdf.url + '/user',
             form: {
                 method: m,
-                appid: 5001,
+                appid: i,
                 userId: userid,
                 email: email,
                 studentcode: studentcode,
