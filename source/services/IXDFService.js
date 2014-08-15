@@ -54,7 +54,15 @@ Service.uniAPIInterface = function (param, controllername, methodname, callback)
     var p = sysParam;
     extend(p, param);
     extend(p, appKey);
-    p.sign = md5(querystring.stringify(p).toLowerCase()).toUpperCase();
+    // 拼成形如 method=GetUserTypeByUserId&appid=2009&userid=xdf001000862&appKey=v5appkey_vps_%40%23kztsk2m3v传
+    var txt = token = '';
+    for(var kk in p){
+        txt += token + kk + '=' + p[kk];
+        token = '&';
+    }
+    // console.info(txt);
+    // p.sign = md5(querystring.stringify(p).toLowerCase()).toUpperCase();
+    p.sign = md5(txt.toLowerCase()).toUpperCase();
     delete p.appKey;
     request({
         method: 'post',
