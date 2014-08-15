@@ -4,7 +4,7 @@ var commonService = require('./common/commonService');
 var api = require('../../settings').api;
 var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
-//var reportData = require('../../report');
+var reportJson = require('../../report');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -292,7 +292,7 @@ module.exports = function (app) {
                                 "readScore":readScore,
                                 "totalScore":totalScore
                             };
-                            res.render('ie-report', {reportData:sdata,data:mtScore,mtMessage:mtMessage,detail:detail});
+                            res.render('ie-report', {reportData:sdata,data:mtScore,mtMessage:mtMessage,detail:detail,reportJson:reportJson.content});
                         }
 
                     }
