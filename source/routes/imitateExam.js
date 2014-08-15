@@ -4,6 +4,7 @@ var commonService = require('./common/commonService');
 var api = require('../../settings').api;
 var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
+//var reportData = require('../../report');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -174,6 +175,7 @@ module.exports = function (app) {
         input.user = input.page.user;
         var param = api.imitateExam + commonService.getUrl(url);
 
+        //统计 写作/口语 总分
         var scoreNum = 0;
         function getScoreNum(data){
             for(var i in data){
@@ -182,23 +184,89 @@ module.exports = function (app) {
             return scoreNum;
         }
 
+        //阅读真实分数
+        function getReadScore(num){
+            if(num>=0 && num<=9){
+                return 0;
+            }else if(num>10&&num<=33){
+                return num-9;
+            }else if(num>=34&&num<=35){
+                return 25;
+            }else if(num>=36&&num<=37){
+                return 26;
+            }else if(num>=38&&num<=39){
+                return 27;
+            }else if(num>=40&&num<=41){
+                return 28;
+            }else if(num>=42&&num<=43){
+                return 29;
+            }else if(num>=44&&num<=45){
+                return 30;
+            }
+        }
+
+        //听力真实分数
+        function getListenScore(num){
+            if(num<=4 && num>=0){
+                return 0;
+            }else{
+                return num-4;
+            }
+        }
+
         commonService.request(param,function(err,data){
             var sdata = JSON.parse(data);
 
-            input.reportData = sdata;
-
             if(sdata.errno != 1){
+                var essayRecordList = sdata.result.essayRecordList;
+                var oralRecordList = sdata.result.oralRecordList;
                 //写作分数
-                var essayScore = getScoreNum(sdata.result.essayRecordList);
+                var essayScore = getScoreNum(essayRecordList);
                 //口语分数
                 scoreNum = 0;
-                var oralScore = getScoreNum(sdata.result.oralRecordList);
+                var oralScore = getScoreNum(oralRecordList);
                 var items = sdata.result.testResultDetailList;
                 //听力分数
                 var listenScore = 0;
                 //阅读分数
                 var readScore = 0;
                 var itemLength = 0;
+
+                //综合写作
+                var integratedWriting = 0;
+                //独立写作
+                var independentWriting = 0;
+                //学术课堂
+                var scholarshipClass = 0;
+                //校园对话
+                var campusDialogue = 0;
+                //独立任务
+                var independentTask = 0;
+                var detail ={};
+
+                for(var i in essayRecordList){
+                    if(i==0){
+                        //综合写作
+                        detail.integratedWriting = parseInt(JSON.parse(essayRecordList[i].correctResult).score);
+                    }else if(i==1){
+                        //独立写作
+                        detail.independentWriting = parseInt(JSON.parse(essayRecordList[i].correctResult).score);
+                    }
+                }
+
+                for(var i in oralRecordList){
+                    if(i==0){
+                        //独立任务
+                        detail.independentTask = parseInt(JSON.parse(oralRecordList[i].correctResult).score);
+                    }else if(i==1){
+                        //校园对话
+                        detail.campusDialogue = parseInt(JSON.parse(oralRecordList[i].correctResult).score);
+                    }else if(i==2){
+                        //学术课堂
+                        detail.scholarshipClass = parseInt(JSON.parse(oralRecordList[i].correctResult).score);
+                    }
+
+                }
 
                 commonService.getPaperItems(paperId,function(result){
                     for(var i in items){
@@ -214,6 +282,8 @@ module.exports = function (app) {
                         }
 
                         if(itemLength == items.length){
+                            readScore = getReadScore(readScore);
+                            listenScore = getListenScore(listenScore);
                             var totalScore = essayScore+oralScore+listenScore+readScore;
                             var mtScore ={
                                 "essayScore":essayScore,
@@ -222,7 +292,7 @@ module.exports = function (app) {
                                 "readScore":readScore,
                                 "totalScore":totalScore
                             };
-                            res.render('ie-report', {input:input,data:mtScore,mtMessage:mtMessage});
+                            res.render('ie-report', {reportData:sdata,data:mtScore,mtMessage:mtMessage,detail:detail});
                         }
 
                     }
@@ -236,56 +306,5 @@ module.exports = function (app) {
 
     });
 
-
-    //试题详细
-    app.get('/testQuestionDetail', function (req, res, next) {
-        var url = {
-            "method":"getPaperAllDataByPaperId",
-            "paperId":"33818BD0-C00B-48B2-8F25-2624CFF8BC53"
-        };
-        var param = api.imitateExam + commonService.getUrl(url);
-        commonService.request(param,function(data) {
-            var data = JSON.parse(data);
-            console.log("data.result------------" +JSON.stringify(data.result));
-            if(data.errno != 1){
-                res.render('tq-detail', {"data":data.result});
-            }else{
-                res.end();
-            }
-        });
-
-    });
-
-    app.get('/testQuestion', function (req, res, next) {
-        var url = {
-            "method":"getPaperAllDataByPaperId",
-            "paperId":"33818BD0-C00B-48B2-8F25-2624CFF8BC53"
-        };
-        var param = api.imitateExam + commonService.getUrl(url);
-        commonService.request(param,function(data) {
-            var data = JSON.parse(data);
-            var jsonVal = data.result.structItem.trees;
-
-            for(var i in jsonVal){
-//                console.log("i:" + i +"\t" +JSON.stringify(jsonVal[i].items));
-
-                var flag = jsonVal[i].items;
-                for(var j in flag){
-                    console.log("j:" + j +"\t" +JSON.stringify(flag[j].item.subjectData));
-                    var temp = flag[j].item.subjectData;
-                    temp = decodeURIComponent(temp);
-                    flag[j].item.subjectData = JSON.parse(temp);
-                    console.log("temp----" + temp);
-                }
-            }
-            console.log("data.result------------" +JSON.stringify(data.result));
-            /*if(data.errno != 1){
-                res.render('tq-detail', {"data":data.result});
-            }else{
-                res.end();
-            }*/
-        });
-
-    });
 };
 
