@@ -333,4 +333,9 @@ module.exports = function (app) {
         });
     })
 
+    app.get('/heartbeat',function (req, res, next) {
+        res.json(200);
+    });
+
+
 };
