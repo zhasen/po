@@ -13,6 +13,7 @@
         "express": "3.2.5",
         "log4js": "~0.6.6",
         "mysql": "~2.1.1",
+        "redis-sentinel": "0.1.0",
         "redis": "~0.8.3",
         "underscore": "~1.5.1",
         "faye-websocket": "~0.7.2",

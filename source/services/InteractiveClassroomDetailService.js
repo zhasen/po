@@ -57,6 +57,7 @@ exports.dealFunc = function (ws, data) {
             ws.schoolId = json.schoolId;
 
             var classRoom = classRooms[json.classCode];
+
             if(!classRoom){
                 classRoom = {};
                 classRoom.mode = ALLMODE.teacher_offline;
@@ -213,13 +214,30 @@ exports.dealFunc = function (ws, data) {
         case ALLMETHOD.close:{
             if(ws.classCode){
                 var classRoom = classRooms[ws.classCode];
+                var classCode = ws.classCode;
                 if(ws.role == ALLROLL.student){
+                    console.log('delete student');
                     delete classRoom.students[ws.userId].ws;
                 }
                 else{
+                    console.log('delete teacher');
                     delete classRoom.teacher;
                 }
                 notifyOnlineStudent(classRoom);
+                if(!classRoom.teacher){
+                    var bDelete = true;
+                    for(var key in classRoom.students){
+                        var student = classRoom.students[key];
+                        if(student.ws){
+                            bDelete = false;
+                            break;
+                        }
+                    }
+                    if(bDelete){
+                        console.log('delete classrome');
+                        delete classRooms[classCode];
+                    }
+                }
             }
             break;
         }
