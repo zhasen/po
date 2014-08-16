@@ -18,4 +18,5 @@ module.exports = function(rootDir){
     ensureDir(rootDir, settings.file.upload);
     ensureDir(rootDir, settings.file.question);
     ensureDir(rootDir, settings.file.answer);
+    ensureDir(rootDir, settings.file.report);
 };

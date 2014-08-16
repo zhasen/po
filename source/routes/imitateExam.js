@@ -2,9 +2,11 @@ var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
 var commonService = require('./common/commonService');
 var api = require('../../settings').api;
+var reportUploadPath = require('../../settings').file.report;
 var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
 var reportJson = require('../../report');
+var fs = require('fs');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -303,6 +305,65 @@ module.exports = function (app) {
                 res.render('ie-report',input);
             }
         });
+
+    });
+
+    //下载报告
+    app.get('/downloadreport-:paperId',getMyClass, function (req, res, next) {
+        var NodePDF = require('nodepdf');
+
+        var user = req.session.user;
+        var userName = user.displayName;
+        var finishTime = req.query.finishTime;
+        var paperName = req.query.paperName;
+
+        var paperId = req.params.paperId;
+
+        var url = "http://path.staff.xdf.cn/searchTestReport?finishTime='"+finishTime+"'&paperName'"+paperName +"'";
+
+        var pdfName = paperId+".pdf";
+
+        var pdfPath = reportUploadPath +"/" + pdfName;
+
+        function hasPdfFile(str){
+            fs.readdir(str, function(err,fileNameArray){
+                if(err){
+                    return false;
+                }else{
+                    return true;
+                }
+            });
+        }
+
+        if(hasPdfFile(pdfPath)){
+            //下载pdf文件
+            res.download(pdfPath);
+        }else{
+            var pdf = new NodePDF(url, pdfName, {
+
+
+            });
+
+            pdf.on('error', function(msg){
+                console.log(msg);
+            });
+
+            pdf.on('done', function(pathToFile){
+                res.download(pathToFile);
+                console.log(pathToFile);
+            });
+
+            // listen for stdout from phantomjs
+            pdf.on('stdout', function(stdout){
+                // handle
+            });
+
+            // listen for stderr from phantomjs
+            pdf.on('stderr', function(stderr){
+                // handle
+            });
+
+        }
 
     });
 
