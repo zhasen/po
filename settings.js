@@ -56,7 +56,8 @@ var settings = {
         upload: 'public/upload',
         question: 'public/upload/question',
         answer: 'public/upload/answer',
-        schedule: 'public/upload/schedule' // 存放生成的课表PDF文件
+        schedule: 'public/upload/schedule', // 存放生成的课表PDF文件
+        report: 'public/upload/report' // 存放模考报告PDF文件
     },
     api: {
         imitateExam: 'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?'
