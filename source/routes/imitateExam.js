@@ -321,8 +321,8 @@ module.exports = function (app) {
 
         var url = "http://path.staff.xdf.cn/searchTestReport?finishTime='"+finishTime+"'&paperName'"+paperName +"'";
 
-//        var pdfName = paperId+".pdf";
-        var pdfName = "1.pdf";
+        var pdfName = paperId+".pdf";
+//        var pdfName = "1.pdf";
 
         var pdfPath = reportUploadPath +"/" + pdfName;
 
