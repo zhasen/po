@@ -5,6 +5,7 @@ var time = require('../../source/commons/time');
 var ixdf = require('../services/IXDFService');
 var pdf = require('../services/PDFService');
 var NewsAdmin = require('../services/NewsAdminService');
+var commonShow = require('./common/commonShow');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -94,9 +95,19 @@ module.exports = function (app) {
     // 班级主页-首页
     app.get('/class-:schoolid-:classcode', getMyClass, getClass, function (req, res, next) {
         asseton(req, res);
-        //console.log(req.session);
+        console.log(req.params.classcode);
+        console.log(req.params.classcode.indexOf('TF'));
         var input = PageInput.i(req);
-        res.render('class-page', input);
+        //判断是否显示模考
+        commonShow.showImitateExam(req.params.classcode,function(flag) {
+            input.showImitateExam = flag;
+            //判断是否显示互动课堂
+            commonShow.showInteractionClass(req.params.classcode,function(flagIn) {
+                input.showInteractionClass = flagIn;
+                res.render('class-page', input);
+            });
+        });
+
     });
 
     /**

@@ -37,15 +37,27 @@
 <!--课程列表start-->
 <div class="lpath_page">
     <ul class="lp_cousreplaylist fix">
-        <li><a href="schedule-<%= schoolid %>-<%= classcode %>" data-bypass class="schedule"><span class="schedule_title lp_icon"></span><b>课表</b><font>schedule</font></a>
+        <li>
+            <a href="schedule-<%= schoolid %>-<%= classcode %>" data-bypass class="schedule">
+                <span class="schedule_title lp_icon"></span><b>课表</b><font>schedule</font>
+            </a>
         </li>
         <!--<li><a href="#" class="on_line lp_pbg"><div class="mark"></div><span class="oline_title lp_icon"></span><b class="martk_text">在线练习</b><font>test  on-line</font><strong class="notice">9</strong></a></li>-->
-        <li><a href="interaction-<%= schoolid %>-<%= classcode %>" data-bypass class="interaction"><span
-                        class="inter_title lp_icon"></span><b>互动课堂</b><font>interaction</font></a></li>
-        <li><a href="imitateExam-<%= schoolid %>-<%= classcode %>" data-bypass class="practice lp_pbg">
-                <div class="mark"></div>
-                <span class="practice_title lp_icon"></span><b class="martk_text">模考</b><font>practice test</font></a>
+        <%if(showInteractionClass == true) {%>
+        <li>
+            <a href="interaction-<%= schoolid %>-<%= classcode %>" data-bypass class="interaction">
+                <span class="inter_title lp_icon"></span><b>互动课堂</b><font>interaction</font>
+            </a>
         </li>
+        <%}%>
+        <%if(showImitateExam == true) {%>
+        <li>
+            <a href="imitateExam-<%= schoolid %>-<%= classcode %>" data-bypass class="practice lp_pbg">
+                <div class="mark"></div>
+                <span class="practice_title lp_icon"></span><b class="martk_text">模考</b><font>practice test</font>
+            </a>
+        </li>
+        <%}%>
         <!--<li><a href="#" class="class"><span class="class_title lp_icon"></span><b>听课</b><font>class</font></a></li>-->
         <!--<li><a href="#" class="test"><span class="test_title lp_icon"></span><b>测试</b><font>test</font></a></li>-->
         <!--<li><a href="#" class="material lp_pbg"><div class="mark"></div><span class="material_title lp_icon"></span><b class="martk_text">资料</b><font>material</font></a></li>-->
