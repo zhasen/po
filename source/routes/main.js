@@ -35,6 +35,7 @@ module.exports = function (app) {
         var user = req.session.user;
         if (user) {
             ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
+                //console.log(myClass);
                 PageInput.i(req).put('myClass', myClass);
                 if (user.type == 1 || user.type == 9) {
                     var type = 1;
@@ -43,6 +44,7 @@ module.exports = function (app) {
                 } else {
                     var type = 5;
                 }
+                //获取消息提醒
                 NewsAdmin.listAllNews(type, function (err, msglist) {
                     if (err) {
                         logger.log(err);
