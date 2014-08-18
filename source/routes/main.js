@@ -180,7 +180,7 @@ module.exports = function (app) {
         var md5Str = md51(str).toUpperCase();
         request({
             method: 'post',
-            url: settings.ixdf.url + '/user',
+            url: settings.ixdf.url + '/user/',
             form: {
                 method: m,
                 appid: i,
