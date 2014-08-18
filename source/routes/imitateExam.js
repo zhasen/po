@@ -321,9 +321,9 @@ module.exports = function (app) {
         var testId = req.query.testId;
         var paperId = req.params.paperId;
 
-        var url = "http://path.staff.xdf.cn/searchTestReport?testId="+testId+"&finishTime="+finishTime+"&paperName"+paperName;
+        var url = "http://path.staff.xdf.cn/searchTestReport-"+paperId+"?testId="+testId+"&finishTime="+finishTime+"&paperName="+paperName;
 
-        var pdfName = paperId+".pdf";
+        var pdfName = testId+".pdf";
 
         var pdfPath = reportUploadPath +"/" + pdfName;
 
