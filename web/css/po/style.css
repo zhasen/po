@@ -67,7 +67,7 @@
 .lp_class_list dd  .have_course{background:#ffc601;color:#000;}
 .lp_class_list dd  .adding_course{ background:#000; color:#fff;}
 
-.lp_class_list dd  .course_stauts,.lp_classmain_focus .rec_status{ background:#fff; height:51px; padding-top:6px; text-align:center; opacity:1; font-size:13px;font-family:'SimSun','宋体';}
+.lp_class_list dd  .course_stauts,.lp_classmain_focus .rec_status{ background:#fff; height:80px; padding-top:35px; text-align:center; opacity:1; font-size:13px;font-family:'SimSun','宋体';}
 .lp_class_list dd  .course_stauts span,.lp_classmain_focus .rec_status span{ width:24px; margin:0 auto 5px;}
 
 .lp_class_list dd  .icons_ing { background-position:left top; width:24px; height:22px;}
