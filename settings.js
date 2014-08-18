@@ -57,6 +57,7 @@ var settings = {
         question: 'public/upload/question',
         answer: 'public/upload/answer',
         schedule: 'public/upload/schedule', // 存放生成的课表PDF文件
+        record: 'public/upload/record/',//互动课堂录音存放目录
         report: 'public/upload/report' // 存放模考报告PDF文件
     },
     api: {

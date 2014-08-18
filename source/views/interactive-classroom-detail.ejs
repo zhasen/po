@@ -5,9 +5,9 @@
     <title>Chat by Web Sockets Record</title>
 
     <!--答题部分-->
-    <link type='text/css' rel='stylesheet' href="/web/static/styles/common.css"/>
-    <link type='text/css' rel='stylesheet' href="/web/static/styles/designer.css"/>
-    <link type='text/css' rel='stylesheet' href="/web/static/styles/testing.css"/>
+    <link type='text/css' rel='stylesheet' href="/public/static/styles/common.css"/>
+    <link type='text/css' rel='stylesheet' href="/public/static/styles/designer.css"/>
+    <link type='text/css' rel='stylesheet' href="/public/static/styles/testing.css"/>
 
     <script type="text/javascript">
         var paperConfig = {
@@ -20,14 +20,14 @@
         };
     </script>
 
-    <script type="text/javascript" src="/web/static/scripts/common.js"></script>
-    <script type="text/javascript" src="/web/static/scripts/designer.core.js"></script>
-    <!--<script type="text/javascript" src="/web/static/scripts/designer.testing.js"></script>-->
-    <script type="text/javascript" src="/web/classroom/js/designer.testing.js"></script>
-    <script type="text/javascript" src="/web/static/scripts/plugs/recorder/recorder.js"></script>
+    <script type="text/javascript" src="/public/static/scripts/common.js"></script>
+    <script type="text/javascript" src="/public/static/scripts/designer.core.js"></script>
+    <!--<script type="text/javascript" src="/public/static/scripts/designer.testing.js"></script>-->
+    <script type="text/javascript" src="/public/classroom/js/designer.testing.js"></script>
+    <script type="text/javascript" src="/public/static/scripts/plugs/recorder/recorder.js"></script>
     <!--互动部分-->
 
-    <script type="text/javascript" src="/web/classroom/js/utils.js"></script>
+    <script type="text/javascript" src="/public/classroom/js/utils.js"></script>
 
     <script type='text/javascript'>
         var role = <%=role%>;
@@ -39,9 +39,9 @@
         var ws;
     </script>
 
-    <script type="text/javascript" src="/web/classroom/js/student.js"></script>
-    <script type="text/javascript" src="/web/classroom/js/teacher.js"></script>
-    <script type="text/javascript" src="/web/classroom/js/main.js"></script>
+    <script type="text/javascript" src="/public/classroom/js/student.js"></script>
+    <script type="text/javascript" src="/public/classroom/js/teacher.js"></script>
+    <script type="text/javascript" src="/public/classroom/js/main.js"></script>
 
     <style type="text/css">
         canvas {
@@ -63,7 +63,7 @@
         }
 
     </style>
-    <link type='text/css' rel='stylesheet' href="/web/classroom/css/style.css"/>
+    <link type='text/css' rel='stylesheet' href="/public/classroom/css/style.css"/>
 
 </head>
 <body>
@@ -111,13 +111,13 @@
 
     <div class="overlay"></div>
     <div id="AjaxLoading" class="showbox">
-        <div class="loadingWord"><img src="/web/classroom/images/waiting.gif"><span id="loadingText">老师离线，请稍候...</span></div>
+        <div class="loadingWord"><img src="/public/classroom/images/waiting.gif"><span id="loadingText">老师离线，请稍候...</span></div>
     </div>
 
     <%}%>
 
 <div class="designer_loading">
-    <img src="/web/static/images/loading.gif"/>数据加载中...
+    <img src="/public/static/images/loading.gif"/>数据加载中...
 </div>
 
 <div id="forbid_control" style="position:fixed;top:0;right:0;bottom:0;left:0;width: 100%;display: none;z-index: 12"></div>
@@ -160,7 +160,7 @@
 </div>
 
 <div class="designer_loading">
-    <img src="/web/static/images/loading.gif"/>数据加载中...
+    <img src="/public/static/images/loading.gif"/>数据加载中...
 </div>
 
 <%}%>

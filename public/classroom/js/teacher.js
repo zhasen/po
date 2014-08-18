@@ -318,11 +318,11 @@ function dealTeacherMessage(json){
                 count++;
                 var student = json.students[key];
                 if(student.status == 0){
-                    ul.append('<li id="studentCode'+student.code+'"><img src="/web/classroom/images/ic_dele.png" width="13" height="13"/>'+student.name+'<span style="visibility: hidden" class="wrong">(B)</span></li>');
+                    ul.append('<li id="studentCode'+student.code+'"><img src="/public/classroom/images/ic_dele.png" width="13" height="13"/>'+student.name+'<span style="visibility: hidden" class="wrong">(B)</span></li>');
                 }
                 else{
                     online++;
-                    ul.append('<li id="studentCode'+student.code+'"><img src="/web/classroom/images/ic_online.png" width="13"  height="13"/>'+student.name+'<span style="visibility: hidden" class="correct">(C)</span></li>');
+                    ul.append('<li id="studentCode'+student.code+'"><img src="/public/classroom/images/ic_online.png" width="13"  height="13"/>'+student.name+'<span style="visibility: hidden" class="correct">(C)</span></li>');
                 }
             }
             $("#online_students_num").text('在线人数：'+online+'/'+count);
