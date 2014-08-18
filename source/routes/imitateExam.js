@@ -273,7 +273,7 @@ module.exports = function (app) {
         var paperId = req.params.paperId;
 
         //var url = "http://path.staff.xdf.cn/searchTestReport-"+paperId+"?testId="+testId+"&finishTime="+finishTime+"&paperName="+paperName;
-        var url = "http://127.0.0.1/showReport-"+paperId+"?testId="+testId+"&finishTime="+finishTime+"&paperName="+paperName+"&userName="+userName;
+        var url = "http://127.0.0.1:3010/showReport-"+paperId+"?testId="+testId+"&finishTime="+finishTime+"&paperName="+paperName+"&userName="+userName;
 
         console.log(url);
 

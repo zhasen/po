@@ -128,12 +128,10 @@ module.exports = function (app) {
         data.userName = req.query.userName;
 
         if(req.connection.remoteAddress==localIp){
+            console.log("ip:" + req.connection.remoteAddress);
             showReport.showReport(req,res,data);
         }
 
-        console.log("ip:" + req.connection.remoteAddress);
-
-//        res.render('ie-report', input);
     });
 
     //登陆页面
