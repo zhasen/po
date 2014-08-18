@@ -118,7 +118,7 @@ module.exports = function (app) {
     });
 
     //绑定学员号页面
-    app.get('/main-bind', function (req, res) {
+    app.get('/main-bind',getMyClass, function (req, res) {
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
