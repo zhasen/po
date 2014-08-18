@@ -4,6 +4,7 @@ var fs = require('fs');
 var lame = require('lame');
 var wav = require('wav');
 var api = require('../../settings').api;
+var fileConfig = require('../../settings').file;
 
 module.exports = function (app) {
 
@@ -37,7 +38,9 @@ module.exports = function (app) {
         console.log(req.files);
 
         var patharray = req.files.audioData.path.split(path.sep);
-        var newPath = req.files.audioData.path.replace(patharray[patharray.length - 1],req.query.id)+'.mp3';
+        //var newPath = req.files.audioData.path.replace(patharray[patharray.length - 1],req.query.id)+'.mp3';
+
+        var newPath = fileConfig.record + req.query.id+'.mp3';
 
         var input = fs.createReadStream(req.files.audioData.path);
         var output = fs.createWriteStream(newPath);
