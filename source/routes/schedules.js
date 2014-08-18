@@ -95,8 +95,6 @@ module.exports = function (app) {
     // 班级主页-首页
     app.get('/class-:schoolid-:classcode', getMyClass, getClass, function (req, res, next) {
         asseton(req, res);
-        console.log(req.params.classcode);
-        console.log(req.params.classcode.indexOf('TF'));
         var input = PageInput.i(req);
         //判断是否显示模考
         commonShow.showImitateExam(req.params.classcode,function(flag) {
@@ -116,7 +114,15 @@ module.exports = function (app) {
     app.get('/schedule-:schoolid-:classcode', getMyClass, getClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
-        res.render('schedule', input);
+        //判断是否显示模考
+        commonShow.showImitateExam(req.params.classcode,function(flag) {
+            input.showImitateExam = flag;
+            //判断是否显示互动课堂
+            commonShow.showInteractionClass(req.params.classcode,function(flagIn) {
+                input.showInteractionClass = flagIn;
+                res.render('schedule', input);
+            });
+        });
     });
 
     /**

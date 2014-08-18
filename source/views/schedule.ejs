@@ -37,10 +37,14 @@
         <div class="sec_nav">
             <a href="#" class="selected_name" data-bypass>课表</a>
             <!--<a href="#">听课</a>-->
+            <%if(showInteractionClass == true) {%>
             <a href="/interaction-<%= schoolid %>-<%= page.classData.ClassCode %>" data-bypass>互动课堂</a>
+            <%}%>
             <!--<a href="#">测试</a>-->
             <!--<a href="#">在线练习</a>-->
+            <%if(showImitateExam == true){%>
             <a href="imitateExam-<%= schoolid %>-<%= page.classData.ClassCode %>" data-bypass>模考</a>
+            <%}%>
             <!--<a href="#">资料</a>-->
             <!--<a href="#">知识巩固</a>-->
         </div>

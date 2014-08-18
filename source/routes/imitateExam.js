@@ -7,6 +7,7 @@ var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
 var reportJson = require('../../report');
 var fs = require('fs');
+var commonShow = require('./common/commonShow');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -139,11 +140,13 @@ module.exports = function (app) {
                     }
                 ]
             };*/
-            input.ieData = sdata;
-            input.classCode =classCode;
-            input.schoolId =schoolId;
-            res.render('ie-list', input);
-
+            commonShow.showInteractionClass(classCode,function(flag) {
+                input.showInteractionClass = flag;
+                input.ieData = sdata;
+                input.classCode =classCode;
+                input.schoolId =schoolId;
+                res.render('ie-list', input);
+            });
         });
 
     });
