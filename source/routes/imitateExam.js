@@ -155,6 +155,8 @@ module.exports = function (app) {
         var finishTime = req.query.finishTime;
         var paperName = req.query.paperName;
         var paperId = req.params.paperId;
+        var testId = req.query.testId;
+
 
         var mtMessage ={
             "userName":userName,
@@ -167,7 +169,7 @@ module.exports = function (app) {
         };*/
         var url = {
             "method":"getTestReportData",
-            "testId":paperId
+            "testId":testId
         };
 
         asseton(req, res);
@@ -316,13 +318,12 @@ module.exports = function (app) {
 //        var userName = user.displayName;
         var finishTime = req.query.finishTime;
         var paperName = req.query.paperName;
-
+        var testId = req.query.testId;
         var paperId = req.params.paperId;
 
-        var url = "http://path.staff.xdf.cn/searchTestReport?finishTime='"+finishTime+"'&paperName'"+paperName +"'";
+        var url = "http://path.staff.xdf.cn/searchTestReport-"+paperId+"?testId="+testId+"&finishTime="+finishTime+"&paperName="+paperName;
 
-        var pdfName = paperId+".pdf";
-//        var pdfName = "1.pdf";
+        var pdfName = testId+".pdf";
 
         var pdfPath = reportUploadPath +"/" + pdfName;
 
