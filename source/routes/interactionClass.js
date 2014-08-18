@@ -93,6 +93,7 @@ module.exports = function (app) {
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
         input.classcode = classcode;
+        input.shcoolid = input.user.schoolid;
 
         //获取答题记录列表条件
         var whereObject = {
