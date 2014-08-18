@@ -314,14 +314,17 @@ module.exports = function (app) {
     app.get('/downloadreport-:paperId',getMyClass, function (req, res, next) {
         var NodePDF = require('nodepdf');
 
-//        var user = req.session.user;
-//        var userName = user.displayName;
+        var user = req.session.user;
+        var userName = user.displayName;
         var finishTime = req.query.finishTime;
         var paperName = req.query.paperName;
         var testId = req.query.testId;
         var paperId = req.params.paperId;
 
-        var url = "http://path.staff.xdf.cn/searchTestReport-"+paperId+"?testId="+testId+"&finishTime="+finishTime+"&paperName="+paperName;
+        //var url = "http://path.staff.xdf.cn/searchTestReport-"+paperId+"?testId="+testId+"&finishTime="+finishTime+"&paperName="+paperName;
+        var url = "http://127.0.0.1/showReport-"+paperId+"?testId="+testId+"&finishTime="+finishTime+"&paperName="+paperName+"&userName="+userName;
+
+        console.log(url);
 
         var pdfName = testId+".pdf";
 

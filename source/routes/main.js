@@ -3,6 +3,7 @@ var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
 var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
+var showReport = require('./common/showReport');
 var settings = require('../../settings');
 var crypto = require('crypto');
 var request = require('request');
@@ -107,6 +108,32 @@ module.exports = function (app) {
         asseton(req, res);
         var input = {};
         res.render('main', input);
+    });
+
+    app.get('/showReport-:paperId', function (req, res) {
+        asseton(req, res);
+
+        /*req.headers['x-forwarded-for'];
+        req.connection.remoteAddress;
+        req.socket.remoteAddress;
+        req.connection.socket.remoteAddress;*/
+
+
+        var localIp = "127.0.0.1";
+        var data = {};
+        data.paperId = req.params.paperId;
+        data.testId = req.query.testId;
+        data.finishTime = req.query.finishTime;
+        data.paperName = req.query.paperName;
+        data.userName = req.query.userName;
+
+        if(req.connection.remoteAddress==localIp){
+            showReport.showReport(data);
+        }
+
+        console.log("ip:" + req.connection.remoteAddress);
+
+//        res.render('ie-report', input);
     });
 
     //登陆页面
