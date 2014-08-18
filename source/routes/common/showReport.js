@@ -1,7 +1,8 @@
 var commonService = require('./commonService');
 var api = require('../../../settings').api;
+var reportJson = require('../../../report');
 
-exports.showReport = function(reportdata){
+exports.showReport = function(req,res,reportdata){
     var mtMessage ={
         "userName":reportdata.userName,
         "finishTime":reportdata.finishTime,

@@ -128,7 +128,7 @@ module.exports = function (app) {
         data.userName = req.query.userName;
 
         if(req.connection.remoteAddress==localIp){
-            showReport.showReport(data);
+            showReport.showReport(req,res,data);
         }
 
         console.log("ip:" + req.connection.remoteAddress);

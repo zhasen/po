@@ -7,6 +7,7 @@ var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
 var reportJson = require('../../report');
 var fs = require('fs');
+var showReport = require('./common/showReport');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -70,12 +71,6 @@ module.exports = function (app) {
         var classCode = req.params.classcode;
         var schoolId = req.params.schoolid;
 
-        /*var url = {
-            "method":"getStudentPaperListInClass",
-            "ccode":"TF13202",
-            "ucode":"BJ986146",
-            "sid":1
-        };*/
         var url = {
             "method":"getStudentPaperListInClass",
             "ccode":classCode,
@@ -91,54 +86,6 @@ module.exports = function (app) {
         var param = api.imitateExam + commonService.getUrl(url);
         commonService.request(param,function(err,data){
             var sdata = JSON.parse(data);
-            /*var sdata ={
-                "errno": 0,
-                "result": [
-                    {
-                        "allotID": "7f032df1-d2f5-44b0-af34-6cf2b4f011b1",
-                        "answerid": "D33CE0FA-3DB6-4E63-BA12-FC689A2F1979",
-                        "correctStatus": 0,
-                        "flagFinish": -1,
-                        "paperId": "33818BD0-C00B-48B2-8F25-2624CFF8BC53",
-                        "paperName": "mini-TPO9-模拟",
-                        "paperTypeId": "tpo"
-                    },
-                    {
-                        "allotID": "81aed961-0efd-4cf8-9e88-b9a9531048eb",
-                        "correctStatus": 0,
-                        "flagFinish": 0,
-                        "paperId": "26A6750C-374A-4843-954C-809EA29906DC",
-                        "paperName": "XH_BJ_TPO11_20140317",
-                        "paperTypeId": "hdkt"
-                    },
-                    {
-                        "allotID": "167b6a3b-1b53-4e69-ac21-ed9149221ac1",
-                        "correctStatus": 0,
-                        "flagFinish": 1,
-                        "paperId": "7178CE36-E114-45C4-8A91-60893744D81B",
-                        "paperName": "XH_TPO11_TPO_LOAD",
-                        "paperTypeId": "hdkt"
-                    },
-                    {
-                        "allotID": "167b6a3b-1b53-4e69-ac21-ed9149221ac1",
-                        "correctStatus": 1,
-                        "flagFinish": 1,
-                        "paperId": "7178CE36-E114-45C4-8A91-60893744D81B",
-                        "paperName": "XH_TPO11_TPO_LOAD",
-                        "paperTypeId": "hdkt"
-                    },
-                    {
-                        "allotID": "91af5209-1ee6-4e78-9672-05b84ff78bef",
-                        "answerid": "1C50E557-BA57-454B-A322-89EA28A015AB",
-                        "correctStatus": 2,
-                        "finishTime": "2014-07-24 11:56:197",
-                        "flagFinish": 1,
-                        "paperId": "24C89AB5-F2D5-404D-B8D0-9130EA6441FF",
-                        "paperName": "mini-TPO17-模拟",
-                        "paperTypeId": "tpo"
-                    }
-                ]
-            };*/
             input.ieData = sdata;
             input.classCode =classCode;
             input.schoolId =schoolId;
@@ -157,16 +104,20 @@ module.exports = function (app) {
         var paperId = req.params.paperId;
         var testId = req.query.testId;
 
+        var data = {};
+        data.paperId = req.params.paperId;
+        data.testId = req.query.testId;
+        data.finishTime = req.query.finishTime;
+        data.paperName = req.query.paperName;
+        data.userName = userName;
 
-        var mtMessage ={
+        showReport.showReport(req,res,data);
+
+        /*var mtMessage ={
             "userName":userName,
             "finishTime":finishTime,
             "paperName":paperName
         };
-        /*var url = {
-            "method":"getTestReportData",
-            "testId":"53BF023C-69CE-4F41-84F9-AC62C5BD8AC8"
-        };*/
         var url = {
             "method":"getTestReportData",
             "testId":testId
@@ -306,7 +257,7 @@ module.exports = function (app) {
                 console.log("获取报告出错");
                 res.render('ie-report',input);
             }
-        });
+        });*/
 
     });
 
