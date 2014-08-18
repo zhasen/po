@@ -84,17 +84,31 @@ module.exports = function (app) {
             callback(err,data);
         });
     };
+
+    // 通过班级号获取班级数据
+    var getClass = function (req, res, next) {
+        var input = PageInput.i(req);
+        input.classcode = req.params.classcode;
+        input.schoolid = req.params.schoolid;
+        // 通过 classcode 调取班级信息
+        var param = {schoolid: req.params.schoolid, classcode: req.params.classcode};
+        ixdf.classEntity(param, function (err, classData) {
+            //console.info(classData);
+            PageInput.i(req).put('classData', classData); // 班级全部列表数据
+            next();
+        });
+    };
+
     //互动课堂首页
-    app.get('/interaction-class-:classcode',getMyClass, function (req, res, next) {
+    app.get('/interaction-:schoolid-:classcode',getMyClass,getClass, function (req, res, next) {
         var classcode = req.params.classcode;
+        var schoolid = req.params.schoolid;
         var user = req.session.user;
         asseton(req, res);
         var input = PageInput.i(req);
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
-        input.classcode = classcode;
-        input.shcoolid = input.user.schoolid;
 
         //获取答题记录列表条件
         var whereObject = {
@@ -144,6 +158,7 @@ module.exports = function (app) {
                 //判断是否显示模考
                 commonShow.showImitateExam(classcode,function(flag) {
                     input.showImitateExam = flag;
+                    //console.log(input);
                     res.render('interaction-class',input);
                 });
             }

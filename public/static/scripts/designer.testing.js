@@ -19,12 +19,23 @@ $(function(){
 	testingDes = new Designer({
 		target: $("#subject_designer"),
 		status: "testing",
-		imgPath: "http://116.213.70.92/files_test/oms/data/online/resource/",
-		audioPath: "http://116.213.70.92/oms2/online/downloadFile!doDownload.do?keyUUID=",
-		audioImgPath: "http://116.213.70.92/files_test/oms/data/online/resource/0dc00d23-e8c8-436c-af49-f04b45dd368d/201412/04/",
+//		imgPath: "http://116.213.70.92/files_test/oms/data/online/resource/",
+		imgPath: "download-get?keyUUID=",
+//		audioPath: "http://116.213.70.92/oms2/online/downloadFile!doDownload.do?keyUUID=",
+		audioPath: "download-get?keyUUID=",
+//		audioImgPath: "http://116.213.70.92/files_test/oms/data/online/resource/0dc00d23-e8c8-436c-af49-f04b45dd368d/201412/04/",
+		audioImgPath: "download-get?keyUUID=",
 		statusType: paperConfig.statusType
 	});
 	Testing.init();
+//	$.ajax({
+//		url: "download-get",
+//		type: "post",
+//		data: {keyUUID: "F7B1B862-ED04-C9F2-4DEE-7F8E0C399193"},
+//		success: function(data){
+//			console.log(data);
+//		}
+//	});
 });
 
 /**
@@ -135,30 +146,7 @@ var Player = {
 	 * 初始化
 	 */
 	init: function(){
-		$("#btn_back").bind("click", function(){
-			Player.back();
-		});
-		$("#btn_next").bind("click", function(){
-			Player.next();
-		});
-		$("#btn_continue").bind("click", function(){
-			Player.next();
-		});
-		$("#btn_ok").bind("click", function(){
-			$("#btn_next").prop("disabled", "");
-		});
-		$("#btn_timer").bind("click", function(){
-			if($("#header_timer").is(":visible")){
-				$("#header_timer").hide();
-				$("#btn_timer").val("showTime");
-			}else{
-				$("#header_timer").show();
-				$("#btn_timer").val("hideTime");
-			}
-		});
-		$("#btn_review").bind("click", function(){
-			Review.show();
-		});
+		this.bindButtons();
 		//构建试卷结构
 		this.buildItems();
 		//构建当前答案
@@ -207,6 +195,46 @@ var Player = {
 		Player.play(lastTime);
 	},
 	/**
+	 * 给按钮绑定事件
+	 */
+	bindButtons: function(){
+		$("#btn_back").unbind().bind("click", function(){
+			Player.back();
+		});
+		$("#btn_next").unbind().bind("click", function(){
+			Player.next();
+		});
+		$("#btn_continue").unbind().bind("click", function(){
+			Player.next();
+		});
+		$("#btn_ok").unbind().bind("click", function(){
+			$("#btn_next").prop("disabled", "");
+		});
+		$("#btn_timer").unbind().bind("click", function(){
+			if($("#header_timer").is(":visible")){
+				$("#header_timer").hide();
+				$("#btn_timer").val("showTime");
+			}else{
+				$("#header_timer").show();
+				$("#btn_timer").val("hideTime");
+			}
+		});
+		$("#btn_review").unbind().bind("click", function(){
+			if(testingDes.config.statusType == "normal"){
+				Review.showTestReview();
+			}else{
+				Review.show();
+			}
+		});
+		$("#btn_exit").unbind().bind("click", function(){
+			if(confirm("确定要退出吗？")){
+				window.opener=null;
+				window.open('','_self');
+				window.close();
+			}
+		});
+	},
+	/**
 	 * 试题结构
 	 * @type {}
 	 */
@@ -220,7 +248,7 @@ var Player = {
 	 * 当前播放的部分的索引
 	 * @type {Number}
 	 */
-	partIndex: 0,
+	partIndex: 2,
 	/**
 	 * 当前部分的播放进度，最大播放到了什么位置，下一页时会与这个进行比对
 	 * @type {}
@@ -456,6 +484,10 @@ var Player = {
 				var index = questionList.indexOf(this.pageIndex) + 1;
 				$("#header_question").children("span").text(index + " of " + questionList.length);
 			}
+			if(page.isExplain == "false"){
+				//题目页，显示review
+				$("#btn_review").show();
+			}
 		}else{
 			//如果是托福听力部分
 			$("#header_question").show();
@@ -488,6 +520,16 @@ var Player = {
 					//开始计时
 					this.activeTimer();
 				}
+			}
+			if(page.time != "" && page.time != "0" && parseInt(page.time)){
+				var pageTime = parseInt(page.time);
+				//如果此页有倒计时，初始化倒计时
+				this.initPageTimer(pageTime);
+				//开始计时
+				this.activeTimer();
+			}else{
+				//停止页面的倒计时
+				this.stopPageTimer();
 			}
 		}
 //		console.log(item);
@@ -560,23 +602,46 @@ var Player = {
 	},
 	/**
 	 * 下一页
+	 * @param needConfirm 是否需要提示，主要是最后一页倒计时结束的时候，是不需要提示的
 	 */
-	next: function(){
+	next: function(needConfirm){
+		if(typeof needConfirm == "undefined"){
+			needConfirm = true;
+		}
+		var hasTime = false;
+		if(this.timer && this.timer.pageTime && this.timer.pageTime > 0){
+			hasTime = true;
+		}
 		var next = this.getNext();
 		if(next == null){
 			//提交试卷
-			if(confirm("确认提交试卷？")){
+			if(needConfirm){
+				var confirmStr = "确认提交试卷？";
+				if(hasTime){
+					confirmStr = "还有剩余时间，" + confirmStr;
+				}
+				if(confirm(confirmStr)){
+					this.submit();
+				}
+			}else{
 				this.submit();
 			}
 		}else{
 			var nextPart = false; //是否是进入了下一部分
 			var goNext = true; //是否进入下一页
 			if(next.partIndex != this.partIndex){
-				goNext = confirm("确定要进入下一部分？");
+				var confirmStr = "确定要进入下一部分？";
+				if(hasTime){
+					confirmStr = "还有剩余时间，" + confirmStr;
+				}
+				goNext = confirm(confirmStr);
 				if(goNext){
 					this.partStatus = {itemIndex: 0, pageIndex: 0};
 					nextPart = true;
 				}
+			}else if(hasTime){
+				//不是进入下一部分，但仍有剩余页面倒计时
+				goNext = confirm("还有剩余时间，确定进入下一步？");
 			}
 			if(goNext){
 				if(testingDes.config.statusType != "review"){
@@ -613,26 +678,37 @@ var Player = {
 			}
 			return result;
 		}else {
-			var part = this.parts[this.partIndex];
-			for (var i = this.itemIndex; i >= 0; i--) {
-				var item = part.items[i];
-				var subjectData = item.item.subjectData;
-				subjectData = decodeURIComponent(subjectData); //对题目的定义进行解码处理
-				var pageList = JSON.parse(subjectData);
-				var pageBegin = this.pageIndex - 1;
-				if(i != this.itemIndex){
-					//如果不是当前item组，从最后一个开始
-					pageBegin = pageList.pages.length - 1;
-				}
-				for (var j = pageBegin; j >= 0; j--) {
-					var page = pageList.pages[j];
-					if(page.isExplain == "false"){
-						//不是说明页，返回
-						return {
-							itemIndex: i,
-							pageIndex: j
-						}
-					}
+			//被注释的是逻辑是：可以跨页回退，回退时一直向前找不是说明页的
+//			var part = this.parts[this.partIndex];
+//			for (var i = this.itemIndex; i >= 0; i--) {
+//				var item = part.items[i];
+//				var subjectData = item.item.subjectData;
+//				subjectData = decodeURIComponent(subjectData); //对题目的定义进行解码处理
+//				var pageList = JSON.parse(subjectData);
+//				var pageBegin = this.pageIndex - 1;
+//				if(i != this.itemIndex){
+//					//如果不是当前item组，从最后一个开始
+//					pageBegin = pageList.pages.length - 1;
+//				}
+//				for (var j = pageBegin; j >= 0; j--) {
+//					var page = pageList.pages[j];
+//					if(page.isExplain == "false"){
+//						//不是说明页，返回
+//						return {
+//							itemIndex: i,
+//							pageIndex: j
+//						}
+//					}
+//				}
+//			}
+			if(this.pageIndex > 0){
+				var lastPage = this.subjectList.pages[this.pageIndex - 1];
+				if(lastPage.isExplain == "false"){
+					//如果上一页不是说明页
+					return {
+						itemIndex: this.itemIndex,
+						pageIndex: this.pageIndex - 1
+					};
 				}
 			}
 		}
@@ -1153,6 +1229,9 @@ var Player = {
 			};	
 			data.subjects.push(subData);
 		}
+		$("#header_right_normal").find("input").unbind();
+		//停止倒计时
+		this.stopTimer();
 		$.ajax({
 			url: "test-save",
 			type: "post",
@@ -1162,7 +1241,14 @@ var Player = {
 			},
 			success: function(){
 				alert("提交成功!");
-				$("#header_right_normal").find("input").unbind();
+//				$("#btn_next").bind("click", function(){
+//					alert("您已经提交成功");
+//				});
+				//进入Review状态
+				testingDes.config.statusType = "review";
+				Review.init();
+				Player.play(); //重新打开一下
+				Player.bindButtons();
 			}
 		});
 	},
@@ -1183,6 +1269,20 @@ var Player = {
 		this.timer.interval = null;
 	},
 	/**
+	 * 初始化一页的倒计时
+	 * @param {} time
+	 */
+	initPageTimer: function(time){
+		if(this.timer == null){
+			//如果所属答题下没有倒计时
+			this.timer = {};
+			this.timer.relation = null;
+			this.timer.time = null;
+			this.timer.interval = null;
+		}
+		this.timer.pageTime = time;
+	},
+	/**
 	 * 激活定时器，在题目页时
 	 */
 	activeTimer: function(){
@@ -1191,7 +1291,18 @@ var Player = {
 			return;
 		}
 		function displayTime(){
-			var last = Player.timer.time; //剩下多少秒
+			//显示倒计时
+			var last;
+			if(Player.timer.pageTime){
+				//如果一页内有倒计时，就显示这一页的
+				last = Player.timer.pageTime;
+			}else{
+				//否则就显示整个大题的
+				last = Player.timer.time;
+			}
+			if(last < 0){
+				last = 0;
+			}
 			var hours = Math.floor(last / 3600);
 			if(hours < 10){
 				hours = "0" + hours;
@@ -1204,8 +1315,9 @@ var Player = {
 			if(seconds < 10){
 				seconds = "0" + seconds;
 			}
-			if(last <= 0){
-				//倒计时结束
+			$("#header_timer").text(hours + " : " + minutes + " : " + seconds);
+			if(Player.timer.time != null && Player.timer.time <= 0){
+				//大题的倒计时结束
 				clearInterval(Player.timer.interval);
 				alert("倒计时已到！");
 				//跳转到下一部分
@@ -1228,8 +1340,12 @@ var Player = {
 				Player.itemIndex = 0;
 				Player.pageIndex = 0;
 				Player.play();
+			}else if(Player.timer.pageTime != null && Player.timer.pageTime <= 0){
+				//页面的倒计时结束
+				clearInterval(Player.timer.interval);
+				alert("倒计时已到！");
+				Player.next(false);
 			}
-			$("#header_timer").text(hours + " : " + minutes + " : " + seconds);
 		}
 		this.timer.interval = setInterval(function(){
 			var now = new Date().getTime();
@@ -1239,7 +1355,12 @@ var Player = {
 				return;
 			}
 			begin = now;
-			Player.timer.time -= pastSeconds; //timer计时还剩下多少秒
+			if(Player.timer.time){
+				Player.timer.time -= pastSeconds; //timer计时还剩下多少秒
+			}
+			if(Player.timer.pageTime){
+				Player.timer.pageTime -= pastSeconds; //timer计时还剩下多少秒
+			}
 			displayTime();
 		}, 250);
 		displayTime();
@@ -1261,6 +1382,19 @@ var Player = {
 	stopTimer: function(){
 		this.pauseTimer();
 		this.timer = null;
+	},
+	/**
+	 * 停止页面的倒计时
+	 */
+	stopPageTimer: function(){
+		if(this.timer != null){
+			if(this.timer.time != null){
+				//有大题的倒计时
+				this.timer.pageTime = null; //停止页面的倒计时
+			}else{
+				this.stopTimer();
+			}
+		}
 	},
 	/**
 	 * 构建items
@@ -1408,7 +1542,7 @@ var Review = {
 	 */
 	buildList: function(partResults){
 		//开始构建页面
-		var content = $("#review_content");
+		var content = $("#review_content").empty();
 		for (var i = 0; i < partResults.length; i++) {
 			var result = partResults[i];
 			content.append("<div class='review_title'>"+result.displayName+"</div>");
@@ -1620,7 +1754,7 @@ var Review = {
 								if(rightCount == allCount){
 									result.userMark = result.mark;
 								}else if(rightCount >= Math.ceil(allCount / 2)){
-									result.userMark = [parseInt(result.mark)/2];
+									result.userMark = result.mark/2;
 								}
 							}
 						}
@@ -1647,6 +1781,71 @@ var Review = {
 			return result;
 		}else{
 			return null;
+		}
+	},
+	/**
+	 * 显示测试中的review
+	 */
+	showTestReview: function(){
+		var reviewSubjects = [];
+		var answerContent = Player.answers[Player.itemIndex]; //取到这一节的答案
+		var pageAnswer = Player.getPageAnswer(Player.subjectList, Player.pageIndex); //取到这一页的答案
+		answerContent[Player.pageIndex] = pageAnswer;
+		for (var pageInd = 0; pageInd < Player.subjectList.pages.length; pageInd++) {
+			var page = Player.subjectList.pages[pageInd];
+			var pageAnswer = answerContent[pageInd];
+			//试题信息
+			var subjectInfo = this.getPageSubjectInfo(page, pageAnswer);
+			if(subjectInfo != null){
+				//是题目页
+				var sub = {
+					pageIndex: pageInd,
+					des: subjectInfo.des,
+					userAns: subjectInfo.userAns
+				};
+				if(pageInd > Player.partStatus.pageIndex){
+					//还未到
+					sub.status = "No Seen";
+				}else{
+					if(sub.userAns){
+						sub.status = "Answered"
+					}else{
+						sub.status = "No Answer"
+					}
+				}
+				reviewSubjects.push(sub);
+			}
+		}
+		this.buildTestList(reviewSubjects);
+		this.show();
+	},
+	/**
+	 * 构建页面（测试状态）
+	 */
+	buildTestList: function(reviewSubjects){
+		//开始构建页面
+		var content = $("#review_content").empty();
+		var grid = $("<ul class='review_grid'></ul>").appendTo(content);
+		grid.append("<li class='hd'><div class='review_no'>NO.</div><div class='review_des'>Description</div><div class='review_uanswer'>Your Answer</div><div class='review_canswer'>Status</div></li>")
+		for (var si = 0; si < reviewSubjects.length; si++) {
+			var sub = reviewSubjects[si];
+			var subItem = $("<li class='item'><div class='review_no'>"+(si+1)+"</div><div class='review_des'>"+sub.des+"</div><div class='review_uanswer'>"+sub.userAns+"</div><div class='review_canswer'>"+sub.status+"</div></li>")
+			subItem.appendTo(grid);
+			if(si % 2 != 0){
+				subItem.addClass("dif");
+			}
+			subItem.attr({
+				pageIndex: sub.pageIndex
+			});
+			if(sub.status != "No Seen"){
+				subItem.bind("click", function(){
+					//点击选中，并跳转
+					$("#review_content").find(".review_selected").removeClass("review_selected");
+					$(this).addClass("review_selected");
+					Player.pageIndex = parseInt($(this).attr("pageIndex"));
+					Player.play();
+				});
+			}
 		}
 	}
 };

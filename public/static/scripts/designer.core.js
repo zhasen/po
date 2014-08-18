@@ -880,7 +880,7 @@ function Designer(){
 		}else if(subject.className == "org.neworiental.rmp.base::BasePicture"){
 			if(canvas.children("img").length == 0 || canvas.children("img").attr("src") != subject.url){
 				//不重复绘制
-				canvas.html("<img src='" + this.config.imgPath + subject.url + ".png'/>");
+				canvas.html("<img src='" + this.config.imgPath + subject.url + "'/>");
 			}
 			if(subject.isCenter == "true"){
 				canvas.css("text-align", "center");
@@ -912,7 +912,7 @@ function Designer(){
 				canvas.css("text-align", "left");
 			}
 		}else if(subject.className == "org.neworiental.rmp.base::TOEFLRecord"){
-			var html = "<div class='subject_record'><div class='record_title'>Recording...</div><div class='record_time'></div><div class='record_progress'></div></div>";
+			var html = "<div class='subject_record'><div class='record_title'>Recording......</div><div class='record_time'><div></div><b></b></div><div class='record_progress'></div></div>";
 			canvas.html(html);
 			var totalTime = parseInt(subject.totalTime);
 			var minutes = Math.floor(totalTime / 60);
@@ -923,7 +923,7 @@ function Designer(){
 			if(seconds < 10){
 				seconds = "0" + seconds;
 			}
-			canvas.find(".record_time").text(minutes + ":" +seconds);
+			canvas.find(".record_time").children("b").text(minutes + ":" +seconds);
 			canvas.css("text-align", "center");
 			if(Des.config.status == "testing" && Des.config.statusType != "review"){
 				//如果是测试状态，直接开始录音，并倒计时
@@ -950,20 +950,24 @@ function Designer(){
 								return;
 							}
 							var now = new Date().getTime();
-							var past = Math.round((now - begin) / 1000); //已经过去多少秒
+							var pastMills = now - begin; //过去了多少毫秒
+							var past = Math.round(pastMills / 1000); //已经过去多少秒
+							var pastPercent = Math.round(past / (subject.totalTime) * 100); //已经过去的百分比
 							var totalTime = parseInt(subject.totalTime);
 							var last = totalTime - past;
 							if(last <= 0){
 								//倒计时结束
 								bar.css("width", "100%");
-								canvas.find(".record_time").text("00:00");
+								canvas.find(".record_time").children("b").text("00:00");
 								clearInterval(intTimer);
 								canvas.trigger("ended"); //抛出事件
 								recorder.stop(); //停止录音
+								canvas.find(".record_title").text("Recording......（100%）");
 								return;
 							}
 							//设置进度条
 							bar.css("width", past / totalTime * 100 + "%");
+							canvas.find(".record_title").text("Recording......（" + pastPercent + "%）");
 							//设置时间显示
 							var minutes = Math.floor(last / 60);
 							if(minutes < 10){
@@ -973,9 +977,17 @@ function Designer(){
 							if(seconds < 10){
 								seconds = "0" + seconds;
 							}
-							canvas.find(".record_time").text(minutes + ":" +seconds);
+							canvas.find(".record_time").children("b").text(minutes + ":" +seconds);
 						}, 250);
 	                }
+	            }, {
+	            	onRecording: function(data){
+    					var vol = data[0] / 0.2;
+    					if(vol > 1){
+    						vol = 1;
+    					}
+						canvas.find(".record_time").children("div").width(vol * 430 + "px");
+	            	}
 	            });
 			}
 		}else if(subject.className == "org.neworiental.rmp.base::OptionGroup"){
@@ -1371,12 +1383,14 @@ function Designer(){
 				});
 			}
 		}else if(subject.className == "org.neworiental.rmp.base::ToelfAudio"){
+			//音频与文字、图片，没有进度条展示
 			canvas.html("<div class='subject_audiotext'><div class='subject_audiotext_progress'></div></div>");
 			if(this.config.status == "template" || this.config.status == "subject"){
 				canvas.children().append("<div class='subject_audiotext_tip'>编辑模式不能播放，可预览查看...</div>");
 			}
 			canvas.css("text-align", "center");
 			if(Des.config.status == "testing"){
+				canvas.find(".subject_audiotext_progress").hide(); //模考模式下没有界面
 				canvas.children().append("<div class='subject_audiotext_tip'>加载中，请稍候...</div>");
 				//如果是测试状态，直接开始播放
 				var audio = $("<audio></audio>").appendTo(canvas);
@@ -1423,7 +1437,7 @@ function Designer(){
 								}else if(point.url){
 									canvas.find(".audiotext_view").remove();
 									var view = $("<div class='audiotext_view audiotext_nobor'></div>").prependTo(canvas);
-									view.append("<img src='" + (Des.config.audioImgPath + point.url + ".jpg") + "'/>");
+									view.append("<img src='" + (Des.config.audioImgPath + point.url) + "'/>");
 								}
 							}else if(point.type == "end" && point.time == curSecond){
 								//截止点
@@ -1474,8 +1488,8 @@ function Designer(){
 		}else{
 			var page1 = $("<div class='subject_page'><div class='designer_canvas' pindex='0'></div></div>").appendTo(target);
 			var page2 = $("<div class='subject_page'><div class='designer_canvas' pindex='1'></div></div>").appendTo(target);
-			page1.css({"float": "left", "width": "50%"});
-			page2.css({"float": "left", "width": "50%"});
+			page1.css({"float": "left", "width": "45%", "margin-left": "3%"});
+			page2.css({"float": "left", "width": "45%", "margin-left": "4%"});
 		}
 		target.find(".subject_page").height(this.config.pageHeight);
 		for(var pi = 0; pi < define.containers.length; pi++){

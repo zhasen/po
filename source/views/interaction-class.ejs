@@ -6,9 +6,9 @@
         <div class="lp_thisrec_c">
             <dl class="lp_reccourse">
                 <dt class="f_l">
-                <p><a href="#">托福基础班</a></p>
-                <strong class="fs_14">TF123</strong>
-                2041.12.12-2041.12.12
+                <p><a href="class-<%=schoolid%>-<%=classcode%>"><%=page.classData.ClassName%></a></p>
+                <strong class="fs_14"><%=classcode%></strong>
+                <%=page.classData.poBeginDate%>-<%=page.classData.poEndDate%>
                 </dt>
                 <dd class="f_r">
                     <div class="rec_level fs_14">预备</div>
@@ -30,9 +30,9 @@
 <div class="lp_coursenav">
     <div class="lpath_page">
         <div class="sec_nav">
-            <a href="/schedule-<%=shcoolid%>-<%=classcode%>">课表</a>
+            <a href="/schedule-<%=schoolid%>-<%=classcode%>">课表</a>
             <a href="/interaction-class-<%=classcode%>" class="selected_name">互动课堂</a>
-            <%if(showImitateExam == true) {%><a href="/imitateExam-<%=shcoolid%>-<%=classcode%>">模考</a><%}%>
+            <%if(showImitateExam == true) {%><a href="/imitateExam-<%=schoolid%>-<%=classcode%>">模考</a><%}%>
         </div>
     </div>
 </div>
@@ -73,7 +73,7 @@
                             for(var i=0;i<len;i++) {
                                 var item = listOne[i];
                 %>
-                <%if(item.answerid == undefined) {%><li class="fix"><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.pType%>" class="getinto">进入课堂</a><a href="#"><%=item.paperName%></a></li><%}%>
+                <%if(item.answerid == undefined) {%><li class="fix"><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.pType%>" class="getinto">进入课堂</a><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.pType%>"><%=item.paperName%></a></li><%}%>
                 <%
                             }
                         }
@@ -117,7 +117,7 @@
                         for(var i=0;i<len;i++) {
                     var item = listOneAnwser[i];
                 %>
-                <%if(item.answerid != undefined) {%><li class="fix"><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.testId%>" class="getinto">进入课堂</a><a href="#"><%=item.paperName%></a></li><%}%>
+                <%if(item.answerid != undefined) {%><li class="fix"><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.testId%>" class="getinto">进入课堂</a><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.testId%>"><%=item.paperName%></a></li><%}%>
                 <%
                 }
                 }
@@ -155,7 +155,7 @@
                         {
                             var item = result[i];
                             if(item != undefined) {
-                                arr.push("<li class='fix'><a href='#' class='getinto'>进入课堂</a> <a href='#'>"+item.paperName+"</a></li> ");
+                                arr.push("<li class='fix'><a href='/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.testId%>' class='getinto'>进入课堂</a> <a href='/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.testId%>'>"+item.paperName+"</a></li> ");
                             }
                         }
                         if(answerid == 1) {
@@ -187,7 +187,7 @@
                         {
                             var item = result[i];
                             if(item != undefined) {
-                                arr.push("<li class='fix'><a href='#' class='getinto'>进入课堂</a> <a href='#'>"+item.paperName+"</a></li> ");
+                                arr.push("<li class='fix'><a href='/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.testId%>' class='getinto'>进入课堂</a> <a href='/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.testId%>'>"+item.paperName+"</a></li> ");
                             }
                         }
                         if(answerid == 1) {

@@ -1,25 +1,19 @@
 @CHARSET "UTF-8";
 
-::-webkit-scrollbar
-{
-    width: 8px;
-    height: 8px;
+::-webkit-scrollbar{
+    width: 10px;
+    height: 10px;
 }
-::-webkit-scrollbar-track-piece
-{
-    background-color: white;
-}
-::-webkit-scrollbar-thumb:vertical
-{
-    height: 5px;
+::-webkit-scrollbar-track {  
+	border-radius: 5px;
+	box-shadow:  inset 0px 0px 5px rgba(0,0,0,0.8)
+	
+} 
+::-webkit-scrollbar-thumb{
     background-color: #999999;
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:horizontal
-{
-    width: 5px;
-    background-color: #999999;
-    border-radius: 4px;
+    border-radius: 5px;
+    background-image: -webkit-linear-gradient(#bb6d34, #8e3f06);
+    border: 1px solid rgba(0,0,0,0.3)
 }
 label{
 	cursor: pointer;
@@ -287,12 +281,12 @@ input[type=radio].chk:checked:before{
 }
 .subject_page{
 	overflow: auto;
-	padding: 20px 0px;
+	margin: 20px auto;
+	width: 92%;
+	background: #fff;
 }
 .designer_canvas{
 	background: #fff;
-	margin: 0px auto;
-	width: 92%;
 	position: relative;
 	padding-top: 1px;
 	padding-bottom: 20px;
@@ -529,6 +523,17 @@ input[type=radio].chk:checked:before{
 .timer_progress div, .record_progress div{
 	background: rgb(50,127,193);
 	width: 0px;
+}
+.record_time div{
+	background: #e5e5e5;
+	position: absolute;
+	width: 0px;
+}
+.record_time b{
+	position: absolute;
+	display: block;
+	width: 430px;
+	line-height: 25px;
 }
 .record_test_line{
 	height: 22px;
