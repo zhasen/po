@@ -166,8 +166,8 @@
 .lp_boundstudentno .sinfor{ margin-bottom:30px;}
 .lp_boundstudentno .sinfor label { color:#5f5f5f; font-size:20px; display:inline-block; float:left; width:95px; text-align:right; margin-right:25px;margin-top:8px;font-family:'Microsoft YaHei','微软雅黑';}
 .lp_boundstudentno .sinbk label { margin-top:40px;}
-.lp_boundstudentno .sinfor .input_box { width:268px; border:1px solid #787878; padding:9px 5px; background:#fff; font-size:16px;color:#5f5f5f; }
-.lp_boundstudentno .sinfor .input_box:focus { border:1px solid #ffc601; border-radius:0;}
+.lp_boundstudentno .sinfor .input_box { width:268px; border:1px solid #787878; padding:9px 5px; background:#fff; font-size:16px;color:#5f5f5f; border-radius:0; }
+.lp_boundstudentno .sinfor .input_box:focus { border:1px solid #ffc601;}
 .lp_boundstudentno .sinfor .select_id { width:280px; float:left;}
 .lp_boundstudentno .sinfor .select_id .indent li { float:left; width:130px; border-right:1px dotted #B2B2B2; height:111px;}
 .lp_boundstudentno .sinfor .select_id .indent  li.last_br { border-right:none;}
@@ -175,7 +175,11 @@
 .lp_boundstudentno .sinfor .select_id ul { height:155px; margin-bottom:35px;}
 .lp_boundstudentno .sinfor .select_id .indent  button { width:111px; height:111px; overflow:hidden; cursor:pointer; display:block; border:none;}
 .lp_boundstudentno .sinfor .select_id  .indent  .student { background-position:left -1335px;}
-.lp_boundstudentno .sinfor .select_id .indent  .parent { background-position:left -1465px; margin-left:20px;}
+.lp_boundstudentno .sinfor .select_id .indent  .parent { background-position:left -2922px; margin-left:20px;}
+.lp_boundstudentno .sinfor .select_id .indent  .parent_selected { background-position:left -1465px; margin-left:20px;}
+.lp_boundstudentno .sinfor .select_id  .indent .student_selected{ background-position:left -2805px;}
+
+
 .lp_boundstudentno .sinfor .bg_bind_shadow { background:url(/public/build/img/po/images/lp_box_shadow.png) no-repeat; width:256px; height:107px;}
 .lp_boundstudentno .sinfor .btn_binding { background-position:left -875px; width:173px; height:50px; border:none; cursor:pointer;}
 .lp_boundstudentno  .tips span { display:block; width:44px; height:44px; float:left;}
