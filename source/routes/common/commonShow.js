@@ -16,5 +16,5 @@ exports.showImitateExam = function(classCode,callback) {
     }else {
         var flag = false;
     }
-    callback(flag);
+    callback(null,flag);
 };
