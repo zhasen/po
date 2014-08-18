@@ -6,6 +6,7 @@ var api = require('../../settings').api;
 var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
 var InteractiveClassroomDetailService = require('../services/InteractiveClassroomDetailService');
+var commonShow = require('./common/commonShow');
 var async = require('async');
 
 module.exports = function (app) {
@@ -140,8 +141,11 @@ module.exports = function (app) {
                 input.typeList = typeArr;
                 input.listOne = data[1].result;
                 input.listOneAnwser = data[2].result;
-
-                res.render('interaction-class',input);
+                //判断是否显示模考
+                commonShow.showImitateExam(classcode,function(flag) {
+                    input.showImitateExam = flag;
+                    res.render('interaction-class',input);
+                });
             }
         );
     });
