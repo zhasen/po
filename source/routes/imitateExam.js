@@ -7,11 +7,8 @@ var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
 var reportJson = require('../../report');
 var fs = require('fs');
-<<<<<<< HEAD
 var showReport = require('./common/showReport');
-=======
 var commonShow = require('./common/commonShow');
->>>>>>> feivorid
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -90,13 +87,10 @@ module.exports = function (app) {
         var param = api.imitateExam + commonService.getUrl(url);
         commonService.request(param,function(err,data){
             var sdata = JSON.parse(data);
-<<<<<<< HEAD
             input.ieData = sdata;
             input.classCode =classCode;
             input.schoolId =schoolId;
             res.render('ie-list', input);
-
-=======
             /*var sdata ={
                 "errno": 0,
                 "result": [
@@ -152,7 +146,6 @@ module.exports = function (app) {
                 input.schoolId =schoolId;
                 res.render('ie-list', input);
             });
->>>>>>> feivorid
         });
 
     });
