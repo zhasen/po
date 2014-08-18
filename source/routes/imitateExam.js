@@ -70,18 +70,18 @@ module.exports = function (app) {
         var classCode = req.params.classcode;
         var schoolId = req.params.schoolid;
 
-        var url = {
+        /*var url = {
             "method":"getStudentPaperListInClass",
             "ccode":"TF13202",
             "ucode":"BJ986146",
             "sid":1
-        };
-        /*var url = {
+        };*/
+        var url = {
             "method":"getStudentPaperListInClass",
             "ccode":classCode,
             "ucode":user.code,
             "sid":schoolId
-        };*/
+        };
 
         asseton(req, res);
         var input = PageInput.i(req);
@@ -90,8 +90,8 @@ module.exports = function (app) {
         input.user = input.page.user;
         var param = api.imitateExam + commonService.getUrl(url);
         commonService.request(param,function(err,data){
-//            var sdata = JSON.parse(data);
-            var sdata ={
+            var sdata = JSON.parse(data);
+            /*var sdata ={
                 "errno": 0,
                 "result": [
                     {
@@ -138,7 +138,7 @@ module.exports = function (app) {
                         "paperTypeId": "tpo"
                     }
                 ]
-            };
+            };*/
             input.ieData = sdata;
             input.classCode =classCode;
             input.schoolId =schoolId;
@@ -161,14 +161,14 @@ module.exports = function (app) {
             "finishTime":finishTime,
             "paperName":paperName
         };
-        var url = {
-            "method":"getTestReportData",
-            "testId":"53BF023C-69CE-4F41-84F9-AC62C5BD8AC8"
-        };
         /*var url = {
             "method":"getTestReportData",
-            "testId":paperId
+            "testId":"53BF023C-69CE-4F41-84F9-AC62C5BD8AC8"
         };*/
+        var url = {
+            "method":"getTestReportData",
+            "testId":paperId
+        };
 
         asseton(req, res);
         var input = PageInput.i(req);
