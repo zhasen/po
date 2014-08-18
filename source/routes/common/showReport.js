@@ -141,7 +141,7 @@ exports.showReport = function(req,res,reportdata){
             });
         }else{
             console.log("获取报告出错");
-            res.render('ie-report',input);
+            res.render('ie-report',{reportData:sdata});
         }
     });
 

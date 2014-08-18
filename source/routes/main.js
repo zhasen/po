@@ -112,15 +112,10 @@ module.exports = function (app) {
         res.render('main', input);
     });
 
+    //
     app.get('/showReport-:paperId', function (req, res) {
+
         asseton(req, res);
-
-        /*req.headers['x-forwarded-for'];
-        req.connection.remoteAddress;
-        req.socket.remoteAddress;
-        req.connection.socket.remoteAddress;*/
-
-
         var localIp = "127.0.0.1";
         var data = {};
         data.paperId = req.params.paperId;
@@ -129,9 +124,10 @@ module.exports = function (app) {
         data.paperName = req.query.paperName;
         data.userName = req.query.userName;
 
-        if(req.connection.remoteAddress==localIp){
-            console.log("ip:" + req.connection.remoteAddress);
+        if(req.connection.remoteAddress == localIp){
             showReport.showReport(req,res,data);
+        }else{
+            res.write("非法访问！");
         }
 
     });
