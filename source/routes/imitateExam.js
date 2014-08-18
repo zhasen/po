@@ -161,7 +161,7 @@ module.exports = function (app) {
             "finishTime":finishTime,
             "paperName":paperName
         };
-        /*var url = {
+       /* var url = {
             "method":"getTestReportData",
             "testId":"53BF023C-69CE-4F41-84F9-AC62C5BD8AC8"
         };*/
@@ -312,8 +312,8 @@ module.exports = function (app) {
     app.get('/downloadreport-:paperId',getMyClass, function (req, res, next) {
         var NodePDF = require('nodepdf');
 
-        var user = req.session.user;
-        var userName = user.displayName;
+//        var user = req.session.user;
+//        var userName = user.displayName;
         var finishTime = req.query.finishTime;
         var paperName = req.query.paperName;
 
@@ -321,49 +321,40 @@ module.exports = function (app) {
 
         var url = "http://path.staff.xdf.cn/searchTestReport?finishTime='"+finishTime+"'&paperName'"+paperName +"'";
 
-        var pdfName = paperId+".pdf";
+//        var pdfName = paperId+".pdf";
+        var pdfName = "1.pdf";
 
         var pdfPath = reportUploadPath +"/" + pdfName;
 
-        function hasPdfFile(str){
-            fs.readdir(str, function(err,fileNameArray){
-                if(err){
-                    return false;
-                }else{
-                    return true;
-                }
-            });
-        }
-
-        if(hasPdfFile(pdfPath)){
-            //下载pdf文件
-            res.download(pdfPath);
-        }else{
-            var pdf = new NodePDF(url, pdfName, {
+        fs.exists(pdfPath, function(exists){
+            if(exists){
+                res.download(pdfPath);
+            }else{
+                var pdf = new NodePDF(url, pdfName, {
 
 
-            });
+                 });
 
-            pdf.on('error', function(msg){
-                console.log(msg);
-            });
+                 pdf.on('error', function(msg){
+                 console.log(msg);
+                 });
 
-            pdf.on('done', function(pathToFile){
-                res.download(pathToFile);
-                console.log(pathToFile);
-            });
+                 pdf.on('done', function(pathToFile){
+                 res.download(pathToFile);
+                 console.log(pathToFile);
+                 });
 
-            // listen for stdout from phantomjs
-            pdf.on('stdout', function(stdout){
-                // handle
-            });
+                 // listen for stdout from phantomjs
+                 pdf.on('stdout', function(stdout){
+                 // handle
+                 });
 
-            // listen for stderr from phantomjs
-            pdf.on('stderr', function(stderr){
-                // handle
-            });
-
-        }
+                 // listen for stderr from phantomjs
+                 pdf.on('stderr', function(stderr){
+                 // handle
+                 });
+            }
+        });
 
     });
 
