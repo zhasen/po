@@ -180,7 +180,8 @@ body a {
 }
 .pic{
     position: absolute;
-    top:0px;
+   /* top:0px;*/
+    top:-50px;
     width:100%;
     overflow: hidden;
 }
@@ -335,6 +336,7 @@ body a {
 }
 .con1{
     font-size: 18px;
+    line-height:20px;
     font-weight: normal;
     position: absolute;
     top:28px;
@@ -367,18 +369,22 @@ body a {
     height:100px;
 }
 
+
 .funBox{
     width:1000px;
-    height:180px;
+    height:150px;
     background: url("/public/build/img/po/images/fun.jpg");
     margin:0 auto;
     position: relative;
+    overflow: hidden;
 }
 .myBottom{
     width:100%;
-    height:180px;
+    height:150px;
     background: #f6f7f9;
     position: relative;
+/*    top:0px;*/
+    top:-60px;
 }
 .tianCongBox{
     width:1000px;
@@ -388,7 +394,7 @@ body a {
 
 .funBoxCon1{
     width:100px;
-    height:200px;
+    height:150px;
     margin-left: 20px;
 }
 .funBoxCon2{
@@ -488,18 +494,18 @@ input:-moz-placeholder {
 }
 .logBox,.rstBox{
   position: relative;
-  margin-top: 120px;
-  height: 395px;
+  width: 340px;
   /*background: #76b2b3;*/
   overflow: hidden;
+  margin-top: 100px;
 }
 .logBox{
-  margin-left: 735px;
-  width: 365px;
+  margin-left: 660px;
+  height: 365px;
 }
 .rstBox{
   margin-left: 660px;
-  width: 340px;
+  height: 420px;
 }
 
 .username,.password,.mailBox,.passwordRst,.passwordConfirm,.confirm{
@@ -529,22 +535,22 @@ input:-moz-placeholder {
   width: 200px;
 }
 /*.username{
-  background: url(../img/logRgtLine.png) left bottom no-repeat;
+  background: url(/public/build/img/po/images/logRgtLine.png) left bottom no-repeat;
 }
 .password{
-  background: url(../img/password.png) left bottom no-repeat;
+  background: url(/public/build/img/po/images/password.png) left bottom no-repeat;
 }
 .mailBox{
-  background: url(../img/mailBox.png) left bottom no-repeat;
+  background: url(/public/build/img/po/images/mailBox.png) left bottom no-repeat;
 }
 .passwordRst{
-  background: url(../img/passwordRst.png) left bottom no-repeat;
+  background: url(/public/build/img/po/images/passwordRst.png) left bottom no-repeat;
 }
 .passwordConfirm{
-  background: url(../img/passwordConfirm.png) left bottom no-repeat;
+  background: url(/public/build/img/po/images/passwordConfirm.png) left bottom no-repeat;
 }
 .confirm{
-  background: url(../img/confirm.png) left bottom no-repeat;
+  background: url(/public/build/img/po/images/confirm.png) left bottom no-repeat;
 }*/
 .vrfRstLog{
   width: 225px;
@@ -668,8 +674,11 @@ input:-moz-placeholder {
   height: 57px;
   background: url(/public/build/img/po/images/blueCircle.png) center center no-repeat;
 }
-
-
+.xl{
+  position: absolute;
+  top:0px;
+    display: block;
+}
 
 
 
