@@ -105,8 +105,8 @@
                                     var paperName = val.paperName;
                                 %>
                                 <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank">答题记录</a>
-                                <a href="searchTestReport-<%= paperId%>?testId=<%=testId%>&finishTime=<%=finishTime%>&paperName=<%=paperName%>">查看报告</a>
-                                <a href="downloadreport-<%= paperId%>?testId=<%=testId%>&finishTime=<%=finishTime%>&paperName=<%=paperName%>">下载报告</a>
+                                <a href="searchTestReport-<%= paperId%>?testId=<%=testId%>&finishTime=<%=finishTime%>&paperName=<%=paperName%>" target="_blank">查看报告</a>
+                                <a href="downloadreport-<%= paperId%>?testId=<%=testId%>&finishTime=<%=finishTime%>&paperName=<%=paperName%>" target="_blank">下载报告</a>
                                 <%}%>
                             </dd>
                         </dl>
