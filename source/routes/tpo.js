@@ -5,12 +5,14 @@ var lame = require('lame');
 var wav = require('wav');
 var api = require('../../settings').api;
 var fileConfig = require('../../settings').file;
+var request = require('request');
 
 module.exports = function (app) {
 
     app.get('/tpo-test', function (req, res, next) {
         var data = {};
-        data.userId = req.session.user.code;
+        data.userId = req.query.userId;
+        //data.userId = req.session.user.code;
         data.testId = req.query.testId;
         data.paperId = req.query.paperId;
         data.allotId = req.query.allotId;
@@ -35,13 +37,10 @@ module.exports = function (app) {
     });
 
     app.post('/upload1', function (req, res) {
-        console.log(req.files);
 
         var patharray = req.files.audioData.path.split(path.sep);
         //var newPath = req.files.audioData.path.replace(patharray[patharray.length - 1],req.query.id)+'.mp3';
-
         var newPath = fileConfig.record + req.query.id+'.mp3';
-
         var input = fs.createReadStream(req.files.audioData.path);
         var output = fs.createWriteStream(newPath);
 

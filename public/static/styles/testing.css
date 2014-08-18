@@ -59,10 +59,13 @@
 	background-position: 0px 0px;
 }
 .testbtn.rect{
-	width: 72px;
+	width: 80px;
 	height:30px;
+	line-height: 30px;
+	text-align: center;
 	background-image: url(../images/testing/continue.png);
 	background-position: 0px 0px;
+	text-decoration: none;
 }
 .testbtn.rect:active{
 	background-position: 0px -30px;
@@ -70,6 +73,11 @@
 .testbtn.rect:disabled{
 	background-position: 0px -60px;
 	cursor: default;
+}
+#btn_exit{
+	position: absolute;
+	left: 10px;
+	top: 47px;
 }
 .timerbtn{
 	background-color: transparent;
