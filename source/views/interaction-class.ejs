@@ -6,9 +6,9 @@
         <div class="lp_thisrec_c">
             <dl class="lp_reccourse">
                 <dt class="f_l">
-                <p><a href="#">托福基础班</a></p>
-                <strong class="fs_14">TF123</strong>
-                2041.12.12-2041.12.12
+                <p><a href="class-<%=schoolid%>-<%=classcode%>"><%=classes[0].ClassName%></a></p>
+                <strong class="fs_14"><%=classcode%></strong>
+                <%=classes[0].poBeginDate%>-<%=classes[0].poEndDate%>
                 </dt>
                 <dd class="f_r">
                     <div class="rec_level fs_14">预备</div>
@@ -30,7 +30,7 @@
 <div class="lp_coursenav">
     <div class="lpath_page">
         <div class="sec_nav">
-            <a href="/schedule-<%=shcoolid%>-<%=classcode%>">课表</a>
+            <a href="/schedule-<%=schoolid%>-<%=classcode%>">课表</a>
             <a href="/interaction-class-<%=classcode%>" class="selected_name">互动课堂</a>
             <%if(showImitateExam == true) {%><a href="/imitateExam-<%=shcoolid%>-<%=classcode%>">模考</a><%}%>
         </div>

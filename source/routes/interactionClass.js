@@ -85,8 +85,9 @@ module.exports = function (app) {
         });
     };
     //互动课堂首页
-    app.get('/interaction-class-:classcode',getMyClass, function (req, res, next) {
+    app.get('/interaction-:schoolid-:classcode',getMyClass, function (req, res, next) {
         var classcode = req.params.classcode;
+        var schoolid = req.params.schoolid;
         var user = req.session.user;
         asseton(req, res);
         var input = PageInput.i(req);
@@ -94,7 +95,7 @@ module.exports = function (app) {
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
         input.classcode = classcode;
-        input.shcoolid = input.user.schoolid;
+        input.schoolid = schoolid;
 
         //获取答题记录列表条件
         var whereObject = {
@@ -144,6 +145,7 @@ module.exports = function (app) {
                 //判断是否显示模考
                 commonShow.showImitateExam(classcode,function(flag) {
                     input.showImitateExam = flag;
+                    console.log(input);
                     res.render('interaction-class',input);
                 });
             }
