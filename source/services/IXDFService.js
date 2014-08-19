@@ -235,24 +235,27 @@ Service.scheduleList = function (param, callback) {
         //console.info('calendar:' + JSON.stringify(ret.Data));
         //console.info(ret.Data.length);
         var events = [];
-        var events = [
-            {
-                id: 60324222,
-                title: 'TOEFL核心词汇精讲班（限招45人）',
-                start: '2013-01-23 00:00:00',
-                end: '2013-01-23 00:00:00'
-            }
-        ];
-        /*if (ret.Data) {
-         ret.Data.forEach(function (c) {
-         events.push({
-         id: c.Id, // eg: 60324222
-         title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
-         start: c.BeginDate, // eg: 2013-01-23 00:00:00
-         end: c.EndDate // eg: 2013-01-23 00:00:00
-         });
-         });
-         }*/
+        var eventsList = {};
+        if (ret.Data) {
+            ret.Data.forEach(function (c) {
+                if (!eventsList[c.ClassCode]) {
+                    events.push({
+                        title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
+                        start: c.BeginDate, // eg: 2013-01-23 00:00:00
+                        end: c.EndDate // eg: 2013-01-23 00:00:00
+                    });
+                    eventsList[c.ClassCode] = c.ClassCode;
+                }
+            });
+        }
+        /*events = [
+         { title: 'Long Event', start: '2014-06-10T16:00:00', end: '2014-06-11T16:00:00'},
+         { title: 'Repeating Event', start: '2014-06-09T16:00:00'},
+         { title: 'Repeating Event', start: '2014-06-15T10:00:00'},
+         { title: 'Meeting', start: '2014-06-12T10:30:00', end: '2014-06-12T12:30:00'},
+         { title: 'Lunch', start: '2014-06-12T12:00:00'},
+         { title: 'Birthday Party', start: '2014-06-13T07:00:00' }
+         ];*/
         callback(err, events);
     });
 };
