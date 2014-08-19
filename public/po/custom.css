@@ -213,49 +213,167 @@ body a {
 
 @-webkit-keyframes t01 {
     0% {
-        -webkit-transform:perspective(2000px) rotateY(0deg)
+        -webkit-transform:perspective(2000px) rotateY(0deg);
     }
     100% {
-        -webkit-transform:perspective(2000px) rotateY(90deg)
+        -webkit-transform:perspective(2000px) rotateY(90deg);
     }
 }
+@-moz-keyframes t01 {
+    0% {
+        -moz-transform:perspective(2000px) rotateY(0deg);
+    }
+    100% {
+        -moz-transform:perspective(2000px) rotateY(90deg);
+    }
+}
+@-ms-keyframes t01 {
+    0% {
+        -ms-transform:perspective(2000px) rotateY(0deg);
+    }
+    100% {
+        -ms-transform:perspective(2000px) rotateY(90deg);
+    }
+}
+@-o-keyframes t01 {
+    0% {
+        -o-transform:perspective(2000px) rotateY(0deg);
+    }
+    100% {
+        -o-transform:perspective(2000px) rotateY(90deg);
+    }
+}
+
+
 @-webkit-keyframes t02 {
     0% {
-        -webkit-transform:perspective(2000px) rotateY(-90deg)
+        -webkit-transform:perspective(2000px) rotateY(-90deg);
     }
     100% {
-        -webkit-transform:perspective(2000px) rotateY(0deg)
+        -webkit-transform:perspective(2000px) rotateY(0deg);
     }
 }
+@-moz-keyframes t02 {
+    0% {
+        -moz-transform:perspective(2000px) rotateY(-90deg);
+    }
+    100% {
+        -moz-transform:perspective(2000px) rotateY(0deg);
+    }
+}
+@-ms-keyframes t02 {
+    0% {
+        -ms-transform:perspective(2000px) rotateY(-90deg);
+    }
+    100% {
+        -ms-transform:perspective(2000px) rotateY(0deg);
+    }
+}
+@-o-keyframes t02 {
+    0% {
+        -o-transform:perspective(2000px) rotateY(-90deg);
+    }
+    100% {
+        -o-transform:perspective(2000px) rotateY(0deg);
+    }
+}
+
+
 @-webkit-keyframes t03 {
     0% {
-        -webkit-transform:perspective(2000px) rotateY(0deg)
+        -webkit-transform:perspective(2000px) rotateY(0deg);
     }
     100% {
-        -webkit-transform:perspective(2000px) rotateY(90deg)
+        -webkit-transform:perspective(2000px) rotateY(90deg);
     }
 }
-@-webkit-keyframes t04 {
+@-moz-keyframes t03 {
     0% {
-        -webkit-transform:perspective(2000px) rotateY(-90deg)
+        -moz-transform:perspective(2000px) rotateY(0deg);
     }
     100% {
-        -webkit-transform:perspective(2000px) rotateY(0deg)
+        -moz-transform:perspective(2000px) rotateY(90deg);
+    }
+}
+@-ms-keyframes t03 {
+    0% {
+        -ms-transform:perspective(2000px) rotateY(0deg);
+    }
+    100% {
+        -ms-transform:perspective(2000px) rotateY(90deg);
+    }
+}
+@-o-keyframes t03 {
+    0% {
+        -o-transform:perspective(2000px) rotateY(0deg);
+    }
+    100% {
+        -o-transform:perspective(2000px) rotateY(90deg);
+    }
+}
+
+
+@-webkit-keyframes t04 {
+    0% {
+        -webkit-transform:perspective(2000px) rotateY(-90deg);
+    }
+    100% {
+        -webkit-transform:perspective(2000px) rotateY(0deg);
+    }
+}
+@-moz-keyframes  t04 {
+    0% {
+        -moz-transform:perspective(2000px) rotateY(-90deg);
+    }
+    100% {
+        -moz-transform:perspective(2000px) rotateY(0deg);
+    }
+}
+@-ms-keyframes  t04 {
+    0% {
+        -ms-transform:perspective(2000px) rotateY(-90deg);
+    }
+    100% {
+        -ms-transform:perspective(2000px) rotateY(0deg);
+    }
+}
+@-o-keyframes  t04 {
+    0% {
+        -o-transform:perspective(2000px) rotateY(-90deg);
+    }
+    100% {
+        -o-transform:perspective(2000px) rotateY(0deg);
     }
 }
 
 
 .turn1{
+    animation:t01 .2s linear;
     -webkit-animation:t01 .2s linear;
+    -moz-animation:t01 .2s linear;
+    -ms-animation:t01 .2s linear;
+    -o-animation:t01 .2s linear;
 }
 .turn2{
+    animation:t02 .2s linear;
     -webkit-animation:t02 .2s linear;
+    -moz-animation:t02 .2s linear;
+    -ms-animation:t02 .2s linear;
+    -o-animation:t02 .2s linear;
 }
 .turn3{
+    animation:t03 .2s linear;
     -webkit-animation:t03 .2s linear;
+    -moz-animation:t03 .2s linear;
+    -ms-animation:t03 .2s linear;
+    -o-animation:t03 .2s linear;
 }
 .turn4{
+    animation:t04 .2s linear;
     -webkit-animation:t04 .2s linear;
+    -moz-animation:t04 .2s linear;
+    -ms-animation:t04 .2s linear;
+    -o-animation:t04 .2s linear;
 }
 
 .wz{
