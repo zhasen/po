@@ -1,5 +1,5 @@
 var commonService = require('./commonService');
-var api = require('../../../settings').api;
+var omsUrl = require('../../../settings').oms.omsUrl;
 var reportJson = require('../../../report');
 
 exports.showReport = function(req,res,reportdata){
@@ -14,7 +14,7 @@ exports.showReport = function(req,res,reportdata){
         "testId":reportdata.testId
     };
 
-    var param = api.imitateExam + commonService.getUrl(url);
+    var param = omsUrl + "?" + commonService.getUrl(url);
 
     //统计 写作/口语 总分
     var scoreNum = 0;
