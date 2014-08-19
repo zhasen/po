@@ -29,7 +29,11 @@ module.exports = function (app) {
         });
     };
     auth.bind(app);//use all authentication routing and handlers binding here
+    //同步用户账号接口
 
+    var synLearnTestUser = function() {
+
+    };
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
         var user = req.session.user;
