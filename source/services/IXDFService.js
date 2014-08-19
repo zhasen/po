@@ -56,7 +56,7 @@ Service.uniAPIInterface = function (param, controllername, methodname, callback)
     extend(p, appKey);
     // 拼成形如 method=GetUserTypeByUserId&appid=2009&userid=xdf001000862&appKey=v5appkey_vps_%40%23kztsk2m3v传
     var txt = token = '';
-    for(var kk in p){
+    for (var kk in p) {
         txt += token + kk + '=' + p[kk];
         token = '&';
     }
@@ -235,16 +235,24 @@ Service.scheduleList = function (param, callback) {
         //console.info('calendar:' + JSON.stringify(ret.Data));
         //console.info(ret.Data.length);
         var events = [];
-        if (ret.Data) {
-            ret.Data.forEach(function (c) {
-                events.push({
-                    id: c.Id, // eg: 60324222
-                    title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
-                    start: c.BeginDate, // eg: 2013-01-23 00:00:00
-                    end: c.EndDate // eg: 2013-01-23 00:00:00
-                });
-            });
-        }
+        var events = [
+            {
+                id: 60324222,
+                title: 'TOEFL核心词汇精讲班（限招45人）',
+                start: '2013-01-23 00:00:00',
+                end: '2013-01-23 00:00:00'
+            }
+        ];
+        /*if (ret.Data) {
+         ret.Data.forEach(function (c) {
+         events.push({
+         id: c.Id, // eg: 60324222
+         title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
+         start: c.BeginDate, // eg: 2013-01-23 00:00:00
+         end: c.EndDate // eg: 2013-01-23 00:00:00
+         });
+         });
+         }*/
         callback(err, events);
     });
 };
