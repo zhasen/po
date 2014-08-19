@@ -84,7 +84,7 @@ module.exports = function (app) {
         input.classes = input.page.myClass; // 用于显示首页的六个班级
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
-        var param = settings.api.imitateExam + commonService.getUrl(url);
+        var param = settings.oms.omsUrl +"?"+ commonService.getUrl(url);
         commonService.request(param,function(err,data){
             var sdata = JSON.parse(data);
             input.ieData = sdata;
