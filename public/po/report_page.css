@@ -1,0 +1,49 @@
+@charset "utf-8";
+.wrap{width:960px; margin:0 auto;}
+.navi{background:url(../images/logo1.png) no-repeat;}
+.logo{height:72px;padding:47px 0 0 165px;}
+.nav{height:57px;}.nav li{float:left;}
+.nav li a,.nav li b,.djs li,.edjs li div,.texint a,.mbox,.passbox,.ok,.error{background-image:url(../images/xbg.png);background-repeat:no-repeat; }
+.s_box{width:264px;height:29px;line-height:29px;padding-left:25px;border:0;background:none;}
+.s_btn{width:36px;height:29px;cursor:pointer;border:0;background:none;}
+.nav li a span{display:inline-block; width:38px; height:31px; margin:0 5px -7px 0; background-image:url(../images/icon.png);background-repeat:no-repeat;}
+.nav li a span.s1{ background-position:0 0;}
+.nav li a span.s2{ background-position:0 -64px;}
+.nav li a{ display:block; width:320px; height:41px; padding-top:10px; text-align:center; font-size:16px; font-weight:bold; background-position:0 0;color:#ffffff;}
+.nav li b{ display:block; width:320px; height:41px; padding-top:10px; text-align:center; font-size:16px; font-weight:bold; background-position:0 0;color:#ffffff;}
+.nav li a:hover{background-position:0 -51px;}
+.nav li a.cr{background-position:0 -108px;height:46px; padding-top:5px; margin-top:5px;color:#333333;}
+.nav li a.cr span.s1{background-position:0 -32px;}
+.nav li a.cr span.s2{background-position:0 -96px;}
+.banner{ margin-top:-6px;}
+.log{height:43px;border-bottom:1px solid #c7c7c7;background:#ffffff;}
+.log li{line-height:43px;height:43px;}
+.log li.add_p{padding-top:14px; height:29px; line-height:normal;}
+.log li.lpd{padding-top:7px;height:36px;}
+.mbox{width:197px;height:25px;line-height:25px;border:0;background-position:-113px -375px;padding-left:10px;}
+.passbox{width:130px;height:25px;line-height:25px;border:0;background-position:-180px -199px;padding-left:10px;}
+.ok{width:114px;height:38px;display:block;background-position:-206px -337px;}
+#login div{display:none;}
+.iform{width:570px;height:130px;padding-top:50px;border-radius:5px;margin:0 auto;}
+.error{height:22px;padding-left:28px;line-height:22px;color:#FD952F;background-position:-298px -269px;margin-left:55px;width:480px;display:inline;font-size:14px;}
+.texint{width:210px; margin-left:45px; margin-bottom:6px; display:inline;}
+.texint input{width:210px; height:32px;border:0; background:url(../images/text.png) no-repeat; line-height:32px;padding-left:20px;color:#dddddd;}
+.texint a{display:block;width:94px; height:29px;}
+.texint a.b_1{background-position:0 -344px;}
+.texint a.b_2{background-position:0 -373px;}
+.lgin{height:262px; width:960px;background:url(../images/student.jpg) no-repeat;}
+.regis{height:252px; width:960px; padding-top:10px; background:url(../images/grass.png) no-repeat;}
+.belt{height:48px;}
+.blt{width:978px; height:46px;border:1px solid #d5d5d5;left:-10px; background-color:#e2e2e2;}
+.edjs li{width:195px;height:46px; float:left; margin-right:-15px;}
+.edjs li div{width:145px;padding-left:50px; height:46px;background-position:0 -298px;}
+.edjs li.cr div{background-position:0 -252px; margin-right:-15px;}
+.edjs li p,.edjs li h3{color:#777;}
+.edjs li.cr h3{color:#3F6300;}
+.lshdow,.rshdow{top:48px;}
+.lshdow{left:-10px;}
+.rshdow{right:-10px;}
+.content{height:275px; background:url(../images/line.png) no-repeat;}
+.djs{padding:200px 0 0 360px;}
+.djs li{width:50px;height:51px; font-size:30px; float:left; margin-right:5px;background-position:0 -199px; }
+.tab-content{display:none;}

@@ -112,7 +112,7 @@ module.exports = function (app) {
         res.render('main', input);
     });
 
-    //
+    //模考报告
     app.get('/showReport-:paperId', function (req, res) {
 
         asseton(req, res);

@@ -2,12 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>无标题文档</title>
-    <link href="css/style.css" type="text/css" rel="stylesheet" />
-    <link href="css/page.css" type="text/css" rel="stylesheet" />
+    <title>模考报告</title>
+    <link href="/public/po/report_style.css" type="text/css" rel="stylesheet" />
+    <link href="/public/po/report_page.css" type="text/css" rel="stylesheet" />
     <style>
         /**成绩单**/
-        .examinee{border-top:1px dashed #818586;color:#444;border-right:1px dashed #818586;border-bottom:1px dashed #818586;width:470px;float:left;}
+        .examinee{border-top:1px dashed #818586;color:#444;border-right:1px dashed #818586;border-bottom:1px dashed #818586;width:470px;height:150px;float:left;}
         .examinee ul{border:2px solid #fff;padding:10px;background-color:#EDEEF0;font-weight:bold;font-family:"microsoft yahei";}
         .examinee li{padding:2px 0;}
         .result{border:2px solid #818586;width:260px;float:right;padding:3px;color:#444;}
@@ -34,9 +34,13 @@
     <div class="fix">
         <div class="examinee">
             <ul>
-                <li>姓名:<%=mtMessage.userName%></li>
-                <li>试卷名称:<%=mtMessage.paperName%></li>
-                <li>测试时间:<%=mtMessage.finishTime%></li>
+                <br>
+                <li>姓名:&nbsp;&nbsp;<%=mtMessage.userName%></li>
+                <br>
+                <li>试卷名称:&nbsp;&nbsp;<%=mtMessage.paperName%></li>
+                <br>
+                <li>测试时间:&nbsp;&nbsp;<%=mtMessage.finishTime%></li>
+                <br>
             </ul>
         </div>
         <div class="result">
@@ -46,27 +50,27 @@
                 <dt>Toefl Scaled Score</dt>
                 <dd class="fix">
                     <div class="items">Reading</div>
-                    <div class="scores"><%=data.readScore%></div>
+                    <div class="scores"><%=data.readScore%>分</div>
                     <div class="dot">&nbsp;</div>
                 </dd>
                 <dd class="fix">
                     <div class="items">Listening</div>
-                    <div class="scores"><%=data.listenScore%></div>
+                    <div class="scores"><%=data.listenScore%>分</div>
                     <div class="dot">&nbsp;</div>
                 </dd>
                 <dd class="fix">
                     <div class="items">Speaking</div>
-                    <div class="scores"><%=data.oralScore%></div>
+                    <div class="scores"><%=data.oralScore%>分</div>
                     <div class="dot">&nbsp;</div>
                 </dd>
                 <dd class="fix">
                     <div class="items">Writing</div>
-                    <div class="scores"><%=data.essayScore%></div>
+                    <div class="scores"><%=data.essayScore%>分</div>
                     <div class="dot">&nbsp;</div>
                 </dd>
                 <dd class="total fix">
                     <div class="items">Total</div>
-                    <div class="scores"><%=data.totalScore%></div>
+                    <div class="scores"><%=data.totalScore%>分</div>
                     <div class="dot">&nbsp;</div>
                 </dd>
             </dl>
