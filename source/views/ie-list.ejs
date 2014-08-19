@@ -84,21 +84,21 @@
                                 <%
                                     if(val.flagFinish==-1){
                                 %>
-                                    <a href="tpo-test?paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank">开始测试</a>
+                                    <a href="tpo-test?paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank" data-bypass>开始测试</a>
                                 <%}
                                     if(val.flagFinish==0){
                                 %>
-                                    <a href="tpo-test?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank">继续测试</a>
+                                    <a href="tpo-test?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank" data-bypass>继续测试</a>
                                 <%}
                                     if(val.flagFinish==1 && val.correctStatus==0){
                                     var paperId = val.paperId;
                                 %>
-                                    <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank">答题记录</a>
+                                    <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank" data-bypass>答题记录</a>
                                 <%}
                                     if(val.flagFinish==1 && val.correctStatus==1){
                                     var paperId = val.paperId;
                                 %>
-                                <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank">答题记录</a>
+                                <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank" data-bypass>答题记录</a>
                                 <%}
                                     if(val.flagFinish==1 && val.correctStatus==2){
                                     var paperId = val.paperId;
@@ -106,9 +106,9 @@
                                     var finishTime = val.finishTime;
                                     var paperName = val.paperName;
                                 %>
-                                <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank">答题记录</a>
-                                <a href="searchTestReport-<%= paperId%>?testId=<%=testId%>&finishTime=<%=finishTime%>&paperName=<%=paperName%>" target="_blank">查看报告</a>
-                                <a href="downloadreport-<%= paperId%>?testId=<%=testId%>&finishTime=<%=finishTime%>&paperName=<%=paperName%>" target="_blank">下载报告</a>
+                                <a href="tpo-review?testId=<%=val.answerid%>&paperId=<%=val.paperId%>&allotID=<%=val.allotID%>&classCode=<%=classCode%>" target="_blank" data-bypass>答题记录</a>
+                                <a href="searchTestReport-<%= paperId%>?testId=<%=testId%>&finishTime=<%=finishTime%>&paperName=<%=paperName%>" target="_blank" data-bypass>查看报告</a>
+                                <a href="downloadreport-<%= paperId%>?testId=<%=testId%>&finishTime=<%=finishTime%>&paperName=<%=paperName%>" target="_blank" data-bypass>下载报告</a>
                                 <%}%>
                             </dd>
                         </dl>
