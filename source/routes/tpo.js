@@ -3,7 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var lame = require('lame');
 var wav = require('wav');
-var api = require('../../settings').api;
+var oms = require('../../settings').oms;
 var fileConfig = require('../../settings').file;
 var request = require('request');
 
@@ -57,7 +57,7 @@ module.exports = function (app) {
     });
 
     app.get('/download-get', function(req, res) {
-        var str = api.imitateExam;
+        var str = oms.omsUrl;
         str += "method=downloadResource";
         str += "&keyUUID="+req.query.keyUUID;
         request({

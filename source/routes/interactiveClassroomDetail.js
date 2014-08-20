@@ -6,7 +6,7 @@ var request = require('request');
 var async = require('async');
 var interactiveClassroomDetailService = require('../services/InteractiveClassroomDetailService');
 var ixdf = require('../services/IXDFService');
-var api = require('../../settings').api;
+var oms = require('../../settings').oms;
 
 module.exports = function (app) {
 //    var mode = app.get('env') || 'development';
@@ -53,7 +53,7 @@ module.exports = function (app) {
         console.log(JSON.stringify(template.data));
         request({
             method: 'post',
-            url: api.imitateExam,
+            url: oms.omsUrl,
             form: {
                 data: JSON.stringify(template.data),
                 method: template.method
@@ -73,7 +73,7 @@ module.exports = function (app) {
         console.log(template.userId);
         console.log(template.testFrom);
         console.log(template.method);
-        var str = api.imitateExam;
+        var str = oms.omsUrl;
 
         str += "method="+template.method;
         str += "&paperId="+template.paperId;
@@ -98,7 +98,7 @@ module.exports = function (app) {
 
     var testGetAll = function(req, res) {
 
-        var str = api.imitateExam;
+        var str = oms.omsUrl;
 
         str += "method="+'getPaperAllDataByPaperId';
         str += "&paperId="+'B51D8504-9186-4079-9770-8AD73DC63BD9';

@@ -2,7 +2,7 @@
 var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
 var commonService = require('./common/commonService');
-var api = require('../../settings').api;
+var oms = require('../../settings').oms;
 var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
 var InteractiveClassroomDetailService = require('../services/InteractiveClassroomDetailService');
@@ -57,7 +57,7 @@ module.exports = function (app) {
             "method":"getPtypeList",
             "projectCode": projectCode
         };
-        var param = api.imitateExam + commonService.getUrl(url);
+        var param = oms.omsUrl + commonService.getUrl(url);
         commonService.request(param,function(err,data){
             if(data != undefined) {
                 var data = JSON.parse(data);
@@ -76,7 +76,7 @@ module.exports = function (app) {
             "paperTypeId":"hdkt",
             "ptype":type
         };
-        var param = api.imitateExam + commonService.getUrl(url);
+        var param = oms.omsUrl + commonService.getUrl(url);
         commonService.request(param,function(err,data){
             if(data != undefined) {
                 var data = JSON.parse(data);
