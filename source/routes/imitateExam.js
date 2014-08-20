@@ -76,7 +76,8 @@ module.exports = function (app) {
             "method":"getStudentPaperListInClass",
             "ccode":classCode,
             "ucode":user.code,
-            "sid":schoolId
+            "sid":schoolId,
+            "paperTypeId":"tpo"
         };
 
         asseton(req, res);
@@ -87,7 +88,6 @@ module.exports = function (app) {
         var param = settings.oms.omsUrl +"?"+ commonService.getUrl(url);
         commonService.request(param,function(err,data){
             var sdata = JSON.parse(data);
-            input.ieData = sdata;
 
             commonShow.showInteractionClass(classCode,function(flag) {
                 input.showInteractionClass = flag;
