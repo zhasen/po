@@ -61,7 +61,7 @@ var settings = {
         report: 'public/upload/report' // 存放模考报告PDF文件
     },
     oms: {
-        omsUrl: 'http://rd.xdf.cn/oms/public/oms/api/omsapi!oms2Api.do'
+        omsUrl: 'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do'
     },
     resources: {
         appName: '学路',
