@@ -27,37 +27,33 @@ input.chk{
 	cursor: pointer;
 	vertical-align: middle;
 	margin-right: 5px;
+	background-color: transparent;
+	background-image: none;
 }
 input.chk:before{
 	content: "";
 	display: block;
 	width: 20px;
 	height: 20px;
-	background: url(../images/checkbox.png);
+	background: url(../images/checkbox.png) no-repeat;
+	padding: 0px 3px 2px 3px;
+	border-bottom: 2px solid transparent;
 }
 input.chk:checked:before{
-	background: url(../images/checkbox_checked.png);
+	background: url(../images/checkbox_checked.png) no-repeat;
 }
-
-input[type=radio].chk{
-	width: 20px;
-	height: 20px;
-	cursor: pointer;
-	vertical-align: middle;
-	margin-right: 5px;
-	background-color: transparent;
-	background-image: none;
-}
-
 input[type=radio].chk:before{
 	content: "";
-	display: block;
-	width: 20px;
-	height: 20px;
-	background: url(../images/radio.png);
+	background: url(../images/radio.png) no-repeat;
 }
 input[type=radio].chk:checked:before{
-	background: url(../images/radio_checked.png);
+	background: url(../images/radio_checked.png) no-repeat;
+}
+input.chk.righted:before{
+	border-color: rgb(146, 219, 35);
+}
+input.chk.errored:before{
+	border-color: rgb(238, 98, 98);
 }
 
 .dialog{
