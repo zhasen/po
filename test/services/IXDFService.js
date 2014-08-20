@@ -1,6 +1,9 @@
 var crypto = require('crypto');
 var request = require('request');
 var ixdf = require('../../source/services/IXDFService');
+var settings = require('../../settings');
+var time = require('../../source/commons/time');
+var util = require('util');
 
 exports.setUp = function (done) {
 //    setTimeout(function(){done();}, 1000);
@@ -277,19 +280,44 @@ exports.xueyuanhao = function (test) {
     });
 };
 
+//同步用户信息
+exports.synLearnTestUser = function(test) {
+    var data = {
+        "UserId": "xdf003350771",
+        "SchoolId": 1,
+        "Code": "BJ217027",
+        "Email": "tftest814@126.com"
+    };
+
+    var method = "synLearnTestUser";
+    var key = "u2_userKey_#_1omsy2e*@%";
+    var str = ('BJ217027' + 'tftest814@126.com' + 1 + 'xdf003350771' + key).toLowerCase();
+    var md5Str = md5(str).toUpperCase();
+    var timestamp = new Date().Format("yyyy-MM-dd hh:mm:ss");
+    request({
+        method: 'post',
+        url: 'http://rd.xdf.cn/oms/public/oms/api/omsapi!oms2Api.do',
+        form: {
+            method: method,
+            data: JSON.stringify(data),
+            timestamp: timestamp,
+            sign: md5Str
+        }
+    }, function (err, resp, ret) {
+        ret = JSON.parse(ret);
+        console.log('---------->同步用户信息接口测试:');
+        console.info(ret);
+        test.done();
+    });
+};
+
 var md5 = function (str) {
     return crypto.createHash('md5').update(String(str)).digest('hex');
 };
 
-//var MD5 = function(password) {
-//    var md5 = crypto.createHash('md5');
-//    md5.update(password);
-//    password = md5.digest('hex');
-//    return password;
-//};
 
 var md51 = function (str) {
-    var Buffer = require('buffer').Buffer
+    var Buffer = require('buffer').Buffer;
     var buf = new Buffer(1024);
     var len = buf.write(str, 0);
     str = buf.toString('binary', 0, len);
@@ -297,4 +325,24 @@ var md51 = function (str) {
     md5sum.update(str);
     str = md5sum.digest('hex');
     return str;
+};
+
+//转时间格式
+Date.prototype.Format = function(fmt)
+{
+    var o = {
+        "M+" : this.getMonth()+1,                 //月份
+        "d+" : this.getDate(),                    //日
+        "h+" : this.getHours(),                   //小时
+        "m+" : this.getMinutes(),                 //分
+        "s+" : this.getSeconds(),                 //秒
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度
+        "S"  : this.getMilliseconds()             //毫秒
+    };
+    if(/(y+)/.test(fmt))
+        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    for(var k in o)
+        if(new RegExp("("+ k +")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+    return fmt;
 };

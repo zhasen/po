@@ -65,7 +65,8 @@
 
 .lp_class_list dd .course_level{  height:30px; width:30px; padding:13px 12px; text-align:center;  font-family:'SimSun','宋体';}
 .lp_class_list dd  .have_course{background:#ffc601;color:#000;}
-.lp_class_list dd  .adding_course{ background:#000; color:#fff;}
+.lp_class_list dd  .path_sgo { background:#f4f4f4; width:44px;height:40px; padding:8px 5px;}
+.lp_class_list dd  .adding_course{ background:#000; color:#fff; }
 
 .lp_class_list dd  .course_stauts,.lp_classmain_focus .rec_status{ background:#fff; height:51px; padding-top:6px; text-align:center; opacity:1; font-size:13px;font-family:'SimSun','宋体';}
 .lp_class_list dd  .course_stauts span,.lp_classmain_focus .rec_status span{ width:24px; margin:0 auto 5px;}
@@ -256,7 +257,7 @@
 
 
 /*我的班级*/
-.lpath_page .search_area  { border-bottom:1px dashed #000; margin:30px auto; padding-bottom:15px;}
+.lpath_page .search_area  { border-bottom:1px dashed #000; margin:30px auto; padding-bottom:13px;}
 .lpath_page .search_area .search_courses { padding-right:42px;}
 .lpath_page .search_area label { width:197px; height:25px; border:1px solid #7F7F7F; display:block;}
 .lpath_page .search_area label .sinput_box { width:155px; padding:4px 0 0px 10px; color:#3a3a3a; font-size:14px; border:none; display:inline-block; vertical-align:top;}
@@ -268,6 +269,7 @@
 .lp_myclass_list .hasended dt { color:#4f4e55;}
 .lp_myclass_list .hasended dt p { color:#4f4e55;}
 .lp_view_allmcs { margin-bottom:35px;}
+.lp_myclass_list  dd .course_stauts { height:47px; padding-top:10px;}
 .lp_myclass_list li a:hover dt,.lp_myclass_list li a:hover dt p { color:#2ba3d4;}
 .lp_myclass_list li a:hover .hasended dt,.lp_myclass_list li a:hover .hasended dt p {color:#4f4e55;}
 

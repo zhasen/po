@@ -1,5 +1,6 @@
 var http = require('http');
 var request = require("request");
+var omsUrl = require('../../../settings').oms.omsUrl;
 http.globalAgent.maxSockets = 50000;
 var TIMEOUT = 60*1000;
 
@@ -37,8 +38,8 @@ exports.getUrl = function(map){
 };
 
 exports.getPaperItems = function (pagerId,callback) {
-    var str = "http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?";
-
+//    var str = "http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?";
+    var str = omsUrl +"?";
     str += "method="+'getPaperAllDataByPaperId';
     str += "&paperId="+pagerId;
 

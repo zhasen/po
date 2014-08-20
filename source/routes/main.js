@@ -3,6 +3,7 @@ var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
 var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
+var showReport = require('./common/showReport');
 var settings = require('../../settings');
 var crypto = require('crypto');
 var request = require('request');
@@ -28,12 +29,17 @@ module.exports = function (app) {
         });
     };
     auth.bind(app);//use all authentication routing and handlers binding here
+    //同步用户账号接口
 
+    var synLearnTestUser = function() {
+
+    };
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
         var user = req.session.user;
         if (user) {
             ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
+                //console.log(myClass);
                 PageInput.i(req).put('myClass', myClass);
                 if (user.type == 1 || user.type == 9) {
                     var type = 1;
@@ -42,6 +48,7 @@ module.exports = function (app) {
                 } else {
                     var type = 5;
                 }
+                //获取消息提醒
                 NewsAdmin.listAllNews(type, function (err, msglist) {
                     if (err) {
                         logger.log(err);
@@ -107,6 +114,26 @@ module.exports = function (app) {
         asseton(req, res);
         var input = {};
         res.render('main', input);
+    });
+
+    //模考报告
+    app.get('/showReport-:paperId', function (req, res) {
+
+        asseton(req, res);
+        var localIp = "127.0.0.1";
+        var data = {};
+        data.paperId = req.params.paperId;
+        data.testId = req.query.testId;
+        data.finishTime = req.query.finishTime;
+        data.paperName = req.query.paperName;
+        data.userName = req.query.userName;
+
+        if(req.connection.remoteAddress == localIp){
+            showReport.showReport(req,res,data);
+        }else{
+            res.write("非法访问！");
+        }
+
     });
 
     //登陆页面

@@ -60,8 +60,8 @@ var settings = {
         record: 'public/upload/record/',//互动课堂录音存放目录
         report: 'public/upload/report' // 存放模考报告PDF文件
     },
-    api: {
-        imitateExam: 'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?'
+    oms: {
+        omsUrl: 'http://rd.xdf.cn/oms/public/oms/api/omsapi!oms2Api.do'
     },
     resources: {
         appName: '学路',

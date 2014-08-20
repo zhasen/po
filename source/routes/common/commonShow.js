@@ -6,7 +6,7 @@ exports.showInteractionClass = function(classCode,callback) {
     }else {
         var flag = false;
     }
-    callback(null,flag);
+    callback(flag);
 };
 
 //判断是否显示模考

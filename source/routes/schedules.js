@@ -5,6 +5,7 @@ var time = require('../../source/commons/time');
 var ixdf = require('../services/IXDFService');
 var pdf = require('../services/PDFService');
 var NewsAdmin = require('../services/NewsAdminService');
+var commonShow = require('./common/commonShow');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -94,9 +95,17 @@ module.exports = function (app) {
     // 班级主页-首页
     app.get('/class-:schoolid-:classcode', getMyClass, getClass, function (req, res, next) {
         asseton(req, res);
-        //console.log(req.session);
         var input = PageInput.i(req);
-        res.render('class-page', input);
+        //判断是否显示模考
+        commonShow.showImitateExam(req.params.classcode,function(flag) {
+            input.showImitateExam = flag;
+            //判断是否显示互动课堂
+            commonShow.showInteractionClass(req.params.classcode,function(flagIn) {
+                input.showInteractionClass = flagIn;
+                res.render('class-page', input);
+            });
+        });
+
     });
 
     /**
@@ -105,7 +114,15 @@ module.exports = function (app) {
     app.get('/schedule-:schoolid-:classcode', getMyClass, getClass, function (req, res, next) {
         asseton(req, res);
         var input = PageInput.i(req);
-        res.render('schedule', input);
+        //判断是否显示模考
+        commonShow.showImitateExam(req.params.classcode,function(flag) {
+            input.showImitateExam = flag;
+            //判断是否显示互动课堂
+            commonShow.showInteractionClass(req.params.classcode,function(flagIn) {
+                input.showInteractionClass = flagIn;
+                res.render('schedule', input);
+            });
+        });
     });
 
     /**
@@ -136,6 +153,8 @@ module.exports = function (app) {
                 logger.error(err);
                 res.json(500, err);
             }
+            console.info('events:');
+            console.info(events);
             res.json(events);
         });
     });
