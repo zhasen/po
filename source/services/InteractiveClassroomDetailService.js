@@ -409,7 +409,7 @@ var addTestRecord = function (recordObj,callback) {
 
 //'B51D8504-9186-4079-9770-8AD73DC63BD9'
 exports.getPaperItems = function (pagerId,callback) {
-    var str = oms.omsUrl;
+    var str = oms.omsUrl + "?";
 
     str += "method="+'getPaperAllDataByPaperId';
     str += "&paperId="+pagerId;

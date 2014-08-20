@@ -57,7 +57,7 @@ module.exports = function (app) {
     });
 
     app.get('/download-get', function(req, res) {
-        var str = oms.omsUrl;
+        var str = oms.omsUrl + "?";
         str += "method=downloadResource";
         str += "&keyUUID="+req.query.keyUUID;
         request({

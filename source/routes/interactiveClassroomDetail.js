@@ -73,7 +73,7 @@ module.exports = function (app) {
         console.log(template.userId);
         console.log(template.testFrom);
         console.log(template.method);
-        var str = oms.omsUrl;
+        var str = oms.omsUrl + "?";
 
         str += "method="+template.method;
         str += "&paperId="+template.paperId;
@@ -98,7 +98,7 @@ module.exports = function (app) {
 
     var testGetAll = function(req, res) {
 
-        var str = oms.omsUrl;
+        var str = oms.omsUrl + "?";
 
         str += "method="+'getPaperAllDataByPaperId';
         str += "&paperId="+'B51D8504-9186-4079-9770-8AD73DC63BD9';
