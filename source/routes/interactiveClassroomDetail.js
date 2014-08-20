@@ -26,7 +26,7 @@ module.exports = function (app) {
         //data.role = req.query.role;
         //data.userId = req.query.userId;
         //1 学生 2老师
-        data.role = parseInt(req.session.user.type)+1;
+        data.role = parseInt(req.session.user.type);
         data.userId = req.session.user.code;
         data.schoolId = req.query.schoolId;
         data.classCode = req.query.classCode;
