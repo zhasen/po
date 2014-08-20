@@ -59,13 +59,19 @@
 	background-position: 0px 0px;
 }
 .testbtn.rect{
-	width: 80px;
+	width: auto;
+	min-width: 30px;
+	padding: 0px 15px;
 	height:30px;
 	line-height: 30px;
 	text-align: center;
 	background-image: url(../images/testing/continue.png);
 	background-position: 0px 0px;
 	text-decoration: none;
+	background-size: 100% 90px;
+}
+.testbtn.rect.blue{
+	background-image: url(../images/testing/continue_blue.png);
 }
 .testbtn.rect:active{
 	background-position: 0px -30px;
@@ -73,6 +79,9 @@
 .testbtn.rect:disabled{
 	background-position: 0px -60px;
 	cursor: default;
+}
+#btn_continue{
+	margin-top: 20px;
 }
 #btn_exit{
 	position: absolute;
@@ -87,8 +96,9 @@
 	background-image: url(../images/testing/timerbtn.png);
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
-	width: 58px;
+	background-size: 100% 40px;
 	height: 20px;
+	padding: 0px 7px;
 	border: 0px;
 	outline:none;
 }
@@ -160,10 +170,10 @@
 	margin-top: 3px;
 }
 .review_no{
-	width: 10%;
+	width: 8%;
 }
 .review_des{
-	width: 48%;
+	width: 40%;
 }
 .review_uanswer{
 	width: 15%;
@@ -171,8 +181,11 @@
 .review_canswer{
 	width: 15%;
 }
-.review_correct{
+.review_status{
 	width: 12%;
+}
+.review_correct{
+	width: 10%;
 }
 .review_grid .review_selected, .review_grid .review_selected:hover{
 	background-color: rgb(197,229,253);

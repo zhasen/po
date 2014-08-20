@@ -37,10 +37,13 @@
 	cursor: default;
 }
 .testbtn.rect{
-	width: 80px;
 	height: 22px;
+	line-height: 22px;
 	background-image: none;
 	background-position: 0px 0px;
+}
+.testbtn.rect.blue{
+	background-image: none;
 }
 .testbtn.rect:active{
 }
@@ -54,7 +57,6 @@
 	background-image: none;
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
-	width: 58px;
 	height: 20px;
 	border: 0px;
 	outline:none;

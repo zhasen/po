@@ -855,12 +855,15 @@ function Designer(){
 				ind++;
 			});
 			//绑定矩形标记可以点击
-			rects.bind("click", function(){
-				canvas.find(".richtext_rect").show().removeClass("inserted");
-				canvas.find(".inserted_text").remove();
-				$(this).after("<span class='inserted_text' style='color: blue'>"+subject.showText+"</span>");
-				$(this).hide().addClass("inserted");
-			});
+			var isReview = Des.config.status == "testing" && Des.config.statusType == "review";
+			if(!isReview){
+				rects.bind("click", function(){
+					canvas.find(".richtext_rect").show().removeClass("inserted");
+					canvas.find(".inserted_text").remove();
+					$(this).after("<span class='inserted_text' style='color: blue'>"+subject.showText+"</span>");
+					$(this).hide().addClass("inserted");
+				});
+			}
 			if(elements != null && elements.length == 1 && this.model.define.containers.length == 2){
 				//有两页，并且只有富文本控件的情况下，判断有没有箭头标记
 				var tags = canvas.find(".richtext_arrow");
@@ -874,7 +877,8 @@ function Designer(){
 				var answer = Player.pageAnswer[0];
 				var answer = Player.getSubjectAnswer(Player.pageAnswer, Des.model.define, subject);
 				if(answer.length > 1){
-					canvas.find(".richtext_rect[ind="+answer[1]+"]").trigger("click");
+					canvas.find(".richtext_rect[ind="+answer[1]+"]").hide().addClass("inserted");
+					canvas.find(".richtext_rect[ind="+answer[1]+"]").after("<span class='inserted_text' style='color: blue'>"+subject.showText+"</span>");
 				}
 			}
 		}else if(subject.className == "org.neworiental.rmp.base::BasePicture"){
@@ -947,6 +951,7 @@ function Designer(){
 							if(canvas.length == 0 || !canvas.is(":visible")){
 								//canvas不存在了或者隐藏了
 								clearInterval(intTimer);
+								recorder.stop(); //停止录音
 								return;
 							}
 							var now = new Date().getTime();
@@ -989,6 +994,12 @@ function Designer(){
 						canvas.find(".record_time").children("div").width(vol * 430 + "px");
 	            	}
 	            });
+			}else if(Des.config.status == "testing" && Des.config.statusType == "review" && Player.pageAnswer && Player.pageAnswer.length > 0){
+				//测试预览状态下
+				var answer = Player.getSubjectAnswer(Player.pageAnswer, Des.model.define, subject);
+				canvas.find(".record_title").text("Your Answer");
+				canvas.append("<div><audio class='review_audio' style='width: 430px;' controls></audio></div>");
+				canvas.find(".review_audio").attr("src", "public/upload/record/" + answer[1] + ".mp3");
 			}
 		}else if(subject.className == "org.neworiental.rmp.base::OptionGroup"){
 			canvas.empty();
@@ -1015,11 +1026,31 @@ function Designer(){
 						if(rightAnswer.indexOf(i) >= 0){
 							chk.prop("checked", true);
 						}
-					}else if(Des.config.status == "testing" && Player.pageAnswer && Player.pageAnswer.length > 0){
+					}else if(Des.config.status == "testing" && Des.config.statusType == "normal" && Player.pageAnswer && Player.pageAnswer.length > 0){
 						//如果是测试状态，显示用户答案
 						var answer = Player.getSubjectAnswer(Player.pageAnswer, Des.model.define, subject);
 						if(answer.indexOf(i) >= 0){
 							chk.prop("checked", true);
+						}
+					}else if(Des.config.status == "testing" && Des.config.statusType == "review"){
+						//如果是review状态，显示正确答案与用户答案
+						var rightAnswer = JSON.parse(subject.rightAns);
+						if(rightAnswer.indexOf(i) >= 0){
+							chk.prop("checked", true);
+						}
+						if(Player.pageAnswer && Player.pageAnswer.length > 0){
+							//显示用户答案
+							var answer = Player.getSubjectAnswer(Player.pageAnswer, Des.model.define, subject);
+							if(answer.indexOf(i) >= 0){
+								//用户选择了此选项
+								if(rightAnswer.indexOf(i) >= 0){
+									//此选项是正确的
+									chk.addClass("righted");
+								}else{
+									//此选项是错误的
+									chk.addClass("errored");
+								}
+							}
 						}
 					}
 				}
@@ -1253,7 +1284,7 @@ function Designer(){
 					canvas.append("<div class='subjectdrag_option' ind='"+i+"'>"+this.utils.toText(subject.options[i])+"</div>");
 				}
 			}
-			if(Des.config.status == "subject" || Des.config.status == "testing"){
+			if(Des.config.status == "subject" || (Des.config.status == "testing" && Des.config.statusType == "normal")){
 				//如果是题目编辑状态，绑定拖拽
 				canvas.children(".subjectdrag_option").unbind().bind("mousedown", function(e){
 					var target = $(this);
@@ -1390,8 +1421,15 @@ function Designer(){
 			}
 			canvas.css("text-align", "center");
 			if(Des.config.status == "testing"){
-				canvas.find(".subject_audiotext_progress").hide(); //模考模式下没有界面
-				canvas.children().append("<div class='subject_audiotext_tip'>加载中，请稍候...</div>");
+				var mode = JSON.parse(subject.mode);
+				//获取当前题目信息
+				var playItem = Player.items[Player.itemIndex];
+				if(playItem.item.subjectType == "TOEFL_LISTEN" && mode.length == 0){
+					//如果是托福听力部分的测试，并且不包含图片，听力对话和讲座，则不显示进度
+					canvas.find(".subject_audiotext_progress").hide();
+				}else{
+					canvas.children().append("<div class='subject_audiotext_tip'>加载中，请稍候...</div>");
+				}
 				//如果是测试状态，直接开始播放
 				var audio = $("<audio></audio>").appendTo(canvas);
 				audio.bind("canplay", function(){
@@ -1403,7 +1441,7 @@ function Designer(){
 					var progress = canvas.find(".subject_audiotext_progress");
 					var bar = $("<div></div>").appendTo(progress);
 					//开始监听
-					var second = 0;
+					var second = -1;
 					var intTimer = setInterval(function(){
 						if(canvas.length == 0 || !canvas.is(":visible")){
 							//canvas不存在了或者隐藏了
@@ -1424,7 +1462,6 @@ function Designer(){
 						second = curSecond;
 						//显示时间点，解析mode属性
 						//mode属性示例："[{"isWord":false,"word":null,"url":"A9060840-8384-6B97-9C59-A72029247234","timestamp":5108}]"
-						var mode = JSON.parse(subject.mode);
 						for (var pi = 0; pi < mode.length; pi++) {
 							var point = mode[pi];
 							var time = Math.floor(point.timestamp / 1000); //毫秒转为秒

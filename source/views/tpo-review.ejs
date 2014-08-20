@@ -8,7 +8,6 @@
     <link type='text/css' rel='stylesheet' href="/public/static/styles/testing.css"/>
 
     <script type="text/javascript">
-        var defaultDef = {};
         var paperConfig = {
             testId: "<%=testId%>",
             paperId: "<%=paperId%>",
@@ -38,19 +37,19 @@
             </div>
             <span id="btn_exit" class="testbtn rect">Exit</span>
             <div id="header_right_normal" class="designer_header_right" style="top: 5px;right: 10px;">
-                <input id="btn_extral" type="button" value="查看文章" class="testbtn rect"/>
-                <input id="btn_review" type="button" value="Review" class="testbtn rect"/>
-                <input id="btn_back" type="button" value="back" class="testbtn"/>
-                <input id="btn_ok" type="button" value="Ok" class="testbtn"/>
-                <input id="btn_next" type="button" value="next" class="testbtn"/>
-                <input id="btn_continue" type="button" value="Continue" class="testbtn rect"/>
+                <input id="btn_review" type="button" value="REVIEW" class="testbtn rect"/>
+                <input id="btn_extral" type="button" value="VIEW ARTICLE" class="testbtn rect"/>
+                <input id="btn_back" type="button" value="BACK" class="testbtn"/>
+                <input id="btn_ok" type="button" value="OK" class="testbtn"/>
+                <input id="btn_next" type="button" value="NEXT" class="testbtn"/>
+                <input id="btn_continue" type="button" value="CONTINUE" class="testbtn rect blue"/>
             </div>
             <div id="header_right_extral_return" class="designer_header_right" style="top: 5px;right: 10px;">
-                <input id="btn_extral_return" type="button" value="Return" class="testbtn rect">
+                <input id="btn_extral_return" type="button" value="VIEW QUESTION" class="testbtn rect">
             </div>
             <div id="header_question">Question <span></span></div>
             <div id="header_timer_box">
-                <input id="btn_timer" type="button" value="hideTime" class="timerbtn"/>
+                <input id="btn_timer" type="button" value="HIDE TIMER" class="timerbtn"/>
                 <span class="header_timer_wrap"><span id="header_timer"></span></span>
             </div>
         </div>
@@ -59,7 +58,7 @@
         </div>
     </div>
 </div>
-<div id="dlg_paper_review" class="dialog" style="width: 750px">
+<div id="dlg_paper_review" class="dialog" style="width: 950px">
     <div class="dialog_header">Test Report</div>
     <div id="review_content" class="dialog_content" style="height: 480px; overflow: auto;">
     </div>
