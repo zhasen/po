@@ -11,8 +11,8 @@ module.exports = function (app) {
 
     app.get('/tpo-test', function (req, res, next) {
         var data = {};
-        data.userId = req.query.userId;
-        //data.userId = req.session.user.code;
+        //data.userId = req.query.userId;
+        data.userId = req.session.user.code;
         data.testId = req.query.testId;
         data.paperId = req.query.paperId;
         data.allotId = req.query.allotId;
