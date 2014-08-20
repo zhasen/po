@@ -49,7 +49,7 @@ module.exports = function (app) {
 
             var encoder = new lame.Encoder(format);
             reader.pipe(encoder).pipe(output);
-
+            res.end('');
         });
         input.pipe(reader);
     });
