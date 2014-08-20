@@ -3,6 +3,7 @@ var auth = require('../middlewares/authenticate');
 var PageInput = require('./common/PageInput');
 var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
+var Oms = require('../services/OmsService');
 var showReport = require('./common/showReport');
 var settings = require('../../settings');
 var crypto = require('crypto');
@@ -18,9 +19,9 @@ module.exports = function (app) {
                 user.type = userData.type; // 用户类型，老师 2 学员 1
                 user.code = userData.data.sCode || userData.data.Code; // 学员code 或者 老师code
                 user.schoolid = userData.data.nSchoolId || userData.data.SchoolId; // 学员或者老师所在的学校ID
-                console.log('----------------->');
-                console.log(userData);
-                console.log(user);
+//                console.log('----------------->');
+//                console.log(userData);
+//                console.log(user);
                 next();
             } else {
                 user.type = 5;//游客
@@ -29,14 +30,10 @@ module.exports = function (app) {
         });
     };
     auth.bind(app);//use all authentication routing and handlers binding here
-    //同步用户账号接口
 
-    var synLearnTestUser = function() {
-
-    };
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
-        var user = req.session.user;
+        var user = req.session.user || null;
         if (user) {
             ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
                 //console.log(myClass);
@@ -47,6 +44,14 @@ module.exports = function (app) {
                     var type = 2;
                 } else {
                     var type = 5;
+                }
+                //同步用户信息
+                if(type == 1 || type ==2) {
+                    Oms.synLearnTestUser(user.id,user.schoolid,user.code,user.email,function(err,ret) {
+                        if(err) {
+                            logger.log(err);
+                        }
+                    });
                 }
                 //获取消息提醒
                 NewsAdmin.listAllNews(type, function (err, msglist) {
@@ -72,18 +77,6 @@ module.exports = function (app) {
         } else {
             res.redirect('/main');
         }
-    };
-
-    //汉字加密不乱码
-    var md51 = function (str) {
-        var Buffer = require('buffer').Buffer;
-        var buf = new Buffer(1024);
-        var len = buf.write(str, 0);
-        str = buf.toString('binary', 0, len);
-        var md5sum = crypto.createHash('md5');
-        md5sum.update(str);
-        str = md5sum.digest('hex');
-        return str;
     };
 
     //会员首页
@@ -193,42 +186,16 @@ module.exports = function (app) {
 
     //绑定学员号功能
     app.post('/main-bind', function (req, res) {
-//        var userid = 'xdf001000862';
         var userid = req.session.user.id;
-//        var email = 'i@xdf.cn';
         var email = req.session.user.email;
         var studentcode = req.body.studentcode;
         var studentName = req.body.studentName;
         var usertype = req.body.usertype;
-        var m = "BindStudentCodeByStudentName";
-        var k = settings.ixdf.appKey;
-        var i = settings.ixdf.appid;
-        var str = ("method=" + m + "&appid=" + i + "&userId=" + userid + "&email=" + email + "&studentcode=" + studentcode + "&studentName=" + studentName + "&usertype=" + usertype + "&appKey=" + k).toLowerCase();
-        var md5Str = md51(str).toUpperCase();
-        request({
-            method: 'post',
-            url: settings.ixdf.url + '/user/',
-            form: {
-                method: m,
-                appid: i,
-                userId: userid,
-                email: email,
-                studentcode: studentcode,
-                studentName: studentName,
-                usertype: usertype,
-                sign: md5Str
+        Oms.bindStudentCode(userid,studentcode,email,studentName,usertype,function(err,ret) {
+            if(err) {
+                logger.log(err);
             }
-        }, function (err, resp, ret) {
-            console.log('---------------------------->学员号接口：');
-            console.log(ret);
-            //根据接口返回数据判断其绑定学院号的结果
-            ret = JSON.parse(ret);
-            console.log('------------>绑定学院号接口返回信息:');
-            console.info(ret);
-            //再次用userid 调用获取角色接口然后获取shcoolid scode 等数据。
-            if (ret.Data == true) {
-                var userid = req.session.user.id;
-
+            if(ret.Data == true) {
                 ixdf.userBasicData(userid, function (err, userData) {
                     console.log('-------->通过ID查身份返回信息:');
                     console.log(userData);
@@ -243,7 +210,7 @@ module.exports = function (app) {
                         res.redirect('/main-bind');
                     }
                 });
-            } else {
+            }else {
                 //打印出错误信息并停留在当前页面
                 res.redirect('/main-bind?err=1');
             }

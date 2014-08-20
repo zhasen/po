@@ -1,5 +1,6 @@
 var settings = require('../../settings');
-
+var crypto = require('crypto');
+var request = require('request');
 var Service = {};
 
 //同步用户信息接口实现
@@ -11,14 +12,13 @@ Service.synLearnTestUser = function(UserId,SchoolId,Code,Email,callback) {
         Email: Email
     };
     var method = "synLearnTestUser";
-    //var key = "u2_userKey_#_1omsy2e*@%";
     var key = settings.ixdf.appKey;
+    //var key = 'u2_userKey_#_1omsy2e*@%';
     var str = (Code + Email + SchoolId + UserId + key).toLowerCase();
-    var md5Str = md5(str).toUpperCase();
+    var md5Str = md51(str).toUpperCase();
     var timestamp = new Date().Format("yyyy-MM-dd hh:mm:ss");
     request({
         method: 'post',
-        //url: 'http://rd.xdf.cn/oms/public/oms/api/omsapi!oms2Api.do',
         url: settings.oms.omsUrl,
         form: {
             method: method,
@@ -35,15 +35,15 @@ Service.synLearnTestUser = function(UserId,SchoolId,Code,Email,callback) {
 };
 
 //绑定学员号接口
-Service.bindStudentCode = function(UserId,SchoolId,Code,Email,StudentName,UserType) {
+Service.bindStudentCode = function(UserId,Code,Email,StudentName,UserType,callback) {
     var method = "BindStudentCodeByStudentName";
-    var appkey = settings.ixdf.appkey;
+    var appkey = settings.ixdf.appKey;
     var appid = settings.ixdf.appid;
     var str = ("method=" + method + "&appid=" + appid + "&userId=" + UserId + "&email=" + Email + "&studentcode=" + Code + "&studentName=" + StudentName + "&usertype=" + UserType + "&appKey=" + appkey).toLowerCase();
     var md5Str = md51(str).toUpperCase();
     request({
         method: 'post',
-        url: settings.ixdf.url + '/user/',
+        url: settings.ixdf.url + 'user/',
         form: {
             method: method,
             appid: appid,
@@ -83,6 +83,19 @@ Date.prototype.Format = function(fmt)
         if(new RegExp("("+ k +")").test(fmt))
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
     return fmt;
+};
+
+
+//MD5加密到汉字不乱码
+var md51 = function (str) {
+    var Buffer = require('buffer').Buffer;
+    var buf = new Buffer(1024);
+    var len = buf.write(str, 0);
+    str = buf.toString('binary', 0, len);
+    var md5sum = crypto.createHash('md5');
+    md5sum.update(str);
+    str = md5sum.digest('hex');
+    return str;
 };
 
 
