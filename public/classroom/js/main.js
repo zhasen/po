@@ -16,7 +16,8 @@ $(function(){
             case TESTING_CALLBACK_METHOD.loadData:{
                 if(!paperConfig.testId || paperConfig.testId.length == 0)
                 {
-                    ws = new WebSocket("ws://127.0.0.1:3010");
+                    //ws = new WebSocket("ws://127.0.0.1:3010");
+                    ws = new WebSocket("ws://path.staff.xdf.cn");
                     ws.onopen = function () {
                         console.log('socket open');
                         {
