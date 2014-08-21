@@ -25,6 +25,8 @@ module.exports = function (app) {
                 console.log(user);
                 next();
             } else {
+                console.log(222222);
+                console.log(user);
                 user.type = 5;//游客
                 next();
             }
