@@ -11,6 +11,8 @@ Service.synLearnTestUser = function(UserId,SchoolId,Code,Email,callback) {
         Code: Code,
         Email: Email
     };
+    console.log('_____-------->同步学员号接口参数:');
+    console.log(data);
     var method = "synLearnTestUser";
     //var key = settings.ixdf.appKey;
     var key = 'u2_userKey_#_1omsy2e*@%';
