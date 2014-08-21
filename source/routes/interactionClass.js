@@ -80,10 +80,8 @@ module.exports = function (app) {
         commonService.request(param,function(err,data){
             console.log('------->1111互动课堂：');
             console.log(data);
-            if(data != undefined) {
-                var data = JSON.parse(data);
-            }
-            callback(err,data);
+            var cdata = JSON.parse(data);
+            callback(err,cdata);
         });
     };
 
@@ -157,11 +155,11 @@ module.exports = function (app) {
                 input.typeList = typeArr;
                 input.listOne = data[1].result;
                 console.log('------->互动课堂接口返回数据：');
-                console.log(listOne);
+                console.log(input.listOne);
                 input.listOneAnwser = data[2].result;
 
                 console.log('------->互动课堂已答列表数据：');
-                console.log(lisOneAnwser);
+                console.log(input.listOneAnwser);
 
                 //判断是否显示模考
                 commonShow.showImitateExam(classcode,function(flag) {
