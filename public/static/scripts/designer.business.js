@@ -911,13 +911,13 @@ function resizeView(){
 	$(".subject_canvas_container").height(winH);
 	$("#subject_canvas").css("min-height", winH - 80);
 	$("#subject_designer").find(".subject_page").height(winH - 80);
-	$("#subject_designer").find(".designer_canvas").css("min-height", winH - 101);
-	subjectDes.config.pageHeight = winH - 80;
+	$("#subject_designer").find(".designer_canvas").css("min-height", winH - 51);
+	subjectDes.config.pageHeight = winH - 50;
 	
 	$("#template_designer").height(winH);
 	$("#template_designer").find(".subject_page").height(winH - 95);
-	$("#template_designer").find(".designer_canvas").css("min-height", winH - 116);
-	templateDes.config.pageHeight = winH - 95;
+	$("#template_designer").find(".designer_canvas").css("min-height", winH - 156);
+	templateDes.config.pageHeight = winH - 55;
 	
 	$("#preview_designer").height(winH);
 	$("#preview_designer").find(".subject_page").height(winH - 120);
