@@ -922,7 +922,7 @@ function resizeView(){
 	$("#preview_designer").height(winH);
 	$("#preview_designer").find(".subject_page").height(winH - 120);
 	$("#preview_designer").find(".designer_canvas").css("min-height", winH - 141);
-	previewDes.config.pageHeight = winH - 120;
+	previewDes.config.pageHeight = winH - 320;
 }
 
 /**
