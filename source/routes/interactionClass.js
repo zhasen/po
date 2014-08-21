@@ -110,6 +110,9 @@ module.exports = function (app) {
         input.token = input.page.user.type == 2 ? 'tch' : 'stu';
         input.user = input.page.user;
 
+        input.classcode = classcode;
+        input.schoolid = schoolid;
+
         //获取答题记录列表条件
         var whereObject = {
             'classCode': classcode,
@@ -154,6 +157,7 @@ module.exports = function (app) {
                 }
                 input.typeList = typeArr;
                 input.listOne = data[1].result;
+
                 console.log('------->互动课堂接口返回数据：');
                 console.log(input.listOne);
                 input.listOneAnwser = data[2].result;
@@ -174,27 +178,44 @@ module.exports = function (app) {
     //ajax加载课程信息
     app.post('/interaction/ajaxLoad',function(req,res) {
         var user = req.session.user;
-        var type = req.body.type;
-        var classcode = req.body.classcode;
-        getClassByType(type,classcode,user.code,user.schoolid,function(err,data) {
-            res.json(data);
-        });
+        if(user) {
+            var type = req.body.type;
+            var classcode = req.body.classcode;
+            getClassByType(type,classcode,user.code,user.schoolid,function(err,data) {
+                data.type = type;
+                data.classcode = classcode;
+                data.schoolid = user.schoolid;
+                res.json(data);
+            });
+        }else {
+            res.redirect('/main-login');
+        }
+
+
     });
 
     //ajax加载答题记录信息
     app.post('/interaction/ajaxLoadAnswer',function(req,res) {
         var user = req.session.user;
-        var type = req.body.type;
-        var classcode = req.body.classcode;
-        //获取答题记录列表条件
-        var whereObject = {
-            'classCode': classcode,
-            'userId': user.id,
-            'pType': type
-        };
-        InteractiveClassroomDetailService.findTestRecord(whereObject,function(err,data) {
-            res.json(data);
-        });
+        if(user) {
+            var type = req.body.type;
+            var classcode = req.body.classcode;
+            //获取答题记录列表条件
+            var whereObject = {
+                'classCode': classcode,
+                'userId': user.id,
+                'pType': type
+            };
+            InteractiveClassroomDetailService.findTestRecord(whereObject,function(err,data) {
+                data.type = type;
+                data.classcode = classcode;
+                data.schoolid = user.schoolid;
+                res.json(data);
+            });
+        }else {
+            res.redirect('/main-login');
+        }
+
     });
 
 
