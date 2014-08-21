@@ -14,14 +14,14 @@ module.exports = function (app) {
     var asseton = require('../middlewares/asseton')(mode);
 
     auth.afterLogin = function (user, next) {
+        //console.log(111111);
         ixdf.userBasicData(user.id, function (err, userData) {
+            //console.log(userData);
             if (userData) {
                 user.type = userData.type; // 用户类型，老师 2 学员 1
+                user.email = userData.data.Email;
                 user.code = userData.data.sCode || userData.data.Code; // 学员code 或者 老师code
                 user.schoolid = userData.data.nSchoolId || userData.data.SchoolId; // 学员或者老师所在的学校ID
-//                console.log('----------------->');
-//                console.log(userData);
-//                console.log(user);
                 next();
             } else {
                 user.type = 5;//游客
@@ -34,6 +34,7 @@ module.exports = function (app) {
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
         var user = req.session.user || null;
+        //console.log(user);
         if (user) {
             ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
                 //console.log(myClass);
@@ -51,8 +52,6 @@ module.exports = function (app) {
                         if(err) {
                             logger.log(err);
                         }
-                        console.log('---------->同步用户信息：');
-                        console.log(ret);
                     });
                 }
                 //获取消息提醒
