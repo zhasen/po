@@ -22,9 +22,9 @@ module.exports = function (app) {
             data.testId = "";
         }
         if(data.testId.length == 0)
-            res.render('tpo-continue', data);
-        else
             res.render('tpo-test', data);
+        else
+            res.render('tpo-continue', data);
     });
 
     app.get('/tpo-review', function (req, res, next) {
