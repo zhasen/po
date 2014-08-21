@@ -905,8 +905,8 @@ function resizeView(){
 	$("#subject_designer").height(winH);
 	$(".subject_list").height(winH);
 	$("#resource_panel").height(winH);
-	$("#resource_switch").css("top", winH / 2 - 55);
-	$(".resource_list").height($(window).height() - 120 - 36);
+	$("#resource_switch").css("top", winH / 2 - 25);
+	$(".resource_list").height($(window).height() - 320 - 36);
 	$("#left_subjects").height(winH - 41);
 	$(".subject_canvas_container").height(winH);
 	$("#subject_canvas").css("min-height", winH - 80);
