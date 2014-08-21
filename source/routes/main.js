@@ -14,14 +14,15 @@ module.exports = function (app) {
     var asseton = require('../middlewares/asseton')(mode);
 
     auth.afterLogin = function (user, next) {
-        //console.log(111111);
+        console.log(111111);
         ixdf.userBasicData(user.id, function (err, userData) {
-            //console.log(userData);
+            console.log(userData);
             if (userData) {
                 user.type = userData.type; // 用户类型，老师 2 学员 1
                 user.email = userData.data.Email || userData.date.sEmail;
                 user.code = userData.data.Code || userData.data.sCode; // 学员code 或者 老师code
                 user.schoolid = userData.data.SchoolId || userData.data.nSchoolId; // 学员或者老师所在的学校ID
+                console.log(user);
                 next();
             } else {
                 user.type = 5;//游客
