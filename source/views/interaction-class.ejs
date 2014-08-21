@@ -73,7 +73,7 @@
                             for(var i=0;i<len;i++) {
                                 var item = listOne[i];
                 %>
-                <%if(item.answerid == undefined) {%><li class="fix"><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.pType%>" class="getinto">进入课堂</a><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.pType%>"><%=item.paperName%></a></li><%}%>
+                <%if(item.answerid == undefined) {%><li class="fix"><a href="/interactive-classroom-detail?schoolId=<%=schoolid%>&classCode=<%=classcode%>&pType=1&allotId=<%=item.allotID%>&paperId=<%=item.paperId%>" class="getinto">进入课堂</a><a href="/interactive-classroom-detail?schoolId=<%=schoolid%>&classCode=<%=classcode%>&pType=1&allotId=<%=item.allotID%>&paperId=<%=item.paperId%>"><%=item.paperName%></a></li><%}%>
                 <%
                             }
                         }
@@ -117,7 +117,7 @@
                         for(var i=0;i<len;i++) {
                     var item = listOneAnwser[i];
                 %>
-                <%if(item.answerid != undefined) {%><li class="fix"><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.testId%>" class="getinto">进入课堂</a><a href="/interactive-classroom-detail?schoolId=<%=item.schoolId%>&classCode=<%=item.classCode%>&pType=<%=item.testId%>"><%=item.paperName%></a></li><%}%>
+                <%if(item.answerid != undefined) {%><li class="fix"><a href="/interactive-classroom-detail?schoolId=<%=schoolid%>&classCode=<%=classcode%>&pType=1&allotId=<%=item.allotID%>&paperId=<%=item.paperId%>&testId=<%=item.testId%>" class="getinto">进入课堂</a><a href="/interactive-classroom-detail?schoolId=<%=schoolid%>&classCode=<%=classcode%>&pType=1&allotId=<%=item.allotID%>&paperId=<%=item.paperId%>&testId=<%=item.testId%>"><%=item.paperName%></a></li><%}%>
                 <%
                 }
                 }
@@ -147,6 +147,9 @@
             success: function(data) {
                 if(data.result != undefined) {
                     //alert(1);
+                    var schoolId = data.schoolid;
+                    var classCode = data.classcode;
+                    var pType = data.type;
                     var result = data.result;
                     if(result != undefined) {
                         var arr = [];
@@ -155,7 +158,7 @@
                         {
                             var item = result[i];
                             if(item != undefined) {
-                                arr.push("<li class='fix'><a href='#' class='getinto'>进入课堂</a> <a href='#'>"+item.paperName+"</a></li> ");
+                                arr.push('<li class="fix"><a href="/interactive-classroom-detail?schoolId=' + schoolId + '&classCode=' + classCode + '&pType=' + pType + '&paperId' + item.paperId + '&allotId' + item.allotID + ' " class="getinto">进入课堂</a> <a href="/interactive-classroom-detail?schoolId=' + schoolId + '&classCode=' + classCode + '&pType=' + pType + '&paperId' + item.paperId + '&allotId' + item.allotID + ' ">' + item.paperName + '</a></li> ');
                             }
                         }
                         if(answerid == 1) {
@@ -179,6 +182,9 @@
             success: function(data) {
                 if(data != undefined) {
                     //alert(1);
+                    var schoolId = data.schoolid;
+                    var classCode = data.classcode;
+                    var pType = data.type;
                     var result = data.result;
                     if(result != undefined) {
                         var arr = [];
@@ -187,7 +193,7 @@
                         {
                             var item = result[i];
                             if(item != undefined) {
-                                arr.push("<li class='fix'><a href='#' class='getinto'>进入课堂</a> <a href='#'>"+item.paperName+"</a></li> ");
+                                arr.push('<li class="fix"><a href="/interactive-classroom-detail?schoolId=' + schoolId + '&classCode=' + classCode + '&pType=' + pType + '&paperId' + item.paperId + '&allotId' + item.allotID + '&testId' + item.testId + ' " class="getinto">进入课堂</a> <a href="/interactive-classroom-detail?schoolId=' + schoolId + '&classCode=' + classCode + '&pType=' + pType + '&paperId' + item.paperId + '&allotId' + item.allotID + '&testId' + item.testId + ' ">' + item.paperName + '</a></li> ');
                             }
                         }
                         if(answerid == 1) {

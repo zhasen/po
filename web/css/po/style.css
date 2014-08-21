@@ -204,7 +204,7 @@
 .lpath_page .mt_tab .tab_menu li span  { display:block;margin:7px auto;}
 .lpath_page .tab_box ul li { height:60px; border-bottom:1px solid #BFBFBF; padding-left:30px; cursor:pointer;}
 .lpath_page .tab_box ul li a { line-height:60px;font-size:15px; font-family:'Microsoft YaHei','微软雅黑'; color:#555;}
-.lpath_page .tab_box ul li .getinto { float:right; padding:0px 15px; background:#ff9027; color:#fff; display:inline-block; height:35px; line-height:35px; margin-top:15px; margin-right:18px; font-size:14px; display:none;}
+.lpath_page .tab_box ul li .getinto { float:right; padding:0px 15px; background:#ff9027; color:#fff; display:inline-block; height:35px; line-height:35px; margin-top:15px; margin-right:18px; font-size:14px;}
 .lpath_page .tab_box ul { display:none;}
 
 
