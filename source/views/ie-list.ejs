@@ -28,14 +28,14 @@
 <div class="lp_coursenav">
     <div class="lpath_page">
         <div class="sec_nav">
-            <a href="/schedule-<%=schoolId%>-<%=classCode%>">课表</a>
+            <a href="/schedule-<%=schoolId%>-<%=classCode%>" data-bypass>课表</a>
             <!--<a href="#">听课</a>-->
             <%if(showInteractionClass == true) {%>
-            <a href="/interaction-<%=schoolId%>-<%=classCode%>">互动课堂</a>
+            <a href="/interaction-<%=schoolId%>-<%=classCode%>" data-bypass>互动课堂</a>
             <%}%>
             <!--<a href="#">测试</a>-->
             <!--<a href="#">在线练习</a>-->
-            <a href="/imitateExam-<%=schoolId%>-<%=classCode%>" class="selected_name">模考</a>
+            <a href="/imitateExam-<%=schoolId%>-<%=classCode%>" class="selected_name" data-bypass>模考</a>
             <!--<a href="#">资料</a>-->
             <!--<a href="#">知识巩固</a>-->
         </div>
