@@ -14,15 +14,15 @@ Service.synLearnTestUser = function(UserId,SchoolId,Code,Email,callback) {
     console.log('------->同步用户信息接口参数:');
     console.log(data);
     var method = "synLearnTestUser";
-    var key = settings.ixdf.appKey;
+    var key = settings.oms.appKey;
     //var key = 'u2_userKey_#_1omsy2e*@%';
     var str = (Code + Email + SchoolId + UserId + key).toLowerCase();
     var md5Str = md51(str).toUpperCase();
     var timestamp = new Date().Format("yyyy-MM-dd hh:mm:ss");
     request({
         method: 'post',
-//        url: settings.oms.omsUrl,
-        url: 'http://rd.xdf.cn/oms/public/oms/api/omsapi!oms2Api.do',
+        url: settings.oms.omsUrl,
+        //url: 'http://rd.xdf.cn/oms/public/oms/api/omsapi!oms2Api.do',
         form: {
             method: method,
             data: JSON.stringify(data),
