@@ -21,6 +21,7 @@ var settings = {
     ixdf: {
         url: 'http://xytest.staff.xdf.cn/api/', // 正式：http://i.xdf.cn/api/
         appKey: 'v5appkey_test', // 测试v5appkey_test，正式需申请
+        //appKey: 'u2_userKey_#_1omsy2e*@%',
         appid: '5001' // 测试5001，正式需申请
     },
     mysql: {

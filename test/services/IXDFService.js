@@ -283,17 +283,18 @@ exports.xueyuanhao = function (test) {
 //同步用户信息
 exports.synLearnTestUser = function(test) {
     var data = {
-        "UserId": "xdf003350771",
+        "UserId": "xdf001000862",
         "SchoolId": 1,
-        "Code": "BJ217027",
-        "Email": "tftest814@126.com"
+        "Code": "BJ986146",
+        "Email": "i@xdf.cn"
     };
 
     var method = "synLearnTestUser";
     var key = "u2_userKey_#_1omsy2e*@%";
-    var str = ('BJ217027' + 'tftest814@126.com' + 1 + 'xdf003350771' + key).toLowerCase();
+    var str = ('BJ986146' + 'i@xdf.cn' + 1 + 'xdf001000862' + key).toLowerCase();
     var md5Str = md5(str).toUpperCase();
     var timestamp = new Date().Format("yyyy-MM-dd hh:mm:ss");
+    console.log(timestamp);
     request({
         method: 'post',
         url: 'http://rd.xdf.cn/oms/public/oms/api/omsapi!oms2Api.do',
