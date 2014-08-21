@@ -105,6 +105,8 @@ Service.userBasicData = function (userid, callback) {
                 return;
             }
             o.uniAPIInterface({userid: userid}, controlername, methodname, function (err, ret) { // 获取用户数据
+                console.log('------------>获取的用户信息：');
+                console.log(ret.Data);
                 userData.data = ret.Data;
                 callback(err, userData);
                 console.log(userData);
