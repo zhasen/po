@@ -32,6 +32,8 @@ module.exports = function (app) {
         data.classCode = req.query.classCode;
         data.testId = req.query.testId;
         data.pType = req.query.pType;
+        data.paperId = req.query.paperId;
+        data.allotId = req.query.allotId;
 
         if(!data.testId){
             data.testId = "";

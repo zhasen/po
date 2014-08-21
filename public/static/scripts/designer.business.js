@@ -905,24 +905,24 @@ function resizeView(){
 	$("#subject_designer").height(winH);
 	$(".subject_list").height(winH);
 	$("#resource_panel").height(winH);
-	$("#resource_switch").css("top", winH / 2 - 55);
-	$(".resource_list").height($(window).height() - 120 - 36);
+	$("#resource_switch").css("top", winH / 2 - 25);
+	$(".resource_list").height($(window).height() - 320 - 36);
 	$("#left_subjects").height(winH - 41);
 	$(".subject_canvas_container").height(winH);
 	$("#subject_canvas").css("min-height", winH - 80);
 	$("#subject_designer").find(".subject_page").height(winH - 80);
-	$("#subject_designer").find(".designer_canvas").css("min-height", winH - 101);
-	subjectDes.config.pageHeight = winH - 80;
+	$("#subject_designer").find(".designer_canvas").css("min-height", winH - 51);
+	subjectDes.config.pageHeight = winH - 50;
 	
 	$("#template_designer").height(winH);
 	$("#template_designer").find(".subject_page").height(winH - 95);
-	$("#template_designer").find(".designer_canvas").css("min-height", winH - 116);
-	templateDes.config.pageHeight = winH - 95;
+	$("#template_designer").find(".designer_canvas").css("min-height", winH - 156);
+	templateDes.config.pageHeight = winH - 55;
 	
 	$("#preview_designer").height(winH);
 	$("#preview_designer").find(".subject_page").height(winH - 120);
 	$("#preview_designer").find(".designer_canvas").css("min-height", winH - 141);
-	previewDes.config.pageHeight = winH - 120;
+	previewDes.config.pageHeight = winH - 320;
 }
 
 /**
