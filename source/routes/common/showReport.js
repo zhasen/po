@@ -2,6 +2,7 @@ var commonService = require('./commonService');
 var omsUrl = require('../../../settings').oms.omsUrl;
 var reportJson = require('../../../report');
 
+//获取模考报告数据
 exports.showReport = function(req,res,reportdata){
     var mtMessage ={
         "userName":reportdata.userName,

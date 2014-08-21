@@ -4,6 +4,7 @@ var omsUrl = require('../../../settings').oms.omsUrl;
 http.globalAgent.maxSockets = 50000;
 var TIMEOUT = 60*1000;
 
+//处理http请求
 exports.request = function(options, callback) {
     var logInfo = "http请求:" + options;
 	var post_req = http.request(options, function(result) {
@@ -28,6 +29,7 @@ exports.request = function(options, callback) {
 	post_req.end();
 };
 
+//Url编码
 exports.getUrl = function(map){
     var val = "";
     for (var key in map) {
@@ -37,6 +39,7 @@ exports.getUrl = function(map){
     return val;
 };
 
+//获取考卷列表
 exports.getPaperItems = function (pagerId,callback) {
 //    var str = "http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?";
     var str = omsUrl +"?";
