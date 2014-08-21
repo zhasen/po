@@ -51,6 +51,8 @@ module.exports = function (app) {
                         if(err) {
                             logger.log(err);
                         }
+                        console.log('---------->同步用户信息：');
+                        console.log(ret);
                     });
                 }
                 //获取消息提醒

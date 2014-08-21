@@ -57,7 +57,7 @@ module.exports = function (app) {
             "method":"getPtypeList",
             "projectCode": projectCode
         };
-        var param = oms.omsUrl + commonService.getUrl(url);
+        var param = oms.omsUrl + '?' + commonService.getUrl(url);
         commonService.request(param,function(err,data){
             if(data != undefined) {
                 var data = JSON.parse(data);
