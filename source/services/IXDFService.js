@@ -90,8 +90,8 @@ Service.userBasicData = function (userid, callback) {
     var userData = {};
     var o = this;
     o.uniAPIInterface({userid: userid}, 'user', 'GetUserTypeByUserId', function (err, ret) { // 获取用户身份
-//        console.log('--------->登录');
-//        console.log(ret);
+        console.log('--------->获取用户身份接口：');
+        console.log(ret);
         if (ret.Data) {
             userData.type = ret.Data.Type; // 用户类型：老师2 ？学生1 ？
             if (userData.type == 2 || userData.type == 22) {
@@ -105,6 +105,8 @@ Service.userBasicData = function (userid, callback) {
                 return;
             }
             o.uniAPIInterface({userid: userid}, controlername, methodname, function (err, ret) { // 获取用户数据
+                console.log('------------>获取的用户信息：');
+                console.log(ret.Data);
                 userData.data = ret.Data;
                 callback(err, userData);
                 console.log(userData);
