@@ -68,7 +68,7 @@ module.exports = function (app) {
                 }
                 //同步用户信息
                 if(type == 1 || type ==2 || type == 9 || type == 22) {
-                    Oms.synLearnTestUser(user.id,user.schoolid,user.code,user.email,function(err,ret) {
+                    Oms.synLearnTestUser(user.id,user.schoolid,user.code,user.email,user.displayName,function(err,ret) {
                         if(err) {
                             logger.log(err);
                         }
