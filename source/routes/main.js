@@ -29,7 +29,7 @@ module.exports = function (app) {
                     user.code = userData.data.Code;
                     user.schoolid = userData.data.SchoolId;
                 }else {
-                    user.email = userData.Data.sEmail;
+                    user.email = userData.data.sEmail;
                     user.code = userData.data.sCode;
                     user.schoolid = userData.data.nSchoolId;
                 }
