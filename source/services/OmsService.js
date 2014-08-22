@@ -4,12 +4,13 @@ var request = require('request');
 var Service = {};
 
 //同步用户信息接口实现
-Service.synLearnTestUser = function(UserId,SchoolId,Code,Email,callback) {
+Service.synLearnTestUser = function(UserId,SchoolId,Code,Email,NickName,callback) {
     var data = {
         UserId: UserId,
         SchoolId: SchoolId,
         Code: Code,
-        Email: Email
+        Email: Email,
+        NickName: NickName
     };
     console.log('------->同步用户信息接口参数:');
     console.log(data);

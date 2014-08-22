@@ -63,7 +63,7 @@ var settings = {
     },
     oms: {
         omsUrl: 'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do',
-        appKey: ''
+        appKey: 'test'
     },
     resources: {
         appName: '学路',

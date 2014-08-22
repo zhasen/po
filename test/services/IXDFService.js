@@ -286,18 +286,21 @@ exports.synLearnTestUser = function(test) {
         "UserId": "xdf001000862",
         "SchoolId": 1,
         "Code": "BJ986146",
-        "Email": "i@xdf.cn"
+        "Email": "i@xdf.cn",
+        "NickName": "李梦涵"
     };
 
     var method = "synLearnTestUser";
-    var key = "u2_userKey_#_1omsy2e*@%";
+//    var key = "u2_userKey_#_1omsy2e*@%";
+    var key = "test";
     var str = ('BJ986146' + 'i@xdf.cn' + 1 + 'xdf001000862' + key).toLowerCase();
-    var md5Str = md5(str).toUpperCase();
+    var md5Str = md51(str).toUpperCase();
     var timestamp = new Date().Format("yyyy-MM-dd hh:mm:ss");
     console.log(timestamp);
     request({
         method: 'post',
-        url: 'http://rd.xdf.cn/oms/public/oms/api/omsapi!oms2Api.do',
+//        url: 'http://rd.xdf.cn/oms/public/oms/api/omsapi!oms2Api.do',
+        url: 'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do',
         form: {
             method: method,
             data: JSON.stringify(data),
