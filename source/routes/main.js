@@ -15,8 +15,8 @@ module.exports = function (app) {
     var asseton = require('../middlewares/asseton')(mode);
 
     auth.afterLogin = function (user, next) {
-        console.log(111111);
         ixdf.userBasicData(user.id, function (err, userData) {
+            console.log('1.1.1');
             console.log(userData);
             if(err) {
                 throw err;
@@ -33,6 +33,7 @@ module.exports = function (app) {
                 }
                 user.code = userData.data.Code || userData.data.sCode; // 学员code 或者 老师code
                 user.schoolid = userData.data.SchoolId || userData.data.nSchoolId; // 学员或者老师所在的学校ID
+                console.log('session:');
                 console.log(user);
                 if(user.email) {
                     next();
