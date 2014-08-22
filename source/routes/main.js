@@ -24,15 +24,15 @@ module.exports = function (app) {
             }
             if (userData.type == 1 || userData.type == 2 || userData.type == 22 || userData.type == 9) {
                 user.type = userData.type; // 用户类型，老师 2 学员 1
-                if(user.type == 1) {
+                if(user.type == 1 || user.type == 9) {
                     user.email = userData.data.Email;
-                }else if(user.type == 2){
-                    user.email = user.Data.sEmail;
+                    user.code = userData.data.Code;
+                    user.schoolid = userData.data.SchoolId;
                 }else {
-                    user.email = null;
+                    user.email = user.Data.sEmail;
+                    user.code = userData.data.sCode;
+                    user.schoolid = userData.data.nSchoolId;
                 }
-                user.code = userData.data.Code || userData.data.sCode; // 学员code 或者 老师code
-                user.schoolid = userData.data.SchoolId || userData.data.nSchoolId; // 学员或者老师所在的学校ID
                 console.log('session:');
                 console.log(user);
                 if(user.email) {
