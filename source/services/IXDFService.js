@@ -242,8 +242,8 @@ Service.scheduleList = function (param, callback) {
                 if (!eventsList[c.ClassCode]) {
                     events.push({
                         title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
-                        start: c.BeginDate, // eg: 2013-01-23 00:00:00
-                        end: c.EndDate // eg: 2013-01-23 00:00:00
+                        start: c.BeginDate.replace(' ', 'T'), // eg: 2013-01-23 00:00:00 转成 2013-01-23T00:00:00
+                        end: c.EndDate.replace(' ', 'T') // eg: 2013-01-23 00:00:00 转成 2013-01-23T00:00:00
                     });
                     eventsList[c.ClassCode] = c.ClassCode;
                 }

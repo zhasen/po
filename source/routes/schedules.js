@@ -153,8 +153,8 @@ module.exports = function (app) {
                 logger.error(err);
                 res.json(500, err);
             }
-            console.info('events:');
-            console.info(events);
+            console.log('events:');
+            console.log(events);
             res.json(events);
         });
     });
