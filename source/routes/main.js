@@ -5,6 +5,7 @@ var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
 var Oms = require('../services/OmsService');
 var showReport = require('./common/showReport');
+var UserService = require('../services/UserService');
 var settings = require('../../settings');
 var crypto = require('crypto');
 var request = require('request');
@@ -23,7 +24,15 @@ module.exports = function (app) {
                 user.code = userData.data.Code || userData.data.sCode; // 学员code 或者 老师code
                 user.schoolid = userData.data.SchoolId || userData.data.nSchoolId; // 学员或者老师所在的学校ID
                 console.log(user);
-                next();
+                if(user.email) {
+                    next();
+                }else {
+                    UserService.loadById(user.id,function(err,item) {
+                        user.email = item.email;
+                        next();
+                    });
+                }
+
             } else {
                 console.log(222222);
                 console.log(user);
@@ -50,13 +59,13 @@ module.exports = function (app) {
                     var type = 5;
                 }
                 //同步用户信息
-                if(type == 1 || type ==2) {
-                    Oms.synLearnTestUser(user.id,user.schoolid,user.code,user.email,function(err,ret) {
-                        if(err) {
-                            logger.log(err);
-                        }
-                    });
-                }
+//                if(type == 1 || type ==2) {
+//                    Oms.synLearnTestUser(user.id,user.schoolid,user.code,user.email,function(err,ret) {
+//                        if(err) {
+//                            logger.log(err);
+//                        }
+//                    });
+//                }
                 //获取消息提醒
                 NewsAdmin.listAllNews(type, function (err, msglist) {
                     if (err) {
