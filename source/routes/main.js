@@ -18,7 +18,11 @@ module.exports = function (app) {
         console.log(111111);
         ixdf.userBasicData(user.id, function (err, userData) {
             console.log(userData);
-            if (userData) {
+            if(err) {
+                throw err;
+                return;
+            }
+            if (userData.type == 1 || userData.type == 2 || userData.type == 22 || userData.type == 9) {
                 user.type = userData.type; // 用户类型，老师 2 学员 1
                 if(user.type == 1) {
                     user.email = userData.data.Email;
@@ -40,8 +44,6 @@ module.exports = function (app) {
                 }
 
             } else {
-                console.log(222222);
-                console.log(user);
                 user.type = 5;//游客
                 next();
             }
@@ -65,7 +67,7 @@ module.exports = function (app) {
                     var type = 5;
                 }
                 //同步用户信息
-                if(type == 1 || type ==2) {
+                if(type == 1 || type ==2 || type == 9 || type == 22) {
                     Oms.synLearnTestUser(user.id,user.schoolid,user.code,user.email,function(err,ret) {
                         if(err) {
                             logger.log(err);
