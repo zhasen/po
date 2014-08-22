@@ -46,6 +46,8 @@ module.exports = function (app) {
 
             } else {
                 user.type = 5;//游客
+                console.log('session5:');
+                console.log(user);
                 next();
             }
         });
