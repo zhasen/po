@@ -20,7 +20,13 @@ module.exports = function (app) {
             console.log(userData);
             if (userData) {
                 user.type = userData.type; // 用户类型，老师 2 学员 1
-                user.email = userData.data.Email || userData.date.sEmail;
+                if(user.type == 1) {
+                    user.email = userData.data.Email;
+                }else if(user.type == 2){
+                    user.email = user.Data.sEmail;
+                }else {
+                    user.email = null;
+                }
                 user.code = userData.data.Code || userData.data.sCode; // 学员code 或者 老师code
                 user.schoolid = userData.data.SchoolId || userData.data.nSchoolId; // 学员或者老师所在的学校ID
                 console.log(user);
@@ -59,13 +65,13 @@ module.exports = function (app) {
                     var type = 5;
                 }
                 //同步用户信息
-//                if(type == 1 || type ==2) {
-//                    Oms.synLearnTestUser(user.id,user.schoolid,user.code,user.email,function(err,ret) {
-//                        if(err) {
-//                            logger.log(err);
-//                        }
-//                    });
-//                }
+                if(type == 1 || type ==2) {
+                    Oms.synLearnTestUser(user.id,user.schoolid,user.code,user.email,function(err,ret) {
+                        if(err) {
+                            logger.log(err);
+                        }
+                    });
+                }
                 //获取消息提醒
                 NewsAdmin.listAllNews(type, function (err, msglist) {
                     if (err) {
