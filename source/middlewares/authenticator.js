@@ -79,6 +79,8 @@ Authenticator.prototype = {
         var loginInfo = req.oauth;
         var auth = this;
         UserService.loadById(loginInfo.userId, function (err, user) {
+            console.log('周成接口返回数据：');
+            console.log(loginInfo);
             if (err) {
                 throw err; //TODO:
                 return;

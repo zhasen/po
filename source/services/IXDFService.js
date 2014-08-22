@@ -140,8 +140,7 @@ Service.myClass = function (p, callback) {
     } else {
         callback(null, []);
         return;
-    }
-    ;
+    };
     this.uniAPIInterface(param, 'classExt', methodname, function (err, ret) {
         //console.info(ret);
         var myClass = ret.Data;
