@@ -20,7 +20,9 @@
                         <font class="lp_sicons" id="icons_ing"></font>
                         <%= page.classData.ClassStatusText %>
                     </div>
-                    <div class="course_level  path_sgo"><img src="/public/build/img/po/images/ic_ps_go.png" width="42" height="42"/></div>
+                    <div class="course_level  path_sgo">
+                        <img src="/public/build/img/po/images/ic_ps_go.png" width="42" height="42"/>
+                    </div>
                 </dd>
             </dl>
         </div>
@@ -56,7 +58,7 @@
     <div class="lpath_page">
         <dl class="btn_part fix">
             <dd class="f_r">
-                <a href="/scheduledl-<%= schoolid %>-<%= classcode %>" data-bypass
+                <a style="cursor: pointer; z-index: 9999" href="/scheduledl-<%= schoolid %>-<%= classcode %>" data-bypass
                    class="btn_download_schedule lp_pbg"></a></dd>
         </dl>
         <% include s-schedules.ejs %>

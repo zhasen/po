@@ -237,38 +237,38 @@ Service.scheduleList = function (param, callback) {
     }
     //console.info('param:' + JSON.stringify(param));
     this.uniAPIInterface(p, 'calendar', methodname, function (err, ret) {
-        if (err) {
-            logger.error(err);
-            res.json(500, err);
-            return;
+            if (err) {
+                logger.error(err);
+                res.json(500, err);
+                return;
+            }
+            //console.info('calendar:' + JSON.stringify(ret.Data));
+            //console.info(ret.Data.length);
+            var events = [];
+            if (ret.Data) {
+                ret.Data.forEach(function (c) {
+                        events.push({
+                            title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
+                            start: c.SectBegin.replace(' ', 'T'), // eg: 2013-01-23 00:00:00 转成 2013-01-23T00:00:00
+                            end: c.SectEnd.replace(' ', 'T') // eg: 2013-01-23 00:00:00 转成 2013-01-23T00:00:00
+                        });
+                    }
+                );
+            }
+            /*events = [
+             { title: 'Long Event', start: '2014-06-10T16:00:00', end: '2014-06-11T16:00:00'},
+             { title: 'Repeating Event', start: '2014-06-09T16:00:00'},
+             { title: 'Repeating Event', start: '2014-06-15T10:00:00'},
+             { title: 'Meeting', start: '2014-06-12T10:30:00', end: '2014-06-12T12:30:00'},
+             { title: 'Lunch', start: '2014-06-12T12:00:00'},
+             { title: 'Birthday Party', start: '2014-06-13T07:00:00' }
+             ];*/
+            callback(err, events);
         }
-        //console.info('calendar:' + JSON.stringify(ret.Data));
-        //console.info(ret.Data.length);
-        var events = [];
-        var eventsList = {};
-        if (ret.Data) {
-            ret.Data.forEach(function (c) {
-                if (!eventsList[c.ClassCode]) {
-                    events.push({
-                        title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
-                        start: c.BeginDate.replace(' ', 'T'), // eg: 2013-01-23 00:00:00 转成 2013-01-23T00:00:00
-                        end: c.EndDate.replace(' ', 'T') // eg: 2013-01-23 00:00:00 转成 2013-01-23T00:00:00
-                    });
-                    eventsList[c.ClassCode] = c.ClassCode;
-                }
-            });
-        }
-        /*events = [
-         { title: 'Long Event', start: '2014-06-10T16:00:00', end: '2014-06-11T16:00:00'},
-         { title: 'Repeating Event', start: '2014-06-09T16:00:00'},
-         { title: 'Repeating Event', start: '2014-06-15T10:00:00'},
-         { title: 'Meeting', start: '2014-06-12T10:30:00', end: '2014-06-12T12:30:00'},
-         { title: 'Lunch', start: '2014-06-12T12:00:00'},
-         { title: 'Birthday Party', start: '2014-06-13T07:00:00' }
-         ];*/
-        callback(err, events);
-    });
-};
+    )
+    ;
+}
+;
 
 /**
  * 获取班级的日历数据列表
