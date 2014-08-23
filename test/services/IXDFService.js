@@ -69,17 +69,17 @@ exports.GetClassListFilterByTeacherCode = function (test) {
 exports.GetClassListFilterByTeacherCode_Ext = function (test) {
     ixdf.uniAPIInterface({
         schoolid: 1,
-        teachercode: 'BM0001',
+        teachercode: 'BM0267', // 'BM0001',
         classcodeorname: '',
         classstatus: 3,
         pageindex: 1,
         pagesize: 10,
         beginDate: '1990-01-01',
         endDate: '2100-01-01'
-    }, 'classExt', 'GetClassListFilterByTeacherCode', function (err, ret) {
+}, 'classExt', 'GetClassListFilterByTeacherCode', function (err, ret) {
         console.info('TEST：GetClassListFilterByTeacherCode_Ext:' + JSON.stringify(ret) + "\n");
         ret.Data.forEach(function (c) {
-            //console.info(c);
+//            console.info(c);
         });
         test.done();
     })
@@ -145,7 +145,7 @@ exports.GetStudentLessonEntityList = function (test) {
         endDate: '2014-07-07'
     }, 'calendar', 'GetStudentLessonEntityList', function (err, ret) {
         console.info('TEST：GetStudentLessonEntityList:' + JSON.stringify(ret) + "\n");
-        //console.info(ret);
+        console.info(ret);
         test.done();
     });
 }
@@ -291,7 +291,6 @@ exports.synLearnTestUser = function(test) {
     };
 
     var method = "synLearnTestUser";
-//    var key = "u2_userKey_#_1omsy2e*@%";
     var key = "test";
     var str = ('BJ986146' + 'i@xdf.cn' + 1 + 'xdf001000862' + key).toLowerCase();
     var md5Str = md51(str).toUpperCase();
@@ -299,7 +298,6 @@ exports.synLearnTestUser = function(test) {
     console.log(timestamp);
     request({
         method: 'post',
-//        url: 'http://rd.xdf.cn/oms/public/oms/api/omsapi!oms2Api.do',
         url: 'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do',
         form: {
             method: method,

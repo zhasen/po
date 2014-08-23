@@ -64,14 +64,18 @@ Service.uniAPIInterface = function (param, controllername, methodname, callback)
     // p.sign = md5(querystring.stringify(p).toLowerCase()).toUpperCase();
     p.sign = md5(txt.toLowerCase()).toUpperCase();
     delete p.appKey;
+    console.log('uniAPIInterface p ');
+    console.log(controllername);
+    console.log(p);
     request({
         method: 'post',
         url: settings.url + controllername + '/',
         form: p
     }, function (err, resp, ret) {
         if (err) {
-            console.info('error');
+            console.log('uniAPIInterface error');
             var errMsg = 'Fail in ' + methodname + ' API: ' + err.message;
+            console.log(errMsg);
             logger.error(errMsg);
             callback(new Error(errMsg), null);
         } else {
@@ -140,7 +144,8 @@ Service.myClass = function (p, callback) {
     } else {
         callback(null, []);
         return;
-    };
+    }
+    ;
     this.uniAPIInterface(param, 'classExt', methodname, function (err, ret) {
         //console.info(ret);
         var myClass = ret.Data;
@@ -197,6 +202,10 @@ Service.classList = function (param, user, callback) {
     extend(p, param);
     // 根据学生编号获取班级列表，有分页
     this.uniAPIInterface(p, 'classExt', methodname, function (err, ret) {
+        if (err) {
+            throw err;
+            return;
+        }
         var classlist = ret.Data || [];
         classlist.forEach(function (c) {
             c.poBeginDate = dateShift(c.BeginDate);

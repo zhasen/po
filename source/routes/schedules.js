@@ -13,7 +13,12 @@ module.exports = function (app) {
 
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
+
         var user = req.session.user;
+
+        console.log('/getMyClass:  user');
+        console.log(user);
+
         if(user) {
             ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
                 PageInput.i(req).put('myClass', myClass);
@@ -53,7 +58,7 @@ module.exports = function (app) {
     var getAllClass = function (req, res, next) {
         var input = PageInput.i(req);
         // 根据学生/老师Code获取全部班级列表
-        var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 9999};
+        var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 10};
         ixdf.classList(param, input.page.user, function (err, data) {
             // console.info(data);
             PageInput.i(req).put('myAllClass', data); // 班级全部列表数据
@@ -85,8 +90,14 @@ module.exports = function (app) {
 
         // 根据学生编号获取班级列表，有分页
         var param = {classcodeorname: input.searchkey, classstatus: 3, pageindex: req.params.page, pagesize: 9};
-        ixdf.classList(param, input.page.user, function (err, data) {
-            // console.info(ret);
+        /* console.log(input.page.user);
+         { id: 'xdf00205858',
+         displayName: '滕达',
+         email: 'tengda@xdf.cn',
+         type: 2,
+         code: 'BM0267',
+         schoolid: 1 } */
+         ixdf.classList(param, input.page.user, function (err, data) {
             input.classlist = data; // 班级列表数据
             res.render('schedules-' + input.token, input);
         });
