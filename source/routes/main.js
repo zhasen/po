@@ -22,34 +22,42 @@ module.exports = function (app) {
                 throw err;
                 return;
             }
-            if (userData.type == 1 || userData.type == 2 || userData.type == 22 || userData.type == 9) {
-                user.type = userData.type; // 用户类型，老师 2 学员 1
-                if(user.type == 1 || user.type == 9) {
-                    user.email = userData.data.Email;
-                    user.code = userData.data.Code;
-                    user.schoolid = userData.data.SchoolId;
-                }else {
-                    user.email = userData.data.sEmail;
-                    user.code = userData.data.sCode;
-                    user.schoolid = userData.data.nSchoolId;
-                }
-                console.log('session:');
-                console.log(user);
-                if(user.email) {
-                    next();
-                }else {
-                    UserService.loadById(user.id,function(err,item) {
-                        user.email = item.email;
+            if(userData) {
+                if (userData.type == 1 || userData.type == 2 || userData.type == 22 || userData.type == 9) {
+                    user.type = userData.type; // 用户类型，老师 2 学员 1
+                    if(user.type == 1 || user.type == 9) {
+                        user.email = userData.data.Email;
+                        user.code = userData.data.Code;
+                        user.schoolid = userData.data.SchoolId;
+                    }else {
+                        user.email = userData.data.sEmail;
+                        user.code = userData.data.sCode;
+                        user.schoolid = userData.data.nSchoolId;
+                    }
+                    console.log('session:');
+                    console.log(user);
+                    if(user.email) {
                         next();
-                    });
-                }
+                    }else {
+                        UserService.loadById(user.id,function(err,item) {
+                            user.email = item.email;
+                            next();
+                        });
+                    }
 
-            } else {
+                } else {
+                    user.type = 5;//游客
+                    console.log('session5:');
+                    console.log(user);
+                    next();
+                }
+            }else {
                 user.type = 5;//游客
                 console.log('session5:');
                 console.log(user);
                 next();
             }
+
         });
     };
     auth.bind(app);//use all authentication routing and handlers binding here
