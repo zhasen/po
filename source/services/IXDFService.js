@@ -208,8 +208,8 @@ Service.classList = function (param, user, callback) {
         p = {schoolid: user.schoolid, teachercode: user.code};
     }
     extend(p, param);
-    param.beginDate = time.currentYear() + '-01-01';
-    param.endDate = time.format(time.currentTime(), 'yyyy-MM-dd');
+    p.beginDate = time.currentYear() + '-01-01';
+    p.endDate = time.format(time.currentTime(), 'yyyy-MM-dd');
     // 根据学生编号获取班级列表，有分页
     this.uniAPIInterface(p, 'classExt', methodname, function (err, ret) {
         if (err) {
