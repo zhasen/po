@@ -19,7 +19,8 @@ exports.tearDown = function (done) {
 exports.GetUserTypeByUserId = function (test) {
     ixdf.uniAPIInterface({
 //        userid: 'xdf00228972' // 张洪伟 老师
-            userid: 'xdf001000862' // 李梦晗 学员
+//            userid: 'xdf001000862' // 李梦晗 学员
+            userid: 'xdf003367218' // 李梦晗 学员
         },
         'user', 'GetUserTypeByUserId', function (err, ret) {
             console.info('TEST：GetUserTypeByUserId:' + JSON.stringify(ret) + "\n");
@@ -74,12 +75,15 @@ exports.GetClassListFilterByTeacherCode_Ext = function (test) {
         classstatus: 3,
         pageindex: 1,
         pagesize: 10,
-        beginDate: '1990-01-01',
-        endDate: '2100-01-01'
+        //beginDate: '1990-01-01',
+        //endDate: '2100-01-01'
+        beginDate: time.currentYear() + '-01-01',
+        endDate: time.format(time.currentTime(), 'yyyy-MM-dd')
+
 }, 'classExt', 'GetClassListFilterByTeacherCode', function (err, ret) {
         console.info('TEST：GetClassListFilterByTeacherCode_Ext:' + JSON.stringify(ret) + "\n");
         ret.Data.forEach(function (c) {
-//            console.info(c);
+            console.info(c);
         });
         test.done();
     })

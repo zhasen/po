@@ -133,7 +133,15 @@ Service.userBasicData = function (userid, callback) {
  * callback 回调函数
  */
 Service.myClass = function (p, callback) {
-    var param = {schoolid: p.schoolid, classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 6};
+    var param = {
+        schoolid: p.schoolid,
+        classcodeorname: '',
+        classstatus: 3,
+        pageindex: 1,
+        pagesize: 6,
+        beginDate: time.currentYear() + '-01-01',
+        endDate: time.format(time.currentTime(), 'yyyy-MM-dd')
+    };
     var methodname = '';
     if (p.type == 2 || p.type == 22) {
         param.teachercode = p.code;
@@ -145,7 +153,7 @@ Service.myClass = function (p, callback) {
         callback(null, []);
         return;
     }
-    ;
+
     this.uniAPIInterface(param, 'classExt', methodname, function (err, ret) {
         //console.info(ret);
         var myClass = ret.Data;
@@ -200,6 +208,8 @@ Service.classList = function (param, user, callback) {
         p = {schoolid: user.schoolid, teachercode: user.code};
     }
     extend(p, param);
+    param.beginDate = time.currentYear() + '-01-01';
+    param.endDate = time.format(time.currentTime(), 'yyyy-MM-dd');
     // 根据学生编号获取班级列表，有分页
     this.uniAPIInterface(p, 'classExt', methodname, function (err, ret) {
         if (err) {
