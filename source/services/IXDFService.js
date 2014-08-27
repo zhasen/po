@@ -16,7 +16,11 @@ var md5 = function (str) {
 };
 
 var dateShift = function (date) {
-    return time.format(time.netToDate(date), 'yyyy.MM.dd')
+    if (date) {
+        return time.format(time.netToDate(date), 'yyyy.MM.dd')
+    } else {
+        return '';
+    }
 }
 
 var classStatusText = function (ClassStatus) {
@@ -79,6 +83,7 @@ Service.uniAPIInterface = function (param, controllername, methodname, callback)
             logger.error(errMsg);
             callback(new Error(errMsg), null);
         } else {
+            console.log(ret);
             ret = JSON.parse(ret);
             callback(null, ret);
         }
