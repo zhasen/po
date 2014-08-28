@@ -20,7 +20,7 @@ exports.GetUserTypeByUserId = function (test) {
     ixdf.uniAPIInterface({
 //        userid: 'xdf00228972' // 张洪伟 老师
 //            userid: 'xdf001000862' // 李梦晗 学员
-            userid: 'xdf003367218' // 李梦晗 学员
+            userid: 'xdf00205858' // 腾达 正式 老师
         },
         'user', 'GetUserTypeByUserId', function (err, ret) {
             console.info('TEST：GetUserTypeByUserId:' + JSON.stringify(ret) + "\n");
