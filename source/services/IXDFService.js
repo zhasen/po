@@ -128,54 +128,51 @@ Service.userBasicData = function (userid, callback) {
 };
 
 /**
- * 获取学员/老师的前六个班级
- * @param p
- * {
- *      type 用户类型 老师 2 学员 1
- *      schoolid 学员或老师所在的学校ID
- *      code 学员或老师的Code
- * }
- * callback 回调函数
+ * 根据学生/老师编号获取班级列表，有分页
+ * @p 接口中部分应用参数
+ * @user 用户对象
  */
-Service.myClass = function (p, callback) {
-    var param = {
-        schoolid: p.schoolid,
-        classcodeorname: '',
-        classstatus: 3,
-        pageindex: 1,
-        pagesize: 6,
-        beginDate: time.currentYear() + '-01-01',
-        endDate: time.format(time.currentTime(), 'yyyy-MM-dd')
-    };
-    var methodname = '';
-    if (p.type == 2 || p.type == 22) {
-        param.teachercode = p.code;
-        methodname = 'GetClassListFilterByTeacherCode';
-    } else if (p.type == 1 || p.type == 9) {
-        param.studentcode = p.code;
+Service.classList = function (req, param, user, callback) {
+//    console.info(user);
+    var methodname = '', p = {};
+    if (user.type == 1 || user.type == 9) {
         methodname = 'GetClassListFilterByStudentCode';
+        p = {schoolid: user.schoolid, studentcode: user.code};
+    } else if (user.type == 2 || user.type == 22) {
+        methodname = 'GetClassListFilterByTeacherCode';
+        p = {schoolid: user.schoolid, teachercode: user.code};
     } else {
         callback(null, []);
         return;
     }
+    extend(p, param);
+    p.beginDate = time.currentYear() + '-01-01';
+    p.endDate = time.format(time.currentTime(), 'yyyy-MM-dd');
 
-    this.uniAPIInterface(param, 'classExt', methodname, function (err, ret) {
-        //console.info(ret);
-        var myClass = ret.Data;
-        //console.log(myClass);
-        if (myClass) {
-            myClass.forEach(function (c) {
+    var key = querystring.stringify(p);
+    var classLists = req.session[key];
+    if (classLists) {
+        console.log('going session, IXDFService.js 204');
+        callback(null, classLists);
+        return;
+    } else {
+        // 根据学生编号获取班级列表，有分页
+        this.uniAPIInterface(p, 'classExt', methodname, function (err, ret) {
+            if (err) {
+                throw err;
+                return;
+            }
+            var classlists = ret.Data || [];
+            req.session[key] = classlists;
+            classlists.forEach(function (c) {
                 c.poBeginDate = dateShift(c.BeginDate);
                 c.poEndDate = dateShift(c.EndDate);
                 c.ClassStatusText = classStatusText(c.ClassStatus);
             });
-            callback(err, myClass);
-        } else {
-            myClass = [];
-            callback(err, myClass);
-        }
-
-    })
+            callback(err, classlists);
+            return;
+        })
+    }
 };
 
 /**
@@ -195,41 +192,6 @@ Service.classEntity = function (param, callback) {
         callback(err, classData);
     });
 }
-
-/**
- * 根据学生/老师编号获取班级列表，有分页
- * @p 接口中部分应用参数
- * @user 用户对象
- */
-Service.classList = function (param, user, callback) {
-//    console.info(user);
-    var methodname = '', p = {};
-    if (user.type == 1) {
-        methodname = 'GetClassListFilterByStudentCode';
-        p = {schoolid: user.schoolid, studentcode: user.code};
-
-    } else if (user.type == 2) {
-        methodname = 'GetClassListFilterByTeacherCode';
-        p = {schoolid: user.schoolid, teachercode: user.code};
-    }
-    extend(p, param);
-    p.beginDate = time.currentYear() + '-01-01';
-    p.endDate = time.format(time.currentTime(), 'yyyy-MM-dd');
-    // 根据学生编号获取班级列表，有分页
-    this.uniAPIInterface(p, 'classExt', methodname, function (err, ret) {
-        if (err) {
-            throw err;
-            return;
-        }
-        var classlist = ret.Data || [];
-        classlist.forEach(function (c) {
-            c.poBeginDate = dateShift(c.BeginDate);
-            c.poEndDate = dateShift(c.EndDate);
-            c.ClassStatusText = classStatusText(c.ClassStatus);
-        });
-        callback(err, classlist);
-    })
-};
 
 /**
  * 获取学生/老师的课表

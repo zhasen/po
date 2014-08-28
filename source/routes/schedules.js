@@ -13,15 +13,13 @@ module.exports = function (app) {
 
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
-
         var user = req.session.user;
-
         console.log('/getMyClass:  user');
         console.log(user);
-
         if(user) {
-            ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
-                PageInput.i(req).put('myClass', myClass);
+            var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 9};
+            ixdf.classList(req, param, user, function (err, prevClassList) {
+                PageInput.i(req).put('myClass', prevClassList);
                 if(user.type == 1 || user.type == 9) {
                     var type = 1;
                 }else if(user.type == 2 || user.type == 22) {
@@ -59,7 +57,7 @@ module.exports = function (app) {
         var input = PageInput.i(req);
         // 根据学生/老师Code获取全部班级列表
         var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 10};
-        ixdf.classList(param, input.page.user, function (err, data) {
+        ixdf.classList(req, param, input.page.user, function (err, data) {
             // console.info(data);
             PageInput.i(req).put('myAllClass', data); // 班级全部列表数据
             next();
@@ -82,6 +80,10 @@ module.exports = function (app) {
 
     // 学生/老师-所有班级、所有课表页面
     app.get('/schedules-:tabname-:page', getMyClass, getAllClass, function (req, res, next) {
+
+        console.info( 'req.session.test');
+        console.info( req.session.test)
+
         asseton(req, res);
         var input = PageInput.i(req);
         input.tabname = req.params.tabname; // 开启哪个标签
@@ -97,7 +99,7 @@ module.exports = function (app) {
          type: 2,
          code: 'BM0267',
          schoolid: 1 } */
-         ixdf.classList(param, input.page.user, function (err, data) {
+         ixdf.classList(req, param, input.page.user, function (err, data) {
             input.classlist = data; // 班级列表数据
             res.render('schedules-' + input.token, input);
         });
@@ -142,7 +144,7 @@ module.exports = function (app) {
     app.get('/classlist-data', function (req, res, next) {
         var user = {type: req.query.type, schoolid: req.query.schoolid, code: req.query.code};
         var param = {classcodeorname: req.query.class_key, classstatus: 3, pageindex: 1, pagesize: 99};
-        ixdf.classList(param, user, function (err, data) {
+        ixdf.classList(req, param, user, function (err, data) {
             res.json(data);
         });
     });

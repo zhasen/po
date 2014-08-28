@@ -15,6 +15,7 @@ module.exports = function (app) {
     var asseton = require('../middlewares/asseton')(mode);
 
     auth.afterLogin = function (user, next) {
+
         ixdf.userBasicData(user.id, function (err, userData) {
             console.log('1.1.1');
             console.log(userData);
@@ -65,11 +66,11 @@ module.exports = function (app) {
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
         var user = req.session.user || null;
-        //console.log(user);
         if (user) {
-            ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
-                //console.log(myClass);
-                PageInput.i(req).put('myClass', myClass);
+            var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 9};
+            ixdf.classList(req, param, user, function (err, prevClassList) {
+                // console.info(prevClassList);
+                PageInput.i(req).put('myClass', prevClassList);
                 if (user.type == 1 || user.type == 9) {
                     var type = 1;
                 } else if (user.type == 2 || user.type == 22) {
@@ -77,7 +78,7 @@ module.exports = function (app) {
                 } else {
                     var type = 5;
                 }
-                //同步用户信息
+                // 同步用户信息
                 if(type == 1 || type ==2 || type == 9 || type == 22) {
                     Oms.synLearnTestUser(user.id,user.schoolid,user.code,user.email,user.displayName,function(err,ret) {
                         if(err) {
