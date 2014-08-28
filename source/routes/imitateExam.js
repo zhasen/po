@@ -17,8 +17,9 @@ module.exports = function (app) {
     var getMyClass = function (req, res, next) {
         var user = req.session.user;
         if(user) {
-            ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
-                PageInput.i(req).put('myClass', myClass);
+            var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 9};
+            ixdf.classList(req, param, user, function (err, prevClassList) {
+                PageInput.i(req).put('myClass', prevClassList);
                 if(user.type == 1 || user.type == 9) {
                     var type = 1;
                 }else if(user.type == 2 || user.type == 22) {
