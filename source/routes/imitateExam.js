@@ -57,7 +57,7 @@ module.exports = function (app) {
         name: "mt",
         streams: [{
             type: 'rotating-file',
-            path: './logs/mt.log',
+            path: 'logs/mt.log',
             period: '1d',   // daily rotation
             count: 5        // keep 3 back copies
         }]
@@ -187,22 +187,22 @@ module.exports = function (app) {
 
     //查看模考日志
     app.get('/mtLog',function(req,res,next){
-        fs.readFile('./logs/mt.log','utf-8',function(err,data){
+        fs.readFile('logs/mt.log','utf-8',function(err,data){
             if(err){
                 console.log("Read mt.log error");
             }else{
-                res.write(data);
+                res.end(data);
             }
         });
     });
 
     //查看所有日志
     app.get('/showLog',function(req,res,next){
-        fs.readFile('./logs/app.log','utf-8',function(err,data){
+        fs.readFile('logs/app.log','utf-8',function(err,data){
             if(err){
                 console.log("Read appl.log error");
             }else{
-                res.write(data);
+                res.end(data);
             }
         });
     });
