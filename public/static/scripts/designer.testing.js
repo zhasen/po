@@ -465,6 +465,13 @@ var Player = {
 					$("#btn_ok").prop("disabled", "");
 				});
 			}
+			var tables = $(".subject_box[n='org.neworiental.rmp.base::TOEFLTable']");
+			if(tables.length > 0){
+				//如果有选择题控件
+				tables.find(".tableselect_chkbox").bind("click", function(){
+					$("#btn_ok").prop("disabled", "");
+				});
+			}
 		}
 		if(testingDes.config.statusType == "review"){
 			$("#header_question").children("span").text((this.questionIndex + 1) + " of " + this.questionList.length);
@@ -936,6 +943,23 @@ var Player = {
 						}
 						eleAnswer.push(ans);
 						pageAnswer.push(eleAnswer);
+					}else if(ele.className == "org.neworiental.rmp.base::TOEFLTable"){
+						//表格选择题
+						var eleAnswer = [ele.className];
+						var ans = "";
+						var box = $("#" + ele.ID); //获取控件
+						if(box.length > 0){
+							var rows = box.find("tr:not(.table_select_header)");
+							rows.each(function(){
+								var an = -1;
+								var checked = $(this).children(".table_checked");
+								if(checked.length){
+									an = parseInt(checked.attr("ind"));
+								}
+								eleAnswer.push(an);
+							});
+						}
+						pageAnswer.push(eleAnswer);
 					}
 				}
 			}
@@ -1194,6 +1218,51 @@ var Player = {
 							userMark: [0], //用户得分，需要和正确答案比较，并且知道此题分值
 							sourceMark: [parseInt(ele.sourceMark)] //原题分值
 						};
+						pageData.data.push(eleData);
+						//给总分加上这道题的分数
+						var eleMark = parseInt(ele.sourceMark);
+						if(eleMark){
+							data.totalMark += eleMark;
+						}
+					}else if(ele.className == "org.neworiental.rmp.base::TOEFLTable"){
+						var userAnswer = this.getSubjectAnswer(pageAnswer, page, ele); //获取这个控件的作答结果
+						//拼装一个控件的data数据
+						var eleData = {
+							ID: ele.ID,
+							isResponse: true,
+							type: ele.className,
+							data: "",
+							subjectiveItem: ele.subjectiveItem == "false" ? false : true,
+							testPointID: [ele.testPointID],
+							testPointName: [ele.testPointName],
+							rightAnswer: JSON.parse(ele.rightAns),
+							userAnswer: userAnswer, //用户作答结果
+							userMark: [0], //用户得分，需要和正确答案比较，并且知道此题分值
+							sourceMark: [parseInt(ele.sourceMark)] //原题分值
+						};
+						for (var i = 1; i < userAnswer.length; i++) {
+							if(userAnswer[i] != -1){
+								//有一项填写了
+								eleData.isResponse = true;
+								break;
+							}
+						}
+						if(eleData.isResponse){
+							//如果作答了，计算得分
+							//计算答对了几个
+							var allRight = true;
+							for (var i = 1; i < userAnswer.length; i++) {
+								if(userAnswer[i] == -1 || userAnswer[i] != eleData.rightAnswer[i-1]){
+									//有一项填写了
+									allRight = false;
+									break;
+								}
+							}
+							if(allRight){
+								//回答正确，设置用户分值
+								eleData.userMark = eleData.sourceMark;
+							}
+						}
 						pageData.data.push(eleData);
 						//给总分加上这道题的分数
 						var eleMark = parseInt(ele.sourceMark);
@@ -1522,6 +1591,8 @@ var Player = {
 					}else if(ele.className == "org.neworiental.rmp.base::BaseInputText"){
 						return true;
 					}else if(ele.className == "org.neworiental.rmp.base::TOEFLRecord"){
+						return true;
+					}else if(ele.className == "org.neworiental.rmp.base::TOEFLTable"){
 						return true;
 					}
 				}
@@ -1866,6 +1937,63 @@ var Review = {
 						result.rightAns = "";
 						result.userAns = "";
 						result.answerStatus = "Answered";
+					}else if(ele.className == "org.neworiental.rmp.base::TOEFLTable"){
+						containsObjective = true;
+						//添加得分和正确答案
+						var rightAnswer = JSON.parse(ele.rightAns);
+						var userAnswer = null;
+						if(pageAnswer){
+							userAnswer = Player.getSubjectAnswer(pageAnswer, page, ele); //获取这个控件的作答结果
+						}
+						//设置正确答案
+						if(rightAnswer && rightAnswer.length > 0){
+							for (var ai = 0; ai < rightAnswer.length; ai++) {
+								if(ai != 0){
+									result.rightAns += ",";
+								}
+								var answerIndex = rightAnswer[ai];
+								result.rightAns += "" + (answerIndex + 1);
+							}
+						}
+						//设置用户答案
+						if(userAnswer && userAnswer.length > 1){
+							for (var i = 1; i < userAnswer.length; i++) {
+								if(userAnswer[i] != -1){
+									if(result.userAns != ""){
+										result.userAns += ",";
+									}
+									var answerIndex = userAnswer[i];
+									if(answerIndex < 0){
+										result.userAns += "没选";
+									}else{
+										result.userAns += "" + (answerIndex + 1);
+									}
+								}
+							}
+						}
+						//判断对错
+						var allRight = false;
+						if(rightAnswer && rightAnswer.length > 0 && userAnswer && userAnswer.length > 1){
+							for (var i = 1; i < userAnswer.length; i++) {
+								if(userAnswer[i] == -1 || userAnswer[i] != rightAnswer[i-1]){
+									//有一项填写了
+									allRight = false;
+									break;
+								}
+							}
+						}
+						result.right = allRight;
+						if(ele.sourceMark){
+							result.mark = parseInt(ele.sourceMark);
+							if(allRight){
+								result.userMark = result.mark;
+							}
+						}
+						if(allRight){
+							result.answerStatus = "correct";
+						}else{
+							result.answerStatus = "incorrect";
+						}
 					}
 				}
 			}

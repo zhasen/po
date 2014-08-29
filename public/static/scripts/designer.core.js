@@ -918,19 +918,19 @@ function Designer(){
 		}else if(subject.className == "org.neworiental.rmp.base::TOEFLRecord"){
 			var html = "<div class='subject_record'><div class='record_title'>Recording......</div><div class='record_time'><div></div><b></b></div><div class='record_progress'></div></div>";
 			canvas.html(html);
-			var totalTime = parseInt(subject.totalTime);
-			var minutes = Math.floor(totalTime / 60);
-			if(minutes < 10){
-				minutes = "0" + minutes;
-			}
-			var seconds = totalTime % 60;
-			if(seconds < 10){
-				seconds = "0" + seconds;
-			}
-			canvas.find(".record_time").children("b").text(minutes + ":" +seconds);
 			canvas.css("text-align", "center");
 			if(Des.config.status == "testing" && Des.config.statusType != "review"){
 				//如果是测试状态，直接开始录音，并倒计时
+				var totalTime = parseInt(subject.totalTime);
+				var minutes = Math.floor(totalTime / 60);
+				if(minutes < 10){
+					minutes = "0" + minutes;
+				}
+				var seconds = totalTime % 60;
+				if(seconds < 10){
+					seconds = "0" + seconds;
+				}
+				canvas.find(".record_time").children("b").text(minutes + ":" +seconds);
 				Recorder.get(function (rec) {
 					//开始录音
 					var recorder = rec;
@@ -999,6 +999,32 @@ function Designer(){
 				var answer = Player.getSubjectAnswer(Player.pageAnswer, Des.model.define, subject);
 				canvas.find(".record_title").text("Your Answer");
 				canvas.append("<div><audio class='review_audio' style='width: 430px;' controls></audio></div>");
+				canvas.find(".review_audio").bind("canplay", function(){
+					var player = $(this)[0];
+					player.play();
+					var totalTime = parseInt(subject.totalTime);
+					var recordTime = Math.floor(player.duration); //录音时长
+					var lastTime = totalTime - recordTime; //剩余时间
+					if(lastTime > totalTime){
+						lastTime = totalTime;
+					}else if(lastTime < 0){
+						lastTime = 0;
+					}
+					//显示时间
+					var minutes = Math.floor(lastTime / 60);
+					if(minutes < 10){
+						minutes = "0" + minutes;
+					}
+					var seconds = lastTime % 60;
+					if(seconds < 10){
+						seconds = "0" + seconds;
+					}
+					canvas.find(".record_time").children("b").text(minutes + ":" +seconds);
+					//控制进度
+					var progress = canvas.find(".record_progress");
+					var bar = $("<div></div>").appendTo(progress);
+					bar.css("width", recordTime / totalTime * 430 + "px");
+				});
 				canvas.find(".review_audio").attr("src", "public/upload/record/" + answer[1] + ".mp3");
 			}
 		}else if(subject.className == "org.neworiental.rmp.base::OptionGroup"){
@@ -1159,24 +1185,26 @@ function Designer(){
 					canvas.find(".timer_time").text(minutes + ":" +seconds);
 				}, 250);
 			}
-		}else if(subject.className == "tableselect"){
+		}else if(subject.className == "org.neworiental.rmp.base::TOEFLTable"){
 			var html = "<table class='subject_tableselect'>";
 			//构造表头
 			html += "<tr class='table_select_header'>";
 			html += "<td></td>";
 			var selectHtml = ""; //每行选择区域的html
-			for(var i = 0; i < subject.columns.length; i++){
+			var columns = JSON.parse(subject.columns);
+			for(var i = 0; i < columns.length; i++){
 				html += "<td>";
-				html += subject.columns[i];
+				html += columns[i];
 				html += "</td>";
 				selectHtml += "<td class='tableselect_chkbox' ind='"+i+"'></td>";
 			}
 			html += "</tr>";
 			//构造列头
-			for(var i = 0; i < subject.rows.length; i++){
+			var rows = JSON.parse(subject.rows);
+			for(var i = 0; i < rows.length; i++){
 				html += "<tr>";
 				html += "<td>";
-				html += subject.rows[i];
+				html += rows[i];
 				html += "</td>";
 				html += selectHtml;
 				html += "</tr>";
@@ -1199,28 +1227,43 @@ function Designer(){
 					}
 					ind++;
 				});
+			}else if(Des.config.status == "testing" && Des.config.statusType == "review" && Player.pageAnswer && Player.pageAnswer.length > 0){
+				//如果是Review状态，显示用户答案
+				var answer = Player.getSubjectAnswer(Player.pageAnswer, Des.model.define, subject);
+				var rows = canvas.find("tr:not(.table_select_header)");
+				var ind = 1; //取用户答案，索引从1开始
+				rows.each(function(){
+					var an = answer[ind];
+					if(an >= 0){
+						$(this).children(".tableselect_chkbox:eq("+an+")").addClass("table_checked");
+					}
+					ind++;
+				});
 			}
-			canvas.find(".tableselect_chkbox").unbind().bind("click", function(){
-				$(this).parent().children().removeClass("table_checked");
-				$(this).addClass("table_checked");
-				if(Des.config.status == "subject"){
-					//题目编辑状态下，绑定设置正确答案
-					var rows = canvas.find("tr:not(.table_select_header)");
-					var answers = [];
-					rows.each(function(){
-						var an = -1;
-						var checked = $(this).children(".table_checked");
-						if(checked.length){
-							an = parseInt(checked.attr("ind"));
-						}
-						answers.push(an);
-					});
-					var id = canvas.parents(".subject_box").attr("id");
-					var sub = Des.model.getById(id);
-					sub.rightAnswer = answers;
-					Des.model.update(sub);
-				}
-			});
+			var isReview = Des.config.status == "testing" && Des.config.statusType == "review";
+			if(!isReview){
+				canvas.find(".tableselect_chkbox").unbind().bind("click", function(){
+					$(this).parent().children().removeClass("table_checked");
+					$(this).addClass("table_checked");
+					if(Des.config.status == "subject"){
+						//题目编辑状态下，绑定设置正确答案
+						var rows = canvas.find("tr:not(.table_select_header)");
+						var answers = [];
+						rows.each(function(){
+							var an = -1;
+							var checked = $(this).children(".table_checked");
+							if(checked.length){
+								an = parseInt(checked.attr("ind"));
+							}
+							answers.push(an);
+						});
+						var id = canvas.parents(".subject_box").attr("id");
+						var sub = Des.model.getById(id);
+						sub.rightAnswer = answers;
+						Des.model.update(sub);
+					}
+				});
+			}
 		}else if(subject.className == "org.neworiental.rmp.base::TOEFLReadingDrag"){
 			canvas.empty();
 			var blankNums = subject.blankNum.split("*^*");
