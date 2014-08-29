@@ -191,7 +191,9 @@ module.exports = function (app) {
             if(err){
                 console.log("Read mt.log error");
             }else{
+                res.writeHead(200, {"Content-Type": "text/plain"});
                 res.write(data);
+                res.end();
             }
         });
     });
@@ -202,7 +204,9 @@ module.exports = function (app) {
             if(err){
                 console.log("Read appl.log error");
             }else{
+                res.writeHead(200, {"Content-Type": "text/plain"});
                 res.write(data);
+                res.end();
             }
         });
     });
