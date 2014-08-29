@@ -19,7 +19,8 @@ exports.tearDown = function (done) {
 exports.GetUserTypeByUserId = function (test) {
     ixdf.uniAPIInterface({
 //        userid: 'xdf00228972' // 张洪伟 老师
-            userid: 'xdf001000862' // 李梦晗 学员
+//            userid: 'xdf001000862' // 李梦晗 学员
+            userid: 'xdf00205858' // 腾达 正式 老师
         },
         'user', 'GetUserTypeByUserId', function (err, ret) {
             console.info('TEST：GetUserTypeByUserId:' + JSON.stringify(ret) + "\n");
@@ -69,17 +70,20 @@ exports.GetClassListFilterByTeacherCode = function (test) {
 exports.GetClassListFilterByTeacherCode_Ext = function (test) {
     ixdf.uniAPIInterface({
         schoolid: 1,
-        teachercode: 'BM0001',
+        teachercode: 'BM0267', // 'BM0001',
         classcodeorname: '',
         classstatus: 3,
         pageindex: 1,
         pagesize: 10,
-        beginDate: '1990-01-01',
-        endDate: '2100-01-01'
-    }, 'classExt', 'GetClassListFilterByTeacherCode', function (err, ret) {
+        //beginDate: '1990-01-01',
+        //endDate: '2100-01-01'
+        beginDate: time.currentYear() + '-01-01',
+        endDate: time.format(time.currentTime(), 'yyyy-MM-dd')
+
+}, 'classExt', 'GetClassListFilterByTeacherCode', function (err, ret) {
         console.info('TEST：GetClassListFilterByTeacherCode_Ext:' + JSON.stringify(ret) + "\n");
         ret.Data.forEach(function (c) {
-            //console.info(c);
+            console.info(c);
         });
         test.done();
     })
@@ -145,7 +149,7 @@ exports.GetStudentLessonEntityList = function (test) {
         endDate: '2014-07-07'
     }, 'calendar', 'GetStudentLessonEntityList', function (err, ret) {
         console.info('TEST：GetStudentLessonEntityList:' + JSON.stringify(ret) + "\n");
-        //console.info(ret);
+        console.info(ret);
         test.done();
     });
 }
@@ -286,18 +290,19 @@ exports.synLearnTestUser = function(test) {
         "UserId": "xdf001000862",
         "SchoolId": 1,
         "Code": "BJ986146",
-        "Email": "i@xdf.cn"
+        "Email": "i@xdf.cn",
+        "NickName": "李梦涵"
     };
 
     var method = "synLearnTestUser";
-    var key = "u2_userKey_#_1omsy2e*@%";
+    var key = "test";
     var str = ('BJ986146' + 'i@xdf.cn' + 1 + 'xdf001000862' + key).toLowerCase();
-    var md5Str = md5(str).toUpperCase();
+    var md5Str = md51(str).toUpperCase();
     var timestamp = new Date().Format("yyyy-MM-dd hh:mm:ss");
     console.log(timestamp);
     request({
         method: 'post',
-        url: 'http://rd.xdf.cn/oms/public/oms/api/omsapi!oms2Api.do',
+        url: 'http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do',
         form: {
             method: method,
             data: JSON.stringify(data),

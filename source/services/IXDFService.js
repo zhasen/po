@@ -16,7 +16,11 @@ var md5 = function (str) {
 };
 
 var dateShift = function (date) {
-    return time.format(time.netToDate(date), 'yyyy.MM.dd')
+    if (date) {
+        return time.format(time.netToDate(date), 'yyyy.MM.dd')
+    } else {
+        return '';
+    }
 }
 
 var classStatusText = function (ClassStatus) {
@@ -64,17 +68,22 @@ Service.uniAPIInterface = function (param, controllername, methodname, callback)
     // p.sign = md5(querystring.stringify(p).toLowerCase()).toUpperCase();
     p.sign = md5(txt.toLowerCase()).toUpperCase();
     delete p.appKey;
+    console.log('uniAPIInterface p ');
+    console.log(controllername);
+    console.log(p);
     request({
         method: 'post',
         url: settings.url + controllername + '/',
         form: p
     }, function (err, resp, ret) {
         if (err) {
-            console.info('error');
+            console.log('uniAPIInterface error');
             var errMsg = 'Fail in ' + methodname + ' API: ' + err.message;
+            console.log(errMsg);
             logger.error(errMsg);
             callback(new Error(errMsg), null);
         } else {
+            console.log(ret);
             ret = JSON.parse(ret);
             callback(null, ret);
         }
@@ -119,46 +128,51 @@ Service.userBasicData = function (userid, callback) {
 };
 
 /**
- * 获取学员/老师的前六个班级
- * @param p
- * {
- *      type 用户类型 老师 2 学员 1
- *      schoolid 学员或老师所在的学校ID
- *      code 学员或老师的Code
- * }
- * callback 回调函数
+ * 根据学生/老师编号获取班级列表，有分页
+ * @p 接口中部分应用参数
+ * @user 用户对象
  */
-Service.myClass = function (p, callback) {
-    var param = {schoolid: p.schoolid, classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 6};
-    var methodname = '';
-    if (p.type == 2 || p.type == 22) {
-        param.teachercode = p.code;
-        methodname = 'GetClassListFilterByTeacherCode';
-    } else if (p.type == 1 || p.type == 9) {
-        param.studentcode = p.code;
+Service.classList = function (req, param, user, callback) {
+//    console.info(user);
+    var methodname = '', p = {};
+    if (user.type == 1 || user.type == 9) {
         methodname = 'GetClassListFilterByStudentCode';
+        p = {schoolid: user.schoolid, studentcode: user.code};
+    } else if (user.type == 2 || user.type == 22) {
+        methodname = 'GetClassListFilterByTeacherCode';
+        p = {schoolid: user.schoolid, teachercode: user.code};
     } else {
         callback(null, []);
         return;
     }
-    ;
-    this.uniAPIInterface(param, 'classExt', methodname, function (err, ret) {
-        //console.info(ret);
-        var myClass = ret.Data;
-        //console.log(myClass);
-        if (myClass) {
-            myClass.forEach(function (c) {
+    extend(p, param);
+    p.beginDate = time.currentYear() + '-01-01';
+    p.endDate = time.format(time.currentTime(), 'yyyy-MM-dd');
+
+    var key = querystring.stringify(p);
+    var classLists = req.session[key];
+    if (classLists) {
+        console.log('going session, IXDFService.js 204');
+        callback(null, classLists);
+        return;
+    } else {
+        // 根据学生编号获取班级列表，有分页
+        this.uniAPIInterface(p, 'classExt', methodname, function (err, ret) {
+            if (err) {
+                throw err;
+                return;
+            }
+            var classlists = ret.Data || [];
+            req.session[key] = classlists;
+            classlists.forEach(function (c) {
                 c.poBeginDate = dateShift(c.BeginDate);
                 c.poEndDate = dateShift(c.EndDate);
                 c.ClassStatusText = classStatusText(c.ClassStatus);
             });
-            callback(err, myClass);
-        } else {
-            myClass = [];
-            callback(err, myClass);
-        }
-
-    })
+            callback(err, classlists);
+            return;
+        })
+    }
 };
 
 /**
@@ -178,35 +192,6 @@ Service.classEntity = function (param, callback) {
         callback(err, classData);
     });
 }
-
-/**
- * 根据学生/老师编号获取班级列表，有分页
- * @p 接口中部分应用参数
- * @user 用户对象
- */
-Service.classList = function (param, user, callback) {
-//    console.info(user);
-    var methodname = '', p = {};
-    if (user.type == 1) {
-        methodname = 'GetClassListFilterByStudentCode';
-        p = {schoolid: user.schoolid, studentcode: user.code};
-
-    } else if (user.type == 2) {
-        methodname = 'GetClassListFilterByTeacherCode';
-        p = {schoolid: user.schoolid, teachercode: user.code};
-    }
-    extend(p, param);
-    // 根据学生编号获取班级列表，有分页
-    this.uniAPIInterface(p, 'classExt', methodname, function (err, ret) {
-        var classlist = ret.Data || [];
-        classlist.forEach(function (c) {
-            c.poBeginDate = dateShift(c.BeginDate);
-            c.poEndDate = dateShift(c.EndDate);
-            c.ClassStatusText = classStatusText(c.ClassStatus);
-        });
-        callback(err, classlist);
-    })
-};
 
 /**
  * 获取学生/老师的课表
@@ -229,38 +214,38 @@ Service.scheduleList = function (param, callback) {
     }
     //console.info('param:' + JSON.stringify(param));
     this.uniAPIInterface(p, 'calendar', methodname, function (err, ret) {
-        if (err) {
-            logger.error(err);
-            res.json(500, err);
-            return;
+            if (err) {
+                logger.error(err);
+                res.json(500, err);
+                return;
+            }
+            //console.info('calendar:' + JSON.stringify(ret.Data));
+            //console.info(ret.Data.length);
+            var events = [];
+            if (ret.Data) {
+                ret.Data.forEach(function (c) {
+                        events.push({
+                            title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
+                            start: c.SectBegin.replace(' ', 'T'), // eg: 2013-01-23 00:00:00 转成 2013-01-23T00:00:00
+                            end: c.SectEnd.replace(' ', 'T') // eg: 2013-01-23 00:00:00 转成 2013-01-23T00:00:00
+                        });
+                    }
+                );
+            }
+            /*events = [
+             { title: 'Long Event', start: '2014-06-10T16:00:00', end: '2014-06-11T16:00:00'},
+             { title: 'Repeating Event', start: '2014-06-09T16:00:00'},
+             { title: 'Repeating Event', start: '2014-06-15T10:00:00'},
+             { title: 'Meeting', start: '2014-06-12T10:30:00', end: '2014-06-12T12:30:00'},
+             { title: 'Lunch', start: '2014-06-12T12:00:00'},
+             { title: 'Birthday Party', start: '2014-06-13T07:00:00' }
+             ];*/
+            callback(err, events);
         }
-        //console.info('calendar:' + JSON.stringify(ret.Data));
-        //console.info(ret.Data.length);
-        var events = [];
-        var eventsList = {};
-        if (ret.Data) {
-            ret.Data.forEach(function (c) {
-                if (!eventsList[c.ClassCode]) {
-                    events.push({
-                        title: c.ClassName, // eg: TOEFL核心词汇精讲班（限招45人）
-                        start: c.BeginDate, // eg: 2013-01-23 00:00:00
-                        end: c.EndDate // eg: 2013-01-23 00:00:00
-                    });
-                    eventsList[c.ClassCode] = c.ClassCode;
-                }
-            });
-        }
-        /*events = [
-         { title: 'Long Event', start: '2014-06-10T16:00:00', end: '2014-06-11T16:00:00'},
-         { title: 'Repeating Event', start: '2014-06-09T16:00:00'},
-         { title: 'Repeating Event', start: '2014-06-15T10:00:00'},
-         { title: 'Meeting', start: '2014-06-12T10:30:00', end: '2014-06-12T12:30:00'},
-         { title: 'Lunch', start: '2014-06-12T12:00:00'},
-         { title: 'Birthday Party', start: '2014-06-13T07:00:00' }
-         ];*/
-        callback(err, events);
-    });
-};
+    )
+    ;
+}
+;
 
 /**
  * 获取班级的日历数据列表

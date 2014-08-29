@@ -4,18 +4,18 @@ var request = require('request');
 var Service = {};
 
 //同步用户信息接口实现
-Service.synLearnTestUser = function(UserId,SchoolId,Code,Email,callback) {
+Service.synLearnTestUser = function(UserId,SchoolId,Code,Email,NickName,callback) {
     var data = {
         UserId: UserId,
         SchoolId: SchoolId,
         Code: Code,
-        Email: Email
+        Email: Email,
+        NickName: NickName
     };
     console.log('------->同步用户信息接口参数:');
     console.log(data);
     var method = "synLearnTestUser";
     var key = settings.oms.appKey;
-    //var key = 'u2_userKey_#_1omsy2e*@%';
     var str = (Code + Email + SchoolId + UserId + key).toLowerCase();
     var md5Str = md51(str).toUpperCase();
     var timestamp = new Date().Format("yyyy-MM-dd hh:mm:ss");

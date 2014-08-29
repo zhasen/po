@@ -8,6 +8,7 @@ var NewsAdmin = require('../services/NewsAdminService');
 var fs = require('fs');
 var showReport = require('./common/showReport');
 var commonShow = require('./common/commonShow');
+var bunyan = require('bunyan');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -17,8 +18,9 @@ module.exports = function (app) {
     var getMyClass = function (req, res, next) {
         var user = req.session.user;
         if(user) {
-            ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
-                PageInput.i(req).put('myClass', myClass);
+            var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 9};
+            ixdf.classList(req, param, user, function (err, prevClassList) {
+                PageInput.i(req).put('myClass', prevClassList);
                 if(user.type == 1 || user.type == 9) {
                     var type = 1;
                 }else if(user.type == 2 || user.type == 22) {
@@ -50,6 +52,16 @@ module.exports = function (app) {
             res.redirect('/main');
         }
     };
+
+    var mtlog = bunyan.createLogger({
+        name: "mt",
+        streams: [{
+            type: 'rotating-file',
+            path: './logs/mt.log',
+            period: '1d',   // daily rotation
+            count: 5        // keep 3 back copies
+        }]
+    });
 
     // 通过班级号获取班级数据
     var getClass = function (req, res, next) {
@@ -87,6 +99,8 @@ module.exports = function (app) {
         input.user = input.page.user;
         var param = settings.oms.omsUrl +"?"+ commonService.getUrl(url);
         commonService.request(param,function(err,data){
+            mtlog.info("http请求:"+param);
+            mtlog.info("http请求返回结果，Result:"+data);
             var sdata = JSON.parse(data);
 
             commonShow.showInteractionClass(classCode,function(flag) {
@@ -170,6 +184,29 @@ module.exports = function (app) {
         });
 
     });
+
+    //查看模考日志
+    app.get('/mtLog',function(req,res,next){
+        fs.readFile('./logs/mt.log','utf-8',function(err,data){
+            if(err){
+                console.log("Read mt.log error");
+            }else{
+                res.write(data);
+            }
+        });
+    });
+
+    //查看所有日志
+    app.get('/showLog',function(req,res,next){
+        fs.readFile('./logs/app.log','utf-8',function(err,data){
+            if(err){
+                console.log("Read appl.log error");
+            }else{
+                res.write(data);
+            }
+        });
+    });
+
 
 };
 

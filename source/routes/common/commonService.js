@@ -1,6 +1,7 @@
 var http = require('http');
 var request = require("request");
 var omsUrl = require('../../../settings').oms.omsUrl;
+var logger = require('../../commons/logging').logger;
 http.globalAgent.maxSockets = 50000;
 var TIMEOUT = 60*1000;
 
@@ -8,14 +9,14 @@ var TIMEOUT = 60*1000;
 exports.request = function(options, callback) {
     var logInfo = "http请求:" + options;
 	var post_req = http.request(options, function(result) {
-		console.log(logInfo);
+        logger.info(logInfo);
 		var data = '';
         result.setEncoding("utf8");
 		result.on("data", function(chunk) {
 			data += chunk;
 		});
 		result.on('end', function() {
-			console.log("请求返回结果，result:" + data.toString());
+            logger.info("请求返回结果，result:" + data.toString());
             callback(null,data);
 		});
 	});
@@ -41,7 +42,6 @@ exports.getUrl = function(map){
 
 //获取考卷列表
 exports.getPaperItems = function (pagerId,callback) {
-//    var str = "http://116.213.70.92/oms2/public/oms/api/omsapi!oms2Api.do?";
     var str = omsUrl +"?";
     str += "method="+'getPaperAllDataByPaperId';
     str += "&paperId="+pagerId;

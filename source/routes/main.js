@@ -5,6 +5,7 @@ var ixdf = require('../services/IXDFService');
 var NewsAdmin = require('../services/NewsAdminService');
 var Oms = require('../services/OmsService');
 var showReport = require('./common/showReport');
+var UserService = require('../services/UserService');
 var settings = require('../../settings');
 var crypto = require('crypto');
 var request = require('request');
@@ -14,22 +15,50 @@ module.exports = function (app) {
     var asseton = require('../middlewares/asseton')(mode);
 
     auth.afterLogin = function (user, next) {
-        console.log(111111);
+
         ixdf.userBasicData(user.id, function (err, userData) {
+            console.log('1.1.1');
             console.log(userData);
-            if (userData) {
-                user.type = userData.type; // 用户类型，老师 2 学员 1
-                user.email = userData.data.Email || userData.date.sEmail;
-                user.code = userData.data.Code || userData.data.sCode; // 学员code 或者 老师code
-                user.schoolid = userData.data.SchoolId || userData.data.nSchoolId; // 学员或者老师所在的学校ID
-                console.log(user);
-                next();
-            } else {
-                console.log(222222);
-                console.log(user);
+            if(err) {
+                throw err;
+                return;
+            }
+            if(userData) {
+                if (userData.type == 1 || userData.type == 2 || userData.type == 22 || userData.type == 9) {
+                    user.type = userData.type; // 用户类型，老师 2 学员 1
+                    if(user.type == 1 || user.type == 9) {
+                        user.email = userData.data.Email;
+                        user.code = userData.data.Code;
+                        user.schoolid = userData.data.SchoolId;
+                    }else {
+                        user.email = userData.data.sEmail;
+                        user.code = userData.data.sCode;
+                        user.schoolid = userData.data.nSchoolId;
+                    }
+                    console.log('session:');
+                    console.log(user);
+                    if(user.email) {
+                        next();
+                    }else {
+                        UserService.loadById(user.id,function(err,item) {
+                            user.email = item.email;
+                            next();
+                        });
+                    }
+
+                } else {
+                    user.type = 5;//游客
+                    console.log('session5:');
+                    console.log(user);
+                    next();
+                }
+            }else {
                 user.type = 5;//游客
+                console.log('session5:');
+                console.log(user);
                 next();
             }
+
         });
     };
     auth.bind(app);//use all authentication routing and handlers binding here
@@ -37,11 +66,11 @@ module.exports = function (app) {
     // 取每个学员/老师的前六个班级，用于顶部公共导航条
     var getMyClass = function (req, res, next) {
         var user = req.session.user || null;
-        //console.log(user);
         if (user) {
-            ixdf.myClass({type: user.type, schoolid: user.schoolid, code: user.code}, function (err, myClass) {
-                //console.log(myClass);
-                PageInput.i(req).put('myClass', myClass);
+            var param = {classcodeorname: '', classstatus: 3, pageindex: 1, pagesize: 9};
+            ixdf.classList(req, param, user, function (err, prevClassList) {
+                // console.info(prevClassList);
+                PageInput.i(req).put('myClass', prevClassList);
                 if (user.type == 1 || user.type == 9) {
                     var type = 1;
                 } else if (user.type == 2 || user.type == 22) {
@@ -49,9 +78,9 @@ module.exports = function (app) {
                 } else {
                     var type = 5;
                 }
-                //同步用户信息
-                if(type == 1 || type ==2) {
-                    Oms.synLearnTestUser(user.id,user.schoolid,user.code,user.email,function(err,ret) {
+                // 同步用户信息
+                if(type == 1 || type ==2 || type == 9 || type == 22) {
+                    Oms.synLearnTestUser(user.id,user.schoolid,user.code,user.email,user.displayName,function(err,ret) {
                         if(err) {
                             logger.log(err);
                         }

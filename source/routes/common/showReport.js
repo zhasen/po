@@ -1,6 +1,17 @@
 var commonService = require('./commonService');
 var omsUrl = require('../../../settings').oms.omsUrl;
 var reportJson = require('../../../report');
+var bunyan = require('bunyan');
+
+var mtlog = bunyan.createLogger({
+    name: "mt",
+    streams: [{
+        type: 'rotating-file',
+        path: './logs/mt.log',
+        period: '1d',   // daily rotation
+        count: 5        // keep 3 back copies
+    }]
+});
 
 //获取模考报告数据
 exports.showReport = function(req,res,reportdata){
@@ -57,6 +68,8 @@ exports.showReport = function(req,res,reportdata){
     }
 
     commonService.request(param,function(err,data){
+        mtlog.info("http请求:"+param);
+        mtlog.info("http请求返回结果，Result:"+data);
         var sdata = JSON.parse(data);
 
         if(sdata.errno != 1){
