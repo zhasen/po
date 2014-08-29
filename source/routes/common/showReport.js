@@ -3,11 +3,12 @@ var omsUrl = require('../../../settings').oms.omsUrl;
 var reportJson = require('../../../report');
 var bunyan = require('bunyan');
 
+//模考log
 var mtlog = bunyan.createLogger({
     name: "mt",
     streams: [{
         type: 'rotating-file',
-        path: 'logs/mt.log',
+        path: './logs/mt.log',
         period: '1d',   // daily rotation
         count: 5        // keep 3 back copies
     }]

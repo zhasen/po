@@ -53,6 +53,7 @@ module.exports = function (app) {
         }
     };
 
+    //模考log
     var mtlog = bunyan.createLogger({
         name: "mt",
         streams: [{
@@ -191,6 +192,7 @@ module.exports = function (app) {
             if(err){
                 console.log("Read mt.log error");
             }else{
+                res.writeHead(200, {"Content-Type": "text/plain;charset=utf-8"});
                 res.end(data);
             }
         });
@@ -202,11 +204,11 @@ module.exports = function (app) {
             if(err){
                 console.log("Read appl.log error");
             }else{
+                res.writeHead(200, {"Content-Type": "text/plain;charset=utf-8"});
                 res.end(data);
             }
         });
     });
-
 
 };
 
