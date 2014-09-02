@@ -1,18 +1,7 @@
 var commonService = require('./commonService');
 var omsUrl = require('../../../settings').oms.omsUrl;
 var reportJson = require('../../../report');
-var bunyan = require('bunyan');
-
-//模考log
-var mtlog = bunyan.createLogger({
-    name: "mt",
-    streams: [{
-        type: 'rotating-file',
-        path: './logs/mt.log',
-        period: '1d',   // daily rotation
-        count: 5        // keep 3 back copies
-    }]
-});
+var mtlog = require('../../commons/winstonlog');
 
 //获取模考报告数据
 exports.showReport = function(req,res,reportdata){

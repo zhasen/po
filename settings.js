@@ -49,6 +49,13 @@ var settings = {
         reloadSecs: 0, //INFO: set 0 could let nodeunit tests which use log4js exit properly
         level: 'DEBUG' // INFO
     },
+    winstonlog:{
+        filename: 'logs/mt.log',
+        maxsize:3145728,//3M
+        maxFiles:3145728,
+        level:'info',
+        json:false
+    },
     file: {
         public: 'public',
         build: 'public/build',
