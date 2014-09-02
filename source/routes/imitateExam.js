@@ -8,7 +8,7 @@ var NewsAdmin = require('../services/NewsAdminService');
 var fs = require('fs');
 var showReport = require('./common/showReport');
 var commonShow = require('./common/commonShow');
-var bunyan = require('bunyan');
+var mtlog = require('../commons/winstonlog');
 
 module.exports = function (app) {
     var mode = app.get('env') || 'development';
@@ -52,17 +52,6 @@ module.exports = function (app) {
             res.redirect('/main');
         }
     };
-
-    //模考log
-    var mtlog = bunyan.createLogger({
-        name: "mt",
-        streams: [{
-            type: 'rotating-file',
-            path: 'logs/mt.log',
-            period: '1d',   // daily rotation
-            count: 5        // keep 3 back copies
-        }]
-    });
 
     // 通过班级号获取班级数据
     var getClass = function (req, res, next) {
@@ -187,19 +176,48 @@ module.exports = function (app) {
     });
 
     //查看模考日志
-    app.get('/mtLog',function(req,res,next){
-        fs.readFile('logs/mt.log','utf-8',function(err,data){
-            if(err){
-                console.log("Read mt.log error");
-            }else{
-                res.writeHead(200, {"Content-Type": "text/plain;charset=utf-8"});
-                res.end(data);
-            }
-        });
+    app.get('/mtLog-:num',getMyClass,function(req,res,next){
+        asseton(req, res);
+        var num = req.params.num;
+        if(num == 'now'){
+            fs.readFile('logs/mt.log','utf-8',function(err,data){
+                if(err){
+                    console.log("Read mt.log error");
+                    res.writeHead(200, {"Content-Type": "text/plain;charset=utf-8"});
+                    res.end("未找到mt.log文件");
+                }else{
+                    res.writeHead(200, {"Content-Type": "text/plain;charset=utf-8"});
+                    res.end(data);
+                }
+            });
+        }
+        else{
+            var logName = './logs/mt.log.'+num;
+            fs.exists(logName, function(exists) {
+                if(exists){
+                    var readLogPath = './logs/mt'+num+'.log';
+                    fs.readFile(readLogPath,'utf-8',function(err,data){
+                        if(err){
+                            console.log("Read mt"+num+".log error");
+                            res.writeHead(200, {"Content-Type": "text/plain;charset=utf-8"});
+                            res.end(err);
+                        }else{
+                            res.writeHead(200, {"Content-Type": "text/plain;charset=utf-8"});
+                            res.end(data);
+                        }
+                    });
+                }else{
+                    res.writeHead(200, {"Content-Type": "text/plain;charset=utf-8"});
+                    res.end("没有mt"+num+".log 文件");
+                }
+            });
+        }
+
     });
 
     //查看所有日志
-    app.get('/showLog',function(req,res,next){
+    app.get('/showLog',getMyClass,function(req,res,next){
+        asseton(req, res);
         fs.readFile('logs/app.log','utf-8',function(err,data){
             if(err){
                 console.log("Read appl.log error");
