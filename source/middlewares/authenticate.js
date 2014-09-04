@@ -17,8 +17,8 @@ var xdf = new OAuthClient({
 
 var auth = new Authenticator({
     oauthClient: xdf,
-    authRouteRe: /^(?!\/auth\/|\/main\/|\/heartbeat\/|\/$).*/, // /^(?!\/auth\/|\/$).*/, match the url except / and /auth/*
-//    authRouteRe: '/^[^((\/main)|(\/heartbeat))]$/', // match the url except / and /auth/*
+//    authRouteRe: /^(?!\/auth\/|\/main\/|\/heartbeat\/|\/$).*/, // /^(?!\/auth\/|\/$).*/, match the url except / and /auth/*
+    authRouteRe: '/^[^((\/main)|(\/heartbeat))]$/', // match the url except / and /auth/*
     context: settings.app.context,
     loginUri: '/auth/login',
     callbackUri: '/auth/callback',

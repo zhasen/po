@@ -137,11 +137,10 @@ Authenticator.prototype = {
             this.oauthAuthorize(req, res, next);
         }
         /*if (this.authenticated(req)) {
-         next();
-         }
-         else {
-         this.saveReturnUrl(req);
-         this.oauthAuthorize(req, res, next);
+            next();
+         } else {
+            this.saveReturnUrl(req);
+            this.oauthAuthorize(req, res, next);
          }*/
     }
 };
