@@ -124,13 +124,25 @@ Authenticator.prototype = {
         this.oauthClient.logout(res);
     },
     check: function (req, res, next) {
-        if (this.authenticated(req)) {
+        var existedU2Token = this.oauthClient.existedU2Token(req); // cookie中是否有U2Token
+        if (this.authenticated(req) && existedU2Token == true) { // 本地已经登录，用户中心也已经登录
             next();
-        }
-        else {
+        } else if (!this.authenticated(req) && existedU2Token == true) { // 单点登录
+            this.saveReturnUrl(req);
+            this.oauthAuthorize(req, res, next);
+        } else if (this.authenticated(req) && existedU2Token == false) { // 单点退出
+            this.logout(req, res, next);
+        }else{ // 本地没有登录，用户中心也没有登录
             this.saveReturnUrl(req);
             this.oauthAuthorize(req, res, next);
         }
+        /*if (this.authenticated(req)) {
+         next();
+         }
+         else {
+         this.saveReturnUrl(req);
+         this.oauthAuthorize(req, res, next);
+         }*/
     }
 };
 
